@@ -72,8 +72,9 @@ init -5 python:
                     manager.jobpoints > 10,
                     dice(effectiveness-50)]):
                 workers = [w for w in building.available_workers if
-                               check_stat_perc(w, "joy", .5) or
-                               check_stat_perc(w, "agility", .3)]
+                           w != manager and
+                           (check_stat_perc(w, "joy", .5) or
+                           check_stat_perc(w, "agility", .3))]
 
                 if workers:
                     worker = choice(workers)
@@ -87,7 +88,7 @@ init -5 python:
                         set_font_color("(+10% Joy, +15% Vitality)", "lawngreen"))
                     log.append(temp0+temp1)
 
-                    building.log("Your manager cheered up {}.".format(w.name))
+                    building.log("Your manager cheered up {}.".format(worker.name))
 
                     mod_by_max(worker, "joy", .1)
                     mod_by_max(worker, "vitality", .15)
@@ -105,6 +106,7 @@ init -5 python:
             log.logws("refinement", 1)
             log.logws("character", 1)
 
+        if points_used > 0:
             ap_used = (points_used)/100.0
             log.logws("exp", exp_reward(manager, building.tier, ap_used=ap_used))
 
@@ -127,6 +129,9 @@ init -5 python:
             init_jp_bonus = .05
 
         workers = building.available_workers
+        if manager in workers:
+            workers.remove(manager)
+
         if init_jp_bonus and workers:
             # Bonus to the maximum amount of workers:
             max_job_points = manager.jobpoints*.5

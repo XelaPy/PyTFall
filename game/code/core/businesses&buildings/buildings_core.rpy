@@ -969,7 +969,8 @@ init -10 python:
                     up.pre_nd()
 
                 self.env.process(self.building_manager(end=101))
-                self.env.run(until=110) # 101 will run events at 100 which it is more intuitive to manage.
+                # We run till 110 DU and should attempt to stop all businesses at 100.
+                self.env.run(until=111)
                 self.log("{}".format(set_font_color("Ending the workday.", "green")))
 
                 # Building Stats:
