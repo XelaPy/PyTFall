@@ -30,6 +30,9 @@ init -5 python:
             if 'Food Poisoning' in worker.effects:
                 log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
                 effectiveness -= 50
+            elif 'Exhausted' in worker.effects:
+                log.append("%s is exhausted and is in need of some rest." % worker.name)
+                effectiveness -= 75
             elif 'Down with Cold' in worker.effects:
                 log.append("%s is not feeling well due to colds..." % worker.name)
                 effectiveness -= 15
