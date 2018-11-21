@@ -61,6 +61,8 @@ init -5 python:
         if building.init_pep_talk and effectiveness > 95 and manager.jobpoints >= 10:
             mp_init_jp_bonus(manager, building, effectiveness, log)
 
+        cheered_up_workers = set()
+
         while 1:
             yield env.timeout(1)
 
@@ -73,11 +75,13 @@ init -5 python:
                     dice(effectiveness-50)]):
                 workers = [w for w in building.available_workers if
                            w != manager and
+                           w not in cheered_up_workers and
                            (check_stat_perc(w, "joy", .5) or
                            check_stat_perc(w, "vitality", .3))]
 
                 if workers:
                     worker = choice(workers)
+                    cheered_up_workers.add(worker)
                     if check_stat_perc(w, "joy", .5):
                         handle = "tired"
                     else:
