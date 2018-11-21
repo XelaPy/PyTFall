@@ -162,6 +162,16 @@ init -10 python:
                 if log:
                     log.append("And going to take few days off to recover. ")
             return False
+        if "Exhausted" in c.effects:
+            if log:
+                log.append("%s is exhausted! " % c.name)
+            # self.img = c.show("profile", "sad", resize=(740, 685))
+            if c.autocontrol['Rest']:
+                c.previousaction = c.action
+                c.action = simple_jobs["AutoRest"]
+                if log:
+                    log.append("And needs a day to recover. ")
+            return False
         if 'Food Poisoning' in c.effects:
             if log:
                 log.append("%s is suffering from Food Poisoning! "%c.name)
