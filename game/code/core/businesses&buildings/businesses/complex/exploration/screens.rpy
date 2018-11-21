@@ -65,9 +65,14 @@ screen building_management_leftframe_exploration_guild_mode:
                             xysize 220, 18
                             action SetVariable("selected_log_area", area), Show("fg_log", None, area)
                             selected selected_log_area == area
-                            text str(area.stage) size 12 xalign .02 yoffset 1
+                            text str(area.stage):
+                                hover_color red
+                                size 12
+                                xalign .02
+                                yoffset 1
                             label "[area.name]":
                                 text_color "#66CD00"
+                                text_hover_color green
                                 text_size 12
                                 align 1.0, .5
 
