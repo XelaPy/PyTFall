@@ -82,6 +82,7 @@ init -5 python:
                 if workers:
                     worker = choice(workers)
                     cheered_up_workers.add(worker)
+
                     if check_stat_perc(w, "joy", .5):
                         handle = "tired"
                     else:
@@ -128,7 +129,7 @@ init -5 python:
 
         # finalize the log:
         log.img = manager.show("profile", resize=ND_IMAGE_SIZE, add_mood=True)
-        log.event_type = "jobreport"
+        log.type = "manager_report"
         log.after_job()
         NextDayEvents.append(log)
 
