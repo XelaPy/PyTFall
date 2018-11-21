@@ -88,15 +88,15 @@ init -5 python:
                     give_joy = check_stat_perc(worker, "joy", .5)
                     give_vit = check_stat_perc(worker, "vitality", .3)
                     if give_joy and give_vit:
-                        bonus_str = "(+10% Joy, +5% Vitality)"
+                        bonus_str = "(+10% Joy, +15% Vitality)"
                         mod_by_max(worker, "joy", .1)
-                        mod_by_max(worker, "vitality", .05)
+                        mod_by_max(worker, "vitality", .15)
                     elif give_joy:
                         bonus_str = "(+20% Joy)"
                         mod_by_max(worker, "joy", .2)
                     elif give_vit:
-                        bonus_str = "(+10% Vitality)"
-                        mod_by_max(worker, "vitality", .1)
+                        bonus_str = "(+30% Vitality)"
+                        mod_by_max(worker, "vitality", .3)
 
                     temp1 = " Your manager cheered her up. {}".format(
                         set_font_color("{}".format(bonus_str), "lawngreen"))
