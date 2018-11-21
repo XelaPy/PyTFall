@@ -84,7 +84,18 @@ screen building_management_leftframe_exploration_guild_mode:
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
                 label (u"Total") text_size 23 text_color ivory align (.5, .8)
 
-            text "No Data Yet!" xalign .5
+            vbox:
+                xalign .5
+                style_prefix "proper_stats"
+                frame:
+                    xoffset 4
+                    xysize (270, 27)
+                    xpadding 7
+                    text "Items:":
+                        color ivory
+                    text "20":
+                        style_suffix "value_text"
+                        color ivory
     elif bm_exploration_view_mode == "team":
         # Filters:
         frame:
@@ -722,3 +733,33 @@ screen fg_char_dropdown(char, team=None, remove=False):
         textbutton "Close":
             action Hide("fg_char_dropdown")
             keysym "mouseup_3"
+
+screen se_debugger():
+    zorder 200
+    # Useful SE info cause we're not getting anywhere otherwise :(
+    viewport:
+        xysize (1280, 720)
+        scrollbars "vertical"
+        mousewheel True
+        has vbox
+
+        for area in fg_areas.values():
+            if area.trackers:
+                text area.name
+                for t in area.trackers:
+                    hbox:
+                        xsize 500
+                        spacing 5
+                        text t.team.name xalign .0
+                        text t.state xalign 1.0
+                    hbox:
+                        xsize 500
+                        spacing 5
+                        text str(t.day) xalign .0
+                        text str(t.days) xalign 1.0
+                    null height 3
+                add Solid("F00", xysize=(1280, 5))
+
+    textbutton "Exit":
+        align .5, .1
+        action Hide("se_debugger")
