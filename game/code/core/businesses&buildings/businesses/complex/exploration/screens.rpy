@@ -722,26 +722,33 @@ screen fg_area(area):
                         except:
                             temp.focus_team = teams[0]
 
-            if teams:
-                button:
-                    style "paging_green_button_left2x"
-                    yalign .5
-                    action temp.prev_team_to_launch, renpy.restart_interaction
-                    tooltip "Previous Team"
-                button:
-                    style "marble_button"
-                    padding 10, 10
+            button:
+                style "paging_green_button_left2x"
+                yalign .5
+                action temp.prev_team_to_launch, renpy.restart_interaction
+                tooltip "Previous Team"
+                sensitive len(teams) > 1
+            button:
+                style "marble_button"
+                padding 10, 10
+                if teams:
                     action Function(temp.launch_team, area), Jump("building_management")
-                    has vbox xminimum 150 spacing -30
-                    text "Launch" style "basic_button_text" xalign .5
-                    text "\n[temp.focus_team.name]" style "basic_button_text" xalign .5
-                button:
-                    style "paging_green_button_right2x"
-                    yalign .5
-                    action temp.next_team_to_launch, renpy.restart_interaction
-                    tooltip "Next Team"
-            else:
-                text "No teams avalible!" style "basic_button_text"
+                    tooltip "Send {} on {} days long exploration run!".format(temp.focus_team.name, area.days)
+                    vbox:
+                        xminimum 150
+                        spacing -30
+                        text "Launch" style "basic_button_text" xalign .5
+                        text "\n[temp.focus_team.name]" style "basic_button_text" xalign .5
+                else:
+                    action NullAction()
+                    text "No Teams Available!" style "basic_button_text" align .5, .5
+
+            button:
+                style "paging_green_button_right2x"
+                yalign .5
+                action temp.next_team_to_launch, renpy.restart_interaction
+                tooltip "Next Team"
+                sensitive len(teams) > 1
 
         hbox:
             align .5, .98
