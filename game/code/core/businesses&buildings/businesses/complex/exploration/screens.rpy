@@ -517,17 +517,19 @@ screen fg_area(area):
 
     key "mousedown_3" action Hide("fg_area")
 
+    style_prefix "basic"
+
     # Left frame with Area controls
     frame:
-        background Frame("content/gfx/frame/p_frame6.png", 10, 10)
-        style_prefix "basic"
-        xysize 325, 674
-        ypos 41 xoffset -5
-        has vbox spacing 2
+        background Frame("content/gfx/frame/p_frame5.png", 10, 10)
+        xysize 330, 680
+        ypos 40
+        has vbox xsize 326 spacing 2 xalign .5
         # The idea is to add special icons for as many features as possible in the future to make Areas cool:
         # Simple buttons are temp for dev versions/beta.
         button:
-            xysize 320, 25
+            xalign .5
+            xsize 300
             if not area.camp:
                 action ToggleField(area, "building_camp")
             else:
@@ -542,9 +544,65 @@ screen fg_area(area):
             text "Camp status: [status]" align .01, .5
 
         button:
-            xysize 320, 25
+            xalign .5
+            xsize 300
             action ToggleField(area, "capture_chars")
             text "Capture Chars: [area.capture_chars]" align .01, .5
+
+        null height 5
+        button:
+            xalign .5
+            xsize 300
+            text "Days Exploring {}".format(area.days)
+            action NullAction()
+        hbox:
+            xalign .5
+            imagebutton:
+                yalign .5
+                idle ('content/gfx/interface/buttons/prev.png')
+                hover (im.MatrixColor('content/gfx/interface/buttons/prev.png', im.matrix.brightness(.15)))
+                action SetField(area, "days", max(3, area.days-1))
+            null width 5
+            bar:
+                align .5, 1.0
+                value FieldValue(area, 'days', 12, max_is_zero=False, style='scrollbar', offset=3, step=1)
+                xmaximum 150
+                thumb 'content/gfx/interface/icons/move15.png'
+                tooltip "How many days do you wish for the team to spend questing?"
+            null width 5
+            imagebutton:
+                yalign .5
+                idle ('content/gfx/interface/buttons/next.png')
+                hover (im.MatrixColor('content/gfx/interface/buttons/next.png', im.matrix.brightness(.15)))
+                action SetField(area, "days", min(15, area.days+1))
+
+        null height 5
+        button:
+            xalign .5
+            xsize 300
+            text "Risk {}".format(area.risk)
+            action NullAction()
+        hbox:
+            xalign .5
+            imagebutton:
+                yalign .5
+                idle ('content/gfx/interface/buttons/prev.png')
+                hover (im.MatrixColor('content/gfx/interface/buttons/prev.png', im.matrix.brightness(.15)))
+                action SetField(area, "risk", max(0, area.risk-1))
+            null width 5
+            bar:
+                align .5, 1.0
+                value FieldValue(area, 'risk', 100, max_is_zero=False, style='scrollbar', offset=0, step=1)
+                xmaximum 150
+                thumb 'content/gfx/interface/icons/move15.png'
+                tooltip ("How much risk does the team take when exploring? The more significant the risk,"+
+                         "the higher the reward but your team may not even return of you push this too far!")
+            null width 5
+            imagebutton:
+                yalign .5
+                idle ('content/gfx/interface/buttons/next.png')
+                hover (im.MatrixColor('content/gfx/interface/buttons/next.png', im.matrix.brightness(.15)))
+                action SetField(area, "risk", min(100, area.risk+1))
 
     # Mid-Frame:
     frame:

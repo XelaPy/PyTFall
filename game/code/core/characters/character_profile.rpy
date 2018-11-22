@@ -837,7 +837,6 @@ screen char_control():
                 align (.5, .5)
                 imagebutton:
                     yalign .5
-
                     idle ('content/gfx/interface/buttons/prev.png')
                     hover (im.MatrixColor('content/gfx/interface/buttons/prev.png', im.matrix.brightness(.15)))
                     action SetField(char, "wagemod", max(0, char.wagemod-1))
