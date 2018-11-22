@@ -39,6 +39,7 @@ init python:
 init python:
     pyp = PyTFallopedia()
     pyp.add_main("General", "pyp_general")
+    pyp.add_sub("Game Settings", "pyp_game_settings", "General")
     pyp.add_sub("Flow of Time", "pyp_time_flow", "General")
     pyp.add_sub("Action Points", "pyp_action_points", "General")
     pyp.add_sub("Next Day", "pyp_next_day", "General")

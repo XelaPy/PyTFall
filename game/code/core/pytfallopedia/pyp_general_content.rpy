@@ -50,6 +50,54 @@ screen pyp_general():
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
 
+screen pyp_game_settings():
+    zorder 1001
+
+    fixed:
+        pos 302, 49
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Game Settings" size 30
+
+            vbox:
+                ypos 80
+                text "Before you begin, the game has important settings in the Game tab of main menu. It's important to understand them for better gaming experience."
+                null height 10
+                vbox:
+                    label "Panic Screen"
+                    text "If it's enabled enabled, by pressing Q on keyboard you replace everything on a screen with a sfw picture. The only way to get hid of it is to press Q again. Useful if you want to hide NSFW content when someone enters your room."
+                vbox:
+                    label "Battle Results"
+                    text "If enabled, shows screen with battle results after every battle. Doesn't affect the arena, works in location like Forest. You can disable it to speed up gameplay a bit."
+                vbox:
+                    label "Combat Targeting"
+                    text "Toggles between two types of interface during the battle. The difference is visible when you select a target for your attack. Use the one you like the most."
+                vbox:
+                    label "Auto Saves"
+                    text "If enabled, the game makes an auto save each time you close Next Day screen. It may slow down gameplay since it takes a few seconds, especially without SSD."
+                vbox:
+                    label "Quest Pop-Ups"
+                    text "If enabled, displays a big notification window when you progress in a quest."
+                vbox:
+                    label "Tooltips"
+                    text "If enabled, shows tooltips for most elements of game interface."
+                    
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            add "content/gfx/interface/pyp/settings.webp":
+                xalign .5 ypos 50
+
+    # ForeGround frame (should be a part of every screen with Info):
+    add "content/gfx/frame/h3.webp"
+
 screen pyp_time_flow():
     zorder 1001
 
