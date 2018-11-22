@@ -1,6 +1,3 @@
-init:
-    image slave_market_slaves = "content/gfx/bg/locations/slave_podium.webp"
-
 label slave_market:
     # Music related:
     if not "slavemarket" in ilists.world_music:
