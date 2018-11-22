@@ -85,6 +85,31 @@ screen pyp_tiers():
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
+    
+screen pyp_ctrl():
+    zorder 1001
+
+    fixed:
+        pos 302, 49
+        xysize 971, 664
+        style_prefix "pyp"
+        
+        fixed:
+            xysize 370, 664
+            style_prefix "pyp"
+            hbox:
+                xpos 40
+                frame:
+                    add "content/gfx/interface/pyp/ctrl_1.webp"
+                null width 20
+                frame:
+                    add "content/gfx/interface/pyp/ctrl_2.webp"
+
+        text "There are two ways to control characters locations and jobs: from their profiles and from the characters list. Just click on {b}Home{/b}, {b}Work{/b} or {b}Job{/b}. Only in case of slaves you can set up their home locations, free characters have their own homes. In order to set up home locations for slaves from the characters list click right mouse button on the {b}Work{/b}":
+              ypos 380
+
+     # ForeGround frame (should be a part of every screen with Info):
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_stats():
     zorder 1001

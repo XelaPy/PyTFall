@@ -92,9 +92,10 @@ screen pyp_game_settings():
             xpos 601
             xysize 370, 664
             style_prefix "pyp"
-            add "content/gfx/interface/pyp/settings.webp":
-                xalign .5 ypos 50
-
+            frame:
+                xalign .5 ypos 80
+                add "content/gfx/interface/pyp/settings.webp"
+                
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
 
