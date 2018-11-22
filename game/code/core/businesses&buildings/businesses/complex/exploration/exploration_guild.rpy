@@ -640,7 +640,7 @@ init -6 python: # Guild, Tracker and Log.
                         for stat, value in area.hazard:
                             # value, because we calculated effects on daily base in the past...
                             var = max(1, round_int(value*.05))
-                            char.mod_stat(stat, -var) # TODO: Change to log + direct application.
+                            char.mod_stat(stat, -var)
 
                 # This code and comment are both odd...
                 # We may have area items draw two times. Investigate later:
