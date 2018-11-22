@@ -47,6 +47,7 @@ init python:
     pyp.add_sub("Gazette", "pyp_gazette", "General")
 
     pyp.add_main("Characters", "pyp_characters")
+    pyp.add_sub("Locations", "pyp_ctrl", "Characters")
     pyp.add_sub("Tiers/Level", "pyp_tiers", "Characters")
     pyp.add_sub("Stats", "pyp_stats", "Characters")
     pyp.add_sub("Skills", "pyp_skills", "Characters")
