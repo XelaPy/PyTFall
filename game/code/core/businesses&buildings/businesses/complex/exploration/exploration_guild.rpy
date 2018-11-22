@@ -138,20 +138,13 @@ init -6 python: # Guild, Tracker and Log.
             self.days = self.area.days # Days team is expected to be exploring (without travel times)!
             self.days_in_camp = 0 # Simple counter for the amount of days team is spending at camp. This is set back to 0 when team recovers inside of the camping method.
 
-            # TODO: Stats here need to be personal for each of the team members.
             self.unlocks = dict()
             for key in self.area.unlocks:
                 self.unlocks[key] = 0
 
             self.flag_red = False
             self.flag_green = False
-            self.stats = dict(attack=0,
-                              defence=0,
-                              agility=0,
-                              magic=0,
-                              exp=0)
-
-            self.logs = list() # List of all log object we create for this exploration run.
+            self.logs = list() # List of all log object we create during this exploration run.
 
             # And we got to make copies of chars stat dicts so we can show
             # changes in ND after the exploration run is complete!
