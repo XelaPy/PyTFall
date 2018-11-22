@@ -284,7 +284,7 @@ init -5 python:
             # Stat mods
             log.logloc('threat', threat_cleared)
 
-            log.event_type = "jobreport" # Come up with a new type for team reports?
+            log.type = "jobreport" # Come up with a new type for team reports?
 
             log.after_job()
             NextDayEvents.append(log)

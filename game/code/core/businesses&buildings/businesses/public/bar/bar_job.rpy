@@ -27,6 +27,9 @@ init -5 python:
             elif 'Down with Cold' in worker.effects:
                 log.append("%s is not feeling well due to colds..." % worker.name)
                 effectiveness -= 15
+            elif 'Exhausted' in worker.effects:
+                log.append("%s is exhausted and is in need of some rest." % worker.name)
+                effectiveness -= 75
             elif 'Drunk' in worker.effects:
                 log.append("Being drunk, %s perfectly understands her customers who also are far from sobriety." % worker.name)
                 effectiveness += 20

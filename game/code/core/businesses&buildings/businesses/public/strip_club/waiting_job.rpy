@@ -31,6 +31,9 @@ init -5 python:
             if 'Food Poisoning' in worker.effects:
                 log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
                 effectiveness -= 50
+            elif 'Exhausted' in worker.effects:
+                log.append("%s is exhausted and is in need of some rest." % worker.name)
+                effectiveness -= 75
             elif 'Down with Cold' in worker.effects:
                 log.append("%s is not feeling well due to colds..." % worker.name)
                 effectiveness -= 15
@@ -43,7 +46,11 @@ init -5 python:
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
 
-                traits = list(i.id for i in worker.traits if i.id in ["Abnormally Large Boobs", "Aggressive", "Big Boobs", "Always Hungry", "Clumsy", "Great Arse", "Ill-mannered", "Long Legs", "Vicious", "Nerd", "Shy", "Masochist", "Psychic", "Natural Leader", "Scars", "Elegant", "Natural Follower", "Serious", "Optimist", "Small Boobs"])
+                traits = list(i.id for i in worker.traits if i.id in ["Abnormally Large Boobs",
+                                    "Aggressive", "Big Boobs", "Always Hungry", "Clumsy", "Great Arse",
+                                    "Ill-mannered", "Long Legs", "Vicious", "Nerd", "Shy", "Masochist",
+                                    "Psychic", "Natural Leader", "Scars", "Elegant", "Natural Follower",
+                                    "Serious", "Optimist", "Small Boobs"])
                 if traits:
                     trait = random.choice(traits)
                 else:

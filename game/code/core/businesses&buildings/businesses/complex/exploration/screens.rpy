@@ -1,42 +1,50 @@
 screen building_management_leftframe_exploration_guild_mode:
     if bm_exploration_view_mode == "log":
+
         default focused_area_index = 0
+
         $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
         vbox:
-            xsize 310 spacing 1
-
+            xsize 320 spacing 1
             # Maps sign:
             frame:
                 style_group "content"
-                xalign .5
+                xalign .5 ypos 3
                 xysize (200, 50)
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
                 label (u"Maps") text_size 23 text_color ivory align (.5, .8)
 
+            null height 5
+
             # Main Area
             # We assume that there is always at least one area!
             $ area = temp[focused_area_index]
-            $ img = im.Scale(area.img, 200, 130)
+            $ img = area.img
             frame:
-                xalign .5
                 background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
-                padding 5, 6
+                padding 2, 2
                 margin 0, 0
-                xysize 200, 130
+                xalign .5
                 button:
                     align .5, .5
-                    xysize 200, 130
+                    xysize 220, 130
                     background Frame(img)
-                    hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.10)))
+                    hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.05)))
                     action NullAction()
                     frame:
                         align .5, .0
-                        xysize 180, 30
+                        padding 20, 2
                         background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
-                        text area.name color gold style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
+                        text area.name:
+                            color gold
+                            hover_color red
+                            style "interactions_text"
+                            size 18 outlines [(1, "#3a3a3a", 0, 0)]
+                            align .5, .5
 
             # Paging for Main Area:
             hbox:
+                style_prefix "basic"
                 xalign .5
                 textbutton "<==":
                     action SetScreenVariable("focused_area_index", (focused_area_index - 1) % len(temp))
@@ -54,10 +62,19 @@ screen building_management_leftframe_exploration_guild_mode:
                     style_prefix "dropdown_gm2"
                     for area in areas:
                         button:
-                            xysize (180, 18)
-                            action SetVariable("selected_log_area", area), Show("fg_log", None, area), SelectedIf(selected_log_area == area)
-                            text str(area.stage) size 12 xalign .02
-                            label (u"{color=#66CD00}Meow!") text_size 12 align (1.0, .5)
+                            xysize 220, 18
+                            action SetVariable("selected_log_area", area), Show("fg_log", None, area)
+                            selected selected_log_area == area
+                            text str(area.stage):
+                                hover_color red
+                                size 12
+                                xalign .02
+                                yoffset 1
+                            label "[area.name]":
+                                text_color "#66CD00"
+                                text_hover_color green
+                                text_size 12
+                                align 1.0, .5
 
             # Total Main Area Stats (Data Does Not Exist Yet):
             frame:
@@ -67,7 +84,18 @@ screen building_management_leftframe_exploration_guild_mode:
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
                 label (u"Total") text_size 23 text_color ivory align (.5, .8)
 
-            text "No Data Yet!" xalign .5
+            vbox:
+                xalign .5
+                style_prefix "proper_stats"
+                frame:
+                    xoffset 4
+                    xysize (270, 27)
+                    xpadding 7
+                    text "Items:":
+                        color ivory
+                    text "20":
+                        style_suffix "value_text"
+                        color ivory
     elif bm_exploration_view_mode == "team":
         # Filters:
         frame:
@@ -114,40 +142,44 @@ screen building_management_leftframe_exploration_guild_mode:
                     action SetFilter(fg_filters, "level")
     elif bm_exploration_view_mode == "explore":
         fixed: # making sure we can align stuff...
-            xysize(320, 665)
+            xysize 320, 665
             frame:
                 style_group "content"
-                xalign .5 ypos 5
+                xalign .5 ypos 3
                 xysize (200, 50)
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
                 label (u"Maps") text_size 23 text_color ivory align (.5, .8)
 
             viewport:
-                xysize 220, 500
-                xalign .5 ypos 60
+                xysize 224, 500
+                xalign .5 ypos 57
                 has vbox spacing 4
                 $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
                 if temp and not bm_mid_frame_focus:
                     $ mid_frame_focus = temp[0]
 
                 for area in temp:
-                    $ img = im.Scale(area.img, 220, 130)
+                    $ img = area.img
                     frame:
                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
-                        padding 6, 7
+                        padding 2, 2
                         margin 0, 0
-                        xysize 220, 130
                         button:
                             align .5, .5
                             xysize 220, 130
                             background Frame(img)
-                            hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.10)))
+                            hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.05)))
                             action SetVariable("bm_mid_frame_focus", area)
                             frame:
                                 align .5, .0
-                                xysize 180, 30
+                                padding 20, 2
                                 background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
-                                text area.name color gold style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
+                                text area.name:
+                                    color gold
+                                    hover_color red
+                                    style "interactions_text"
+                                    size 18 outlines [(1, "#3a3a3a", 0, 0)]
+                                    align .5, .5
 
 screen building_management_midframe_exploration_guild_mode:
     if bm_exploration_view_mode == "log":
@@ -701,3 +733,33 @@ screen fg_char_dropdown(char, team=None, remove=False):
         textbutton "Close":
             action Hide("fg_char_dropdown")
             keysym "mouseup_3"
+
+screen se_debugger():
+    zorder 200
+    # Useful SE info cause we're not getting anywhere otherwise :(
+    viewport:
+        xysize (1280, 720)
+        scrollbars "vertical"
+        mousewheel True
+        has vbox
+
+        for area in fg_areas.values():
+            if area.trackers:
+                text area.name
+                for t in area.trackers:
+                    hbox:
+                        xsize 500
+                        spacing 5
+                        text t.team.name xalign .0
+                        text t.state xalign 1.0
+                    hbox:
+                        xsize 500
+                        spacing 5
+                        text str(t.day) xalign .0
+                        text str(t.days) xalign 1.0
+                    null height 3
+                add Solid("F00", xysize=(1280, 5))
+
+    textbutton "Exit":
+        align .5, .1
+        action Hide("se_debugger")

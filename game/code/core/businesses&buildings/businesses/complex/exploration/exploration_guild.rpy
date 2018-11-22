@@ -1,7 +1,4 @@
-# This file needs revisement and splitting it logically!
-
-init -9 python:
-    # ======================= (Simulated) Exploration code =====================>>>
+init -9 python: # FG Area
     class FG_Area(_object):
         """Dummy class for areas (for now).
 
@@ -60,7 +57,7 @@ init -9 python:
                 self._explored = value
 
 
-init -6 python:
+init -6 python: # Guild, Tracker and Log.
     # ======================= (Simulated) Exploration code =====================>>>
     class ExplorationTracker(Job):
         # Added inheritance for Job so we can use the required methods.
@@ -96,18 +93,15 @@ init -6 python:
             self.team = team
             self.guild = guild # Guild this tracker was initiated from...
 
-            self.mobs = self.area.mobs
-            self.risk = self.area.risk or 50 # TODO se: Remove 50 after testing and interface adjustments.
-            self.cash_limit = self.area.cash_limit
-            self.items_limit = self.area.items_limit
-            self.hazard = self.area.hazard
-
             # Features:
             self.basecamp = False
             self.base_camp_health = 0 # We call it health in case we allow it to be attacked at some point...
 
-            # Is this it? We should have area items???
-            self.items = list(item.id for item in items.values() if "Exploration" in item.locations and item.price < self.items_limit)
+            # This is the general items that can be found at any exploration location,
+            # Limited by price:
+            self.items = list(item.id for item in store.items.values() if
+                              "Exploration" in item.locations and
+                              self.items_limit > item.price)
 
             # Shit we found!
             self.found_items = []
@@ -164,6 +158,27 @@ init -6 python:
             if not DEBUG:
                 renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
 
+        @property
+        def mobs(self):
+            return self.area.mobs
+
+        @property
+        def risk(self):
+            # TODO se: Remove 50 after testing and interface adjustments.
+            return self.area.risk or 50
+
+        @property
+        def cash_limit(self):
+            return self.area.cash_limit
+
+        @property
+        def items_limit(self):
+            return self.area.items_limit
+
+        @property
+        def hazard(self):
+            return self.area.hazard
+
         def log(self, txt, name="", nd_log=True, ui_log=False, **kwargs):
             if DEBUG_SE:
                 msg = "{}: {} at {}\n    {}".format(self.area.name,
@@ -207,15 +222,15 @@ init -6 python:
                 txt.append("\n".join(log.txt))
 
             evt = NDEvent(type=event_type,
-                                      img=img,
-                                      txt=txt,
-                                      char=self.team[0],
-                                      team=self.team,
-                                      charmod={},
-                                      loc=self.guild.building,
-                                      locmod={},
-                                      green_flag=self.flag_green,
-                                      red_flag=self.flag_red)
+                          img=img,
+                          txt=txt,
+                          char=self.team[0],
+                          team=self.team,
+                          charmod={},
+                          loc=self.guild.building,
+                          locmod={},
+                          green_flag=self.flag_green,
+                          red_flag=self.flag_red)
             NextDayEvents.append(evt)
 
 
@@ -387,7 +402,6 @@ init -6 python:
                     if result == "captured char":
                         char = tracker.captured_char
                         temp = "{} captured!".format()
-
                 elif tracker.state == "camping":
                     yield process(self.camping(tracker))
                 elif tracker.state == "traveling back":
@@ -628,7 +642,7 @@ init -6 python:
 
                 # This code and comment are both odd...
                 # We may have area items draw two times. Investigate later:
-                if tracker.items and dice(area.risk*.02 + tracker.day*.15):
+                if tracker.items and dice(area.risk*.02 + tracker.day*.05):
                     item = choice(tracker.items)
                     temp = "{color=[lawngreen]}Found an item %s!{/color}"%item
                     tracker.log(temp, "Item", ui_log=True, item=store.items[item])
@@ -876,34 +890,3 @@ init -6 python:
             for m in team:
                 AP + m.AP
             tracker.points = AP * 100
-
-
-screen se_debugger():
-    zorder 200
-    # Useful SE info cause we're not getting anywhere otherwise :(
-    viewport:
-        xysize (1280, 720)
-        scrollbars "vertical"
-        mousewheel True
-        has vbox
-
-        for area in fg_areas.values():
-            if area.trackers:
-                text area.name
-                for t in area.trackers:
-                    hbox:
-                        xsize 500
-                        spacing 5
-                        text t.team.name xalign .0
-                        text t.state xalign 1.0
-                    hbox:
-                        xsize 500
-                        spacing 5
-                        text str(t.day) xalign .0
-                        text str(t.days) xalign 1.0
-                    null height 3
-                add Solid("F00", xysize=(1280, 5))
-
-    textbutton "Exit":
-        align .5, .1
-        action Hide("se_debugger")

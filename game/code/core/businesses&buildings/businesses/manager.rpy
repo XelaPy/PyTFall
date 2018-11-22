@@ -61,6 +61,8 @@ init -5 python:
         if building.init_pep_talk and effectiveness > 95 and manager.jobpoints >= 10:
             mp_init_jp_bonus(manager, building, effectiveness, log)
 
+        cheered_up_workers = set()
+
         while 1:
             yield env.timeout(1)
 
@@ -73,25 +75,40 @@ init -5 python:
                     dice(effectiveness-50)]):
                 workers = [w for w in building.available_workers if
                            w != manager and
+                           w not in cheered_up_workers and
                            (check_stat_perc(w, "joy", .5) or
-                           check_stat_perc(w, "agility", .3))]
+                           check_stat_perc(w, "vitality", .3))]
 
                 if workers:
                     worker = choice(workers)
+                    cheered_up_workers.add(worker)
+
                     if check_stat_perc(w, "joy", .5):
                         handle = "tired"
                     else:
                         handle = "sad"
                     temp0 = "\n{} noticed that {} looks a bit {}.".format(manager.nickname,
                                                     worker.nickname, handle)
+
+                    give_joy = check_stat_perc(worker, "joy", .5)
+                    give_vit = check_stat_perc(worker, "vitality", .3)
+                    if give_joy and give_vit:
+                        bonus_str = "(+10% Joy, +15% Vitality)"
+                        mod_by_max(worker, "joy", .1)
+                        mod_by_max(worker, "vitality", .15)
+                    elif give_joy:
+                        bonus_str = "(+20% Joy)"
+                        mod_by_max(worker, "joy", .2)
+                    elif give_vit:
+                        bonus_str = "(+30% Vitality)"
+                        mod_by_max(worker, "vitality", .3)
+
                     temp1 = " Your manager cheered her up. {}".format(
-                        set_font_color("(+10% Joy, +15% Vitality)", "lawngreen"))
+                        set_font_color("{}".format(bonus_str), "lawngreen"))
                     log.append(temp0+temp1)
 
                     building.log("Your manager cheered up {}.".format(worker.name))
 
-                    mod_by_max(worker, "joy", .1)
-                    mod_by_max(worker, "vitality", .15)
                     manager.jobpoints -= 10
 
             if env.now == 110:
@@ -112,7 +129,7 @@ init -5 python:
 
         # finalize the log:
         log.img = manager.show("profile", resize=ND_IMAGE_SIZE, add_mood=True)
-        log.event_type = "jobreport"
+        log.type = "manager_report"
         log.after_job()
         NextDayEvents.append(log)
 
