@@ -219,8 +219,10 @@ label sm_free_slaves:
                     $ our_char.status = "free"
                     $ our_char.autobuy = True
                     $ our_char.home = locations["City Apartments"]
-                    $ our_char.add_money(cost, "Freedom Fee") # Consistency.
-                    "[our_char.name] is now a free citizen! She is very grateful."
+                    # We give about a third of cash to the girl. Idea is that the rest goes to pay
+                    # for a place to live and covering basic needs.
+                    $ our_char.add_money(round_int((cost-1000)/3), "Freedom Fee")
+                    "[our_char.name] is now a very grateful free citizen! She will also keep about a third of the fee for shopping needs!"
                 "No":
                     s "Pff, beggars..."
 
