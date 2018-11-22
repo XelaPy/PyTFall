@@ -145,7 +145,7 @@ screen pyp_stats():
                             text "Useful for jobs where intelligence is important, such as manager. Affects magical attack and defense, protects against status attacks."
                         vbox:
                             label "Agility"
-                            text "Affects evasion chance and damage from melee and status attacks in combat. Protects against ranged attacks. Useful for jobs that require some promptness, like waitress."
+                            text "Affects evasion chance and damage from melee and status attacks in combat. Protects against ranged attacks. Useful for jobs that require some promptness, like waitress. Determines the order of turns in combat."
                         vbox:
                             label "Health"
                             text "Low health prevents most actions. Some events may decrease it. In combat situation zero health leads to K.O., and in some cases to death."
