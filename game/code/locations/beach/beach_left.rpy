@@ -221,9 +221,18 @@ label fishing_logic_mor_dialogue:
             jump Mor_dialogue_usual
         "Bring the Fish" if pytfall.world_quests.check_stage("Fishery") == 1 and has_items(mor_fish, [hero]) >= mor_quantity:
             $ hero.remove_item(mor_fish, mor_quantity)
-            $ price = mor_fish.price * mor_quantity + randint(2, 8)
+            $ price = mor_fish.price * mor_quantity * 5
             $ hero.add_money(price, reason="Quests")
-            m "Magnificent. Take your reward, [price] coins. It's much more than any city merchant can give you, trust me."
+            m "Magnificent. Take your reward, [price] coins, and these baits. It's much more than any city merchant can give you, trust me."
+            if dice(20):
+                $ hero.add_item("Magic Bait", 3)
+                "You've obtained 3 Magic Baits!"
+            elif dice(40):
+                $ hero.add_item("Good Bait", 6)
+                "You've obtained 6 Good Baits!"
+            else:
+                $ hero.add_item("Simple Bait", 9)
+                "You've obtained 9 Simple Baits!"
             $ finish_quest("Fishery", "You brought required fish to Mor and got your reward.", "complete")
             jump Mor_dialogue_usual
         "Buy a Fishing Pole (250G)" if hero.gold >= 250:
@@ -295,7 +304,16 @@ label fishing_logic:
             $ hero.remove_item(mor_fish, mor_quantity)
             $ price = mor_fish.price * mor_quantity + randint(2, 8)
             $ hero.add_money(price, reason="Quests")
-            m "Magnificent. Take your reward, [price] coins. It's much more than any city merchant can give you, trust me."
+            m "Magnificent. Take your reward, [price] coins, and these baits. It's much more than any city merchant can give you, trust me."
+            if dice(20):
+                $ hero.add_item("Magic Bait", 3)
+                "You've obtained 3 Magic Baits!"
+            elif dice(40):
+                $ hero.add_item("Good Bait", 6)
+                "You've obtained 6 Good Baits!"
+            else:
+                $ hero.add_item("Simple Bait", 9)
+                "You've obtained 9 Simple Baits!"
             $ finish_quest("Fishery", "You brought required fish to Mor and got your reward.", "complete")
             hide npc with dissolve
             jump beach_fighing_menu
