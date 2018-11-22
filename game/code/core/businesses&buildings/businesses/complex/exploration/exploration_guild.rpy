@@ -14,10 +14,13 @@ init -9 python: # FG Area
             self.main = False
             self.area = ""
             self.mobs = {}
-            self.known_mobs = set()
-            self.known_items = set()
+            # Use dicts instead of sets as we want counters:
+            self.mobs_encountered = dict()
+            self.items_found = dict()
+
             self.cash_earned = 0
             self.travel_time = 0
+
             self.hazard = dict()
 
             # Generated Content:
@@ -79,16 +82,15 @@ init -6 python: # Guild, Tracker and Log.
             self.occupations = ["Combatant"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Warrior"], traits["Mage"]] # Corresponding traits...
 
-            self.base_stats = {"attack": 20, "defence": 20, "agility": 60, "magic": 20}
+            self.base_stats = {"attack": 20, "defence": 20,
+                               "agility": 60, "magic": 20}
             self.base_skills = {"exploration": 100}
 
             self.desc = "Explore the world, find new places, meet new people... and take their shit!"
 
-            # We do this because this data needs to be tracked separately and area object can only be updated once team has returned.
+            # We do this because this data needs to be tracked separately and
+            # area object can only be updated once team has returned.
             # There is a good chance that some of these data must be updated in real time.
-            # TODO se: Keep this confined to copy of an area? Feels weird and useless to copy all of these properties.
-            self.obj_area = area # Original Area Object so we don't have to go looking for it :)
-            # And we add team to the true area object so we can have access to all teams in the area!
             self.area = deepcopy(area)
             self.team = team
             self.guild = guild # Guild this tracker was initiated from...
@@ -103,28 +105,30 @@ init -6 python: # Guild, Tracker and Log.
                               "Exploration" in item.locations and
                               self.items_limit > item.price)
 
-            # Shit we found!
-            self.found_items = []
-            self.cash = []
-
             # Traveling to and from + Status flags:
-            self.distance = self.area.travel_time * 25 # We may be setting this directly in the future. Distance in KM as units. 25 is what we expect the team to be able to travel in a day. This may be offset through traits and stats/skills.
-            # We assume that it's never right outside of the freaking city walls, so we do this:
+            # We may be setting this directly in the future.
+            # Distance in KM as units. 25 is what we expect the
+            # team to be able to travel in a day.
+            # This may be offset through traits and stats/skills.
+            self.distance = area.travel_time * 25
+            # We assume that it's never right outside of the
+            # freaking city walls, so we do this:
             if not self.distance:
                 self.distance = randint(4, 10)
 
             self.traveled = 0 # Distance traveled in "KM"...
-
             self.arrived = False # Set to True upon arrival to the location.
             self.finished_exploring = False # Set to True after exploration is finished.
 
             # Exploration:
-            self.points = 0 # Combined exploration points from the whole team. Replaces AP.
+            self.points = 0 # Combined JP. Replaces AP, but we get this from the whole team.
             # Used to be effectiveness, but that would collide with a method of parent class
             self.ability = 0 # How well the team can perform any given exploration task.
-            self.travel_points = 0 # travel point we use during traveling to offset ep correctly.
+            self.travel_points = 0 # travel point we use during traveling to offset JP correctly.
 
             self.state = "traveling to" # Instead of a bunch of properties, we'll use just the state as string and set it accordingly.
+            # Use dicts instead of sets as we want counters:
+            self.mobs_defeated = dict()
             self.captured_chars = list()
             self.found_items = list()
             self.cash = list()
@@ -157,6 +161,11 @@ init -6 python: # Guild, Tracker and Log.
 
             if not DEBUG:
                 renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
+
+        @property
+        def obj_area(self):
+            # "Global" area object, we usually update this where we're done.
+            return fg_areas[self.area.id]
 
         @property
         def mobs(self):
