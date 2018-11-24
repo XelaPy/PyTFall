@@ -344,6 +344,7 @@ label mc_action_city_beach_diving_checks:
     hide screen diving_progress_bar
     "You're too tired to continue!"
     $ hero.vitality = start_vitality
+    $ hero.vitality -= randint(10, 15)
     $ del start_vitality
     if locked_dice(hero.get_skill("swimming")) and hero.flag("vitality_bonus_from_diving_at_beach") < 100:
         $ hero.stats.lvl_max["vitality"] += 1
