@@ -15,7 +15,7 @@ init -9 python: # FG Area
             self.area = ""
             self.mobs = {}
             # Use dicts instead of sets as we want counters:
-            self.mobs_encountered = dict()
+            self.mobs_defeated = dict()
             self.items_found = dict()
 
             self.cash_earned = 0
