@@ -341,6 +341,32 @@ screen pyp_workers():
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
+    
+screen pyp_chworkers():
+    zorder 1001
+
+    fixed:
+        pos 302, 49
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 970, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Choosing Workers" size 30
+
+            vbox:
+                ypos 80
+                text ("In order to have a succesful business it's important to understand how well characters can handle tasks. First of all, ideally workers tiers thould be equal or higher than building tier."+
+                " The higher building tier, the more customers expect from your workers, and low tier workers won't provide good enough service." +
+                "\n\nAdditionally, try to match characters class(es) with their jobs. Character may agree to do job she's unfamiliar with, but her performance will be very low compared to professionals."+
+                " If you want to clean a building, better search for a Cleaner. If you need to show striptease, better look for a Stripper. And so on.")
+
+
+    # ForeGround frame (should be a part of every screen with Info):
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_jobs():
     zorder 1001
