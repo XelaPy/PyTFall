@@ -269,10 +269,14 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
         label "Right click or Esc to exit" text_color gold text_size 18 xalign .5 yalign .5
 
 label mc_action_city_beach_diving_checks:
+    if not global_flags.has_flag('vitality_bonus_from_diving_at_beach'):
+         $ hero.set_flag("vitality_bonus_from_diving_at_beach", value=0)
+         
     if not global_flags.flag('diving_city_beach'):
         $ global_flags.set_flag('diving_city_beach')
-        "With high enough swimming skill you can try diving. Every action consumes your vitality, and the amount of oxygen is based on your swimming skill."
-        "You cannot continue if your vitality is too low. The goal is to find invisible items hidden on the seabed."
+        "With high enough swimming skill you can try diving. The amount of oxygen is based on your swimming skill."
+        "You need vitality to pick up items. Vitality is not consumed, but the more vitality you have in general, the more items you can pick up."
+        "The goal is to find invisible items hidden on the seabed."
         "You can leave the sea anytime by clicking the right mouse button, and you will lose some health if you don't leave before the oxygen is over."
     if hero.AP <= 0:
         "You don't have Action Points at the moment. Try again tomorrow."
@@ -296,7 +300,7 @@ label mc_action_city_beach_diving_checks:
         $ j = 120
     else:
         $ j = 60
-
+    $ start_vitality = hero.vitality
     show screen diving_progress_bar(i, i)
     while hero.vitality > 10:
         if not renpy.get_screen("diving_progress_bar"):
@@ -339,4 +343,14 @@ label mc_action_city_beach_diving_checks:
     hide screen hidden_area
     hide screen diving_progress_bar
     "You're too tired to continue!"
+    $ hero.vitality = start_vitality
+    $ hero.vitality -= randint(10, 15)
+    $ del start_vitality
+    if locked_dice(hero.get_skill("swimming")) and hero.flag("vitality_bonus_from_diving_at_beach") < 100:
+        $ hero.stats.lvl_max["vitality"] += 1
+        $ hero.stats.max["vitality"] += 1
+        $ hero.mod_stat("vitality", 1)
+        $ hero.set_flag("vitality_bonus_from_diving_at_beach", value=hero.flag("vitality_bonus_from_diving_at_beach")+1)
+        $ narrator ("You feel more endurant than before {color=[green]}(max vitality +1){/color}.")
+    
     jump city_beach
