@@ -135,23 +135,19 @@ init -6 python: # Guild, Tracker and Log.
 
             self.day = 1 # Day since start.
             self.total_days = 0 # Total days, travel times excluded!
-            self.days = self.area.days # Days team is expected to be exploring (without travel times)!
+            # Days team is expected to be exploring (without travel times)!
+            self.days = self.area.days
+            if self.days < 3:
+                self.days = 3
             self.days_in_camp = 0 # Simple counter for the amount of days team is spending at camp. This is set back to 0 when team recovers inside of the camping method.
 
-            # TODO: Stats here need to be personal for each of the team members.
             self.unlocks = dict()
             for key in self.area.unlocks:
                 self.unlocks[key] = 0
 
             self.flag_red = False
             self.flag_green = False
-            self.stats = dict(attack=0,
-                              defence=0,
-                              agility=0,
-                              magic=0,
-                              exp=0)
-
-            self.logs = list() # List of all log object we create for this exploration run.
+            self.logs = list() # List of all log object we create during this exploration run.
 
             # And we got to make copies of chars stat dicts so we can show
             # changes in ND after the exploration run is complete!
@@ -647,7 +643,7 @@ init -6 python: # Guild, Tracker and Log.
                         for stat, value in area.hazard:
                             # value, because we calculated effects on daily base in the past...
                             var = max(1, round_int(value*.05))
-                            char.mod_stat(stat, -var) # TODO: Change to log + direct application.
+                            char.mod_stat(stat, -var)
 
                 # This code and comment are both odd...
                 # We may have area items draw two times. Investigate later:
