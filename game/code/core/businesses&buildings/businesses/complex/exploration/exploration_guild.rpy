@@ -206,6 +206,10 @@ init -6 python: # Guild, Tracker and Log.
             area.logs.extend([l for l in self.logs if l.ui_log])
             area.trackers.remove(self)
 
+            # Update data
+            area.mobs_defeated = add_dicts(area.mobs_defeated, self.mobs_defeated)
+            area.captured_chars = add_dicts(area.captured_chars, self.captured_chars)
+
             # Restore Chars and Remove from guild:
             self.guild.explorers.remove(self)
             for char in self.team:
