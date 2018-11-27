@@ -82,18 +82,29 @@ screen building_management_leftframe_exploration_guild_mode:
                 xalign .5
                 xysize (200, 50)
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                label (u"Total") text_size 23 text_color ivory align (.5, .8)
+                label (u"Total") text_size 23 text_color ivory align .5, .8
 
             vbox:
                 xalign .5
                 style_prefix "proper_stats"
+                $ total = sum(area.items_found.values())
                 frame:
                     xoffset 4
-                    xysize (270, 27)
+                    xysize 270, 27
                     xpadding 7
-                    text "Items:":
+                    text "Items Found:":
                         color ivory
-                    text "20":
+                    text "[total]":
+                        style_suffix "value_text"
+                        color ivory
+                $ total = sum(area.mobs_defeated.values())
+                frame:
+                    xoffset 4
+                    xysize 270, 27
+                    xpadding 7
+                    text "Mobs Crushed:":
+                        color ivory
+                    text "[total]":
                         style_suffix "value_text"
                         color ivory
     elif bm_exploration_view_mode == "team":
@@ -529,7 +540,7 @@ screen fg_area(area):
         # Simple buttons are temp for dev versions/beta.
         button:
             xalign .5
-            xsize 300
+            xysize 300, 30
             if not area.camp:
                 action ToggleField(area, "building_camp")
             else:
@@ -541,53 +552,56 @@ screen fg_area(area):
                     status = area.camp_build_status + " Complete"
                 else:
                     status = "Unknown"
-            text "Camp status: [status]" align .01, .5
-
+            text "Camp status:" xalign .0
+            text "[status]" xalign 1.0
         button:
             xalign .5
-            xsize 300
+            xysize 300, 30
             action ToggleField(area, "capture_chars")
-            text "Capture Chars: [area.capture_chars]" align .01, .5
+            text "Capture Chars:" xalign .0
+            text "[area.capture_chars]" xalign 1.0
 
         null height 5
         button:
             xalign .5
-            xsize 300
-            text "Days Exploring {}".format(area.days)
+            xysize 300, 30
+            text "Days Exploring:" xalign .0
+            text "[area.days]" xalign 1.0
             action NullAction()
         hbox:
             xalign .5
             imagebutton:
                 yalign .5
-                idle ('content/gfx/interface/buttons/prev.png')
-                hover (im.MatrixColor('content/gfx/interface/buttons/prev.png', im.matrix.brightness(.15)))
+                idle 'content/gfx/interface/buttons/prev.png'
+                hover im.MatrixColor('content/gfx/interface/buttons/prev.png', im.matrix.brightness(.15))
                 action SetField(area, "days", max(3, area.days-1))
             null width 5
             bar:
                 align .5, 1.0
-                value FieldValue(area, 'days', 12, max_is_zero=False, style='scrollbar', offset=3, step=1)
+                value FieldValue(area, 'days', area.max_days-3, max_is_zero=False, style='scrollbar', offset=3, step=1)
                 xmaximum 150
                 thumb 'content/gfx/interface/icons/move15.png'
                 tooltip "How many days do you wish for the team to spend questing?"
             null width 5
             imagebutton:
                 yalign .5
-                idle ('content/gfx/interface/buttons/next.png')
-                hover (im.MatrixColor('content/gfx/interface/buttons/next.png', im.matrix.brightness(.15)))
+                idle 'content/gfx/interface/buttons/next.png'
+                hover im.MatrixColor('content/gfx/interface/buttons/next.png', im.matrix.brightness(.15))
                 action SetField(area, "days", min(15, area.days+1))
 
         null height 5
         button:
             xalign .5
-            xsize 300
-            text "Risk {}".format(area.risk)
+            xysize 300, 30
+            text "Risk:" xalign .0
+            text "[area.risk]" xalign 1.0
             action NullAction()
         hbox:
             xalign .5
             imagebutton:
                 yalign .5
-                idle ('content/gfx/interface/buttons/prev.png')
-                hover (im.MatrixColor('content/gfx/interface/buttons/prev.png', im.matrix.brightness(.15)))
+                idle 'content/gfx/interface/buttons/prev.png'
+                hover im.MatrixColor('content/gfx/interface/buttons/prev.png', im.matrix.brightness(.15))
                 action SetField(area, "risk", max(0, area.risk-1))
             null width 5
             bar:
@@ -600,7 +614,7 @@ screen fg_area(area):
             null width 5
             imagebutton:
                 yalign .5
-                idle ('content/gfx/interface/buttons/next.png')
+                idle 'content/gfx/interface/buttons/next.png'
                 hover (im.MatrixColor('content/gfx/interface/buttons/next.png', im.matrix.brightness(.15)))
                 action SetField(area, "risk", min(100, area.risk+1))
 

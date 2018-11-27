@@ -10,24 +10,23 @@ init -9 python: # FG Area
             self.max_days = 15
             self.risk = 50
             self._explored = 0
-            self.items = dict()
+
             self.main = False
-            self.area = ""
-            self.mobs = {}
-            # Use dicts instead of sets as we want counters:
-            self.mobs_encountered = dict()
-            self.items_found = dict()
+            self.area = None
 
-            self.cash_earned = 0
             self.travel_time = 0
-
             self.hazard = dict()
+            self.items = dict()
+            self.mobs = {}
+            # Chars and char capture:
+            self.capture_chars = False
+            self.chars = dict()
 
-            # Generated Content:
-            self.logs = collections.deque(maxlen=10)
-
-            # Trackers exploring the area at any given time, this can be used for easy access!
-            self.trackers = set()
+            # Use dicts instead of sets as we want counters:
+            self.mobs_defeated = dict()
+            self.items_found = dict()
+            self.chars_captured = 0
+            self.cash_earned = 0
 
             # Flags for exploration tasks on "area" scope.
             self.camp = None
@@ -35,9 +34,11 @@ init -9 python: # FG Area
             self.camp_build_points_current = 0
             self.camp_build_points_required = 1000
 
-            # Chars and char capture:
-            self.capture_chars = False
-            self.chars = dict()
+            # Generated Content:
+            self.logs = collections.deque(maxlen=10)
+
+            # Trackers exploring the area at any given time, this can be used for easy access!
+            self.trackers = set()
 
         @property
         def camp_build_status(self):
@@ -205,6 +206,11 @@ init -6 python: # Guild, Tracker and Log.
             # Main and Sub Area Stuff:
             area.logs.extend([l for l in self.logs if l.ui_log])
             area.trackers.remove(self)
+
+            # Update data:
+            area.mobs_defeated = add_dicts(area.mobs_defeated, self.mobs_defeated)
+            area.found_items = add_dicts(area.found_items, self.found_items)
+            area.chars_captured += len(self.captured_chars)
 
             # Restore Chars and Remove from guild:
             self.guild.explorers.remove(self)
