@@ -25,6 +25,7 @@ init -9 python: # FG Area
             # Use dicts instead of sets as we want counters:
             self.mobs_defeated = dict()
             self.items_found = dict()
+            self.chars_captured = 0
             self.cash_earned = 0
 
             # Flags for exploration tasks on "area" scope.
@@ -206,9 +207,10 @@ init -6 python: # Guild, Tracker and Log.
             area.logs.extend([l for l in self.logs if l.ui_log])
             area.trackers.remove(self)
 
-            # Update data
+            # Update data:
             area.mobs_defeated = add_dicts(area.mobs_defeated, self.mobs_defeated)
-            area.captured_chars = add_dicts(area.captured_chars, self.captured_chars)
+            area.found_items = add_dicts(area.found_items, self.found_items)
+            area.chars_captured += len(self.captured_chars)
 
             # Restore Chars and Remove from guild:
             self.guild.explorers.remove(self)
