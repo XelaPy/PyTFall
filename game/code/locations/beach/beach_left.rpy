@@ -122,21 +122,21 @@ label mc_action_city_beach_rest:
                 if member != hero:
                     if member.has_image("rest", "beach", exclude=["sex", "stripping"]) and member.has_image("bathing", "beach", exclude=["sex", "stripping"]):
                         if dice(50):
-                            picture.append(member.show("rest", "beach", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                            picture.append(member.show("rest", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
                         else:
-                            picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                            picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
                     elif member.has_image("rest", "beach", exclude=["sex", "stripping"]):
-                        picture.append(member.show("rest", "beach", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                        picture.append(member.show("rest", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
                     elif member.has_image("bathing", "beach", exclude=["sex", "stripping"]):
-                        picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                        picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
                     elif member.has_image("bathing", "beach", exclude=["sex", "stripping"]):
-                        picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                        picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
                     elif member.has_image("beach", exclude=["sex", "stripping"]):
-                        picture.append(member.show("beach", "sfw", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                        picture.append(member.show("beach", "sfw", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
                     elif member.has_image("swimsuit", "simple bg", exclude=["sex", "stripping"]):
-                        picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                        picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
                     elif member.has_image("swimsuit", "no bg", exclude=["sex", "stripping"]):
-                        picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
+                        picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
 
     if len(picture) == 1:
         show expression picture[0] at truecenter as temp1
@@ -172,7 +172,7 @@ label mc_action_city_beach_rest:
 
         # jump interactions_sex_scene_begins
 
-        show expression char.show("sex", "beach", exclude=["2c anal", "2c vaginal", "gay", "living", "group", "pool", "stage", "dungeon", "onsen"], type="reduce", resize=(600, 600)) at truecenter with dissolve
+        show expression char.show("sex", "beach", exclude=["2c anal", "2c vaginal", "gay", "living", "group", "pool", "stage", "dungeon", "onsen"], type="reduce", resize=(300, 400)) at truecenter with dissolve
         "Unfortunately [char.name] forgot her sunscreen today, so you had no choice but to provide another liquid as a replacement."
         $ char.sex += 1
         $ hero.sex += 1
