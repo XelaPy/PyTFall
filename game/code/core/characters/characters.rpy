@@ -739,9 +739,9 @@ init -9 python:
             """
             Returns VN sprite based on characters height.
             Useful for random events that use NV sprites, heigth in unique events can be set manually.
-            ***This is mirrored in galleries testmode, this method is not acutally used.
+            ***This is mirrored in galleries testmode, this method is not actually used.
             """
-            return self.show("vnsprite", resize=self.get_sprite_size())
+            return self.show("vnsprite", mood, resize=self.get_sprite_size())
 
         # AP + Training ------------------------------------------------------------->
         def restore_ap(self):
