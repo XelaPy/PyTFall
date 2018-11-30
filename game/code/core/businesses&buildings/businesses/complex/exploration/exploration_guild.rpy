@@ -149,6 +149,7 @@ init -6 python: # Guild, Tracker and Log.
             self.flag_red = False
             self.flag_green = False
             self.logs = list() # List of all log object we create during this exploration run.
+            self.died = list()
 
             # And we got to make copies of chars stat dicts so we can show
             # changes in ND after the exploration run is complete!
@@ -484,7 +485,8 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # Figure out how far we can travel in 5 du:
-            # Understanding here is that any team can travel 25 KM per day on average. This can be offset by traits and stats in the future.
+            # Understanding here is that any team can travel 25 KM per day on average.
+            # This can be offset by traits and stats in the future.
             # tacker.tp = int(round(tracker.points / 20.0))
             travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
@@ -590,7 +592,8 @@ init -6 python: # Guild, Tracker and Log.
 
         def overnight(self, tracker):
             # overnight: More effective heal. Spend the night resting.
-            # Do we run this? This prolly doesn't need to be a simpy process... or maybe schedual this to run at 99.
+            # Do we run this? This prolly doesn't need to be a simpy process...
+            # or maybe schedule this to run at 99.
             team = tracker.team
 
             if DEBUG_SE:
@@ -812,9 +815,19 @@ init -6 python: # Guild, Tracker and Log.
 
             tracker.points -= 100*len(team)
 
+            # No death below risk 40:
+            if tracker.risk > 40 and dice(tracker.risk):
+                for member in team:
+                    if member in battle.corpses:
+                        tracker.flag_red = True
+                        tracker.died.append(member)
+                        team.remove(member)
+
             if battle.winner == team:
                 log.suffix = "{color=[lawngreen]}Victory{/color}"
                 for member in team:
+                    if member in battle.corpses:
+                        continue
                     member.attack += randrange(3)
                     member.defence + randrange(3)
                     member.agility += randrange(3)
