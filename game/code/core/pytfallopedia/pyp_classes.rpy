@@ -98,6 +98,7 @@ init python:
     pyp.add_sub("Management", "pyp_manager", "Buildings&Businesses")
     pyp.add_sub("Controls", "pyp_buildings_controls", "Buildings&Businesses")
     pyp.add_sub("Workers", "pyp_workers", "Buildings&Businesses")
+    pyp.add_sub("Choosing Workers", "pyp_chworkers", "Buildings&Businesses")
     pyp.add_sub("Jobs", "pyp_jobs", "Buildings&Businesses")
     pyp.add_sub("Simulation", "pyp_simulation", "Buildings&Businesses")
 

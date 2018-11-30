@@ -1,4 +1,32 @@
+label create_xeona:
+    python:
+        if not "xeona_status" in globals():
+            xeona_status = object()
+            xeona_status.stage = 0
+            xeona_status.flirt = False
+            xeona_status.disposition = 0
+            xeona_status.meet_day = 0
+            xeona_status.heal_day = 0
+            
+        if xeona_status.disposition > 0:
+            if day%3 == 0:
+                xeona_status.flirt = True
+            else:
+                xeona_status.flirt = False
+            
+    if xeona_status.flirt:
+        $ xeona_sprite = npcs["Xeona_arena"].get_vnsprite("happy")
+        $ npcs["Xeona_arena"].override_portrait("portrait", "happy")
+    elif xeona_status.stage < 2:
+        $ xeona_sprite = npcs["Xeona_arena"].get_vnsprite("indifferent")
+        $ npcs["Xeona_arena"].override_portrait("portrait", "indifferent")
+    else:
+        $ xeona_sprite = npcs["Xeona_arena"].get_vnsprite("confident")
+        $ npcs["Xeona_arena"].override_portrait("portrait", "confident")
+    return
+    
 label arena_outside:
+    call create_xeona
     if not global_flags.has_flag("menu_return"):
         $ gm.enter_location(goodtraits=["Manly", "Courageous", "Aggressive"], badtraits=["Coward", "Nerd", "Homebody"], goodoccupations=["Combatant"], curious_priority=False)
         $ coords = [[.1, .6], [.59, .64], [.98, .61]]
@@ -18,9 +46,8 @@ label arena_outside:
         if not global_flags.flag("visited_arena"):
             $ global_flags.set_flag("visited_arena")
             $ heard_about_arena = False
-            $ arena_date = False
             'You see a pretty, confident girl approaching you.'
-            show expression npcs["Xeona_arena"].get_vnsprite() as xeona
+            show expression xeona_sprite as xeona
             with dissolve
             ax "I've never seen you before. What brings you here?"
             ax "Lust for blood? Fame? Power? Or Respect?"
@@ -84,10 +111,23 @@ label xeona_goodbye:
 
 label xeona_talking:
     $ loop = True
+    if (hero.get_max("health") - hero.health >= 10) and xeona_status.disposition >= 10 and xeona_status.heal_day != day:
+        $ xeona_status.heal_day = day
+        ax "Wait, you are wounded! That won't do! One second..."
+        $ img = npcs["Xeona_arena"].show('nurse', resize=(590, 600))
+        show expression img at truecenter as ddd
+        with dissolve
+        "She quickly patched your wounds."
+        hide ddd
+        with dissolve
+        $ del img
+        $ hero.health += 250
+        ax "Much better!"
 
     while loop:
         menu:
             ax "Well?"
+            
             "Xeona Main":
                 $ pass
 
@@ -153,12 +193,107 @@ label xeona_talking:
                 ax "There are {color=[red]}2vs2 and 3vs3{/color} fights."
                 ax "Obviously, there is dueling as well. Good one on one fights are also adored by the spectators!"
 
-            "Wanna go on a date with me?" if not arena_date:
-                $ arena_date = True
-                ax "Well, PyTFall's arena is a place of great... Wait... What?"
-                ax "Find some floozy in the park! Why me all of a sudden?"
-                ax "Oh wait, you were kidding. Right?"
-
+            "Wanna go on a date with me?" if xeona_status.disposition == 0:
+                if hero.arena_rep <= 6000:
+                    ax "You are handsome and all, but I can't ruin my arena reputation by hanging out with someone like you."
+                    ax "Maybe after your become more famous..."
+                    "Get more than 6000 arena reputation to date Xeona!"
+                else:
+                    $ xeona_status.disposition = 1
+                    $ xeona_status.meet_day == day
+                    ax "Well, I suppose I could... But I'm often busy with my arena duties."
+                    ax "I'm only free every third day. If you have time, we could hang out sometimes."
+            "Hang out" if xeona_status.disposition > 0:
+                if not xeona_status.flirt:
+                    ax "Sorry, I can't today. Too busy. I only have some free time every third day."
+                elif xeona_status.meet_day == day:
+                    ax "I don't have any more free time today, sorry. Come back in three days." 
+                else:
+                    $ xeona_status.disposition += 1
+                    $ xeona_status.meet_day = day
+                    ax "Sure, I have a few hours! Let's go."
+                    $ img = npcs["Xeona_arena"].show('sfw', resize=(590, 600))
+                    show expression img at truecenter as ddd
+                    with dissolve
+                    "You spent some time with Xeona. She likes you a bit more now."
+                    hide ddd
+                    with dissolve
+                    $ del img
+                    ax "It wasn't too bad. We should do it again."
+                    if xeona_status.disposition == 15:
+                        ax "By the way... We know each other pretty well already, so if you want, we could arrange a more private date... If you know what I mean."
+                        $ xeona_status.disposition = 16
+                    elif xeona_status.disposition >= 30 and xeona_status.stage == 0:
+                        ax "Listen... I have a favor to ask. I need a Demonic Blade to enchant my magical capabilities, but I have no idea where to get it."
+                        ax "If you bring it to me, I'll make it worth your while."
+                        $ xeona_status.stage = 1
+            "Private date" if xeona_status.disposition >= 16:
+                if not xeona_status.flirt:
+                    ax "Sorry, I can't today. Too busy. I only have some free time every third day."
+                elif xeona_status.meet_day == day:
+                    ax "I don't have any more free time today, sorry. Come back in three days." 
+                else:
+                    $ xeona_status.disposition += 1
+                    $ xeona_status.meet_day = day
+                    ax "In the mood for some kinky stuff today? Me too, hehe."
+                    $ img = npcs["Xeona_arena"].show('nude', resize=(590, 600))
+                    show expression img at truecenter as ddd
+                    with dissolve
+                    "Xeona arranged a small private show for you. You both enjoyed it."
+                    hide ddd
+                    with dissolve
+                    $ del img
+                    ax "I may be not very good at striptease, but I hope you liked what you saw..."
+                    if xeona_status.disposition >= 30 and xeona_status.stage == 0:
+                        ax "Listen... I have a favor to ask. I need a Demonic Blade to enchant my magical capabilities, but I have no idea where to get it."
+                        ax "If you bring it to me, I'll make it worth your while."
+                        $ xeona_status.stage = 1
+            "Xeona's Favor" if xeona_status.stage == 1:
+                if has_items("Demonic Blade", [hero], equipped=False):
+                    ax "Did you find a Demonic Blade for me?"
+                    menu:
+                        "Give her blade":
+                            ax "No way! Thank you!"
+                            $ hero.remove_item("Demonic Blade", 1)
+                            "You gave her the blade."
+                            ax "Let's see..."
+                            hide xeona
+                            with dissolve
+                            $ xeona_status.stage = 2
+                            $ xeona_status.flirt = False
+                            call create_xeona
+                            with Fade(.25, 0, .25, color=darkred)
+                            $ xeona_sprite = npcs["Xeona_arena"].get_vnsprite("confident")
+                            $ npcs["Xeona_arena"].override_portrait("portrait", "confident")
+                            show expression xeona_sprite as xeona
+                            with dissolve
+                            $ xeona_status.meet_day = day
+                            ax "Awesome! It worked! Thank you, [hero.name]!"
+                            ax "Now, as I promised, I'll make it worth your while, hehe..."
+                        "Not now":
+                            ax "Hmm, ok."
+                else:
+                    ax "Yes, I need a Demonic Blade. Could you bring one to me?"
+            "Sex with Xeona" if xeona_status.stage == 2:
+                if not xeona_status.flirt:
+                    ax "Sorry, I can't today. Too busy. I only have some free time every third day."
+                elif xeona_status.meet_day == day:
+                    ax "I don't have any more free time today, sorry. Come back in three days."
+                else:
+                    $ xeona_status.disposition += 1
+                    $ xeona_status.meet_day = day
+                    ax "Alright, hehe. Come, I know a good place nearby!"
+                    $ img = npcs["Xeona_arena"].show('sex', resize=(590, 600))
+                    $ hero.sex += randint(5, 10)
+                    show expression img at truecenter as ddd
+                    with dissolve
+                    "You spent some pleasant time together."
+                    hide ddd
+                    with dissolve
+                    $ del img
+                    ax "Phew, not bad! I didn't do to for a long time, always busy with arena and stuff..."
+                    ax "Come again soon. Really soon."
+            
             "Talk about weather":
                 ax "Err... this is getting really awkward..."
                 ax "Is there anything else???"
@@ -171,7 +306,7 @@ label xeona_talking:
 label find_xeona:
     hide screen arena_outside
     $ ax = npcs["Xeona_arena"].say
-    show expression npcs["Xeona_arena"].get_vnsprite() as xeona
+    show expression xeona_sprite as xeona
     with dissolve
     ax "Hi again! Is there something you want?"
     jump xeona_menu
