@@ -17,7 +17,7 @@ init -9 python: # FG Area
             self.travel_time = 0
             self.hazard = dict()
             self.items = dict()
-            self.mobs = {}
+            self.mobs = dict()
             # Chars and char capture:
             self.capture_chars = False
             self.chars = dict()
@@ -219,7 +219,9 @@ init -6 python: # Guild, Tracker and Log.
                 char.del_flag("loc_backup")
 
             # Next Day Stuff:
-            txt = [] # Not sure if this is required... we can add log objects and build reports from them in realtime instead of replicating data we already have.
+            # Not sure if this is required... we can add log objects and build
+            # reports from them in real-time instead of replicating data we already have.
+            txt = []
             event_type = "jobreport"
 
             # Build an image combo for the report:
@@ -808,6 +810,8 @@ init -6 python: # Guild, Tracker and Log.
             for i in team:
                 i.controller = "player"
 
+            tracker.points -= 100*len(team)
+
             if battle.winner == team:
                 log.suffix = "{color=[lawngreen]}Victory{/color}"
                 for member in team:
@@ -815,11 +819,10 @@ init -6 python: # Guild, Tracker and Log.
                     member.defence + randrange(3)
                     member.agility += randrange(3)
                     member.magic += randrange(3)
-                    member.exp += level*10 # Adjust for levels? ! TODO:
+                    member.exp += exp_reward(member, opfor)
 
                 # Death needs to be handled based off risk factor: TODO:
                 # self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
-
                 temp = "{color=[lawngreen]}Your team won!!{/color}\n"
                 log.add(temp)
 

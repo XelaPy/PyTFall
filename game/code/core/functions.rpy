@@ -12,7 +12,7 @@ init -11 python:
         """Does what I originally expected dict.update method to do many years ago...
         This works with dicts where all values are numbers
 
-        expects an iterable containing such dics as a dicts argument.
+        expects an iterable containing dicts.
         """
         new = {}
         for d in dicts:
