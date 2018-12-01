@@ -129,8 +129,7 @@ init -6 python: # Guild, Tracker and Log.
 
             self.state = "traveling to" # Instead of a bunch of properties, we'll use just the state as string and set it accordingly.
             # Use dicts instead of sets as we want counters:
-            self.mobs_defeated = dict()
-            self.mobs_defeated = dict()
+            self.mobs_defeated = defaultdict(int)
             self.found_items = list()
             self.captured_chars = list()
             self.cash = list()
@@ -829,6 +828,10 @@ init -6 python: # Guild, Tracker and Log.
                         tracker.flag_red = True
                         tracker.died.append(member)
                         team.remove(member)
+
+            for mob in opfor:
+                if mob in battle.corpses:
+                    tracker.mobs_defeated[mob.id] += 1
 
             if battle.winner == team:
                 log.suffix = "{color=[lawngreen]}Victory{/color}"
