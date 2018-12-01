@@ -130,8 +130,9 @@ init -6 python: # Guild, Tracker and Log.
             self.state = "traveling to" # Instead of a bunch of properties, we'll use just the state as string and set it accordingly.
             # Use dicts instead of sets as we want counters:
             self.mobs_defeated = dict()
-            self.captured_chars = list()
+            self.mobs_defeated = dict()
             self.found_items = list()
+            self.captured_chars = list()
             self.cash = list()
 
             self.day = 1 # Day since start.
@@ -210,7 +211,8 @@ init -6 python: # Guild, Tracker and Log.
 
             # Update data:
             area.mobs_defeated = add_dicts(area.mobs_defeated, self.mobs_defeated)
-            area.found_items = add_dicts(area.found_items, self.found_items)
+            found_items = collections.Counter(self.found_items)
+            area.found_items = add_dicts(area.found_items, found_items)
             area.chars_captured += len(self.captured_chars)
 
             # Restore Chars and Remove from guild:

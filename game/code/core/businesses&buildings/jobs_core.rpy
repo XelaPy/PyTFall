@@ -123,7 +123,6 @@
             # pretending that she lost consciousness for example.
             """
             data = char.stats_skills
-            devlog.warning("AAAAAAAAAAAh")
             for key, value in data.iteritems():
                 if key == "city_jail" or value == "city_jail":
                     raise Exception("MEOW")
@@ -141,7 +140,6 @@
                         char.mod_stat(key, value)
                     elif char.stats.is_skill(key):
                         char.mod_skill(key, value)
-            devlog.warning("AAAAAAAAAAAh ends")
 
         def update_loc_data(self):
             """Updates stats for the building."""
