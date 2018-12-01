@@ -203,6 +203,7 @@ init -6 python: # Guild, Tracker and Log.
             Log all the crap to Area and Main Area!
             Make sure that everything is cleaned up.
             """
+            global fg_areas
             area = self.obj_area
 
             # Main and Sub Area Stuff:
@@ -214,6 +215,10 @@ init -6 python: # Guild, Tracker and Log.
             found_items = collections.Counter(self.found_items)
             area.found_items = add_dicts(area.found_items, found_items)
             area.chars_captured += len(self.captured_chars)
+
+            main_area = fg_areas[area.area]
+            main_area.mobs_defeated = add_dicts(area.mobs_defeated, main_area.mobs_defeated)
+            main_area.found_items = add_dicts(area.found_items, main_area.found_items)
 
             # Restore Chars and Remove from guild:
             self.guild.explorers.remove(self)

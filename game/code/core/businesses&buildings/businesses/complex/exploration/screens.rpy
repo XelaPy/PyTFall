@@ -653,7 +653,7 @@ screen fg_area(area):
                     ypos 50
                     xalign .5
                     has vbox spacing 3
-                    for m in area.mobs:
+                    for m in area.mobs_defeated:
                         $ m = mobs[m]
                         fixed:
                             xysize 300, 65
@@ -697,7 +697,7 @@ screen fg_area(area):
                     ypos 50
                     xalign .5
                     has vbox spacing 3
-                    for i in area.items:
+                    for i in area.found_items:
                         $ i = items[i]
                         fixed:
                             xysize 300, 65
