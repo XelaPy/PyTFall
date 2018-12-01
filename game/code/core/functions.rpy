@@ -8,12 +8,13 @@ init -11 python:
         color = getattr(store, color, color)
         return "".join(["{color=%s}" % color, str(s), "{/color}"])
 
-    def add_dicts(dicts):
+    def add_dicts(*dicts):
         """Does what I originally expected dict.update method to do many years ago...
-        This works with dicts where all values are numbers
-
-        expects an iterable containing dicts.
+        This works with dicts where all values are numbers.
         """
+        if len(dicts) == 1:
+            dicts = dicts[0]
+
         new = {}
         for d in dicts:
             for key, value in d.iteritems():

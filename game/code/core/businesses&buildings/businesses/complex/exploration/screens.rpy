@@ -87,7 +87,7 @@ screen building_management_leftframe_exploration_guild_mode:
             vbox:
                 xalign .5
                 style_prefix "proper_stats"
-                $ total = sum(area.items_found.values())
+                $ total = sum(area.found_items.values())
                 frame:
                     xoffset 4
                     xysize 270, 27
