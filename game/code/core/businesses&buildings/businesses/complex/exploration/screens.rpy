@@ -18,8 +18,8 @@ screen building_management_leftframe_exploration_guild_mode:
 
             # Main Area
             # We assume that there is always at least one area!
-            $ area = temp[focused_area_index]
-            $ img = area.img
+            $ main_area = temp[focused_area_index]
+            $ img = main_area.img
             frame:
                 background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
                 padding 2, 2
@@ -35,7 +35,7 @@ screen building_management_leftframe_exploration_guild_mode:
                         align .5, .0
                         padding 20, 2
                         background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
-                        text area.name:
+                        text main_area.name:
                             color gold
                             hover_color red
                             style "interactions_text"
@@ -53,7 +53,7 @@ screen building_management_leftframe_exploration_guild_mode:
 
             # Sub Areas:
             null height 5
-            $ areas = sorted([a for a in fg_areas.values() if a.area == area.name], key=attrgetter("stage"))
+            $ areas = sorted([a for a in fg_areas.values() if a.area == main_area.name], key=attrgetter("stage"))
             fixed:
                 xalign .5
                 xysize 310, 190
@@ -87,7 +87,7 @@ screen building_management_leftframe_exploration_guild_mode:
             vbox:
                 xalign .5
                 style_prefix "proper_stats"
-                $ total = sum(area.found_items.values())
+                $ total = sum(main_area.found_items.values())
                 frame:
                     xoffset 4
                     xysize 270, 27
@@ -97,7 +97,7 @@ screen building_management_leftframe_exploration_guild_mode:
                     text "[total]":
                         style_suffix "value_text"
                         color ivory
-                $ total = sum(area.mobs_defeated.values())
+                $ total = sum(main_area.mobs_defeated.values())
                 frame:
                     xoffset 4
                     xysize 270, 27
