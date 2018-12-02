@@ -35,7 +35,7 @@ init -9 python: # FG Area
             self.camp_build_points_required = 1000
 
             # Generated Content:
-            self.logs = collections.deque(maxlen=10)
+            self.logs = collections.deque(maxlen=15)
 
             # Trackers exploring the area at any given time, this can be used for easy access!
             self.trackers = set()
@@ -781,10 +781,9 @@ init -6 python: # Guild, Tracker and Log.
                             # tracker.log(temp)
 
         def combat_mobs(self, tracker, mob, opfor_team_size, log):
-            # log is the ExplorationLog object we add be reports to!
+            # log is the Exploration Log object we add be reports to!
             # Do we really need to pass team size to this method instead of figuring everything out here?
             team = tracker.team
-            # area = tracker.area
             opfor = Team(name="Enemy Team", max_size=opfor_team_size)
 
             if DEBUG_SE:
@@ -855,11 +854,6 @@ init -6 python: # Guild, Tracker and Log.
 
                 return "victory"
             else: # Defeat here...
-                # self.stats["attack"] += randrange(2)
-                # self.stats["defence"] += randrange(2)
-                # self.stats["agility"] += randrange(2)
-                # self.stats["magic"] += randrange(2)
-                # self.stats["exp"] += mob_power/15
                 log.suffix = "{color=[red]}Defeat{/color}"
                 temp = "{color=[red]}Your team got their asses kicked!!{/color}\n"
                 log.add(temp)
@@ -875,12 +869,6 @@ init -6 python: # Guild, Tracker and Log.
             area = tracker.obj_area
             team = tracker.team
             teams = [t.team for t in area.trackers if t.state == "setting_up_basecamp"]
-            # Since we only have one basecamp, we want all teams sent to this location to cooperate setting it up.
-            # Code presently is a bit clumsy but it should get the job done.
-            # if area.building_camp: # Process has started and this team just waits for it's process to idlely pass by:
-            #     while 1:
-            #         yield self.env.timeout(5)
-            # area.building_camp = True
 
             if DEBUG_SE:
                 msg = "Team {} is setting up basecamp.".format(team.name)

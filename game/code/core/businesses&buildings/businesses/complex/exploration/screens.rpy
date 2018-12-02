@@ -474,20 +474,16 @@ screen fg_log(area):
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             style_prefix "dropdown_gm2"
-            ypos 100
-            ysize 240
-            xalign .0
+            ypos 100 xalign .0
+            ysize 346
             padding 10, 10
-            has vbox xsize 220
-
+            has vbox xsize 220 spacing 1
             frame:
                 style_group "content"
-                align (.5, .015)
+                xalign .5
                 padding 15, 5
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                 label "Events" text_size 20 text_color ivory align .5, .5
-
-            null height 2
 
             for l in area.logs:
                 button:
@@ -503,25 +499,21 @@ screen fg_log(area):
 
         # Information (Story)
         frame:
-            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-            ysize 297
+            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6, yzoom=-1), 10, 10)
+            ysize 346
             padding 10, 10
             ypos 100 xalign 1.0
-            has vbox xsize 350
-
+            has vbox xsize 350 spacing 1
             frame:
                 style_group "content"
-                align (.5, .015)
+                xalign .5
                 padding 15, 5
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                 label "Story" text_size 20 text_color ivory align .5, .5
 
-            null height 2
-
             frame:
                 background Frame("content/gfx/frame/ink_box.png", 10, 10)
                 has viewport draggable 1 mousewheel 1
-
                 if focused_log:
                     if focused_log.battle_log:
                         text "\n".join(focused_log.battle_log) color white
