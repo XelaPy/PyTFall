@@ -443,7 +443,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                 idle img
                 hover im.MatrixColor(img, im.matrix.brightness(.25))
                 insensitive_background im.Sepia(img)
-                action return_action
+                action [Hide("fg_log"), return_action]
                 # sensitive not str(last_label).startswith("mc_action_")
                 tooltip "Return to previous screen"
                 if not get_screens(*special_screens):

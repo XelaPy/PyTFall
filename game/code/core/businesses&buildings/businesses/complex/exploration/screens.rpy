@@ -10,9 +10,9 @@ screen building_management_leftframe_exploration_guild_mode:
             frame:
                 style_group "content"
                 xalign .5 ypos 3
-                xysize (200, 50)
+                xysize 200, 50
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                label (u"Maps") text_size 23 text_color ivory align (.5, .8)
+                label (u"Maps") text_size 23 text_color ivory align .5, .8
 
             null height 5
 
@@ -66,13 +66,15 @@ screen building_management_leftframe_exploration_guild_mode:
                             action SetVariable("selected_log_area", area), Show("fg_log", None, area)
                             selected selected_log_area == area
                             text str(area.stage):
-                                hover_color red
+                                hover_color green
+                                selected_color gold
                                 size 12
                                 xalign .02
                                 yoffset 1
                             label "[area.name]":
                                 text_color "#66CD00"
                                 text_hover_color green
+                                text_selected_color gold
                                 text_size 12
                                 align 1.0, .5
 
@@ -80,7 +82,7 @@ screen building_management_leftframe_exploration_guild_mode:
             frame:
                 style_group "content"
                 xalign .5
-                xysize (200, 50)
+                xysize 200, 50
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
                 label (u"Total") text_size 23 text_color ivory align .5, .8
 
@@ -412,19 +414,20 @@ screen building_management_rightframe_exploration_guild_mode:
     button:
         xysize (150, 40)
         yalign .5
-        action SetVariable("bm_exploration_view_mode", "team")
+        action SetVariable("bm_exploration_view_mode", "team"), Hide("fg_log")
         tooltip "You can customize your team here or hire Guild members."
         text "Team" size 15
     button:
         xysize (150, 40)
         yalign .5
-        action SetVariable("bm_exploration_view_mode", "explore")
-        tooltip "On this screen you can organize the expedition. Also, there is a possibility to see all available information on the various places, enemies and items drop."
+        action SetVariable("bm_exploration_view_mode", "explore"), Hide("fg_log")
+        tooltip ("On this screen you can organize the expedition. Also, there is a "+
+                 "possibility to see all available information on the various places, enemies and items drop.")
         text "Exploration" size 15
     button:
         xysize (150, 40)
         yalign .5
-        action SetVariable("bm_exploration_view_mode", "log")
+        action SetVariable("bm_exploration_view_mode", "log"), Hide("fg_log")
         tooltip "For each of your teams, recorded one last adventure, which you can see here in detail."
         text "Log" size 15
 
@@ -433,8 +436,8 @@ screen fg_log(area):
     on "hide":
         action SetVariable("selected_log_area", None)
 
-    modal True
-    zorder 1
+    # modal True
+    zorder 10
 
     key "mousedown_3" action Hide("fg_log")
 

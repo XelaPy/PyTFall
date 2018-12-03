@@ -335,30 +335,30 @@ init: # Screens:
         $ frgr.add(ProportionalScale("content/gfx/images/e2.png", 315, 600, align=(.5, 1.0)))
         frame:
             style_prefix "content"
-            xysize (315, 680)
+            xysize 315, 680
             background Null()
             foreground frgr
             frame:
                 pos 25, 20
-                xysize (260, 40)
+                xysize 260, 40
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                label (u"__ [bm_mid_frame_mode.name] __") text_size 18 text_color ivory align (.5, .6)
+                label (u"__ [bm_mid_frame_mode.name] __") text_size 18 text_color ivory align .5, .6
             null height 5
 
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                align (.5, .5)
-                xpadding 10
-                ypadding 10
+                align .5, .5
+                padding 10, 10
                 vbox:
                     style_group "wood"
-                    align (.5, .5)
+                    align .5, .5
                     spacing 10
                     button:
-                        xysize (150, 40)
+                        xysize 150, 40
                         yalign .5
-                        action SetVariable("bm_mid_frame_mode", "building")
-                        tooltip "Here you can invest your gold and resources for various improvements.\nAnd see the different information (reputation, rank, fame, etc.)"
+                        action SetVariable("bm_mid_frame_mode", "building"), Hide("fg_log")
+                        tooltip ("Here you can invest your gold and resources for various improvements.\n"+
+                                 "And see the different information (reputation, rank, fame, etc.)")
                         text "Building" size 15
                     if isinstance(bm_mid_frame_mode, ExplorationGuild):
                         use building_management_rightframe_exploration_guild_mode
