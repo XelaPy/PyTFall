@@ -508,7 +508,7 @@ init -6 python: # Guild, Tracker and Log.
 
                 # Team arrived:
                 if tracker.traveled <= tracker.distance:
-                    temp = "{} came back to the guild!".format(tracker.team.name)
+                    temp = "{} returned to the guild!".format(tracker.team.name)
                     tracker.log(temp, name="Return")
                     # tracker.state = "exploring"
                     # tracker.traveled = 0 # Reset for traveling back.
@@ -624,12 +624,13 @@ init -6 python: # Guild, Tracker and Log.
             Idea is to keep as much of this logic as possible and adapt it to work with SimPy...
             """
             items = list()
+            cash = 0
             area = tracker.obj_area
             carea = tracker.area
             team = tracker.team
             fought_mobs = 0
             encountered_opfor = 0
-            cash = 0
+
 
             if DEBUG_SE:
                 msg = "{} is stating an exploration scenario.".format(team.name)
@@ -678,6 +679,9 @@ init -6 python: # Guild, Tracker and Log.
                 msg = "({}) Items were picked for choice!".format(len(chosen_items))
                 se_debug(msg, mode="info")
 
+            # Max cash to be found this day:
+            max_cash = tracker.cash_limit + tracker.cash_limit*.1*tracker.day
+
             shuffle(chosen_items)
 
             while 1:
@@ -693,7 +697,8 @@ init -6 python: # Guild, Tracker and Log.
                             var = max(1, round_int(value*.05))
                             char.mod_stat(stat, -var)
 
-                if chosen_items:
+                # Items:
+                if chosen_items and not self.env.now%5:
                     if self.env.now < 50:
                         chance = self.env.now/5
                     elif self.env.now < 80:
@@ -711,10 +716,20 @@ init -6 python: # Guild, Tracker and Log.
                             msg = "{} Found an item {}!".format(team.name, item)
                             se_debug(msg, mode="info")
 
-                if dice(area.risk*.05 + tracker.day*2*.05):
-                    if not tracker.day:
-                        raise Exception("tracker.day == 0!")
-                    cash += 100 # randint(int(tracker.cash_limit/50*tracker.day*.05), int(tracker.cash_limit/15*tracker.day*.05))
+                # Cash:
+                if max_cash > 0 and not self.env.now%20:
+                    if dice(tracker.risk):
+                        give = round_int(max_cash/5.0)
+                        max_cash -= give
+                        cash += give
+
+                        temp = "{color=[gold]}Found %d Gold!{/color}" % give
+                        tracker.log(temp)
+                        if DEBUG_SE:
+                            msg = "{} Found {} Gold!".format(team.name, give)
+                            se_debug(msg, mode="info")
+
+
 
                 #  =================================================>>>
                 # Copied area must be used for checks here as it preserves state.
