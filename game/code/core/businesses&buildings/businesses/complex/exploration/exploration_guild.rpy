@@ -102,9 +102,9 @@ init -6 python: # Guild, Tracker and Log.
 
             # This is the general items that can be found at any exploration location,
             # Limited by price:
-            self.items = list(item.id for item in store.items.values() if
-                              "Exploration" in item.locations and
-                              self.items_limit > item.price)
+            self.exploration_items = list(item.id for item in store.items.values() if
+                                          "Exploration" in item.locations and
+                                          self.items_limit >= item.price)
 
             # Traveling to and from + Status flags:
             # We may be setting this directly in the future.
@@ -642,12 +642,43 @@ init -6 python: # Guild, Tracker and Log.
                 # Set their exploration capabilities as temp flag
                 a = tracker.effectiveness(char, difficulty, log=None, return_ratio=False)
                 abilities.append(a)
-            self.ability = get_mean(abilities)
+            tracker.ability = get_mean(abilities)
 
-            # Day 1 Risk 1 = .213, D 15 R 1 = .287, D 1 R 50 = .623, D 15 R 50 = .938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
-            # int(round(((.2 + (area.risk*.008))*(1 + tracker.day*(.025*(1+area.risk/100))))*.05))
-            # For now, I'll just devide the damn thing by 20 (*.05)...
-            risk_a_day_multiplicator = 50
+            # Let's run the expensive item calculations once and just give
+            # Items as we explore. This just figures what items to give.
+            # This code and comment are both odd...
+            # We may have area items draw two times. Investigate later:
+
+            # Get the max number of items that can be found in one day:
+            max_items = int(round((tracker.ability+tracker.risk)*.01+(tracker.day*.2)))
+            if DEBUG_SE:
+                msg = "Max Items ({}) to be found on Day: {}!".format(max_items, tracker.day)
+                se_debug(msg, mode="info")
+
+            chosen_items = [] # Picked items:
+            # Local Items:
+            local_items = []
+            for i, d in area.items.iteritems():
+                if dice(d):
+                    local_items.append(i)
+
+            if DEBUG_SE:
+                msg = "Local Items: {}|Area Items: {}".format(len(local_items), len(tracker.exploration_items))
+                se_debug(msg, mode="info")
+
+            while len(chosen_items) <= max_items and (tracker.exploration_items or local_items):
+                # always pick from local item list first!
+                if local_items and len(chosen_items) <= max_items:
+                    chosen_items.append(choice(local_items))
+
+                if tracker.exploration_items and len(chosen_items) <= max_items:
+                    chosen_items.append(choice(tracker.exploration_items))
+
+            if DEBUG_SE:
+                msg = "({}) Items were picked for choice!".format(len(chosen_items))
+                se_debug(msg, mode="info")
+
+            shuffle(chosen_items)
 
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
@@ -662,28 +693,23 @@ init -6 python: # Guild, Tracker and Log.
                             var = max(1, round_int(value*.05))
                             char.mod_stat(stat, -var)
 
-                # This code and comment are both odd...
-                # We may have area items draw two times. Investigate later:
-                if tracker.items and dice(area.risk*.02 + tracker.day*.05):
-                    item = choice(tracker.items)
-                    temp = "{color=[lawngreen]}Found an item %s!{/color}"%item
-                    tracker.log(temp, "Item", ui_log=True, item=store.items[item])
-                    items.append(item)
+                if chosen_items:
+                    if self.env.now < 50:
+                        chance = self.env.now/5
+                    elif self.env.now < 80:
+                        chance = self.env.now
+                    else:
+                        chance = 100
 
-                # Second round of items for those specifically specified for this area:
-                if len(items) <= 5: # TODO 5 items max for debug or in all cases?
-                    for i in area.items:
-                        if dice((area.items[i]*risk_a_day_multiplicator)): # TODO: Needs to be adjusted to SimPy (lower the probability!)
-                            temp = "{color=[lawngreen]}Found an item %s!{/color}"%i
-                            tracker.log(temp, "Item", ui_log=True, item=store.items[i])
-                            items.append(i)
+                    if dice(chance):
+                        item = chosen_items.pop()
+                        items.append(item)
 
-                            if DEBUG_SE:
-                                msg = "{} has finished an exploration scenario. (Found an item)".format(team.name)
-                                se_debug(msg, mode="info")
-
-                            # Why not env.end here????????
-                            break
+                        temp = "{color=[lawngreen]}Found an item %s!{/color}" % item
+                        tracker.log(temp, "Item", ui_log=True, item=store.items[item])
+                        if DEBUG_SE:
+                            msg = "{} Found an item {}!".format(team.name, item)
+                            se_debug(msg, mode="info")
 
                 if dice(area.risk*.05 + tracker.day*2*.05):
                     if not tracker.day:
