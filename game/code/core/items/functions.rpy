@@ -361,43 +361,27 @@ init -11 python:
             if getattr(item, "jump_to_label", False):
                 continue
 
-            if types == "all" or "scroll" in types:
-                if item.type == "scroll":
-                    picked.add(item)
-                    continue
+            if types == "all" or item.type in types:
+                picked.add(item)
+                continue
 
-            if types == "all" or "consumable" in types:
+            if "consumable" in types:
                 if item.slot == "consumable" and item.type != "food":
                     picked.add(item)
                     continue
 
-            if types == "all" or "restore" in types:
-                if item.slot == "consumable" and item.type == "restore" and "Potion" in item.id:
-                    picked.add(item)
-                    continue
-
-            if types == "all" or "food" in types:
-                if item.slot == "consumable" and item.type == "food":
-                    picked.add(item)
-                    continue
-
-            if types == "all" or "armor" in types:
+            if "armor" in types:
                 if item.slot in ("body", "head", "feet", "wrist") and item.type not in ("dress", "tool"):
                     picked.add(item)
                     continue
 
-            if types == "all" or "dress" in types:
-                if item.slot in ("body", "head", "feet", "wrist") and item.type == "dress":
-                    picked.add(item)
-                    continue
-
-            if types == "all" or "weapon" in types:
+            if "weapon" in types:
                 if item.slot in ("weapon", "smallweapon") and item.type != "tool":
                     picked.add(item)
                     continue
 
-            if types == "all" or "loot" in types:
-                if item.slot == "loot" and "Exploration" in item.locations:
+            if "loot" in types:
+                if item.slot == "loot":
                     picked.add(item)
                     continue
 

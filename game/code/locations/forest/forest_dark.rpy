@@ -190,9 +190,9 @@ label city_dark_forest_hideout:
 
     "After killing all bandits, you found stash with loot."
 
-    $ give_to_mc_item_reward(type="loot", price=300)
+    $ give_to_mc_item_reward(type="treasure", price=300)
     if locked_dice(50):
-        $ give_to_mc_item_reward(type="loot", price=300)
+        $ give_to_mc_item_reward(type="treasure", price=300)
     $ give_to_mc_item_reward(type="restore", price=100)
     if locked_dice(50):
         $ give_to_mc_item_reward(type="restore", price=200)
@@ -326,8 +326,8 @@ label city_dark_forest_fight:
 
     if result is True:
         scene expression forest_location
-        $ item = get_item_drops(["loot", "scrolls", "consumables",
-                                 "potions", "restore"], tier=hero.tier)
+        $ item = get_item_drops(["treasure", "scrolls", "consumables",
+                                 "potions", "restore"], tier=hero.tier, locations=["Exploration"])
         if item:
             $ gfx_overlay.random_find(item, 'items')
             $ hero.add_item(item)
