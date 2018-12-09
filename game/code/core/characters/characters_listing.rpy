@@ -385,7 +385,7 @@ screen chars_list(source=None):
             sensitive page > 0
             action SetScreenVariable("page", page-1)
             tooltip 'Previous page'
-            keysym "mousedown_5"
+            keysym "mousedown_4"
 
         $ temp = page + 1
         textbutton "[temp]":
@@ -395,7 +395,7 @@ screen chars_list(source=None):
             sensitive page < max_page
             action SetScreenVariable("page", page+1)
             tooltip 'Next page'
-            keysym "mousedown_4"
+            keysym "mousedown_5"
 
     $ store.chars_list_last_page_viewed = page # At Darks Request!
     # Normalize stored page, should we done 'on hide' but we can't trust those atm.
