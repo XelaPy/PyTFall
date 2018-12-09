@@ -288,6 +288,26 @@ label int_girl_proposes_girlfriend: # character proposes to become lovers
     $ char.restore_portrait()
     return
 
+label interactions_breakup:
+    $ interactions_check_for_bad_stuff(char)
+    if not check_lovers(char, hero): # you never know
+        "But we aren't!"
+        jump girl_interactions
+
+    $ end_lovers(hero, char)
+    # $ hero.exp += randint(15, 35)
+    # $ char.exp += randint(15, 35)
+    $ hero.exp += exp_reward(hero, char, ap_used=.33)
+    $ char.exp += exp_reward(char, hero, ap_used=.33)
+    if True: # FIXME imlement the responses if ct("Impersonal") in  char.traits:
+        #$ char.disposition -= 0
+        $ char.joy -= 25
+        $ char.override_portrait("portrait", "indifferent")
+        $ rc("If that's what you want.", "As you wish. Bye.", "I understand. I suppose that was it.")
+
+    $ char.restore_portrait()
+    jump girl_interactions 
+
 ##### j3
 label interactions_hire:
     if char.flag("quest_cannot_be_hired") == True:
