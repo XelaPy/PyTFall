@@ -343,6 +343,14 @@ screen char_profile():
                     pos 113, 77
                     anchor 0, 1.0
 
+                if check_lovers(char, hero):
+                    imagebutton:
+                        pos 5, 97
+                        idle ProportionalScale("content/gfx/interface/icons/heartbeat.png", 30, 30)
+                        hover (im.MatrixColor(ProportionalScale("content/gfx/interface/icons/heartbeat.png", 30, 30), im.matrix.brightness(.25)))
+                        tooltip "This girl is your lover!"
+                        action NullAction()
+
                 imagebutton:
                     if char.status == "slave":
                         pos 80, 97
