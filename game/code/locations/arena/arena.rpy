@@ -1031,6 +1031,9 @@ init -9 python:
                 for mob in loser:
                     defeated_mobs[mob.id] = 1
 
+                # Ladder
+                self.update_ladder()
+
                 self.cf_count += 1
 
                 if self.cf_count > 5:
@@ -1265,6 +1268,9 @@ init -9 python:
             else:
                 renpy.call_screen("arena_aftermatch", enemy_team, hero.team, "Loss")
 
+            # Ladder
+            self.update_ladder()
+
             jump("arena_inside")
 
         def start_matchfight(self, setup):
@@ -1338,6 +1344,9 @@ init -9 python:
 
             # Line-up positioning:
             self.update_setups(winner, loser)
+
+            # Ladder
+            self.update_ladder()
 
             fday = setup[2]
             for d in hero.fighting_days[:]:
