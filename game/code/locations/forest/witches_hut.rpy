@@ -36,7 +36,7 @@ label witch_menu:
         $ result = ui.interact()
 
 label witches_hut_shopping:
-    w "Sweet!"
+    $ gfx_overlay.notify(msg="Sweet!", tkwargs={"style": "interactions_text"})
     python:
         witches_hut = ItemShop('Witches Hut', 18, ['Witches Hut'], sells=["amulet", "restore", "smallweapon"])
         focus = False
@@ -57,11 +57,11 @@ label witches_hut_shopping:
     $ global_flags.del_flag("keep_playing_music")
     hide screen shopping
     with dissolve
-    w "Let me know if you need anything else."
+    $ gfx_overlay.notify("Let me know if you need anything else.", tkwargs={"style": "interactions_text"}, duration=1.5)
     jump witch_menu
 
 label witches_hut_shopping_spells:
-    w "Sweet!"
+    $ gfx_overlay.notify(msg="Sweet!", tkwargs={"style": "interactions_text"})
     python:
         witch_spells_shop = ItemShop("Witch Spells Shop", 18, ["Witch Spells Shop"], gold=5000, sells=["scroll"], sell_margin=.25, buy_margin=5.0)
         focus = False
@@ -82,7 +82,7 @@ label witches_hut_shopping_spells:
     $ global_flags.del_flag("keep_playing_music")
     hide screen shopping
     with dissolve
-    w "Let me know if you need anything else."
+    $ gfx_overlay.notify("Let me know if you need anything else.", tkwargs={"style": "interactions_text"}, duration=1.5)
     jump witch_menu
 
 label witch_training:
