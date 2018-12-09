@@ -614,6 +614,11 @@ init -9 python:
                 renpy.call_screen("message_screen", "You already have a fight planned for day %d. Having two official matches on the same day is not allowed!"%fight_day)
                 return
 
+            #if fight_day == day and self.hero_match_result:
+            if fight_day == day and len(self.cf_rewards) == 2:
+                renpy.call_screen("message_screen", "You already had a fight today. Having two official matches on the same day is not allowed!")
+                return
+ 
             result = renpy.call_screen("yesno_prompt",
                 "Are you sure you want to schedule a fight? Backing out of it later will mean a hit on reputation!",
                 Return(["Yes"]), Return(["No"]))
@@ -1038,7 +1043,7 @@ init -9 python:
 
                 if self.cf_count > 5:
                     amount = 2
-                    amount += min(round_int(hero.arena_rep/15000.0), 3)
+                    amount += min(round_int(hero.arena_rep/max(15000.0, self.ladder[0].arena_rep / 3.0)), 3)
                     tier = self.mob_power/40.0
                     #types = ['scroll', 'restore', 'armor', 'weapon'] 
                     types = "all" 
@@ -1159,6 +1164,10 @@ init -9 python:
             return reward
 
         # -------------------------- Battle/Next Day ------------------------------->
+        @staticmethod 
+        def arena_rep_reward(loser, winner):
+            return max(0.0, (loser.get_rep() - (winner.get_rep() / 2)) / 10.0) 
+
         def auto_resolve_combat(self, off_team, def_team, type="dog_fight"):
 
             battle = new_style_conflict_resolver(off_team, def_team,
@@ -1167,15 +1176,20 @@ init -9 python:
             winner = battle.winner
             loser = off_team if winner == def_team else def_team
 
+            rep = self.arena_rep_reward(loser, winner)
+            if type == "dog_fight":
+                rep = min(50.0, max(3.0, rep)) 
+
             for fighter in winner:
                 for stat in ("attack", "defence", "agility", "magic"):
                     fighter.mod_stat(stat, randint(1, 2))
-                fighter.arena_rep += (loser.get_rep() / 20)
+                fighter.arena_rep += int(rep)
                 exp = round_int(50 * (float(loser.get_level()) / winner.get_level()))
                 fighter.mod_stat("exp", exp)
 
+            rep = rep / 10.0
             for fighter in loser:
-                fighter.arena_rep -= int(def_team.get_rep() / 300.0)
+                fighter.arena_rep -= int(rep)
 
             if type == "match":
                 self.update_setups(winner, loser)
@@ -1231,7 +1245,7 @@ init -9 python:
             if blood > 0:
                 money += blood
 
-            rep = round_int(min(50, max(3, hero.team.get_rep())))
+            rep = min(50, max(3, self.arena_rep_reward(loser, winner)))
 
             for member in winner:
                 if member not in battle.corpses:
@@ -1240,7 +1254,7 @@ init -9 python:
                     if dice(enemy_team.get_level()):
                         statdict["fame"] = randint(0, 1)
                         statdict["reputation"] = randint(0, 1)
-                    statdict["Arena Rep"] = rep
+                    statdict["Arena Rep"] = int(rep)
                     statdict["exp"] = exp_reward(member, loser, ap_used=2)
                     for stat, value in statdict.items():
                         if stat == "exp":
@@ -1255,8 +1269,9 @@ init -9 python:
                 else:
                     member.combat_stats = "K.O."
 
+            rep = rep / 10.0
             for member in loser:
-                member.arena_rep -= rep
+                member.arena_rep -= int(rep)
                 member.exp += exp_reward(member, winner, ap_used=2, final_mod=.15)
                 self.remove_team_from_dogfights(member)
 
@@ -1303,6 +1318,8 @@ init -9 python:
             else:
                 loser = hero.team
 
+            rep = self.arena_rep_reward(loser, winner)
+
             for member in winner:
                 if member in battle.corpses:
                     member.combat_stats = "K.O."
@@ -1313,7 +1330,7 @@ init -9 python:
                 if dice(enemy_team.get_level()):
                     statdict["fame"] = randint(0, 2)
                     statdict["reputation"] = randint(0, 2)
-                statdict["Arena Rep"] = round_int(max(100, min(1000, (loser.get_rep()/10))))
+                statdict["Arena Rep"] = int(rep)
                 statdict["exp"] = exp_reward(member, loser, ap_used=2)
                 for stat, value in statdict.items():
                     if stat == "exp":
@@ -1326,8 +1343,9 @@ init -9 python:
                         member.mod_stat(stat, value)
                     member.combat_stats = statdict
 
+            rep = rep / 10.0 
             for member in loser:
-                member.arena_rep -= round_int(max(50, min(500, (winner.get_rep()/10))))
+                member.arena_rep -= int(rep)
                 member.exp += exp_reward(member, winner, ap_used=2, final_mod=.15)
                 # self.remove_team_from_dogfights(member)
 

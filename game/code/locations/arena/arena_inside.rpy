@@ -393,9 +393,11 @@ init: # Main Screens:
                                         vbox:
                                             align (.5, .5)
                                             $ team = lineup[1]
-                                            $ level = team.get_level()
-                                            text "Challenge!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf"
-                                            text "Enemy level: [level]" size 30 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(1, "#3a3a3a", 0, 0)]
+                                            style_prefix "arena_badaboom"
+                                            text "Challenge!" size 40 
+                                            text ("Enemy level: %s" % team.get_level()) outlines [(1, "#3a3a3a", 0, 0)]
+                                            text ("Reputation: %s" % team.get_rep()) size 20 outlines [(1, "#3a3a3a", 0, 0)] 
+
                                 # Or we show the team that challenged:
                                 else:
                                     frame:

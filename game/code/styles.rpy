@@ -617,6 +617,13 @@ init 2: # Advanced style that can carry a lot of properties to be used in screen
         drop_shadow [(2, 3)]
         drop_shadow_color black
 
+    style arena_badaboom_text:
+        align (.5, .5)
+        color red + "85"
+        hover_color red
+        font "fonts/badaboom.ttf"
+        size 30
+
 init: # Ren'Py Styles (Or replacements):
     ## FRAMEWORK FOR DIALOGUE
     ## Main (Say) window
