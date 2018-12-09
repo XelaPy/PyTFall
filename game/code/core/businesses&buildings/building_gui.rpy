@@ -356,7 +356,7 @@ init: # Screens:
                     button:
                         xysize 150, 40
                         yalign .5
-                        action SetVariable("bm_mid_frame_mode", "building"), Hide("fg_log")
+                        action [Function(SetVariable("bm_mid_frame_mode", "building")), Hide("fg_log")]
                         tooltip ("Here you can invest your gold and resources for various improvements.\n"+
                                  "And see the different information (reputation, rank, fame, etc.)")
                         text "Building" size 15
@@ -397,7 +397,6 @@ init: # Screens:
                     text "%s (%s %%)" % (building.get_dirt_percentage()[1], building.get_dirt_percentage()[0]) xalign .98 style_suffix "value_text" yoffset 4
                 frame:
                     xysize (296, 27)
-                    text "Threat:" xalign .02 color ivory
                     button:
                         background Null()
                         xalign .02
@@ -466,7 +465,7 @@ init: # Screens:
                                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
                                     tooltip "View details or expand {}.\n{}".format(u.name, u.desc)
                                     xalign .5
-                                    action SetVariable("bm_mid_frame_mode", u)
+                                    action Function(SetVariable("bm_mid_frame_mode", u))
 
         # frame:
             # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
@@ -617,7 +616,7 @@ init: # Screens:
                                 style_prefix "wood"
                                 align .5, .5
                                 xysize 135, 40
-                                action SetVariable("bm_mid_frame_mode", building)
+                                action Function(SetVariable("bm_mid_frame_mode", building))
                                 tooltip 'Open a new business or upgrade this building!'
                                 text "Expand"
                     button:

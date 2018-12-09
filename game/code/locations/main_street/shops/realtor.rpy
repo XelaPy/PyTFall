@@ -124,7 +124,7 @@ screen realtor_agency():
                                         imagebutton:
                                             idle (img)
                                             hover (im.MatrixColor(img, im.matrix.brightness(.25)))
-                                            action SetVariable("focus", building)
+                                            action Function(SetVariable("focus", building))
                 vbar value YScrollValue("brothelmarket_vp")
 
     if focus:

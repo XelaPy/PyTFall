@@ -654,7 +654,7 @@ screen char_profile():
                         text "Controls"
                     button:
                         xysize (150, 40)
-                        action Hide("char_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')
+                        action Hide("char_profile"), With(dissolve), Function(SetVariable("eqtarget", char)), Jump('char_equip')
                         sensitive controlled_char(char)
                         tooltip "Manage this girl's inventory and equipment!"
                         text "Equipment"
