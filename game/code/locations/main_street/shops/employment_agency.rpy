@@ -67,9 +67,6 @@ label employment_agency:
         ea "My fee for hooking you up with a capable worker is one month worth of their wages."
         ea "Take a look at the files I got on hand!"
 
-    # Populate when needed:
-    $ populate_ea()
-
     show screen employment_agency
     while 1:
         $ result = ui.interact()

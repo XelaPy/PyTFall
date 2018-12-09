@@ -106,6 +106,9 @@ init -9 python:
                 fighter.vitality = fighter.get_max("vitality")
 
         def populate_world(self, tier_offset=.0):
+            # Employment Agency
+            populate_ea()
+
             # Get all rcahrs in the game and sort by status.
             rc_free = []
             rc_slaves = []
