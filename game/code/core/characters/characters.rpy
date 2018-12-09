@@ -3039,16 +3039,8 @@ init -9 python:
             # with very low disposition (aka slave training), negative disposition will slowly increase
             if self.disposition < -200:
                 self.disposition += randint(2, 5)
-            if self.disposition < -150 and hero in self.friends:
-                txt.append("\n {} is no longer friends with you...".format(self.nickname))
-                end_friends(self, hero)
-            if self.disposition > 400 and not hero in self.friends:
-                txt.append("\n {} became pretty close to you.".format(self.nickname))
-                set_friends(self, hero)
-            if hero in self.lovers:
-                if (self.disposition < 200 and self.status == "free") or (self.disposition < 0 and self.status == "slave"):
-                    txt.append("\n {} and you are no longer lovers...".format(self.nickname))
-                    end_lovers(self, hero)
+
+            friends_disp_check(self, txt)
 
             return img
 
