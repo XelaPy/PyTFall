@@ -97,14 +97,25 @@ label mc_setup_end:
 
     # Add default workable building to MC, but only if we didn't add one in special labels.
     if not [b for b in hero.upgradable_buildings if b.workable]:
-        call set_mc_start_building from _call_set_mc_start_building
+        python hide:
+            # Find the cheapest business
+            scary = None 
+            for b in businesses.values():
+                if ((not scary) or scary.price > b.price):
+                    scary = b
+            if scary:
+                scary.normalize_jobs()
+                hero.add_building(scary)
 
     # Add Home apartment (Slums) to MC, unless we have set him up with a home in special labels.
     python hide:
         if not hero.home:
-            ap = buildings["Slums Apartment"]
-            hero.buildings.append(ap)
-            hero.home = ap
+            # Find the cheapest building
+            for b in buildings.values():
+                if ((not hero.home) or hero.home.price > b.price):
+                    hero.home = b
+            if hero.home:
+                hero.add_building(hero.home)
 
     # Set the default battle skill:
     if not hero.attack_skills:
@@ -135,39 +146,6 @@ label set_mc_basetraits:
         for t in temp:
             hero.traits.basetraits.add(traits[t])
             hero.apply_trait(traits[t])
-    return
-
-label set_mc_start_building:
-    # Sets up mc's starting businesses:
-    python hide:
-        scary = Building(in_slots_max=16, ex_slots_max=0, needs_management=True)
-        scary.add_adverts([advert for advert in adverts if advert['name'] in ["Sign", "Flyers"]])
-        scary.id = scary.name = "Scary Shack"
-
-        scary.img = "content/buildings/haunted.webp"
-        temp = ["It is a haunted sh*thole no sane being would pay a dime for!"]
-        temp.append("But it's all you've got...")
-        temp.append("And 'haunted' is probably just a rumor.")
-        scary.desc = "\n".join(temp)
-        scary.price_overload = 100
-
-        scary.fame = 0
-        scary.maxfame = 100
-
-        scary.maxrep = 100
-        scary.rep = 0
-
-        scary.auto_clean = False
-        scary.dirt = 0
-        scary.threat = 0
-
-        scary.allowed_businesses = [BrothelBlock, Cleaners, SlaveQuarters, WarriorQuarters]
-        scary.add_business(Cleaners(allowed_upgrades=[BroomCloset]))
-        scary.add_business(BrothelBlock(capacity=2, allowed_upgrades=[]))
-        scary.add_business(SlaveQuarters(capacity=2, allowed_upgrades=[]))
-
-        scary.normalize_jobs()
-        hero.add_building(scary)
     return
 
 init: # MC Setup Screens:

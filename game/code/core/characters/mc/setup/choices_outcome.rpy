@@ -55,9 +55,22 @@ label mc_setup_warrior_warrior_dragon_sight:
 
 label mc_setup_warrior_defender_guard:
     python hide:
-        ap = buildings["Studio Apartment"]
-        hero.buildings.append(ap)
-        hero.home = ap
+        #find the second cheapest building (ap)
+        ba = None #the cheapest building
+        ap = None
+        for b in buildings.values():
+            if ba == None:
+                ba = b
+            elif ba.price > b.price:
+                ap = ba
+                ba = b
+            elif ap == None or ap.price > b.price:
+                ap = b
+        if not ap:
+            ap = ba   
+        if ap:
+            hero.buildings.append(ap)
+            hero.home = ap
     return
 
 label mc_setup_warrior_assassin_princess:

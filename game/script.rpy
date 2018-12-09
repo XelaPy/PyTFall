@@ -122,7 +122,7 @@ label start:
     python: # Ads and Buildings:
         tl.start("Loading: Businesses")
         adverts = json.load(renpy.file("content/db/buildings/adverts.json"))
-        businesses = load_buildings()
+        businesses = load_businesses()
         tl.end("Loading: Businesses")
 
     $ tl.start("Loading: Schools")
@@ -243,9 +243,13 @@ label dev_testing_menu_and_load_mc:
             hero.log_stats()
 
             if DEBUG and not hero.home:
-                ap = buildings["Lux Apartment"]
-                hero.buildings.append(ap)
-                hero.home = ap
+                ap = None 
+                for b in buildings.values():
+                    if ap == None or b.price > ap.price:
+                        ap = b
+                if ap:
+                    hero.buildings.append(ap)
+                    hero.home = ap
                 del ap
 
     # Set Human trait for the MC: (We may want to customize this in the future)

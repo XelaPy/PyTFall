@@ -119,24 +119,12 @@ init -20 python:
         Basically, a habitable location where one can store 'stuff'
         Also has a number of extra properties.
         """
-        def __init__(self, id, img="", daily_modifier=.1,
-                     desc="", price=0, rooms=1,
-                     location="Flee Bottom", tier=1, **kwargs):
-            super(InvLocation, self).__init__(id=id,
-                        daily_modifier=daily_modifier,
-                        rooms=rooms)
+        def __init__(self, **kwargs):
+            super(InvLocation, self).__init__()
             # Once again, for the Items transfer:
             self.status = "slave"
             self.given_items = dict()
             self.inventory = Inventory(15)
-
-            self.desc = desc
-            self.img = img
-            self.price = price
-            self.location = location
-            self.tier = tier
-
-            self.nickname = self.fullname = self.name = self.id
 
         # Mimicking the show method expected from character classes for items transfer:
         def show(self, *tags, **kwargs):
