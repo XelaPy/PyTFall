@@ -225,7 +225,7 @@ init -9 python:
 
             self.update_sorting(gender=gender)
 
-            self.page = min(self.max_page, self.page)
+            self.page = 0 # min(max(0, self.max_page-1), self.page)
 
         # Paging:
         @property
@@ -379,17 +379,12 @@ init -9 python:
 
             items = store.items
             for item in items.itervalues():
-                for loc in self.locations:
-                    if loc in item.locations:
-                        if dice(item.chance):
-                            self.inventory.append(item)
-
-            for item in self.inventory:
-                if item.infinite:
-                    self.inventory.items[item] = 100
-                else:
-                    x = int(round(item.chance/10.0))
-                    self.inventory.items[item] += x
+                if self.locations.intersection(item.locations) and dice(item.chance):
+                    if item.infinite:
+                        x = 100
+                    else:
+                        x = 1 + round_int(item.chance/10.0)
+                    self.inventory.append(item=item, amount=x)
 
             # Gazette:
             if self in pytfall.__dict__.values():
