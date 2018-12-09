@@ -1037,7 +1037,9 @@ init -9 python:
                     amount = 2
                     amount += min(round_int(hero.arena_rep/15000.0), 3)
                     tier = self.mob_power/40.0
-                    self.cf_rewards = get_item_drops(['scroll', 'restore', 'armor', 'weapon'],
+                    #types = ['scroll', 'restore', 'armor', 'weapon'] 
+                    types = "all" 
+                    self.cf_rewards = get_item_drops(types=types,
                                                       tier=tier, locations=["Arena"],
                                                       amount=amount)
                     for i in self.cf_rewards:
