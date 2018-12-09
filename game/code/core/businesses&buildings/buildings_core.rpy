@@ -668,6 +668,7 @@ init -10 python:
             # This does assume that we checked and know that MC has the resources.
             if cost:
                 hero.take_money(cost, "Building Upgrades")
+                self.fin.log_logical_expense(cost, "Upgrade")
 
             if materials:
                 for item, amount in materials.items():

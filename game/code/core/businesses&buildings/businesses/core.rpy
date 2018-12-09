@@ -62,13 +62,14 @@ init -12 python:
 
             return True
 
-        def expand_capacity(self, value=1):
+        def expand_capacity(self):
             self.in_slots += self.exp_cap_in_slots
             self.building.in_slots += self.exp_cap_in_slots
             self.ex_slots += self.exp_cap_ex_slots
             self.building.ex_slots += self.exp_cap_ex_slots
 
             hero.take_money(self.exp_cap_cost, "Business Expansion")
+            self.building.fin.log_logical_expense(self.exp_cap_cost, "Business Expansion")
             self.capacity += 1
 
         def can_reduce_capacity(self):

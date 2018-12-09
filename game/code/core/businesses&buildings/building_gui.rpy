@@ -98,6 +98,7 @@ label building_management_loop:
                         price = ad['price']
 
                     if hero.take_money(price, reason="Building Ads"):
+                        building.fin.log_logical_expense(price, "Ads")
                         building.set_flag('bought_sign', True)
                         ad['active'] = not ad['active']
                     else:
@@ -105,7 +106,9 @@ label building_management_loop:
             elif result[1] == "celeb":
                 python:
                     ad = result[2]
-                    if hero.take_money(ad['price'], reason="Building Ads"):
+                    price = ad['price']
+                    if hero.take_money(price, reason="Building Ads"):
+                        building.fin.log_logical_expense(price, "Ads")
                         ad['active'] = True
                     else:
                         renpy.show_screen("message_screen", "Not enough cash on hand!")
@@ -153,14 +156,14 @@ label building_management_loop:
                 if result[1] == "clean":
                     price = building.get_cleaning_price()
                     if hero.take_money(price, reason="Pro-Cleaning"):
-                        building.fin.log_expense(price, "Pro-Cleaning")
+                        building.fin.log_logical_expense(price, "Pro-Cleaning")
                         building.dirt = 0
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
                 elif result[1] == "clean_all":
                     if hero.take_money(result[2], reason="Pro-Cleaning"):
                         for i in hero.dirty_buildings:
-                            i.fin.log_expense(i.get_cleaning_price(), "Pro-Cleaning")
+                            i.fin.log_logical_expense(i.get_cleaning_price(), "Pro-Cleaning")
                             i.dirt = 0
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
