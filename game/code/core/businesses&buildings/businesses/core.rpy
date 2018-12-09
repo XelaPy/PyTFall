@@ -518,16 +518,17 @@ init -12 python:
 
         def add_worker(self):
             simpy_debug("Entering PublicBusiness({}).add_worker at {}".format(self.name, self.env.now))
-            building = self.building
-            workers = building.available_workers
             # Get all candidates:
-            job = self.job
-            ws = self.get_workers(job)
+            ws = self.get_workers(self.job)
             if ws:
                 w = ws.pop()
                 self.active_workers.add(w)
-                workers.remove(w)
+                self.building.available_workers.remove(w)
                 self.env.process(self.worker_control(w))
+            else:
+                temp = "{color=[red]}"
+                temp += "Could not find an available {} worker".format(self.job)
+                self.log(temp)
             simpy_debug("Exiting PublicBusiness({}).add_worker at {}".format(self.name, self.env.now))
 
         def business_control(self):
