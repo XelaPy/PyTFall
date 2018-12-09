@@ -107,17 +107,18 @@ label found_sad_cat_4:
     $ npcs["sad_cat"].override_portrait("portrait", "in pain")
     cat.say "Meow..."
     hero.say "It's badly hurt. Those wounds are very deep. They won't heal on their own."
-    $ fish = list(i for i in hero.inventory if i.id in ["Small Healing Potion", "Healing Potion", "Great Healing Potion", "Ultimate Healing Potion"])
-    if fish:
+    $ potion = list(i for i in hero.inventory if i.id in ["Small Healing Potion", "Healing Potion", "Great Healing Potion", "Ultimate Healing Potion"])
+    if potion:
         hero.say "I can heal it with healing potion..."
         menu:
             "Heal it":
-                $ hero.remove_item(choice(fish))
+                $ potion.sort(key=attrgetter("price"))
+                $ hero.remove_item(potion[0])
+                $ del potion
                 $ flash = Fade(.25, 0, .75, color=red)
                 scene bg street_alley
                 with flash
                 hide expression temp
-                $ del fish
                 $ temp = npcs["sad_cat"].show("profile", "happy", resize = (295, 340))
                 show expression temp at left
                 $ npcs["sad_cat"].override_portrait("portrait", "happy")
