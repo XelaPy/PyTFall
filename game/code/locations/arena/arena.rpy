@@ -47,6 +47,10 @@ init -9 python:
             self.dogfights_3v3 = list()
             self.dogfight_day = 1
 
+            # use these variable when a new release is prepared where backwards compatibility issues are ignored 
+            #self.df_count = 0 
+            #self.hero_match_result = None 
+            self.cf_rewards = list() 
             self.daily_report = []
 
             self.setup = None # Setup in focus
@@ -62,7 +66,6 @@ init -9 python:
             self.cf_mob = None
             self.cf_setup = None
             self.cf_count = 0
-            self.cf_rewards = list()
 
         # -------------------------- Sorting ---------------------------------------------------------->
         def get_matches_fighters(self, matches="all"):
@@ -434,54 +437,27 @@ init -9 python:
             """
             Resonsible for repositioning winners + losers in setups!
             """
-            if len(winner) == 1:
-                if winner in self.lineup_1v1:
-                    index = self.lineup_1v1.index(winner)
-                    if index:
-                        self.lineup_1v1.insert(index-1, winner)
-                        del self.lineup_1v1[index+1]
-                else:
-                    del self.lineup_1v1[-1]
-                    self.lineup_1v1.append(winner)
-
-                if loser in self.lineup_1v1:
-                    index = self.lineup_1v1.index(loser)
-                    self.lineup_1v1.insert(index+2, loser)
-                    del self.lineup_1v1[index]
-
-            elif len(winner) == 2:
-                if winner in self.lineup_2v2:
-                    index = self.lineup_2v2.index(winner)
-                    if index:
-                        self.lineup_2v2.insert(index-1, winner)
-                        del self.lineup_2v2[index+1]
-                else:
-                    del self.lineup_2v2[-1]
-                    self.lineup_2v2.append(winner)
-
-                if loser in self.lineup_2v2:
-                    index = self.lineup_2v2.index(loser)
-                    self.lineup_2v2.insert(index+2, loser)
-                    del self.lineup_2v2[index]
-
-            elif len(winner) == 3:
-                if winner in self.lineup_3v3:
-                    index = self.lineup_3v3.index(winner)
-                    if index:
-                        self.lineup_3v3.insert(index-1, winner)
-                        del self.lineup_3v3[index+1]
-                else:
-                    del self.lineup_3v3[-1]
-                    self.lineup_3v3.append(winner)
-
-                if loser in self.lineup_3v3:
-                    index = self.lineup_3v3.index(loser)
-                    self.lineup_3v3.insert(index+2, loser)
-                    del self.lineup_3v3[index]
-
+            team_size = len(winner)
+            if team_size == 1:
+                lineup = self.lineup_1v1
+            elif team_size == 2:
+                lineup = self.lineup_2v2
+            elif team_size == 3:
+                lineup = self.lineup_3v3 
             else:
-                raise Exception("Invalid team size for Automatic Arena Combat Resolver: %d" % len(winner))
+                raise Exception("Invalid team size for Automatic Arena Combat Resolver: %d" % team_size)
 
+            if winner in lineup:
+                index = lineup.index(winner)
+                if index:
+                    lineup.insert(index-1, winner)
+                    del lineup[index+1]
+
+            if loser in lineup:
+                index = lineup.index(loser)
+                lineup.insert(index+2, loser)
+                del lineup[index]
+ 
         def find_opfor(self):
             """
             Find a team to fight challenger team in the official arena matches.
@@ -1047,10 +1023,10 @@ init -9 python:
                     tier = self.mob_power/40.0
                     #types = ['scroll', 'restore', 'armor', 'weapon'] 
                     types = "all" 
-                    self.cf_rewards = get_item_drops(types=types,
+                    rewards = get_item_drops(types=types,
                                                       tier=tier, locations=["Arena"],
                                                       amount=amount)
-                    for i in self.cf_rewards:
+                    for i in rewards:
                         hero.inventory.append(i)
 
                     self.cf_mob = None
@@ -1058,7 +1034,7 @@ init -9 python:
                     self.cf_count = 0
                     self.award = None
                     renpy.play("win_screen.mp3", channel="world")
-                    renpy.show_screen("arena_finished_chainfight", hero.team)
+                    renpy.show_screen("arena_finished_chainfight", hero.team, rewards)
                     return
                 else:
                     renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
@@ -1196,6 +1172,10 @@ init -9 python:
 
             return winner, loser
 
+        def clean_cf_rewards(self):
+            if self.cf_rewards and isinstance(self.cf_rewards[0], Item):
+                self.cf_rewards = list()
+ 
         def run_dogfight(self, enemy_team):
             '''
             Bridge to battle engine + rewards/penalties
@@ -1286,8 +1266,25 @@ init -9 python:
             # Ladder
             self.update_ladder()
 
+            # record the event
+            #self.df_count += 1
+            self.clean_cf_rewards() 
+            if self.cf_rewards:
+                self.cf_rewards[0] = self.cf_rewards[0] + 1
+            else:
+                self.cf_rewards.append(1)
+
             jump("arena_inside")
 
+        @staticmethod
+        def shallow_copy_team(team):
+            """
+            Create a shallow copy of the team to preserve the important team informations for today's report
+            """ 
+            tmp = Team(name=team.name, implicit=team.implicit, free = team.free, max_size = team.max_size)
+            tmp.set_leader(team.leader)
+            return tmp
+ 
         def start_matchfight(self, setup):
             """
             Bridge to battle engine + rewards/penalties.
@@ -1366,6 +1363,14 @@ init -9 python:
             # Ladder
             self.update_ladder()
 
+            # record the event
+            #self.hero_match_result = [self.shallow_copy_team(winner), self.shallow_copy_team(loser)]
+            self.clean_cf_rewards()
+            if len(self.cf_rewards) < 2:
+                if len(self.cf_rewards) == 0:
+                    self.cf_rewards.append(0)
+                self.cf_rewards.append([self.shallow_copy_team(winner), self.shallow_copy_team(loser)])
+ 
             fday = setup[2]
             for d in hero.fighting_days[:]:
                 if d == fday:
@@ -1373,9 +1378,27 @@ init -9 python:
 
             jump("arena_inside")
 
+        @staticmethod
+        def append_match_result(txt, f2f, match_result):
+            if f2f: 
+                temp = "{} has defeated {} in a one on one fight. ".format(
+                          match_result[0][0].name, match_result[1][0].name)
+            else:
+                temp = "%s team has defeated %s in an official match. " % (match_result[0].name, match_result[1].name)
+            temp += choice(["It was quite a show!",
+                            "Amazing performance!",
+                            "Crowd never stopped cheering!",
+                  ("The crowd chanted %s name for minutes!" % match_result[0][0].name) if f2f else
+                  ("Team's leader %s got most of the credit!" % match_result[0].leader.name)])
+            txt.append(temp)
+
         def next_day(self):
             # For the daily report:
             txt = []
+
+            self.clean_cf_rewards()
+            if not self.cf_rewards:
+                self.cf_rewards.append(0)
 
             # Normalizing amount of teams available for the Arena.
             if not day % 5:
@@ -1387,6 +1410,13 @@ init -9 python:
             if day+1 in hero.fighting_days:
                 txt.append("{color=[orange]}You have a scheduled Arena match today! Don't you dare chickening out :){/color}")
 
+            # Add the hero's matchresult from today
+            #if self.hero_match_result:
+            #    self.append_match_result(txt, self.hero_match_result[0].max_size == 1, self.hero_match_result) 
+            if len(self.cf_rewards) > 1:
+                match_result = self.cf_rewards[1] 
+                self.append_match_result(txt, len(match_result[0]) == 1, match_result)
+
             tl.start("Arena: Matches")
             # Running the matches:
             # Join string method is used here to improve performance over += or + (Note: Same should prolly be done for jobs.)
@@ -1394,12 +1424,7 @@ init -9 python:
                 if setup[2] == day and setup[0] != hero.team:
                     if setup[0] and setup[1]:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
-                        temp = "{} has defeated {} in a one on one fight. ".format(
-                                        match_result[0][0].name, match_result[1][0].name)
-                        temp += choice(["It was quite a show!",
-                                        "Amazing performance!",
-                                        "Crowd never stopped cheering!"])
-                        txt.append(temp)
+                        self.append_match_result(txt, True, match_result) 
 
                     setup[0] = Team(max_size=1)
                     setup[1] = Team(max_size=1)
@@ -1408,12 +1433,7 @@ init -9 python:
                 if setup[2] == day and setup[0] != hero.team:
                     if setup[0] and setup[1]:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
-                        temp = "%s team has defeated %s in an official match. " % (match_result[0].name, match_result[1].name)
-                        temp += choice(["It was quite a show!",
-                                        "Amazing performance!",
-                                        "Crowd never stopped cheering!",
-                                        "Team's leader %s got most of the credit!" % match_result[0].leader.name])
-                        txt.append(temp)
+                        self.append_match_result(txt, False, match_result)
                     setup[0] = Team(max_size=2)
                     setup[1] = Team(max_size=2)
 
@@ -1421,12 +1441,7 @@ init -9 python:
                 if setup[2] == day and setup[0] != hero.team:
                     if setup[0] and setup[1]:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
-                        temp = "%s team has defeated %s in an official match. " % (match_result[0].name, match_result[1].name)
-                        temp += choice(["It was quite a show!",
-                                        "Amazing performance!",
-                                        "Crowd never stopped cheering!",
-                                        "Team's leader %s got most of the credit!" % match_result[0].leader.name])
-                        txt.append(temp)
+                        self.append_match_result(txt, False, match_result)
                     setup[0] = Team(max_size=3)
                     setup[1] = Team(max_size=3)
 
@@ -1467,8 +1482,6 @@ init -9 python:
             tl.end("Arena: Matches")
 
             # Some random dogfights
-            df_count = 0
-
             # 1v1:
             tl.start("Arena: Dogfights")
             opfor_pool = list()
@@ -1487,8 +1500,8 @@ init -9 python:
                     opfor = Team(max_size=1)
                     opfor.add(opfor_fighter)
                     self.auto_resolve_combat(opfor, defender)
-                    df_count += 1
-
+                    #self.df_count += 1
+                    self.cf_rewards[0] = self.cf_rewards[0] + 1
             # 2v2:
             opfor_pool = list()
 
@@ -1504,8 +1517,8 @@ init -9 python:
                     defender = self.dogfights_2v2.pop()
                     opfor = opfor_pool.pop()
                     self.auto_resolve_combat(opfor, defender)
-                    df_count += 1
-
+                    #self.df_count += 1
+                    self.cf_rewards[0] = self.cf_rewards[0] + 1
             # 3v3:
             opfor_pool = list()
 
@@ -1521,14 +1534,18 @@ init -9 python:
                     defender = self.dogfights_3v3.pop()
                     opfor = opfor_pool.pop()
                     self.auto_resolve_combat(opfor, defender)
-                    df_count += 1
-
+                    #self.df_count += 1
+                    self.cf_rewards[0] = self.cf_rewards[0] + 1
             self.update_dogfights()
             tl.end("Arena: Dogfights")
 
-            txt.append("%d unofficial dogfights took place yesterday!" % df_count)
+            txt.append("%d unofficial dogfights took place yesterday!" % self.cf_rewards[0]) #self.df_count)
+            self.daily_report = gazette.arena = txt
 
             # Update top 100 ladder:
             self.update_ladder()
 
-            self.daily_report = gazette.arena = txt
+            # Reset daily variables
+            #self.df_count = 0
+            #self.hero_match_result = None
+            self.cf_rewards = list()

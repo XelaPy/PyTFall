@@ -1299,7 +1299,7 @@ init: # ChainFights vs Mobs:
             #             Hide("confirm_chainfight"),
             #             Return(["challenge", "chainfight"])]
 
-    screen arena_finished_chainfight(w_team):
+    screen arena_finished_chainfight(w_team, rewards):
         zorder  3
         modal True
 
@@ -1327,8 +1327,8 @@ init: # ChainFights vs Mobs:
                 xalign .5
                 spacing 10
                 box_wrap True
-                if pytfall.arena.cf_rewards:
-                    for reward in pytfall.arena.cf_rewards:
+                if rewards:
+                    for reward in rewards:
                         frame:
                             background Frame("content/gfx/frame/24-1.png", 5, 5)
                             xysize (90, 90)
