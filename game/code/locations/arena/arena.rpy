@@ -1319,8 +1319,6 @@ init -9 python:
                     else:
                         member.mod_stat(stat, value)
                     member.combat_stats = statdict
-                else:
-                    member.combat_stats = "K.O."
 
             for member in loser:
                 member.arena_rep -= round_int(max(50, min(500, (winner.get_rep()/10))))
@@ -1428,7 +1426,7 @@ init -9 python:
                     opfor = penalty_setup[1].leader
                     temp = "{} missed a 1v1 fight vs {}, who entrained the public "
                     temp += "by boasting of {} prowess and making funny jabs at {}'s cowardliness!"
-                    temp.format(hero.name, opfor.name, opfor.pp, hero.name)
+                    temp = temp.format(hero.name, opfor.name, opfor.pp, hero.name)
                     temp = set_font_color(temp, "red")
                 else:
                     temp = "{} didn't show up for a team combat vs {}!".format(hero.team.named,
