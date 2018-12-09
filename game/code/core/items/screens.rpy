@@ -384,8 +384,8 @@ screen shop_inventory(ref=None, x=.0):
     on "show":
         action SetField(ref.inventory, "filter_index", 0), Function(ref.inventory.apply_filter, "all")
 
-    key "mousedown_4" action ref.inventory.next
-    key "mousedown_5" action ref.inventory.prev
+    #key "mousedown_4" action Function(ref.inventory.next)
+    #key "mousedown_5" action Function(ref.inventory.prev)
 
     frame at fade_in_out(t1=.5, t2=.5):
         style_group "content"
