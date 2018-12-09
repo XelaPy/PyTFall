@@ -10,27 +10,27 @@ label building_management:
 
     python:
         # Some Global Vars we use to pass data between screens:
-        if hero.upgradable_buildings:
+        if hero.buildings:
             try:
                 index = index
             except:
                 index = 0
 
-            if index >= len(hero.upgradable_buildings):
+            if index >= len(hero.buildings):
                 index = 0
 
             # Looks pretty ugly... this might be worth improving upon just for the sake of esthetics.
-            building = hero.upgradable_buildings[index]
+            building = hero.buildings[index]
             char = None
-            workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3,
-                            size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
-            fg_filters = CharsSortingForGui(all_chars_for_se)
-            fg_filters.status_filters.add("free")
-            fg_filters.occ_filters.add("Combatant")
-            fg_filters.target_container = [workers, "content"]
-            fg_filters.filter()
-
             try:
+                workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3,
+                            size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
+                fg_filters = CharsSortingForGui(all_chars_for_se)
+                fg_filters.status_filters.add("free")
+                fg_filters.occ_filters.add("Combatant")
+                fg_filters.target_container = [workers, "content"]
+                fg_filters.filter()
+
                 temp = building.get_business("fg")
                 guild_teams = CoordsForPaging(temp.idle_teams(), columns=2, rows=3,
                                               size=(310, 83), xspacing=3, yspacing=3,
@@ -54,8 +54,8 @@ label building_management_loop:
     $ last_label = "building_management" # We need this so we can come back here from screens that depends on this variable.
 
     while 1:
-        if hero.upgradable_buildings:
-            $ building = hero.upgradable_buildings[index]
+        if hero.buildings:
+            $ building = hero.buildings[index]
 
         $ result = ui.interact()
         if not result or not isinstance(result, (list, tuple)):
@@ -129,9 +129,9 @@ label building_management_loop:
                         hero.add_money(price, reason="Property")
                         hero.remove_building(building)
 
-                        if hero.upgradable_buildings:
+                        if hero.buildings:
                             index = 0
-                            building = hero.upgradable_buildings[index]
+                            building = hero.buildings[index]
                         else:
                             jump("building_management_end")
         # Upgrades:
@@ -170,9 +170,9 @@ label building_management_loop:
                     pytfall.ra.retrieve_jail = not pytfall.ra.retrieve_jail
         elif result[0] == 'control':
             if result[1] == 'left':
-                $ index = (index - 1) % len(hero.upgradable_buildings)
+                $ index = (index - 1) % len(hero.buildings)
             elif result[1] == 'right':
-                $ index = (index + 1) % len(hero.upgradable_buildings)
+                $ index = (index + 1) % len(hero.buildings)
 
             if result[1] == 'return':
                 jump building_management_end
@@ -184,9 +184,10 @@ label building_management_end:
     $ reset_building_management = False
     jump mainscreen
 
-init: # Screens:
+init:
+    # Screens:
     screen building_management():
-        if hero.upgradable_buildings:
+        if hero.buildings:
             # Main Building mode:
             if bm_mid_frame_mode == "building":
                 use building_management_midframe_building_mode
@@ -245,14 +246,14 @@ init: # Screens:
                 button:
                     xysize (135, 40)
                     action Show("building_adverts")
-                    sensitive building.can_advert and building.workable
+                    sensitive isinstance(building, BuildingStats) and building.workable and building.can_advert
                     tooltip 'Advertise this building to attract more and better customers'
                     text "Advertise"
                 button:
                     xysize (135, 40)
                     action Return(['building', "items_transfer"])
                     tooltip 'Transfer items between characters in this building'
-                    sensitive (len(building.get_all_chars()) >= 2)
+                    sensitive isinstance(building, HabitableLocation) and (len(building.inhabitants) >= 2)
                     text "Transfer Items"
                 button:
                     xysize (135, 40)
@@ -272,7 +273,7 @@ init: # Screens:
                     xysize (135, 40)
                     action Show("finances", None, building, mode="logical")
                     tooltip 'Show finance log for this building'
-                    sensitive building.workable
+                    sensitive isinstance(building, BuildingStats) and building.workable
                     text "Finance Log"
                 button:
                     xysize (135, 40)
