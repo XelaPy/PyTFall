@@ -693,11 +693,16 @@ init:
 
                                     $ cost, materials, in_slots, ex_slots = building.get_extension_cost(u)
 
-                                    frame:
-                                        align .3, 0
-                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                                        xpadding 10
-                                        text "Resources Needed:" align .5, .5 style "stats_text" size 15
+                                    hbox:
+                                        xalign .5
+                                        xsize 340 
+                                        textbutton "[u.NAME]":
+                                            xalign .5
+                                            ypadding 5
+                                            style "stats_text"
+                                            text_size 18 
+                                            action NullAction()
+                                            tooltip u.DESC
 
                                     # Materials and GOLD
                                     vbox:
@@ -714,8 +719,12 @@ init:
                                                 xysize 25, 25
                                                 align 0, .5
                                                 action NullAction()
-                                                tooltip "{} Gold required!".format(cost)
-                                            text "[cost]" align .95, .5 style "proper_stats_text"
+                                                tooltip "Gold"
+                                            style_prefix "proper_stats"
+                                            if hero.gold >= cost:
+                                                text "[cost]" align .95, .5
+                                            else:
+                                                text "[cost]" align .95, .5 color grey
 
                                         # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
                                         for r, amount in materials.items():
@@ -730,37 +739,33 @@ init:
                                                     background Frame(r.icon)
                                                     align 0, .5
                                                     action NullAction()
-                                                    tooltip "{} of {} required!".format(amount, r.id)
-                                                text "[amount]" align .95, .5 style "proper_stats_text"
+                                                    tooltip "{}".format(r.id)
+                                                style_prefix "proper_stats" 
+                                                if hero.inventory[r.id] >= amount: 
+                                                    text "[amount]" align .95, .5 
+                                                else:
+                                                    text "[amount]" align .95, .5 color grey
 
                                     hbox:
                                         align .01, .98
                                         spacing 2
                                         style_prefix "proper_stats"
                                         if in_slots:
-                                            text "Indoor Slots: {}".format(in_slots)
+                                            text "Indoor Slots:"
+                                            if (building.in_slots_max - building.in_slots) >= in_slots:
+                                                text "[in_slots]"
+                                            else:
+                                                text "[in_slots]" color grey 
                                         if ex_slots:
-                                            text "Exterior Slots: {}".format(ex_slots)
+                                            text "Exterior Slots:"
+                                            if (building.ex_slots_max - building.ex_slots) >= ex_slots:
+                                                text "[ex_slots]"
+                                            else:
+                                                text "[ex_slots]" color grey
 
                                     vbox:
                                         align 1.0, .5
                                         xsize 150
-                                        button:
-                                            xalign .5
-                                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 3, 3)
-                                            xpadding 10
-                                            python:
-                                                if len(u.NAME) >= 15:
-                                                    t_size = 14
-                                                else:
-                                                    t_size = 15
-                                            textbutton "[u.NAME]":
-                                                align .5, .5
-                                                style "stats_text"
-                                                ypadding 3
-                                                text_size t_size
-                                                action NullAction()
-                                                tooltip u.DESC
                                         button:
                                             xalign .5
                                             xysize 133, 83
