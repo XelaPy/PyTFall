@@ -468,6 +468,17 @@ init:
                                     xalign .5
                                     action Function(SetVariable("bm_mid_frame_mode", u))
 
+                            hbox:
+                                xsize 280 
+                                imagebutton:
+                                    align 1.0, 0
+                                    idle ProportionalScale("content/gfx/interface/buttons/close4.png", 20, 24)
+                                    hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24)
+                                    action Show("yesno_prompt",
+                                         message="Are you sure you wish to close this %s for %d Gold?" % (u.name, u.get_price()),
+                                         yes_action=[Function(building.close_business, u, pay=True), Hide("yesno_prompt")], no_action=Hide("yesno_prompt"))
+                                    tooltip "Close the business"
+
         # frame:
             # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             # xysize (317, 160)
@@ -504,9 +515,8 @@ init:
                     xalign .5
                     text "Exterior Slots:" xalign .02 color ivory
                     text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
-
-            $ c0 = isinstance(bm_mid_frame_mode, CoreExtension)
-            if c0 and bm_mid_frame_mode.expands_capacity:
+            $ c0 = isinstance(bm_mid_frame_mode, CoreExtension) and bm_mid_frame_mode.expands_capacity
+            if bm_mid_frame_mode.capacity or c0:
                 null height 5
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
@@ -520,34 +530,65 @@ init:
                         xalign .5
                         text "Capacity:" xalign .02 color ivory
                         text "[bm_mid_frame_mode.capacity]"  xalign .98 style_suffix "value_text" yoffset 4
-                    null height 5
-                    text "To Expand:"
-                    frame:
-                        xysize (290, 27)
-                        xalign .5
-                        text "Indoor Slots Required:" xalign .02 color ivory
-                        text "[bm_mid_frame_mode.exp_cap_in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
-                    frame:
-                        xysize (290, 27)
-                        xalign .5
-                        text "Exterior Slots Required:" xalign .02 color ivory
-                        text "[bm_mid_frame_mode.exp_cap_ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
-                    frame:
-                        xysize (290, 27)
-                        xalign .5
-                        text "Cost:" xalign .02 color ivory
-                        text "[bm_mid_frame_mode.exp_cap_cost]"  xalign .98 style_suffix "value_text" yoffset 4
-                    null height 1
-                    textbutton "Expand Capacity":
-                        style "pb_button"
-                        xalign .5
-                        if bm_mid_frame_mode.can_extend_capacity():
-                            action [Function(bm_mid_frame_mode.expand_capacity),
+
+                    if c0:
+                        null height 5
+                        text "To Expand:"
+                        frame:
+                            xysize (290, 27)
+                            xalign .5
+                            text "Indoor Slots Required:" xalign .02 color ivory
+                            text "[bm_mid_frame_mode.exp_cap_in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                        frame:
+                            xysize (290, 27)
+                            xalign .5
+                            text "Exterior Slots Required:" xalign .02 color ivory
+                            text "[bm_mid_frame_mode.exp_cap_ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                        frame:
+                            xysize (290, 27)
+                            xalign .5
+                            text "Cost:" xalign .02 color ivory
+                            text "[bm_mid_frame_mode.exp_cap_cost]"  xalign .98 style_suffix "value_text" yoffset 4
+                        null height 1
+                        textbutton "Expand Capacity":
+                            style "pb_button"
+                            xalign .5
+                            if bm_mid_frame_mode.can_extend_capacity():
+                                action [Function(bm_mid_frame_mode.expand_capacity),
                                     Play("audio", "content/sfx/sound/world/purchase_1.ogg")]
-                            tooltip "Add more space to this business!"
-                        else:
-                            action NullAction()
-                            tooltip "Can't add more space to this business at this time!"
+                                tooltip "Add more space to this business!"
+                            else:
+                                action NullAction()
+                                tooltip "Can't add more space to this business at this time!"
+
+                        null height 5
+                        text "To Cut Back:"
+                        frame:
+                            xysize (290, 27)
+                            xalign .5
+                            text "Indoor Slots Freed:" xalign .02 color ivory
+                            text "[bm_mid_frame_mode.exp_cap_in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                        frame:
+                            xysize (290, 27)
+                            xalign .5
+                            text "Exterior Slots Freed:" xalign .02 color ivory
+                            text "[bm_mid_frame_mode.exp_cap_ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                        frame:
+                            xysize (290, 27)
+                            xalign .5
+                            text "Cost:" xalign .02 color ivory
+                            text "[bm_mid_frame_mode.exp_cap_cost]"  xalign .98 style_suffix "value_text" yoffset 4
+                        null height 1
+                        textbutton "Reduce Capacity":
+                            style "pb_button"
+                            xalign .5
+                            if bm_mid_frame_mode.can_reduce_capacity():
+                                action [Function(bm_mid_frame_mode.reduce_capacity),
+                                    Play("audio", "content/sfx/sound/world/purchase_1.ogg")]
+                                tooltip "Add more space to the building!"
+                            else:
+                                action NullAction()
+                                tooltip "The only remaining option is to close the business"
 
             if getattr(bm_mid_frame_mode, "upgrades", []):
                 null height 5

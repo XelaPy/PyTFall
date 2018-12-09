@@ -71,6 +71,30 @@ init -12 python:
             hero.take_money(self.exp_cap_cost, "Business Expansion")
             self.capacity += 1
 
+        def can_reduce_capacity(self):
+            if not self.expands_capacity:
+                return False
+            if self.capacity == 0:
+                return False
+            if hero.gold < self.exp_cap_cost:
+                return False
+            # these two should never happen, but check anyways...
+            if self.in_slots < self.exp_cap_in_slots:
+                return False  
+            if self.ex_slots < self.exp_cap_ex_slots:
+                return False
+            return True
+
+        def reduce_capacity(self):
+            self.in_slots -= self.exp_cap_in_slots
+            self.building.in_slots -= self.exp_cap_in_slots
+            self.ex_slots -= self.exp_cap_ex_slots
+            self.building.ex_slots -= self.exp_cap_ex_slots
+
+            hero.take_money(self.exp_cap_cost, "Business Expansion")
+            self.building.fin.log_logical_expense(self.exp_cap_cost, "Business Expansion")
+            self.capacity -= 1
+
         def get_price(self):
             # Returns our best guess for price of the business
             # Needed for buying, selling the building or for taxation.

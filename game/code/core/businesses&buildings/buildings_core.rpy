@@ -570,9 +570,9 @@ init -10 python:
             self.normalize_jobs()
 
         def normalize_jobs(self):
-            self.jobs = self.jobs.union(self.building_jobs)
+            self.jobs = self.building_jobs.copy()
             for up in self._businesses:
-                self.jobs = self.jobs.union(up.jobs)
+                self.jobs.update(up.jobs)
 
         def get_valid_jobs(self, char):
             """Returns a list of jobs available for the building that the character might be willing to do.
@@ -684,6 +684,9 @@ init -10 python:
                 self.pay_for_extension(cost, materials)
 
             business.building = self
+            business.in_slots = in_slots
+            business.ex_slots = ex_slots
+
             self._businesses.append(business)
             self._businesses.sort(key=attrgetter("SORTING_ORDER"), reverse=True)
 
@@ -695,6 +698,19 @@ init -10 python:
                     u = getattr(store, u)
                     if u not in business.allowed_upgrades:
                         business.allowed_upgrades.append(u)
+
+            if normalize_jobs:
+                self.normalize_jobs()
+
+        def close_business(self, business, normalize_jobs=True, pay=False):
+            """Remove a business from the building.
+            """
+            self._businesses.remove(business)
+            self.in_slots -= business.in_slots
+            self.ex_slots -= business.ex_slots
+
+            if pay:
+                self.pay_for_extension(business.get_price(), None)
 
             if normalize_jobs:
                 self.normalize_jobs()
