@@ -157,7 +157,7 @@ label tailor_special_order:
     jump tailor_menu
 
 screen tailor_shop():
-    use top_stripe(False)
+    #use top_stripe(False)
     style_prefix "dropdown_gm"
     frame:
         pos (.98, .98) anchor (1.0, 1.0)
