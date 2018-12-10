@@ -744,12 +744,12 @@ init -6 python: # Guild, Tracker and Log.
                             tracker.captured_char = None # chars[g] # TODO: Properly create the rchar...
                             self.env.exit("captured char")
                         # Randoms!
-                    elif c in store.rchars and dice(area.girls[c] + tracker.day*.1 + 100): # We ensure capture for testing purposes.
-                            tracker.captured_char = build_rc()
-                            if DEBUG_SE:
-                                msg = "{} has finished an exploration scenario. (Captured a char)".format(team.name)
-                                se_debug(msg, mode="info")
-                            self.env.exit("captured rchar")
+                        elif c in store.rchars and dice(area.girls[c] + tracker.day*.1 + 100): # We ensure capture for testing purposes.
+                                tracker.captured_char = build_rc()
+                                if DEBUG_SE:
+                                    msg = "{} has finished an exploration scenario. (Captured a char)".format(team.name)
+                                    se_debug(msg, mode="info")
+                                self.env.exit("captured rchar")
 
                 if not fought_mobs:
 
