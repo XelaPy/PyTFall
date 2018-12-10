@@ -1453,6 +1453,8 @@ init -10 python:
                         continue
                     elif slot == "consumable" and owned >= 5:
                         continue
+                    elif slot == "misc" and item in char.miscblock:
+                        continue
                     elif owned >= 1:
                         continue
 
