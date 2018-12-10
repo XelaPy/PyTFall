@@ -124,7 +124,7 @@ screen realtor_agency():
                                         imagebutton:
                                             idle (img)
                                             hover (im.MatrixColor(img, im.matrix.brightness(.25)))
-                                            action Function(SetVariable("focus", building))
+                                            action SetVariable("focus", building)
                 vbar value YScrollValue("brothelmarket_vp")
 
     if focus:
@@ -195,7 +195,7 @@ screen realtor_agency():
 
                             hbox:
                                 xalign .5
-                                xysize (400,30) 
+                                xysize (400,30)
                                 hbox:
                                     xalign .5
                                     for business in focus.allowed_businesses:
@@ -204,10 +204,10 @@ screen realtor_agency():
                                             $ img = im.MatrixColor(img, im.matrix.desaturate())
                                         imagebutton:
                                             xpadding 5
-                                            ypadding 2 
-                                            xysize 35, 29 
-                                            tooltip ("%s" % (business.__name__)) 
-                                            action NullAction() 
+                                            ypadding 2
+                                            xysize 35, 29
+                                            tooltip ("%s" % (business.__name__))
+                                            action NullAction()
                                             idle img
 
                             null height 10
@@ -218,11 +218,11 @@ screen realtor_agency():
                             xalign .5
                             xysize (400, 100)
                             frame:
-                                style_group "content" 
+                                style_group "content"
                                 background Frame("content/gfx/frame/ink_box.png", 10, 10)
                                 xsize 400
-                                xpadding 10 
-                                ypadding 10 
+                                xpadding 10
+                                ypadding 10
                                 text ("{=content_text}{color=[ivory]}[focus.desc]")
 
                         null height 50
