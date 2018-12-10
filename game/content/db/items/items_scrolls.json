@@ -13,7 +13,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Fire"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Fira Scroll",
@@ -30,7 +31,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Fira"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Firaga Scroll",
@@ -47,7 +49,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Firaga"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Firaja Scroll",
@@ -64,7 +67,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Firaja"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Fireball Scroll",
@@ -81,7 +85,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Fireball"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Solar Flash Scroll",
@@ -98,7 +103,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Solar Flash"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Meteor Scroll",
@@ -115,7 +121,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Meteor"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Flame Vortex Scroll",
@@ -132,7 +139,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Flame Vortex"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Cataclysm Scroll",
@@ -149,7 +157,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Cataclysm"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Water Scroll",
@@ -166,7 +175,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Water"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Watera Scroll",
@@ -183,7 +193,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Watera"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Waterga Scroll",
@@ -200,7 +211,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Waterga"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Waterja Scroll",
@@ -217,7 +229,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Waterja"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Last Drop Scroll",
@@ -234,7 +247,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Last Drop"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Geyser Scroll",
@@ -251,7 +265,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Geyser"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Heavy Rain Scroll",
@@ -268,7 +283,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Heavy Rain"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "High Tide Scroll",
@@ -285,7 +301,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["High Tide"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Blizzard Scroll",
@@ -302,7 +319,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Blizzard"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Blizzara Scroll",
@@ -319,7 +337,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Blizzara"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Blizzarga Scroll",
@@ -336,7 +355,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Blizzarga"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Blizzarja Scroll",
@@ -353,7 +373,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Blizzarja"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Ice Blast Scroll",
@@ -370,7 +391,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Ice Blast"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Zero Prism Scroll",
@@ -387,7 +409,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Zero Prism"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Ice Shards Scroll",
@@ -404,7 +427,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Ice Shards"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Hailstorm Scroll",
@@ -421,7 +445,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Hailstorm"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Ice Storm Scroll",
@@ -438,7 +463,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Ice Storm"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Stone Scroll",
@@ -455,7 +481,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Stone"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Stonera Scroll",
@@ -472,7 +499,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Stonera"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Stonega Scroll",
@@ -489,7 +517,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Stonega"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Stoneja Scroll",
@@ -506,7 +535,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Stoneja"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Breach Scroll",
@@ -523,7 +553,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Breach"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Transmutation Scroll",
@@ -540,7 +571,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Transmutation"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Rift Line Scroll",
@@ -557,7 +589,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Rift Line"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Fist of Bethel Scroll",
@@ -574,7 +607,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Fist of Bethel"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Aero Scroll",
@@ -591,7 +625,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Aero"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Aerora Scroll",
@@ -608,7 +643,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Aerora"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Aeroga Scroll",
@@ -625,7 +661,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Aeroga"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Aeroja Scroll",
@@ -642,7 +679,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Aeroja"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Pressure Scroll",
@@ -659,7 +697,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Pressure"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Air Blast Scroll",
@@ -676,7 +715,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Air Blast"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Vortex Scroll",
@@ -693,7 +733,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Vortex"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Tornado Scroll",
@@ -710,7 +751,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Tornado"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Northern Flow Scroll",
@@ -727,7 +769,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Northern Flow"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Thunder Scroll",
@@ -744,7 +787,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Thunder"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Thundara Scroll",
@@ -761,7 +805,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Thundara"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Thundaga Scroll",
@@ -778,7 +823,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Thundaga"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Thundaja Scroll",
@@ -795,7 +841,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Thundaja"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Ion Blast Scroll",
@@ -812,7 +859,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Ion Blast"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Electromagnetism Scroll",
@@ -829,7 +877,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Electromagnetism"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Thunderstorm Scroll",
@@ -846,7 +895,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Thunderstorm"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Ion Storm Scroll",
@@ -863,7 +913,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Ion Storm"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Full Discharge Scroll",
@@ -880,7 +931,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Full Discharge"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Thunderstorm Front Scroll",
@@ -897,7 +949,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Thunderstorm Front"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Holy Scroll",
@@ -914,7 +967,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Holy"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Holyra Scroll",
@@ -931,7 +985,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Holyra"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Holyda Scroll",
@@ -948,7 +1003,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Holyda"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Holyja Scroll",
@@ -965,7 +1021,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Holyja"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Star Light Scroll",
@@ -982,7 +1039,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Star Light"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Photon Blade Scroll",
@@ -999,7 +1057,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Photon Blade"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Forced Dawn Scroll",
@@ -1016,7 +1075,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Forced Dawn"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Holy Blast Scroll",
@@ -1033,7 +1093,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Holy Blast"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Dark Scroll",
@@ -1050,7 +1111,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Dark"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Darkra Scroll",
@@ -1067,7 +1129,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Darkra"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Darkga Scroll",
@@ -1084,7 +1147,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Darkga"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Darkja Scroll",
@@ -1101,7 +1165,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Darkja"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Eternal Gluttony Scroll",
@@ -1118,7 +1183,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Eternal Gluttony"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Black Hole Scroll",
@@ -1135,7 +1201,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Black Hole"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Dominion Scroll",
@@ -1152,7 +1219,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Dominion"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Other Light Scroll",
@@ -1169,7 +1237,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Other Light"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Life Wind Scroll",
@@ -1186,7 +1255,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Life Wind"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Healer"]
     },
     {
     "id": "Curer Scroll",
@@ -1203,7 +1273,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Curer"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Healer"]
     },
     {
     "id": "Restoration Scroll",
@@ -1220,7 +1291,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Restoration"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Healer"]
     },
     {
     "id": "Revive Scroll",
@@ -1237,7 +1309,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Revive"],
-    "locations": ["Aine Shop"]
+    "locations": ["Aine Shop"],
+    "pref_class":["Healer"]
     },
     {
     "id": "Poison Scroll",
@@ -1254,7 +1327,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Poison"],
-    "locations": ["Ninja Shop"]
+    "locations": ["Ninja Shop"],
+    "pref_class":["Assassin"]
     },
     {
     "id": "Deadly Poison Scroll",
@@ -1271,7 +1345,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Deadly Poison"],
-    "locations": ["Ninja Shop"]
+    "locations": ["Ninja Shop"],
+    "pref_class":["Assassin"]
     },
     {
     "id": "Aery Field Scroll",
@@ -1288,7 +1363,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Aery Field"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Knight", "Mage", "Healer"]
     },
     {
     "id": "Aery Shield Scroll",
@@ -1305,7 +1381,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Aery Shield"],
-    "locations": ["Witch Spells Shop"]
+    "locations": ["Witch Spells Shop"],
+    "pref_class":["Knight", "Mage", "Healer"]
     },
     {
     "id": "Arcane Field Scroll",
@@ -1322,7 +1399,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Arcane Field"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Knight", "Mage", "Healer"]
     },
     {
     "id": "Arcane Shield Scroll",
@@ -1339,7 +1417,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Arcane Shield"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Angelica Shop"],
+    "pref_class":["Knight", "Mage", "Healer"]
     },
     {
     "id": "Solid Field Scroll",
@@ -1356,7 +1435,8 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Solid Field"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Knight", "Mage", "Healer"]
     },
     {
     "id": "Solid Shield Scroll",
@@ -1373,6 +1453,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Solid Shield"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Peevish Shop"],
+    "pref_class":["Knight", "Mage", "Healer"]
     }
   ]

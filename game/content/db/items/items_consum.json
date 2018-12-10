@@ -13,6 +13,7 @@
     "type": "restore",
     "mod": {"mp": 50},
     "locations": ["Witches Hut", "Fishing"],
+    "pref_class":["Mage", "Healer"],
     "be": true
     },
     {
@@ -30,6 +31,7 @@
     "type": "restore",
     "mod": {"mp": 100},
     "locations": ["Witches Hut"],
+    "pref_class":["Mage", "Healer"],
     "be": true
     },
     {
@@ -47,6 +49,7 @@
     "type": "restore",
     "mod": {"mp": 200},
     "locations": ["Witches Hut", "Exploration"],
+    "pref_class":["Mage", "Healer"],
     "be": true
     },
     {
@@ -66,7 +69,8 @@
     "cblock": 5,
     "max": {"mp": 200, "magic": 100},
     "mod": {"mp": 10000, "constitution": -35, "vitality": -60, "defence": -25, "magic": 100},
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Exploration", "Arena"],
+    "pref_class":["Mage", "Healer"]
     },
     {
     "id": "Small Healing Potion",
@@ -83,6 +87,7 @@
     "type": "restore",
     "mod": {"health": 50},
     "locations": ["Witches Hut", "Fishing"],
+    "pref_class":["Healer", "Shooter", "Warrior", "Knight"],
     "be": true
     },
     {
@@ -100,6 +105,7 @@
     "type": "restore",
     "mod": {"health": 100},
     "locations": ["Witches Hut"],
+    "pref_class":["Healer", "Shooter", "Warrior", "Knight"],
     "be": true
     },
     {
@@ -117,6 +123,7 @@
     "type": "restore",
     "mod": {"health": 200},
     "locations": ["Witches Hut", "Exploration"],
+    "pref_class":["Healer", "Shooter", "Warrior", "Knight"],
     "be": true
     },
     {
@@ -137,7 +144,8 @@
     "max": {"health": 50},
     "mod": {"health": 10000, "constitution": 50, "vitality": 200, "defence": 10},
     "removeeffects": ["Injured", "Food Poisoning"],
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Exploration", "Arena"],
+    "pref_class":["Healer", "Shooter", "Warrior", "Knight"]
     },
     {
     "id": "Small Potion of Serenity",
@@ -155,6 +163,7 @@
     "cblock": 1,
     "mod": {"vitality": 25},
     "locations": ["Witches Hut", "Look around", "Fishing"],
+    "pref_class":["Any"],
     "be": true
     },
     {
@@ -245,7 +254,8 @@
     "slot": "consumable",
     "type": "restore",
     "removeeffects": ["Poisoned"],
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration"],
+    "pref_class":["Healer"]
     },
     {
     "id": "Mana Powder",
@@ -294,7 +304,8 @@
     "type": "restore",
     "mod": {"vitality": -10},
     "removeeffects": ["Down with Cold"],
-    "locations": ["Witches Hut", "Look around"]
+    "locations": ["Witches Hut", "Look around"],
+    "pref_class":["Healer"]
     },
     {
     "id": "Basic Makeup",
@@ -314,7 +325,8 @@
     "mod": {"charisma": 10, "character": 5},
     "max": {"charisma": 10},
     "locations": ["Witches Hut", "Look around"],
-    "badtraits": ["Bokukko", "Impersonal"]
+    "badtraits": ["Bokukko", "Impersonal"],
+    "pref_class":["SIW", "Barmaid"]
     },
     {
     "id": "Quality Makeup",
@@ -334,7 +346,8 @@
     "mod": {"charisma": 45, "character": 10, "joy": 5},
     "max": {"charisma": 40},
     "locations": ["General Store"],
-    "badtraits": ["Bokukko", "Impersonal"]
+    "badtraits": ["Bokukko", "Impersonal"],
+    "pref_class":["SIW", "Barmaid"]
     },
     {
     "id": "Magic Makeup",
@@ -354,7 +367,8 @@
     "mod": {"charisma": 90, "character": 20, "joy": 15},
     "max": {"charisma": 80},
     "locations": ["General Store"],
-    "badtraits": ["Bokukko", "Impersonal"]
+    "badtraits": ["Bokukko", "Impersonal"],
+    "pref_class":["SIW", "Barmaid"]
     },
     {
     "id": "Booty Lube",
@@ -413,7 +427,8 @@
     "cblock": 5,
     "mod": {"charisma": 5},
     "mod_skills": {"refinement": [0.02, 0, 0.02, 0, 0]},
-    "locations": ["General Store", "Look around"]
+    "locations": ["General Store", "Look around"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Enchanting Perfume",
@@ -435,7 +450,8 @@
     "mod_skills": {"vaginal": [0.01, 0, 0.01, 0, 0], "anal": [0.01, 0, 0.01, 0, 0], "oral": [0.01, 0, 0.01, 0, 0], "sex": [0.01, 0, 0.01, 0, 0]},
     "locations": ["General Store"],
     "goodtraits": ["Nymphomaniac"],
-    "badtraits": ["Frigid"]
+    "badtraits": ["Frigid"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Quality Perfume",
@@ -455,7 +471,8 @@
     "mod": {"charisma": 20},
     "max": {"charisma": 20},
     "mod_skills": {"refinement": [0.02, 0, 0.03, 0, 0]},
-    "locations": ["General Store"]
+    "locations": ["General Store"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Fancy Breath Mints",
@@ -472,7 +489,8 @@
     "type": "upgrade",
     "cblock": 1,
     "mod": {"charisma": 1, "joy": 1},
-    "locations": ["Cafe", "Look around"]
+    "locations": ["Cafe", "Look around"],
+    "pref_class":["Any"]
     },
     {
     "id": "Succubus Milk",
@@ -793,7 +811,8 @@
     "type": "food",
     "cblock": 5,
     "mod": {"joy": 15},
-    "locations": ["Cafe"]
+    "locations": ["Cafe"],
+    "pref_class":["Any"]
     },
     {
     "id": "Cake",
@@ -809,7 +828,8 @@
     "slot": "consumable",
     "type": "food",
     "mod": {"joy": 1, "vitality": 4},
-    "locations": ["Cafe"]
+    "locations": ["Cafe"],
+    "pref_class":["Any"]
     },
     {
     "id": "Big Cake",
@@ -825,7 +845,8 @@
     "slot": "consumable",
     "type": "food",
     "mod": {"vitality": 3, "health": 3},
-    "locations": ["Cafe"]
+    "locations": ["Cafe"],
+    "pref_class":["Any"]
     },
     {
     "id": "Fresh Juice Cocktail",
@@ -841,7 +862,8 @@
     "slot": "consumable",
     "type": "food",
     "mod": {"vitality": 4, "health": 1},
-    "locations": ["Cafe"]
+    "locations": ["Cafe"],
+    "pref_class":["Any"]
     },
     {
     "id": "Carrot Juice",
@@ -969,7 +991,8 @@
     "slot": "consumable",
     "type": "food",
     "mod": {"joy": 1, "vitality": 2},
-    "locations": ["Cafe"]
+    "locations": ["Cafe"],
+    "pref_class":["Any"]
     },
     {
     "id": "Ice Cream",
@@ -985,7 +1008,8 @@
     "slot": "consumable",
     "type": "food",
     "mod": {"vitality": 3, "joy": 1},
-    "locations": ["Cafe"]
+    "locations": ["Cafe"],
+    "pref_class":["Any"]
     },
     {
     "id": "Apple Tart",
@@ -1001,7 +1025,8 @@
     "slot": "consumable",
     "type": "food",
     "mod": {"vitality": 2, "character": 1},
-    "locations": ["Cafe"]
+    "locations": ["Cafe"],
+    "pref_class":["Any"]
     },
     {
     "id": "Heaven-and-Earth Cake",
@@ -1017,7 +1042,8 @@
     "slot": "consumable",
     "type": "food",
     "mod": {"vitality": 10, "joy": 3},
-    "locations": ["Cafe"]
+    "locations": ["Cafe"],
+    "pref_class":["Any"]
     },
     {
     "id": "Candied Nuts of Knowledge",
@@ -1051,7 +1077,8 @@
     "type": "food",
     "cblock": 2,
     "mod": {"exp": 200, "vitality": 20},
-    "locations": ["Cafe", "Fishing"]
+    "locations": ["Cafe", "Fishing"],
+    "pref_class":["Any"]
     },
     {
     "id": "Unusual Bottle",
@@ -1164,7 +1191,8 @@
     "addeffects": ["Small Regeneration"],
     "ctemp": 20,
     "type": "special",
-    "locations": ["Exploration", "Witches Hut"]
+    "locations": ["Exploration", "Witches Hut"],
+    "pref_class":["Healer"]
     },
     {
     "id": "Herbal Extract",
@@ -1180,7 +1208,8 @@
     "slot": "consumable",
     "type": "special",
     "jump_to_label": "special_items_herbal_extract",
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "pref_class":["Healer"]
     },
     {
     "id": "Emerald Tincture",

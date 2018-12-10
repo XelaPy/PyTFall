@@ -1403,8 +1403,8 @@ init -9 python:
             # Create dict gather data, we gather slot: ([30, 50], item) types:
             weighted = {s: [] for s in slots_to_buy}
 
-            if not purpose: # Let's see if we can get a purpose from bts:
-                purpose = self.guess_aeq_purpose()
+            if not purpose: # Let's see if we can get a purpose from last known auto equip purpose:
+                purpose = self.guess_aeq_purpose(self.last_known_aeq_purpose)
 
             kwargs = AEQ_PURPOSES[purpose].copy()
             kwargs.pop("real_weapons", None)
