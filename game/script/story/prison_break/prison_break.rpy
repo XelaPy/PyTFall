@@ -63,6 +63,7 @@ screen prison_break_controls(): # control buttons screen
                 yalign 0.5
                 action [Hide("prison_break_controls"), Jump("forest_dark")]
                 text "Exit" size 15
+                keysym "mousedown_3"
 
             if DEBUG:
                 button:
@@ -327,7 +328,7 @@ label storyi_search_items:
         "There is something shiny in the corner of the prison cell..."
         $ give_to_mc_item_reward(type="loot", price=100)
         $ give_to_mc_item_reward(type="loot", price=200)
-        if dice(hero.luck + 100):
+        if dice(hero.luck):
             $ give_to_mc_item_reward(type="loot", price=300)
         $ hero.set_flag("storyi_items_room_1")
 
@@ -335,31 +336,31 @@ label storyi_search_items:
         "Surveying the room, you found a few portable restoration items. Sadly, others are too heavy and big to carry around."
         $ give_to_mc_item_reward(type="restore", price=100)
         $ give_to_mc_item_reward(type="restore", price=200)
-        if dice(hero.luck + 100):
+        if dice(hero.luck):
             $ give_to_mc_item_reward(type="restore", price=400)
     elif storyi_prison_location == 7:
         "You see some old armor on the shelves."
         $ give_to_mc_item_reward(type="armor", price=500)
         $ give_to_mc_item_reward(type="armor", price=700)
-        if dice(hero.luck + 100):
+        if dice(hero.luck):
             $ give_to_mc_item_reward(type="armor", price=1000)
     elif storyi_prison_location == 11:
         "Among a heap of rusty blades, you see some good weapons."
         $ give_to_mc_item_reward(type="weapon", price=500)
         $ give_to_mc_item_reward(type="weapon", price=700)
-        if dice(hero.luck + 100):
+        if dice(hero.luck):
             $ give_to_mc_item_reward(type="weapon", price=1000)
     elif storyi_prison_location == 13:
         "Most of the food is spoiled, but some of it is still edible."
         $ give_to_mc_item_reward(type="food", price=500)
         $ give_to_mc_item_reward(type="food", price=500)
-        if dice(hero.luck + 100):
+        if dice(hero.luck):
             $ give_to_mc_item_reward(type="food", price=500)
     elif storyi_prison_location == 10:
         "There is a pile of clothes in the corner, probably remained from the former prisoners."
         $ give_to_mc_item_reward(type="dress", price=500)
         $ give_to_mc_item_reward(type="dress", price=500)
-        if dice(hero.luck + 100):
+        if dice(hero.luck):
             $ give_to_mc_item_reward(type="dress", price=500)
     $ storyi_treasures.remove(storyi_prison_location)
     show screen prison_break_controls
