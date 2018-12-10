@@ -452,6 +452,9 @@ init -9 python:
                 if index:
                     lineup.insert(index-1, winner)
                     del lineup[index+1]
+            else:
+                del lineup[-1]
+                lineup.append(winner)
 
             if loser in lineup:
                 index = lineup.index(loser)

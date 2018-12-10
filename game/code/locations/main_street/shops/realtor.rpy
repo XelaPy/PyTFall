@@ -206,7 +206,7 @@ screen realtor_agency():
                                             xpadding 5
                                             ypadding 2 
                                             xysize 35, 29 
-                                            tooltip (u"a %s" % (business.__name__)) 
+                                            tooltip ("%s" % (business.__name__)) 
                                             action NullAction() 
                                             idle img
 
