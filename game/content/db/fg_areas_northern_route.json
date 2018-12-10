@@ -8,56 +8,17 @@
     {
         "id": "Northern Forest",
         "stage": 1,
+        "tier": 0.5,
         "area": "Northern Route",
         "desc": "Outskirts of the Northern Forest, commonly visited by hunters and woodsmen, rich in both game and wolves preying on it.",
         "unlocked": true,
         "travel_time": 0,
-        "mobs": {
-            "Bear": [
-                5,
-                [
-                    1,
-                    0.1,
-                    2
-                ],
-                [
-                    1,
-                    1,
-                    1
-                ]
-            ],
-            "Black Wolf": [
-                10,
-                [
-                    1,
-                    0.1,
-                    2
-                ],
-                [
-                    1,
-                    2,
-                    2
-                ]
-            ],
-            "Wolf": [
-                30,
-                [
-                    1,
-                    0.1,
-                    2
-                ],
-                [
-                    2,
-                    3,
-                    3
-                ]
-            ]
-        },
+        "mobs": ["Bear", "Black Wolf", "Wolf"],
         "unlocks": {
             "Deep Northern Forest": 99
         },
         "cash_limit": 70,
-        "items_limit": 100,
+        "items_price_limit": 100,
         "items": {
             "Worn Clothes": 34,
             "Wooden Club": 34,

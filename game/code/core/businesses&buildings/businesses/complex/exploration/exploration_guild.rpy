@@ -6,6 +6,7 @@ init -9 python: # FG Area
         """
         def __init__(self):
             self.stage = 0 # For Sorting.
+            self.tier = 0 # Difficulty
             self.days = 3
             self.max_days = 15
             self.risk = 50
@@ -21,6 +22,8 @@ init -9 python: # FG Area
             # Chars and char capture:
             self.capture_chars = False
             self.chars = dict()
+
+            self.items_price_limit = 0
 
             # Use dicts instead of sets as we want counters:
             self.mobs_defeated = dict()
@@ -104,7 +107,7 @@ init -6 python: # Guild, Tracker and Log.
             # Limited by price:
             self.exploration_items = list(item.id for item in store.items.values() if
                                           "Exploration" in item.locations and
-                                          self.items_limit >= item.price)
+                                          self.items_price_limit >= item.price)
 
             # Traveling to and from + Status flags:
             # We may be setting this directly in the future.
@@ -698,7 +701,7 @@ init -6 python: # Guild, Tracker and Log.
                             char.mod_stat(stat, -var)
 
                 # Items:
-                if chosen_items and not self.env.now%5:
+                if chosen_items and not self.env.now % 5:
                     if self.env.now < 50:
                         chance = self.env.now/5
                     elif self.env.now < 80:
@@ -717,7 +720,7 @@ init -6 python: # Guild, Tracker and Log.
                             se_debug(msg, mode="info")
 
                 # Cash:
-                if max_cash > 0 and not self.env.now%20:
+                if max_cash > 0 and not self.env.now % 20:
                     if dice(tracker.risk):
                         give = round_int(max_cash/5.0)
                         max_cash -= give
@@ -729,21 +732,19 @@ init -6 python: # Guild, Tracker and Log.
                             msg = "{} Found {} Gold!".format(team.name, give)
                             se_debug(msg, mode="info")
 
-
-
                 #  =================================================>>>
                 # Copied area must be used for checks here as it preserves state.
                 if carea.capture_chars:
                     for c in area.chars:
-                        # Uniques (Or prebuilt Randoms)!
+                        # Unique (Or prebuilt Randoms)!
                         # 0 Chance atm.
 
                         # String location? TODO
-                        if c in chars and dice(area.girls[c] + tracker.day*.1 - 1000) and g.location == "se":
+                        if c in store.chars and dice(area.girls[c] + tracker.day*.1 - 1000) and g.location == "se":
                             tracker.captured_char = None # chars[g] # TODO: Properly create the rchar...
                             self.env.exit("captured char")
                         # Randoms!
-                        elif c in rchars and dice(area.girls[c] + tracker.day*.1 + 100): # We ensure capture for testing purposes.
+                    elif c in store.rchars and dice(area.girls[c] + tracker.day*.1 + 100): # We ensure capture for testing purposes.
                             tracker.captured_char = build_rc()
                             if DEBUG_SE:
                                 msg = "{} has finished an exploration scenario. (Captured a char)".format(team.name)
