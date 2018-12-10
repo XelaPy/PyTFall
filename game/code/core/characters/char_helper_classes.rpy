@@ -1437,8 +1437,11 @@ init -10 python:
             for stat in target_stats:
                 stats['current_stat'][stat] = self._get_stat(stat) # current stat value
                 stats['current_max'][stat] = self.get_max(stat)   # current stat max
-            # Add basetraits to basepurposes:
-            base_purpose = base_purpose.union([bt.id for bt in char.traits.basetraits])
+
+            # Add basetraits and occupations to basepurposes:
+            base_purpose.update([bt.id for bt in char.traits.basetraits])
+            base_purpose.update(char.occupations)
+            base_purpose.add("Any")
 
             # per item the nr of weighting criteria may vary. At the end all of them are averaged.
             # if an item has less than the most weights the remaining are imputed with 50 weights
@@ -1452,6 +1455,8 @@ init -10 python:
                     if slot == "ring" and owned >= 3:
                         continue
                     elif slot == "consumable" and owned >= 5:
+                        continue
+                    elif slot == "misc" and item in char.miscblock:
                         continue
                     elif owned >= 1:
                         continue
@@ -1482,29 +1487,21 @@ init -10 python:
                         aeq_debug("Ignoring item {} on money.".format(item.id))
                         continue
 
-                if "Slave" in base_purpose and "Slave" in item.pref_class:
-                    weights = [200] # As all slave items are shit anyway...
-                else:
-                    weights = chance_func(item) if chance_func else [item.eqchance]
+                #if "Slave" in base_purpose and "Slave" in item.pref_class:
+                #    weights = [200] # As all slave items are shit anyway...
+                #else:
+                weights = chance_func(item) if chance_func else [item.eqchance]
                 if weights is None: # We move to the next item!
                     aeq_debug("Ignoring item {} on weights.".format(item.id))
                     continue
 
                 # Handle purposes:
-                if slot not in ("misc", "consumable"):
-                    temp = base_purpose.intersection(item.pref_class)
-                    if temp:
-                        # Perfect match, could be important for
-                        # stuff like Battle Mage (Warrior + Mage) # Note: No longer works.
-                        _len = len(base_purpose)
-                        if _len > 1 and _len == len(temp):
-                            weights.append(250)
-                        else:
-                            weights.append(200)
-                    elif sub_purpose.intersection(item.pref_class):
-                        weights.append(125)
-                    else: # 'Any'
-                        weights.append(55)
+                if base_purpose.intersection(item.pref_class):
+                    weights.append(200)
+                elif sub_purpose.intersection(item.pref_class):
+                    weights.append(125)
+                else: # 'Any'
+                    weights.append(55)
 
                 # Stats:
                 for stat, value in item.mod.iteritems():

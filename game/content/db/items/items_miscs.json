@@ -38,7 +38,8 @@
     "mdestruct": false,
     "mod": {"attack": 1, "vitality": -10},
     "locations": ["Ninja Shop", "Exploration"],
-    "goodtraits": []
+    "goodtraits": [],
+    "pref_class":["Knight", "Warrior", "Assassin"]
     },
     {
     "id": "Animated Training Dummy",
@@ -204,7 +205,8 @@
     "mdestruct": true,
     "mod_skills": {"security": [0, 0, 0, 0, 50]},
     "max": {"attack": 25, "defence": 25},
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Exploration", "Arena"],
+    "pref_class":["Knight", "Warrior", "Mage", "Shooter", "Assassin"]
     },
     {
     "id": "Codex of Sappho",
@@ -266,7 +268,8 @@
     "mreusable": false,
     "mdestruct": true,
     "max": {"magic": 50, "mp": 50},
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Exploration", "Arena"],
+    "pref_class":["Mage", "Healer"]
     },
     {
     "id": "Codex of the Courtesan",
@@ -308,7 +311,8 @@
     "mod": {"attack": 25, "defence": 25},
     "max": {"attack": 25, "defence": 25},
     "locations": ["General Store"],
-    "goodtraits": ["Adventurous"]
+    "goodtraits": ["Adventurous"],
+    "pref_class":["Knight", "Warrior", "Shooter", "Assassin"]
     },
     {
     "id": "Manual of Health",
@@ -328,7 +332,8 @@
     "mdestruct": true,
     "mod": {"constitution": 15, "defence": 5},
     "max": {"health": 25, "vitality": 25},
-    "locations": ["General Store"]
+    "locations": ["General Store"],
+    "pref_class":["Any"]
     },
     {
     "id": "Manual of Magic",
@@ -348,7 +353,8 @@
     "mdestruct": true,
     "mod": {"magic": 30},
     "max": {"mp": 25, "magic": 10},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "pref_class":["Mage", "Healer"]
     },
     {
     "id": "Manual of Sex",
@@ -369,7 +375,7 @@
     "mod_skills": {"vaginal": [0, 0, 0, 0, 50], "anal": [0, 0, 0, 0, 50], "sex": [0, 0, 0, 0, 25]},
     "locations": ["General Store"],
     "goodtraits": ["Curious"],
-    "badtraits": ["Lesbian"]
+    "badtraits": ["Lesbian", "Frigid"]
     },
     {
     "id": "Manual of the Dancer",
@@ -476,7 +482,7 @@
     "locations": ["General Store"],
     "goodtraits": ["Manly"],
     "badtraits": ["Lolita"],
-    "pref_class":["Warrior"]
+    "pref_class":["Warrior", "Knight", "Assassin"]
     },
     {
     "id": "Dream Orb",
@@ -574,7 +580,7 @@
     "mdestruct": false,
     "mod": {"intelligence": 2, "mp": -10},
     "locations": ["Exploration", "Arena"],
-    "pref_class": ["Mage", "Healer"]
+    "pref_class": ["Mage", "Healer", "Manager"]
     },
     {
     "id": "Ancient Purse",

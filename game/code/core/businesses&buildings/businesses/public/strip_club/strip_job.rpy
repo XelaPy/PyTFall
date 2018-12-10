@@ -83,7 +83,7 @@ init -5 python:
                     effectiveness -= 35
                 elif trait == "Not Human":
                     log.append("%s's inhuman features attract more attention than usual, and that is never a bad thing in striptease." % worker.name)
-                    effectiveness = 15
+                    effectiveness += 15
                 elif trait == "Flat Ass":
                     log.append("%s tries her best, but skill alone cannot replace a fine ass." % worker.name)
                     effectiveness -= 15
@@ -98,7 +98,7 @@ init -5 python:
                     effectiveness -= 25
                 elif trait == "Flexible":
                     log.append("%s makes a good use of her flexibility, bending around the pole in impossible ways." % worker.name)
-                    effectiveness = 20
+                    effectiveness += 20
                 elif trait == "Psychic":
                     log.append("Every customer wants different things, which is quite confusing for psychics like %s when so many people watching her." % worker.name)
                     effectiveness -= 20
