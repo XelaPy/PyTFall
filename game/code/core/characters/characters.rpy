@@ -1006,8 +1006,9 @@ init -9 python:
                     chance.append(100)
 
                 # Other traits:
-                if trait == "Kamidere": # Vanity: wants pricy uncommon items
-                    chance.append((100 - item.chance + min(item.price/10, 100))/2)
+                if trait == "Kamidere": # Vanity: wants pricy uncommon items, but only lasting ones(especially scrolls should be excluded)
+                    if not (item.slot == "consumable"): 
+                        chance.append((100 - item.chance + min(item.price/10, 100))/2)
                 elif trait == "Tsundere": # stubborn: what s|he won't buy, s|he won't wear.
                     chance.append(100 - item.badness)
                 elif trait == "Bokukko": # what the farmer don't know, s|he won't eat.
@@ -1049,7 +1050,7 @@ init -9 python:
                 # only award tier bonus if it's reasonable.
                 target_tier = self.tier
                 item_tier = item.tier*2
-                tier_bonus = max(target_tier-item_tier, 1)
+                tier_bonus = max(item_tier - target_tier, 0)
                 chance.append(tier_bonus*50)
 
             chance.append(item.eqchance)
