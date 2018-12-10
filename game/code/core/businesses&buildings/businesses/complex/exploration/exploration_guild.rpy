@@ -751,21 +751,21 @@ init -6 python: # Guild, Tracker and Log.
                                     se_debug(msg, mode="info")
                                 self.env.exit("captured rchar")
 
-                if not fought_mobs:
+                if not fought_mobs and tracker.mobs:
+                    encounter_chance = True # Condition here
+                    if encounter_chance:
+                        fought_mobs = 1
 
-                    mob = None
+                        mob = choice(tracker.mobs)
 
-                    for key in tracker.mobs:
-                        encounter_chance = True # Condition here:
-                        if encounter_chance:
-                            enemies = choice(tracker.mobs[key][2]) # Amount if mobs on opfor team!
-                            mob = key
-                            temp = "\n{} were attacked by ".format(team.name)
-                            temp = temp + "%d %s!" % (enemies, plural(mob, enemies))
-                            log = tracker.log(temp, "Combat!", ui_log=True)
-                            break
+                        min_enemies = max(1, len(team) - 1)
+                        max_ememies = max(4, len(team) + randrange(2))
+                        enemies = randint(min_enemies, max_ememies)
 
-                    if mob:
+                        temp = "\n{} were attacked by ".format(team.name)
+                        temp = temp + "%d %s!" % (enemies, plural(mob, enemies))
+                        log = tracker.log(temp, "Combat!", ui_log=True)
+
                         fought_mobs = 1
                         result = self.combat_mobs(tracker, mob, enemies, log)
                         if result == "defeat":

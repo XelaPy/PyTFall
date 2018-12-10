@@ -471,16 +471,14 @@ init:
                                     xalign .5
                                     action SetVariable("bm_mid_frame_mode", u)
 
-                            hbox:
-                                xsize 280
-                                imagebutton:
-                                    align 1.0, 0
-                                    idle ProportionalScale("content/gfx/interface/buttons/close4.png", 20, 24)
-                                    hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24)
-                                    action Show("yesno_prompt",
-                                         message="Are you sure you wish to close this %s for %d Gold?" % (u.name, u.get_price()),
-                                         yes_action=[Function(building.close_business, u, pay=True), Hide("yesno_prompt")], no_action=Hide("yesno_prompt"))
-                                    tooltip "Close the business"
+                            imagebutton:
+                                align 1.0, 0 offset 2, -2
+                                idle ProportionalScale("content/gfx/interface/buttons/close4.png", 20, 24)
+                                hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24)
+                                action Show("yesno_prompt",
+                                     message="Are you sure you wish to close this %s for %d Gold?" % (u.name, u.get_price()),
+                                     yes_action=[Function(building.close_business, u, pay=True), Hide("yesno_prompt")], no_action=Hide("yesno_prompt"))
+                                tooltip "Close the business"
 
         # frame:
             # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
