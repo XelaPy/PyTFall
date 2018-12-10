@@ -486,6 +486,10 @@ init:
 
     $ renpyd = renpy.displayable
 
+    # Or we crash due to an engine bug:
+    default bm_mid_frame_mode = None
+    default bm_mid_frame_focus = None
+
 init 999 python:
     # ensure that all initialization debug messages have been written to disk
     if DEBUG_LOG:

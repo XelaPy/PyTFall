@@ -360,7 +360,7 @@ init:
                     button:
                         xysize 150, 40
                         yalign .5
-                        action [Function(SetVariable("bm_mid_frame_mode", "building")), Hide("fg_log")]
+                        action SetVariable("bm_mid_frame_mode", "building"), Hide("fg_log")
                         tooltip ("Here you can invest your gold and resources for various improvements.\n"+
                                  "And see the different information (reputation, rank, fame, etc.)")
                         text "Building" size 15
@@ -469,10 +469,10 @@ init:
                                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
                                     tooltip "View details or expand {}.\n{}".format(u.name, u.desc)
                                     xalign .5
-                                    action Function(SetVariable("bm_mid_frame_mode", u))
+                                    action SetVariable("bm_mid_frame_mode", u)
 
                             hbox:
-                                xsize 280 
+                                xsize 280
                                 imagebutton:
                                     align 1.0, 0
                                     idle ProportionalScale("content/gfx/interface/buttons/close4.png", 20, 24)
@@ -661,7 +661,7 @@ init:
                                 style_prefix "wood"
                                 align .5, .5
                                 xysize 135, 40
-                                action Function(SetVariable("bm_mid_frame_mode", building))
+                                action SetVariable("bm_mid_frame_mode", building)
                                 tooltip 'Open a new business or upgrade this building!'
                                 text "Expand"
                     button:
@@ -739,12 +739,12 @@ init:
 
                                     hbox:
                                         xalign .5
-                                        xsize 340 
+                                        xsize 340
                                         textbutton "[u.NAME]":
                                             xalign .5
                                             ypadding 5
                                             style "stats_text"
-                                            text_size 18 
+                                            text_size 18
                                             action NullAction()
                                             tooltip u.DESC
 
@@ -784,9 +784,9 @@ init:
                                                     align 0, .5
                                                     action NullAction()
                                                     tooltip "{}".format(r.id)
-                                                style_prefix "proper_stats" 
-                                                if hero.inventory[r.id] >= amount: 
-                                                    text "[amount]" align .95, .5 
+                                                style_prefix "proper_stats"
+                                                if hero.inventory[r.id] >= amount:
+                                                    text "[amount]" align .95, .5
                                                 else:
                                                     text "[amount]" align .95, .5 color grey
 
@@ -799,7 +799,7 @@ init:
                                             if (building.in_slots_max - building.in_slots) >= in_slots:
                                                 text "[in_slots]"
                                             else:
-                                                text "[in_slots]" color grey 
+                                                text "[in_slots]" color grey
                                         if ex_slots:
                                             text "Exterior Slots:"
                                             if (building.ex_slots_max - building.ex_slots) >= ex_slots:
