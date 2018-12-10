@@ -107,7 +107,7 @@ init -6 python: # Guild, Tracker and Log.
             # Limited by price:
             self.exploration_items = list(item.id for item in store.items.values() if
                                           "Exploration" in item.locations and
-                                          self.items_price_limit >= item.price)
+                                          area.items_price_limit >= item.price)
 
             # Traveling to and from + Status flags:
             # We may be setting this directly in the future.
