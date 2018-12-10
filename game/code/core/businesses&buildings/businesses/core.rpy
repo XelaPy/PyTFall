@@ -62,14 +62,39 @@ init -12 python:
 
             return True
 
-        def expand_capacity(self, value=1):
+        def expand_capacity(self):
             self.in_slots += self.exp_cap_in_slots
             self.building.in_slots += self.exp_cap_in_slots
             self.ex_slots += self.exp_cap_ex_slots
             self.building.ex_slots += self.exp_cap_ex_slots
 
             hero.take_money(self.exp_cap_cost, "Business Expansion")
+            self.building.fin.log_logical_expense(self.exp_cap_cost, "Business Expansion")
             self.capacity += 1
+
+        def can_reduce_capacity(self):
+            if not self.expands_capacity:
+                return False
+            if self.capacity == 0:
+                return False
+            if hero.gold < self.exp_cap_cost:
+                return False
+            # these two should never happen, but check anyways...
+            if self.in_slots < self.exp_cap_in_slots:
+                return False  
+            if self.ex_slots < self.exp_cap_ex_slots:
+                return False
+            return True
+
+        def reduce_capacity(self):
+            self.in_slots -= self.exp_cap_in_slots
+            self.building.in_slots -= self.exp_cap_in_slots
+            self.ex_slots -= self.exp_cap_ex_slots
+            self.building.ex_slots -= self.exp_cap_ex_slots
+
+            hero.take_money(self.exp_cap_cost, "Business Expansion")
+            self.building.fin.log_logical_expense(self.exp_cap_cost, "Business Expansion")
+            self.capacity -= 1
 
         def get_price(self):
             # Returns our best guess for price of the business
@@ -518,16 +543,17 @@ init -12 python:
 
         def add_worker(self):
             simpy_debug("Entering PublicBusiness({}).add_worker at {}".format(self.name, self.env.now))
-            building = self.building
-            workers = building.available_workers
             # Get all candidates:
-            job = self.job
-            ws = self.get_workers(job)
+            ws = self.get_workers(self.job)
             if ws:
                 w = ws.pop()
                 self.active_workers.add(w)
-                workers.remove(w)
+                self.building.available_workers.remove(w)
                 self.env.process(self.worker_control(w))
+            else:
+                temp = "{color=[red]}"
+                temp += "Could not find an available {} worker".format(self.job)
+                self.log(temp)
             simpy_debug("Exiting PublicBusiness({}).add_worker at {}".format(self.name, self.env.now))
 
         def business_control(self):

@@ -328,21 +328,21 @@ screen chars_list(source=None):
             button: # select all on current listing, deselects them if all are selected
                 xysize (66, 40)
                 if the_chosen.issuperset(chars_on_page):
-                    action SetVariable("the_chosen", the_chosen.difference(chars_on_page))
+                    action Function(SetVariable("the_chosen", the_chosen.difference(chars_on_page)))
                 else:
-                    action SetVariable("the_chosen", the_chosen.union(chars_on_page))
+                    action Function(SetVariable("the_chosen", the_chosen.union(chars_on_page)))
                 sensitive listed_chars
                 text "These"
                 tooltip 'Select all currently visible characters'
             button: # every of currently filtered, also in next tabs
                 xysize (66, 40)
-                action If(set(source.sorted).difference(the_chosen), [SetVariable("the_chosen", set(source.sorted))])
+                action If(set(source.sorted).difference(the_chosen), [Function(SetVariable("the_chosen", set(source.sorted)))])
                 sensitive listed_chars
                 text "All"
                 tooltip 'Select all characters'
             button: # deselect all
                 xysize (66, 40)
-                action SetVariable("the_chosen", set())
+                action Function(SetVariable("the_chosen", set()))
                 sensitive the_chosen
                 text "None"
                 tooltip "Clear Selection"
@@ -385,7 +385,7 @@ screen chars_list(source=None):
             sensitive page > 0
             action SetScreenVariable("page", page-1)
             tooltip 'Previous page'
-            keysym "mousedown_5"
+            keysym "mousedown_4"
 
         $ temp = page + 1
         textbutton "[temp]":
@@ -395,7 +395,7 @@ screen chars_list(source=None):
             sensitive page < max_page
             action SetScreenVariable("page", page+1)
             tooltip 'Next page'
-            keysym "mousedown_4"
+            keysym "mousedown_5"
 
     $ store.chars_list_last_page_viewed = page # At Darks Request!
     # Normalize stored page, should we done 'on hide' but we can't trust those atm.

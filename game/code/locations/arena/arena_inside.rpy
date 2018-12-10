@@ -393,9 +393,11 @@ init: # Main Screens:
                                         vbox:
                                             align (.5, .5)
                                             $ team = lineup[1]
-                                            $ level = team.get_level()
-                                            text "Challenge!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf"
-                                            text "Enemy level: [level]" size 30 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(1, "#3a3a3a", 0, 0)]
+                                            style_prefix "arena_badaboom"
+                                            text "Challenge!" size 40 
+                                            text ("Enemy level: %s" % team.get_level()) outlines [(1, "#3a3a3a", 0, 0)]
+                                            text ("Reputation: %s" % team.get_rep()) size 20 outlines [(1, "#3a3a3a", 0, 0)] 
+
                                 # Or we show the team that challenged:
                                 else:
                                     frame:
@@ -1016,10 +1018,11 @@ init: # Main Screens:
                     $ i = i + 1
 
         button:
+            xysize (100, 30)
             align (.5, .63)
             style_group "pb"
             action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
-            text "Continue" style "pb_button_text"
+            text "Continue" style "pb_button_text" yalign 1.0 
 
         # Winner Details Display on the left:
         if winner.combat_stats == "K.O.":
@@ -1296,10 +1299,11 @@ init: # ChainFights vs Mobs:
             #             Hide("confirm_chainfight"),
             #             Return(["challenge", "chainfight"])]
 
-    screen arena_finished_chainfight(w_team):
+    screen arena_finished_chainfight(w_team, rewards):
         zorder  3
         modal True
 
+        key "mousedown_3" action [Hide("arena_finished_chainfight"), Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"), SetField(pytfall.arena, "cf_count", 0), Jump("arena_inside")]
         timer 9.0 action [Hide("arena_finished_chainfight"), Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"), SetField(pytfall.arena, "cf_count", 0), Jump("arena_inside")]
 
         add "content/gfx/bg/be/battle_arena_1.webp"
@@ -1323,8 +1327,8 @@ init: # ChainFights vs Mobs:
                 xalign .5
                 spacing 10
                 box_wrap True
-                if pytfall.arena.cf_rewards:
-                    for reward in pytfall.arena.cf_rewards:
+                if rewards:
+                    for reward in rewards:
                         frame:
                             background Frame("content/gfx/frame/24-1.png", 5, 5)
                             xysize (90, 90)

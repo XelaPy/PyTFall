@@ -370,36 +370,52 @@ label mc_action_beach_start_fishing:
 
         while fishing_attempts > 0:
             $ fishing_attempts -= 1
+                
+            $ num_fish = randint(1 + (hero.luck/7), 8)
+
+            call screen fishing_area(num_fish)
+
+            $ stop_fishing = _return
+            $ setattr(config, "mouse", None)
+
+            if stop_fishing:
+                $ exit_string = "This is tiring, back to the beach!"
+                jump end_fishing 
+                   
+            $ item = None
             python:
                 # Get a list of fishing items player is skilled enough to fish out
-                all_fish = list(i for i in items.values() if "Fishing" in i.locations and min_fish_price <= i.price <= hero.get_skill("fishing"))
-                if all_fish:
-                    selected_fish = random.sample(all_fish, min(9, len(all_fish)))
-                else:
-                    selected_fish = []
+                fishing_skill = hero.get_skill("fishing")
+                num = 0
+                all_fish = []
+                for i in items.values():
+                    if "Fishing" in i.locations and min_fish_price <= i.price <= fishing_skill:
+                        num += i.chance
+                        all_fish.append(i)  
 
-            if not selected_fish:
-                $ hero.say("Must be one of those no-bite days...")
-            else:
-                call screen fishing_area(selected_fish)
-                $ item = _return
-                $ setattr(config, "mouse", None)
+                if num:
+                    num = randint(1, num)
+                    for i in all_fish:
+                        num -= i.chance
+                        if num <= 0:
+                            item = i
+                            break 
+ 
+            if not item:
+                $ exit_string = "Damn' it got away..."
+                jump end_fishing
 
-                if item == "Stop Fishing":
-                    $ exit_string = "This is tiring, back to the beach!"
-                    jump end_fishing
-                else:
-                    $ hero.add_item(item)
-                    $ gfx_overlay.random_find(item, 'fishy')
+            $ hero.add_item(item)
+            $ gfx_overlay.random_find(item, 'fishy')
 
-                $ renpy.pause(.5, hard = True)
-                pause .5
+            $ renpy.pause(.5, hard = True)
+            pause .5
 
-                # the less item's chance field, the more additional bonus to fishing;
-                # with 90 chance it will be +1, with less than 1 chance about 10
-                python hide:
-                    temp = round_int((100-item.chance)*.1) + randint(1, 2)
-                    hero.fishing += temp
+            # the less item's chance field, the more additional bonus to fishing;
+            # with 90 chance it will be +1, with less than 1 chance about 10
+            python hide:
+                temp = round_int((100-item.chance)*.1) + randint(1, 2)
+                hero.fishing += temp
 
 label end_fishing:
     $ temp = getattr(store, "exit_string", "This is all for now.")
@@ -420,19 +436,19 @@ label end_fishing:
 image fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.4, alpha=.4)
 image fishing_circles_webm_alpha = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.8, alpha=1.0)
 
-screen fishing_area(fishing_items):
+screen fishing_area(num_fish):
     hbox:
         xsize 1280
         box_wrap True
         for i in xrange(15):
             add "water_texture__"
 
-    for i in fishing_items:
+    for i in range(0, num_fish):
         imagebutton:
             at random_fish_movement # Randomization is now done here.
             idle "fishing_circles_webm"
             hover "fishing_circles_webm_alpha"
-            action Return(i)
+            action Return(False)
             hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/fishing_hook.png", 20, 20)]})
             unhovered SetField(config, "mouse", None)
-    key "mousedown_3" action (Hide("fishing_area"), Return("Stop Fishing"))
+    key "mousedown_3" action (Hide("fishing_area"), Return(True))

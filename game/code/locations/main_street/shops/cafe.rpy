@@ -83,7 +83,7 @@ label cafe_shopping:
     jump cafe_menu
 
 screen cafe_eating():
-    use top_stripe(False)
+    #use top_stripe(False)
 
     style_prefix "dropdown_gm"
     

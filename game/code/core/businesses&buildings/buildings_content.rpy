@@ -257,7 +257,7 @@ init -9 python:
                     txt.append("{color=[red]}And yet, you did not have enough money to pay your advertisers! They took it out on you by promoting %s as a shitty dump...{/color}" % self.name)
                     self.flag_red = True
 
-                self.fin.log_expense(spentcash, "Ads")
+                self.fin.log_logical_expense(spentcash, "Ads")
 
             charmod = self.nd_log_stats()
 

@@ -488,19 +488,20 @@ init -11 python:
             mobs[mob["id"]] = mob
         return mobs
 
-    def load_buildings():
+    def load_businesses():
         # Load json content
-        buildings_data = load_db_json("buildings/buildings.json")
+        businesses_data = load_db_json("buildings/businesses.json")
         adverts_data = load_db_json("buildings/adverts.json")
 
         # Populate into brothel objects:
-        buildings = dict()
-        for building in buildings_data:
+        businesses = dict()
+        idx = 0
+        for business in businesses_data:
             b = Building()
             # Allowed upgrades for businesses we have not built yet!
-            b.allowed_business_upgrades = building.get("allowed_business_upgrades", {})
+            b.allowed_business_upgrades = business.get("allowed_business_upgrades", {})
 
-            for key, value in building.iteritems():
+            for key, value in business.iteritems():
                 if key == "adverts":
                     b.add_adverts([adv for adv in adverts_data if adv['name'] in value])
                 elif key == "build_businesses":
@@ -525,9 +526,11 @@ init -11 python:
                 else:
                     setattr(b, key, value)
 
-            buildings[b.id] = b
+            idx += 1
+            b.id = idx
+            businesses[idx] = b
 
-        return buildings
+        return businesses
 
     def load_tiles():
         # Load json content
@@ -640,31 +643,19 @@ label load_resources:
 
     python hide:
         # MC Apartments:
-        ap = InvLocation(id="Slums Apartment", daily_modifier=.1, rooms=1,
-                         desc="Barely livable apartment with storage space, but it's still better than not having any roof over your head at all!",
-                         img="content/buildings/Rooms/beggar (3).webp",
-                         price=1000)
-        buildings[ap.id] = ap
+        # Load json content
+        buildings_data = load_db_json("buildings/buildings.json")
 
-        ap = InvLocation(id="Studio Apartment", daily_modifier=.15, rooms=1,
-                         desc="Comfortable apartment with plenty of storage space!",
-                         img="content/gfx/bg/buildings/apartment_1.webp",
-                         price=5000)
-        buildings[ap.id] = ap
+        idx = len(businesses)
+        for building in buildings_data:
+            b = InvLocation()
 
-        ap = InvLocation(id="Large Apartment", daily_modifier=.15, rooms=3,
-                         desc="Comfortable apartment with enough living space for three and a large storage area for all of your items!",
-                         img="content/buildings/Rooms/decent (1).webp",
-                         tier=3, location="Midtown",
-                         price=10000)
-        buildings[ap.id] = ap
+            for key, value in building.iteritems():
+                setattr(b, key, value)
 
-        ap = InvLocation(id="Lux Apartment", daily_modifier=.25, rooms=6,
-                         desc="Enough space for six people and nearly magical restorative effects for all who sleep here.",
-                         img="content/buildings/Rooms/luxury (3).webp",
-                         tier=6, location="Richford",
-                         price=50000)
-        buildings[ap.id] = ap
+            idx += 1
+            b.id = idx
+            buildings[idx] = b
 
     python: # Jail:
         jail = CityJail()

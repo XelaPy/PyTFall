@@ -13,15 +13,23 @@ init -11 python:
         wage = sum(wages)/len(wages)
         return round_int(wage)
 
-    def friends_disp_check(char):
+    def friends_disp_check(char, msg=None):
         """Sets up friendship with characters based on disposition"""
-        if char.disposition > 400 and not char in hero.friends:
-            set_friends(char, hero)
-        elif char.disposition < -150 and char in hero.friends:
-            end_friends(char, hero)
+        if hero in char.lovers:
+            if (char.disposition < 200 and char.status == "free") or (char.disposition < 50): # and self.status == "slave"):
+                    end_lovers(char, hero)
+                    if msg:
+                        msg.append("\n {} and you are no longer lovers...".format(char.nickname))
 
-        if char.disposition < 200 and char in hero.lovers:
-            end_lovers(char, hero)
+        if hero in char.friends:
+            if char.disposition <=0:
+                end_friends(char, hero)
+                if msg:
+                    msg.append("\n {} is no longer friends with you...".format(char.nickname))
+        elif char.disposition > 400:
+            set_friends(char, hero)
+            if msg:
+                msg.append("\n {} became pretty close to you.".format(char.nickname))
 
     def retire_chars_from_location(chars, loc):
         if isinstance(chars, PytCharacter):

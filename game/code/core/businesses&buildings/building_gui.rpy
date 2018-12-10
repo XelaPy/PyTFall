@@ -10,27 +10,27 @@ label building_management:
 
     python:
         # Some Global Vars we use to pass data between screens:
-        if hero.upgradable_buildings:
+        if hero.buildings:
             try:
                 index = index
             except:
                 index = 0
 
-            if index >= len(hero.upgradable_buildings):
+            if index >= len(hero.buildings):
                 index = 0
 
             # Looks pretty ugly... this might be worth improving upon just for the sake of esthetics.
-            building = hero.upgradable_buildings[index]
+            building = hero.buildings[index]
             char = None
-            workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3,
-                            size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
-            fg_filters = CharsSortingForGui(all_chars_for_se)
-            fg_filters.status_filters.add("free")
-            fg_filters.occ_filters.add("Combatant")
-            fg_filters.target_container = [workers, "content"]
-            fg_filters.filter()
-
             try:
+                workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3,
+                            size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
+                fg_filters = CharsSortingForGui(all_chars_for_se)
+                fg_filters.status_filters.add("free")
+                fg_filters.occ_filters.add("Combatant")
+                fg_filters.target_container = [workers, "content"]
+                fg_filters.filter()
+
                 temp = building.get_business("fg")
                 guild_teams = CoordsForPaging(temp.idle_teams(), columns=2, rows=3,
                                               size=(310, 83), xspacing=3, yspacing=3,
@@ -54,8 +54,8 @@ label building_management_loop:
     $ last_label = "building_management" # We need this so we can come back here from screens that depends on this variable.
 
     while 1:
-        if hero.upgradable_buildings:
-            $ building = hero.upgradable_buildings[index]
+        if hero.buildings:
+            $ building = hero.buildings[index]
 
         $ result = ui.interact()
         if not result or not isinstance(result, (list, tuple)):
@@ -98,6 +98,7 @@ label building_management_loop:
                         price = ad['price']
 
                     if hero.take_money(price, reason="Building Ads"):
+                        building.fin.log_logical_expense(price, "Ads")
                         building.set_flag('bought_sign', True)
                         ad['active'] = not ad['active']
                     else:
@@ -105,7 +106,9 @@ label building_management_loop:
             elif result[1] == "celeb":
                 python:
                     ad = result[2]
-                    if hero.take_money(ad['price'], reason="Building Ads"):
+                    price = ad['price']
+                    if hero.take_money(price, reason="Building Ads"):
+                        building.fin.log_logical_expense(price, "Ads")
                         ad['active'] = True
                     else:
                         renpy.show_screen("message_screen", "Not enough cash on hand!")
@@ -129,9 +132,9 @@ label building_management_loop:
                         hero.add_money(price, reason="Property")
                         hero.remove_building(building)
 
-                        if hero.upgradable_buildings:
+                        if hero.buildings:
                             index = 0
-                            building = hero.upgradable_buildings[index]
+                            building = hero.buildings[index]
                         else:
                             jump("building_management_end")
         # Upgrades:
@@ -153,14 +156,14 @@ label building_management_loop:
                 if result[1] == "clean":
                     price = building.get_cleaning_price()
                     if hero.take_money(price, reason="Pro-Cleaning"):
-                        building.fin.log_expense(price, "Pro-Cleaning")
+                        building.fin.log_logical_expense(price, "Pro-Cleaning")
                         building.dirt = 0
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
                 elif result[1] == "clean_all":
                     if hero.take_money(result[2], reason="Pro-Cleaning"):
                         for i in hero.dirty_buildings:
-                            i.fin.log_expense(i.get_cleaning_price(), "Pro-Cleaning")
+                            i.fin.log_logical_expense(i.get_cleaning_price(), "Pro-Cleaning")
                             i.dirt = 0
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
@@ -170,9 +173,9 @@ label building_management_loop:
                     pytfall.ra.retrieve_jail = not pytfall.ra.retrieve_jail
         elif result[0] == 'control':
             if result[1] == 'left':
-                $ index = (index - 1) % len(hero.upgradable_buildings)
+                $ index = (index - 1) % len(hero.buildings)
             elif result[1] == 'right':
-                $ index = (index + 1) % len(hero.upgradable_buildings)
+                $ index = (index + 1) % len(hero.buildings)
 
             if result[1] == 'return':
                 jump building_management_end
@@ -184,9 +187,10 @@ label building_management_end:
     $ reset_building_management = False
     jump mainscreen
 
-init: # Screens:
+init:
+    # Screens:
     screen building_management():
-        if hero.upgradable_buildings:
+        if hero.buildings:
             # Main Building mode:
             if bm_mid_frame_mode == "building":
                 use building_management_midframe_building_mode
@@ -245,14 +249,14 @@ init: # Screens:
                 button:
                     xysize (135, 40)
                     action Show("building_adverts")
-                    sensitive building.can_advert and building.workable
+                    sensitive isinstance(building, BuildingStats) and building.workable and building.can_advert
                     tooltip 'Advertise this building to attract more and better customers'
                     text "Advertise"
                 button:
                     xysize (135, 40)
                     action Return(['building', "items_transfer"])
                     tooltip 'Transfer items between characters in this building'
-                    sensitive (len(building.get_all_chars()) >= 2)
+                    sensitive isinstance(building, HabitableLocation) and (len(building.inhabitants) >= 2)
                     text "Transfer Items"
                 button:
                     xysize (135, 40)
@@ -272,7 +276,7 @@ init: # Screens:
                     xysize (135, 40)
                     action Show("finances", None, building, mode="logical")
                     tooltip 'Show finance log for this building'
-                    sensitive building.workable
+                    sensitive isinstance(building, BuildingStats) and building.workable
                     text "Finance Log"
                 button:
                     xysize (135, 40)
@@ -356,7 +360,7 @@ init: # Screens:
                     button:
                         xysize 150, 40
                         yalign .5
-                        action SetVariable("bm_mid_frame_mode", "building"), Hide("fg_log")
+                        action [Function(SetVariable("bm_mid_frame_mode", "building")), Hide("fg_log")]
                         tooltip ("Here you can invest your gold and resources for various improvements.\n"+
                                  "And see the different information (reputation, rank, fame, etc.)")
                         text "Building" size 15
@@ -397,7 +401,6 @@ init: # Screens:
                     text "%s (%s %%)" % (building.get_dirt_percentage()[1], building.get_dirt_percentage()[0]) xalign .98 style_suffix "value_text" yoffset 4
                 frame:
                     xysize (296, 27)
-                    text "Threat:" xalign .02 color ivory
                     button:
                         background Null()
                         xalign .02
@@ -466,7 +469,18 @@ init: # Screens:
                                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
                                     tooltip "View details or expand {}.\n{}".format(u.name, u.desc)
                                     xalign .5
-                                    action SetVariable("bm_mid_frame_mode", u)
+                                    action Function(SetVariable("bm_mid_frame_mode", u))
+
+                            hbox:
+                                xsize 280 
+                                imagebutton:
+                                    align 1.0, 0
+                                    idle ProportionalScale("content/gfx/interface/buttons/close4.png", 20, 24)
+                                    hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24)
+                                    action Show("yesno_prompt",
+                                         message="Are you sure you wish to close this %s for %d Gold?" % (u.name, u.get_price()),
+                                         yes_action=[Function(building.close_business, u, pay=True), Hide("yesno_prompt")], no_action=Hide("yesno_prompt"))
+                                    tooltip "Close the business"
 
         # frame:
             # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
@@ -504,9 +518,8 @@ init: # Screens:
                     xalign .5
                     text "Exterior Slots:" xalign .02 color ivory
                     text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
-
-            $ c0 = isinstance(bm_mid_frame_mode, CoreExtension)
-            if c0 and bm_mid_frame_mode.expands_capacity:
+            $ c0 = isinstance(bm_mid_frame_mode, CoreExtension) and bm_mid_frame_mode.expands_capacity
+            if bm_mid_frame_mode.capacity or c0:
                 null height 5
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
@@ -520,34 +533,65 @@ init: # Screens:
                         xalign .5
                         text "Capacity:" xalign .02 color ivory
                         text "[bm_mid_frame_mode.capacity]"  xalign .98 style_suffix "value_text" yoffset 4
-                    null height 5
-                    text "To Expand:"
-                    frame:
-                        xysize (290, 27)
-                        xalign .5
-                        text "Indoor Slots Required:" xalign .02 color ivory
-                        text "[bm_mid_frame_mode.exp_cap_in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
-                    frame:
-                        xysize (290, 27)
-                        xalign .5
-                        text "Exterior Slots Required:" xalign .02 color ivory
-                        text "[bm_mid_frame_mode.exp_cap_ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
-                    frame:
-                        xysize (290, 27)
-                        xalign .5
-                        text "Cost:" xalign .02 color ivory
-                        text "[bm_mid_frame_mode.exp_cap_cost]"  xalign .98 style_suffix "value_text" yoffset 4
-                    null height 1
-                    textbutton "Expand Capacity":
-                        style "pb_button"
-                        xalign .5
-                        if bm_mid_frame_mode.can_extend_capacity():
-                            action [Function(bm_mid_frame_mode.expand_capacity),
+
+                    if c0:
+                        null height 5
+                        text "To Expand:"
+                        frame:
+                            xysize (290, 27)
+                            xalign .5
+                            text "Indoor Slots Required:" xalign .02 color ivory
+                            text "[bm_mid_frame_mode.exp_cap_in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                        frame:
+                            xysize (290, 27)
+                            xalign .5
+                            text "Exterior Slots Required:" xalign .02 color ivory
+                            text "[bm_mid_frame_mode.exp_cap_ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                        frame:
+                            xysize (290, 27)
+                            xalign .5
+                            text "Cost:" xalign .02 color ivory
+                            text "[bm_mid_frame_mode.exp_cap_cost]"  xalign .98 style_suffix "value_text" yoffset 4
+                        null height 1
+                        textbutton "Expand Capacity":
+                            style "pb_button"
+                            xalign .5
+                            if bm_mid_frame_mode.can_extend_capacity():
+                                action [Function(bm_mid_frame_mode.expand_capacity),
                                     Play("audio", "content/sfx/sound/world/purchase_1.ogg")]
-                            tooltip "Add more space to this business!"
-                        else:
-                            action NullAction()
-                            tooltip "Can't add more space to this business at this time!"
+                                tooltip "Add more space to this business!"
+                            else:
+                                action NullAction()
+                                tooltip "Can't add more space to this business at this time!"
+
+                        null height 5
+                        text "To Cut Back:"
+                        frame:
+                            xysize (290, 27)
+                            xalign .5
+                            text "Indoor Slots Freed:" xalign .02 color ivory
+                            text "[bm_mid_frame_mode.exp_cap_in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                        frame:
+                            xysize (290, 27)
+                            xalign .5
+                            text "Exterior Slots Freed:" xalign .02 color ivory
+                            text "[bm_mid_frame_mode.exp_cap_ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                        frame:
+                            xysize (290, 27)
+                            xalign .5
+                            text "Cost:" xalign .02 color ivory
+                            text "[bm_mid_frame_mode.exp_cap_cost]"  xalign .98 style_suffix "value_text" yoffset 4
+                        null height 1
+                        textbutton "Reduce Capacity":
+                            style "pb_button"
+                            xalign .5
+                            if bm_mid_frame_mode.can_reduce_capacity():
+                                action [Function(bm_mid_frame_mode.reduce_capacity),
+                                    Play("audio", "content/sfx/sound/world/purchase_1.ogg")]
+                                tooltip "Add more space to the building!"
+                            else:
+                                action NullAction()
+                                tooltip "The only remaining option is to close the business"
 
             if getattr(bm_mid_frame_mode, "upgrades", []):
                 null height 5
@@ -617,7 +661,7 @@ init: # Screens:
                                 style_prefix "wood"
                                 align .5, .5
                                 xysize 135, 40
-                                action SetVariable("bm_mid_frame_mode", building)
+                                action Function(SetVariable("bm_mid_frame_mode", building))
                                 tooltip 'Open a new business or upgrade this building!'
                                 text "Expand"
                     button:
@@ -693,11 +737,16 @@ init: # Screens:
 
                                     $ cost, materials, in_slots, ex_slots = building.get_extension_cost(u)
 
-                                    frame:
-                                        align .3, 0
-                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                                        xpadding 10
-                                        text "Resources Needed:" align .5, .5 style "stats_text" size 15
+                                    hbox:
+                                        xalign .5
+                                        xsize 340 
+                                        textbutton "[u.NAME]":
+                                            xalign .5
+                                            ypadding 5
+                                            style "stats_text"
+                                            text_size 18 
+                                            action NullAction()
+                                            tooltip u.DESC
 
                                     # Materials and GOLD
                                     vbox:
@@ -714,8 +763,12 @@ init: # Screens:
                                                 xysize 25, 25
                                                 align 0, .5
                                                 action NullAction()
-                                                tooltip "{} Gold required!".format(cost)
-                                            text "[cost]" align .95, .5 style "proper_stats_text"
+                                                tooltip "Gold"
+                                            style_prefix "proper_stats"
+                                            if hero.gold >= cost:
+                                                text "[cost]" align .95, .5
+                                            else:
+                                                text "[cost]" align .95, .5 color grey
 
                                         # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
                                         for r, amount in materials.items():
@@ -730,37 +783,33 @@ init: # Screens:
                                                     background Frame(r.icon)
                                                     align 0, .5
                                                     action NullAction()
-                                                    tooltip "{} of {} required!".format(amount, r.id)
-                                                text "[amount]" align .95, .5 style "proper_stats_text"
+                                                    tooltip "{}".format(r.id)
+                                                style_prefix "proper_stats" 
+                                                if hero.inventory[r.id] >= amount: 
+                                                    text "[amount]" align .95, .5 
+                                                else:
+                                                    text "[amount]" align .95, .5 color grey
 
                                     hbox:
                                         align .01, .98
                                         spacing 2
                                         style_prefix "proper_stats"
                                         if in_slots:
-                                            text "Indoor Slots: {}".format(in_slots)
+                                            text "Indoor Slots:"
+                                            if (building.in_slots_max - building.in_slots) >= in_slots:
+                                                text "[in_slots]"
+                                            else:
+                                                text "[in_slots]" color grey 
                                         if ex_slots:
-                                            text "Exterior Slots: {}".format(ex_slots)
+                                            text "Exterior Slots:"
+                                            if (building.ex_slots_max - building.ex_slots) >= ex_slots:
+                                                text "[ex_slots]"
+                                            else:
+                                                text "[ex_slots]" color grey
 
                                     vbox:
                                         align 1.0, .5
                                         xsize 150
-                                        button:
-                                            xalign .5
-                                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 3, 3)
-                                            xpadding 10
-                                            python:
-                                                if len(u.NAME) >= 15:
-                                                    t_size = 14
-                                                else:
-                                                    t_size = 15
-                                            textbutton "[u.NAME]":
-                                                align .5, .5
-                                                style "stats_text"
-                                                ypadding 3
-                                                text_size t_size
-                                                action NullAction()
-                                                tooltip u.DESC
                                         button:
                                             xalign .5
                                             xysize 133, 83

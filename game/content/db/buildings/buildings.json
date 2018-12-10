@@ -1,460 +1,53 @@
 [{
-		"id": 1,
-		"name": "Old Shack",
-		"desc": "Small, rundown building on the very outskirts of town.",
-		"location": "Flee Bottom",
-		"price": 5000,
+                "name": "Slums Apartment",
+                "desc": "Barely livable apartment with storage space, but it's still better than not having any roof over your head at all!",
+                "location": "Flee Bottom",
+                "price": 1000,
 
-		"in_slots_max": 10,
-		"ex_slots_max": 0,
+                "rooms": 1,
 
-		"fame": 0,
-		"maxfame": 100,
-		"rep": 0,
-		"maxrep": 100,
+                "tier": 1,
+                "_daily_modifier": 0.10,
 
-		"tier": 0,
-		"mod": 1,
+                "img": "content/buildings/Rooms/beggar (3).webp"
+        },
+        {
+                "name": "Studio Apartment",
+                "desc": "Comfortable apartment with plenty of storage space!",
+                "location": "Flee Bottom",
+                "price": 5000,
 
-		"adverts": ["Sign", "Flyers"],
-		"img": "content/buildings/bad_0.webp",
+                "rooms": 1,
 
-		"build_businesses": [{
-				"class": "BrothelBlock",
-				"kwargs": {
-					"capacity": 2,
-					"in_slots": 2,
-					"desc": "Small, private rooms that'll 'do the trick'!"
-				}
-			}
-		],
-		"allowed_businesses": ["BrothelBlock", "Cleaners"]
-	},
-	{
-		"id": 2,
-		"name": "Small house on Outskirts",
-		"desc": "Small house away from the city. Might not look like much, but it's not likely to scare away costumers.",
-		"location": "Flee Bottom",
-		"price": 15000,
+                "tier": 1,
+                "_daily_modifier": 0.15,
 
-		"in_slots_max": 20,
-		"ex_slots_max": 5,
+                "img": "content/gfx/bg/buildings/apartment_1.webp"
+        },
+        {
+                "name": "Large Apartment",
+                "desc": "Comfortable apartment with enough living space for three and a large storage area for all of your items!",
+                "location": "Midtown",
+                "price": 10000,
 
-		"fame": 0,
-		"maxfame": 150,
-		"rep": 0,
-		"maxrep": 120,
+                "rooms": 3,
 
-		"mod": 1.2,
-		"tier": 1,
+                "tier": 3,
+                "_daily_modifier": 0.15,
 
-		"adverts": ["Sign", "Flyers", "Magazine"],
-		"img": "content/buildings/small_1.webp",
+                "img": "content/buildings/Rooms/decent (1).webp"
+        },
+        {
+                "name": "Lux Apartment",
+                "desc": "Enough space for six people and nearly magical restorative effects for all who sleep here.",
+                "location": "Richford",
+                "price": 50000,
 
-		"build_businesses": [{
-				"class": "BrothelBlock",
-				"kwargs": {
-					"capacity": 4,
-					"in_slots": 4,
-					"desc": "Small, private rooms that'll 'do the trick'!"
-				}
-			},
-			{
-				"class": "Cleaners"
-			}
-		],
-		"allowed_businesses": ["BrothelBlock", "Cleaners", "WarriorQuarters"],
-		"allowed_upgrades": ["Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"]}
-	},
-	{
-		"id": 3,
-		"name": "House on Outskirts",
-		"desc": "A nice building away from the city. Setup your businesses as you see fit!",
-		"location": "Flee Bottom",
-		"price": 25000,
+                "rooms": 6,
 
-		"in_slots_max": 22,
-		"ex_slots_max": 8,
+                "tier": 6,
+                "_daily_modifier": 0.25,
 
-		"fame": 0,
-		"maxfame": 150,
-		"rep": 0,
-		"maxrep": 150,
-
-		"tier": 2,
-		"mod": 1.4,
-
-		"adverts": ["Sign", "Flyers", "Magazine", "Billboard"],
-		"img": "content/buildings/small_0.webp",
-
-		"build_businesses": [{
-				"class": "Cleaners"
-			},
-			{
-				"class": "WarriorQuarters"
-			}
-		],
-		"allowed_businesses": ["BrothelBlock", "BarBusiness", "Cleaners", "WarriorQuarters"],
-		"allowed_upgrades": ["Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"BarBusiness": ["TapBeer"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["SparringQuarters"]}
-	},
-	{
-		"id": 3.01,
-		"name": "'Bottom's up' Building!",
-		"desc": "The best buildings in the Flee Bottom that money can buy!",
-		"location": "Flee Bottom",
-		"price": 32000,
-
-		"in_slots_max": 28,
-		"ex_slots_max": 6,
-
-		"fame": 0,
-		"maxfame": 200,
-		"rep": 0,
-		"maxrep": 200,
-
-		"tier": 3,
-		"mod": 1.4,
-
-		"adverts": ["Sign", "Flyers", "Magazine", "Billboard"],
-		"img": "content/buildings/medium_0.webp",
-
-		"build_businesses": [{
-				"class": "Cleaners"
-			},
-			{
-				"class": "WarriorQuarters"
-			}
-		],
-		"allowed_businesses": ["BrothelBlock", "BarBusiness", "Cleaners", "WarriorQuarters"],
-		"allowed_upgrades": ["Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"BarBusiness": ["TapBeer"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["SparringQuarters"]}
-	},
-	{
-		"id": 4,
-		"name": "House in the City",
-		"desc": "A beautiful house inside city limits.",
-		"location": "Midtown",
-		"price": 75000,
-
-		"in_slots_max": 40,
-		"ex_slots_max": 6,
-
-		"fame": 0,
-		"maxfame": 200,
-		"rep": 0,
-		"maxrep": 150,
-
-		"tier": 4,
-		"mod": 1.6,
-
-		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl"],
-		"img": "content/buildings/house2.webp",
-
-		"build_businesses": [{
-				"class": "BrothelBlock",
-				"kwargs": {
-					"capacity": 5,
-					"in_slots": 5,
-					"desc": "Small, private rooms that'll 'do the trick'!",
-					"allowed_upgrades": ["StatueOfSexGoddess"]
-				}
-			},
-			{
-				"class": "Cleaners"
-			},
-			{
-				"class": "WarriorQuarters"
-			}
-		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "Cleaners", "WarriorQuarters"],
-		"allowed_upgrades": ["MainHall", "Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"StripClub": ["Catwalk"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["EnforcedOrder"]}
-	},
-	{
-		"id": 5,
-		"name": "Mansion on the Main Road",
-		"desc": "A large mansion in the city center.",
-		"location": "Midtown",
-		"price": 175000,
-
-		"in_slots_max": 50,
-		"ex_slots_max": 10,
-
-		"fame": 50,
-		"maxfame": 300,
-		"rep": 0,
-		"maxrep": 300,
-
-		"tier": 5,
-		"mod": 2,
-
-		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl"],
-		"img": "content/buildings/mansion.webp",
-
-		"build_businesses": [{
-				"class": "BrothelBlock",
-				"kwargs": {
-					"capacity": 5,
-					"in_slots": 5,
-					"desc": "Small, private rooms that'll 'do the trick'!"
-				}
-			},
-			{
-				"class": "StripClub",
-				"kwargs": {
-					"capacity": 5,
-					"in_slots": 5,
-					"desc": "Entance your clients with exotic dancers!"
-				}
-			},
-			{
-				"class": "Cleaners"
-			},
-			{
-				"class": "WarriorQuarters"
-			}
-		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
-		"allowed_upgrades": ["MainHall"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"StripClub": ["Catwalk"],
-																	"BarBusiness": ["TapBeer"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["EnforcedOrder"]}
-	},
-	{
-		"id": 6,
-		"name": "Old Master's Mansion",
-		"desc": "Rumor has it that one of the Master of the Old used to live here!",
-		"location": "Richford",
-		"price": 500000,
-
-		"in_slots_max": 65,
-		"ex_slots_max": 25,
-
-		"fame": 100,
-		"maxfame": 500,
-		"rep": 0,
-		"maxrep": 500,
-
-		"tier": 6,
-		"mod": 3,
-
-		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
-		"img": "content/buildings/large_0.webp",
-
-		"build_businesses": [
-			{
-				"class": "Cleaners"
-			},
-			{
-				"class": "WarriorQuarters"
-			}
-		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
-		"allowed_upgrades": ["MainHall", "Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"StripClub": ["Catwalk"],
-																	"BarBusiness": ["TapBeer"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["SparringQuarters", "EnforcedOrder"]}
-	},
-	{
-		"id": 6.01,
-		"name": "Palace on the Main Road",
-		"desc": "It is a freaking Palace!!!",
-		"location": "Richford",
-		"price": 700000,
-
-		"in_slots_max": 80,
-		"ex_slots_max": 30,
-
-		"fame": 100,
-		"maxfame": 500,
-		"rep": 0,
-		"maxrep": 500,
-
-		"tier": 7,
-		"mod": 3,
-
-		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
-		"img": "content/buildings/palace.webp",
-
-		"build_businesses": [
-			{
-				"class": "Cleaners"
-			},
-			{
-				"class": "WarriorQuarters"
-			}
-		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
-		"allowed_upgrades": ["MainHall", "Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"StripClub": ["Catwalk"],
-																	"BarBusiness": ["TapBeer"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["SparringQuarters", "EnforcedOrder"]}
-	},
-	{
-		"id": 7,
-		"name": "Central Palace",
-		"desc": "Possibly the most beautiful and spectacular building in the city. You'll never cease asking yourself how you managed to come this far.",
-		"location": "Richford",
-		"price": 1000000,
-
-		"in_slots_max": 120,
-		"ex_slots_max": 40,
-
-		"fame": 200,
-		"maxfame": 1000,
-		"rep": 0,
-		"maxrep": 1000,
-
-		"tier": 8,
-		"mod": 5,
-
-		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
-		"img": "content/buildings/centralpalace.webp",
-
-		"build_businesses": [{
-				"class": "BrothelBlock",
-				"kwargs": {
-					"capacity": 5,
-					"in_slots": 5,
-					"desc": "Small, private rooms that'll 'do the trick'!"
-				}
-			},
-			{
-				"class": "StripClub",
-				"kwargs": {
-					"capacity": 5,
-					"in_slots": 5,
-					"desc": "Entance your clients with exotic dancers!"
-				}
-			},
-			{
-				"class": "Cleaners"
-			},
-			{
-				"class": "WarriorQuarters"
-			}
-		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
-		"allowed_upgrades": ["MainHall", "Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"StripClub": ["Catwalk"],
-																	"BarBusiness": ["TapBeer"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["SparringQuarters", "EnforcedOrder"]}
-	},
-	{
-		"id": 8,
-		"name": "Simple Slave Quarters",
-		"desc": "Old rundown building for your slaves...",
-		"location": "Flee Bottom",
-		"price": 2000,
-
-		"in_slots_max": 8,
-		"ex_slots_max": 0,
-
-		"fame": 0,
-		"maxfame": 0,
-		"rep": 0,
-		"maxrep": 0,
-
-		"tier": 1,
-		"mod": 1,
-
-		"adverts": [],
-		"img": "content/buildings/slave_quaters.webp",
-
-		"build_businesses": [{
-			"class": "SlaveQuarters",
-			"kwargs": {
-				"needs_management": false,
-				"capacity": 2,
-				"in_slots": 2,
-				"desc": "Home for slaves to live in."
-			}
-		}],
-		"allowed_businesses": []
-	},
-	{
-		"id": 9,
-		"name": "Medium Slave Quarters",
-		"desc": "Medium sized, Old rundown building for your slaves...",
-		"location": "Flee Bottom",
-		"price": 10000,
-
-		"in_slots_max": 18,
-		"ex_slots_max": 5,
-
-		"fame": 0,
-		"maxfame": 0,
-		"rep": 0,
-		"maxrep": 0,
-
-		"tier": 1,
-		"mod": 1,
-
-		"adverts": [],
-		"img": "content/buildings/slave_quaters.webp",
-
-		"build_businesses": [{
-			"class": "SlaveQuarters",
-			"kwargs": {
-				"needs_management": false,
-				"capacity": 5,
-				"in_slots": 5,
-				"desc": "Home for slaves to live in.",
-				"allowed_upgrades": ["SQLandscape"]
-			}
-		}],
-		"allowed_businesses": []
-	},
-	{
-		"id": 10,
-		"name": "Large Slave Quarters",
-		"desc": "Huge, Old rundown building for your slaves...",
-		"location": "Midtown",
-		"price": 200000,
-
-		"in_slots_max": 80,
-		"ex_slots_max": 15,
-
-		"fame": 0,
-		"maxfame": 0,
-		"rep": 0,
-		"maxrep": 0,
-
-		"tier": 5,
-		"mod": 1,
-
-		"adverts": [],
-		"img": "content/buildings/slave_quaters.webp",
-
-		"build_businesses": [{
-			"class": "SlaveQuarters",
-			"kwargs": {
-				"needs_management": false,
-				"capacity": 10,
-				"in_slots": 10,
-				"desc": "Home for slaves to live in.",
-				"allowed_upgrades": ["SQLandscape"]
-			}
-		}],
-		"allowed_businesses": []
-	}
+                "img": "content/buildings/Rooms/luxury (3).webp"
+        }
 ]

@@ -63,35 +63,46 @@ label tailor_store_shopping:
 
 screen shopkeeper_items_upgrades(upgrades_list):
     modal True
-    
+    fixed:
+        xysize(config.screen_width, 43)
+        hbox:
+            style_group "content"
+            align .023, .5
+            null width 10
+            add "coin_top" yalign .5
+            null width 5
+            fixed:
+                xsize 70
+                $ g = gold_text(hero.gold)
+                text g size 20 color gold yalign .5
+ 
     frame:
         align (.5, .5)
         background Frame("content/gfx/frame/frame_dec_1.png", 75, 75)
-        xpadding 75
-        ypadding 75
-        xysize (800, 700)
+        xpadding 25
+        ypadding 25
+        xysize (670, 600)
 
-        button:
-            xysize (180, 50)
-            style_prefix "wood"
-            text "Cancel" size 16 color goldenrod
-            xalign .3
-            yoffset -40
-            action Return(-1)
-            keysym "mouseup_3"
-        hbox:
-            xalign .7
-            add "content/gfx/animations/coin_top 0.13 1/1.webp" yalign .6
-            null width 15
-            yoffset -40
-            text "%d" % hero.gold style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 30
+        #button:
+        #    xysize (180, 50)
+        #    style_prefix "wood"
+        #    text "Cancel" size 16 color goldenrod
+        #    xalign .3
+        #    yoffset -40
+        #    action Return(-1)
+        #    keysym "mouseup_3"
+        #hbox:
+        #    xalign .7
+        #    add "content/gfx/animations/coin_top 0.13 1/1.webp" yalign .6
+        #    null width 15
+        #    yoffset -40
+        #    text "%d" % hero.gold style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 30
 
-        viewport:
-            ypos 25
+        viewport id "tailor_orders":
             mousewheel True
-            scrollbars "vertical"
+            #scrollbars "vertical"
             draggable True
-            xysize (600, 600)
+            xysize (650, 540)
             has vbox
             for i in upgrades_list:
                 frame:
@@ -103,26 +114,38 @@ screen shopkeeper_items_upgrades(upgrades_list):
                         spacing 0
                         xsize 600
                         xalign .5
-                        vbox:
-                            add ProportionalScale(items[i["first_item"]].icon, 80, 80) xalign .5
-                            text "%s" %i["first_item"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 15 xalign .5
+                        imagebutton:
+                            xsize 100
+                            align (.5, .5)
+                            action NullAction()
+                            idle ProportionalScale(items[i["first_item"]].icon, 80, 80)
+                            tooltip i["first_item"] 
                         hbox:
                             yalign .5
-                            text "+ %s " %i["price"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign .0
-                            add "content/gfx/animations/coin_top 0.13 1/1.webp" yalign .7
-                            text "  =" style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign .0
-                        add ProportionalScale(items[i["second_item"]].icon, 80, 80) xalign .5
-                        null width 10
+                            style_prefix "proper_stats_value"
+                            text "+" color goldenrod size 25 
+                            hbox:
+                                xsize 80
+                                $ price = i["price"]
+                                text "[price]" color goldenrod size 25 xalign 1.0 
+                            add "content/gfx/animations/coin_top 0.13 1/1.webp" yalign 1.0 
+                            text "  =" color goldenrod size 25 
+                        imagebutton:
+                            xsize 100
+                            align (.5, .5)
+                            action NullAction()
+                            idle ProportionalScale(items[i["second_item"]].icon, 80, 80)
+                            tooltip i["second_item"]
                         button:
                             xysize (100, 50)
-                            xalign 1.0
-                            yalign .5
+                            align (.5, .5)
                             text "Order" size 16 color goldenrod
-                            action Return(i["first_item"])
-                            padding (10, 10)
+                            action Show("yesno_prompt", message="Are you sure you wish to order a %s for %s Gold?" % (i["second_item"], price), yes_action=[Hide("yesno_prompt"), Return(i["first_item"])], no_action=Hide("yesno_prompt")) 
                         null height 1
-        null height 5
+        vbar value YScrollValue("tailor_orders")
 
+        null height 5
+        use exit_button(action=Return(-1), align=(.5, 1.05))
 
 label tailor_special_order:
     if npcs["Kayo_Sudou"].has_flag("tailor_special_order"):
@@ -157,7 +180,7 @@ label tailor_special_order:
     jump tailor_menu
 
 screen tailor_shop():
-    use top_stripe(False)
+    #use top_stripe(False)
     style_prefix "dropdown_gm"
     frame:
         pos (.98, .98) anchor (1.0, 1.0)

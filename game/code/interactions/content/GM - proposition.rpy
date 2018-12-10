@@ -288,6 +288,26 @@ label int_girl_proposes_girlfriend: # character proposes to become lovers
     $ char.restore_portrait()
     return
 
+label interactions_breakup:
+    $ interactions_check_for_bad_stuff(char)
+    if not check_lovers(char, hero): # you never know
+        "But we aren't!"
+        jump girl_interactions
+
+    $ end_lovers(hero, char)
+    # $ hero.exp += randint(15, 35)
+    # $ char.exp += randint(15, 35)
+    $ hero.exp += exp_reward(hero, char, ap_used=.33)
+    $ char.exp += exp_reward(char, hero, ap_used=.33)
+    if True: # FIXME imlement the responses if ct("Impersonal") in  char.traits:
+        #$ char.disposition -= 0
+        $ char.joy -= 25
+        $ char.override_portrait("portrait", "indifferent")
+        $ rc("If that's what you want.", "As you wish. Bye.", "I understand. I suppose that was it.")
+
+    $ char.restore_portrait()
+    jump girl_interactions 
+
 ##### j3
 label interactions_hire:
     if char.flag("quest_cannot_be_hired") == True:
@@ -295,51 +315,29 @@ label interactions_hire:
         jump girl_interactions
 
     python:
-        mod_chance = 0
+        def char_value(c):
+            n = 0
+            value = 0 
+            for i in c.traits.basetraits:
+                for s in i.base_stats:
+                    value += getattr(c, s)
+                    n += 1
+            return (value / n) if n else 0
 
-    python hide:
-        heroskills = 0
-        charskills = 0
-
-        # First we get the difference between baseskills:
-        for i in char.traits.basetraits:
-            for s in i.base_stats:
-                heroskills += getattr(hero, s)
-                charskills += getattr(char, s)
-
-        heroskills += hero.charisma
-
-        # Special Arena Mod for chars chars that might be willing to do that.
-        if char.arena_willing and hero.arena_rep > char.arena_rep:
-            heroskills += 100
-
-        # Also an extra bonus if they share an occupation:
-        if hero.occupations.intersection(char.occupations):
-            heroskills += 100
-
-        # and finally get the difference and make sure overwhelming difference
-        # will not allow a girl to join at -900 disposition :):
-        store.mod_chance = heroskills - charskills
-
-        if store.mod_chance > 700:
-            store.mod_chance = 700
+        herovalue = max(1, char_value(hero))
+        charvalue = char_value(char)
 
         if DEBUG:
-            devlog.info("Hero|Char| Mod: {}|{}| {}".format(heroskills, charskills, store.mod_chance))
+            devlog.info("Hero|Char: {}|{}".format(herovalue, charvalue))
 
-    python:
         if hero.tier > char.tier:
             target_val = 50
         else:
-            target_val = 150 + max(0, char.tier-hero.tier)*200
+            target_val = 150 + (char.tier-hero.tier)*400
 
     # Solve chance
-    if char.disposition > target_val - mod_chance:
+    if char.disposition > ((target_val * charvalue) / herovalue):
         call interactions_agrees_to_be_hired from _call_interactions_agrees_to_be_hired
-
-        $ del mod_chance
-        $ del target_val
-
         menu:
             "Hire her? Her average wage will be [char.expected_wage]":
                 $ gm.remove_girl(char)
@@ -353,8 +351,6 @@ label interactions_hire:
             "Maybe later." :
                 jump girl_interactions
     else:
-        $ del mod_chance
-
         call interactions_refuses_to_be_hired from _call_interactions_refuses_to_be_hired_1
         jump girl_interactions
 

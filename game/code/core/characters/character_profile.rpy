@@ -343,6 +343,14 @@ screen char_profile():
                     pos 113, 77
                     anchor 0, 1.0
 
+                if check_lovers(char, hero):
+                    imagebutton:
+                        pos 5, 97
+                        idle ProportionalScale("content/gfx/interface/icons/heartbeat.png", 30, 30)
+                        hover (im.MatrixColor(ProportionalScale("content/gfx/interface/icons/heartbeat.png", 30, 30), im.matrix.brightness(.25)))
+                        tooltip "This girl is your lover!"
+                        action NullAction()
+
                 imagebutton:
                     if char.status == "slave":
                         pos 80, 97
@@ -646,7 +654,7 @@ screen char_profile():
                         text "Controls"
                     button:
                         xysize (150, 40)
-                        action Hide("char_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')
+                        action Hide("char_profile"), With(dissolve), Function(SetVariable("eqtarget", char)), Jump('char_equip')
                         sensitive controlled_char(char)
                         tooltip "Manage this girl's inventory and equipment!"
                         text "Equipment"

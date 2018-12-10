@@ -179,7 +179,7 @@ screen school_training():
                                 $ days_left = course.days_to_complete - course.students_progress.get(char, 0)
                                 text "[days_left]/[course.days_to_complete]":
                                     style_suffix "value_text"
-                                    if char.tier <= course.difficulty:
+                                    if days_left <= course.days_remaining:
                                         hover_color green
                                     else:
                                         hover_color red
