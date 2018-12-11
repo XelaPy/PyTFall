@@ -1440,7 +1440,7 @@ init -10 python:
 
             # Add basetraits and occupations to basepurposes:
             base_purpose.update([bt.id for bt in char.traits.basetraits])
-            base_purpose.update(char.occupations)
+            base_purpose.update(str(t) for t in char.occupations)
             base_purpose.add("Any")
 
             # per item the nr of weighting criteria may vary. At the end all of them are averaged.
