@@ -46,9 +46,7 @@ screen set_action_dropdown(char, pos=()):
 
         textbutton "Close":
             action [Hide("set_action_dropdown")]
-            keysym "mouseup_3"
-
-    key "K_ESCAPE" action [Hide("set_action_dropdown")]
+            keysym "mousedown_3", "K_ESCAPE"
 
 screen set_workplace_dropdown(char, pos=()):
     # Trying to create a drop down screen with choices of actions:
@@ -93,9 +91,7 @@ screen set_workplace_dropdown(char, pos=()):
                     Hide("set_workplace_dropdown")]
         textbutton "Close":
             action Hide("set_workplace_dropdown")
-            keysym "mouseup_3"
-
-    key "K_ESCAPE" action Hide("set_workplace_dropdown")
+            keysym "mousedown_3", "K_ESCAPE"
 
 screen set_home_dropdown(char, pos=()):
     # Trying to create a drop down screen with choices of actions:
@@ -126,9 +122,7 @@ screen set_home_dropdown(char, pos=()):
                 tooltip loc.desc
         textbutton "Close":
             action Hide("set_home_dropdown")
-            keysym "mouseup_3"
-
-    key "K_ESCAPE" action Hide("set_home_dropdown")
+            keysym "mousedown_3", "K_ESCAPE"
 
 screen char_rename(char=None):
     modal True
@@ -187,12 +181,10 @@ screen char_rename(char=None):
                 yalign .5
                 text "Back" size 16 color goldenrod
                 action Hide("char_rename")
+                keysym "mousedown_3", "K_ESCAPE"
                 padding (10, 10)
 
-    key "K_ESCAPE" action Hide("char_rename")
-
 screen character_pick_screen(): # screen to select someone from the MC team
-    key "mousedown_3" action Return(False)
     frame:
         align (.5, .5)
         xsize 450
@@ -263,6 +255,7 @@ screen character_pick_screen(): # screen to select someone from the MC team
                 yalign .5
                 action Return(False)
                 text "Cancel" size 15 color goldenrod
+                keysym "mousedown_3", "K_ESCAPE"
 
 screen finances(obj, mode="logical"):
     modal True
@@ -407,7 +400,7 @@ screen finances(obj, mode="logical"):
                 minimum (100, 30)
                 action Hide('finances')
                 text "OK"
-                keysym ("K_RETURN", "K_ESCAPE", "mouseup_3")
+                keysym ("K_RETURN", "K_ESCAPE", "mousedown_3")
             if isinstance(focused, Char):
                 button:
                     minimum (100, 30)

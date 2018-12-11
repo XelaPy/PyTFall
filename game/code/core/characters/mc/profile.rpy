@@ -919,7 +919,6 @@ screen hero_finances():
 screen mc_friends_list:
 
     modal True
-    key "mousedown_3" action Hide("mc_friends_list")
     frame:
         at slide(so1=(-2000, 0), t1=.7, so2=(0, 0), t2=.3, eo2=(-2000, 0))
         xysize (930, 450)
@@ -936,6 +935,7 @@ screen mc_friends_list:
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
             hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
             action Hide("mc_friends_list")
+            keysym "mousedown_3"
 
         vpgrid:
             ypos 40

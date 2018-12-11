@@ -372,7 +372,7 @@ screen equip_for(pos=()):
 
             textbutton "Close":
                 action Hide("equip_for")
-                keysym "mouseup_3"
+                keysym "mousedown_3"
 
 screen char_equip():
     modal True

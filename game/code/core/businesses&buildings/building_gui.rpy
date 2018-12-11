@@ -1006,4 +1006,4 @@ init:
                 minimum(50, 30)
                 align (.5, .97)
                 text  "OK"
-        key "mousedown_3" action Hide("building_adverts")
+                keysym "mousedown_3"
