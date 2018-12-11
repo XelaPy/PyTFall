@@ -440,6 +440,10 @@ label after_load:
     #         if c not in chars.itervalues():
     #             remove_from_gameworld(c)
     python hide:
+        if not hasattr(pytfall.arena, "df_count"):
+            pytfall.arena.df_count = 0
+            pytfall.arena.hero_match_result = None 
+
         for b in hero.buildings:
             if isinstance(b, UpgradableBuilding):
                 if not hasattr(b, "init_pep_talk"):
