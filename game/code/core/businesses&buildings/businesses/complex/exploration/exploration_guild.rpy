@@ -6,7 +6,7 @@ init -9 python: # FG Area
         """
         def __init__(self):
             self.stage = 0 # For Sorting.
-            self.tier = 0 # Difficulty
+            self.tier = .2 # Difficulty
             self.days = 3
             self.max_days = 15
             self.risk = 50
@@ -634,7 +634,6 @@ init -6 python: # Guild, Tracker and Log.
             fought_mobs = 0
             encountered_opfor = 0
 
-
             if DEBUG_SE:
                 msg = "{} is stating an exploration scenario.".format(team.name)
                 se_debug(msg, mode="info")
@@ -824,7 +823,6 @@ init -6 python: # Guild, Tracker and Log.
         def combat_mobs(self, tracker, mob, opfor_team_size, log):
             # log is the Exploration Log object we add be reports to!
             # Do we really need to pass team size to this method instead of figuring everything out here?
-
             team = tracker.team
             opfor = Team(name="Enemy Team", max_size=opfor_team_size)
 
@@ -833,9 +831,9 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # Get a level we'll set the mobs to:
-            level = tracker.mobs[mob][0]
+            level = tracker.area.tier*20
             minl = max(1, level-3)
-            maxl = level+3+tracker.day
+            maxl = max(5, level+3+tracker.day)
             level = randint(minl, maxl)
 
             # raise Exception(mob, tracker.area.mobs)
