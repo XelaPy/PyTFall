@@ -640,7 +640,8 @@ init -6 python: # Guild, Tracker and Log.
 
             # Effectiveness (Ability):
             abilities = list()
-            difficulty = 2 # MUST BE INTERPOLATED FROM RISK, JSON DATA AND Maybe some other factors.
+            # Difficulty is tier of the area explored + 1/10 of the same value / 100 * risk.
+            difficulty = area.tier+(area.tier*.001*area.risk)
             for char in team:
                 # Set their exploration capabilities as temp flag
                 a = tracker.effectiveness(char, difficulty, log=None, return_ratio=False)
