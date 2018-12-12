@@ -349,7 +349,7 @@ screen equip_for(pos=()):
         if eq_slave or (eq_free and "SIW" in eqtarget.gen_occs):
             specializations.extend(["Sex", "Striptease"])
         if eq_slave or (eq_free and "Server" in eqtarget.gen_occs):
-            specializations.append("Service")
+            specializations.extend(["Service", "Bartender"])
 
     frame:
         style_group "dropdown_gm"
@@ -372,7 +372,7 @@ screen equip_for(pos=()):
 
             textbutton "Close":
                 action Hide("equip_for")
-                keysym "mouseup_3"
+                keysym "mousedown_3"
 
 screen char_equip():
     modal True

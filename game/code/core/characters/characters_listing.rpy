@@ -297,6 +297,7 @@ screen chars_list(source=None):
                             text "[f]" color brown:
                                 if len(str(f)) > 12:
                                     size 10
+                                    line_spacing -6
                             tooltip 'Toggle the filter'
                 if "Action" in selected_filters:
                     for f in action_filters:
@@ -306,7 +307,10 @@ screen chars_list(source=None):
                             $ t = str(f)
                             if t.lower().endswith(" job"):
                                 $ t = t[:-4]
-                            text "[t]" color darkblue
+                            text "[t]" color darkblue:
+                                if len(str(t)) > 12:
+                                    size 10
+                                    line_spacing -6
                             tooltip 'Toggle the filter'
                 if "Class" in selected_filters:
                     for f in class_filters:

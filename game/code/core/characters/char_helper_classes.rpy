@@ -1439,8 +1439,8 @@ init -10 python:
                 stats['current_max'][stat] = self.get_max(stat)   # current stat max
 
             # Add basetraits and occupations to basepurposes:
-            base_purpose.update([bt.id for bt in char.traits.basetraits])
-            base_purpose.update(char.occupations)
+            base_purpose.update(bt.id for bt in char.traits.basetraits)
+            base_purpose.update(str(t) for t in char.occupations)
             base_purpose.add("Any")
 
             # per item the nr of weighting criteria may vary. At the end all of them are averaged.
@@ -1469,13 +1469,6 @@ init -10 python:
                     aeq_debug("Ignoring item {} on tier.".format(item.id))
                     continue
 
-                # If no purpose is valid for the item, we want nothing to do with it.
-                if slot not in ("misc", "consumable"):
-                    purpose = base_purpose.union(sub_purpose.union(["Any"]))
-                    if not purpose.intersection(item.pref_class):
-                        aeq_debug("Ignoring item {} on purpose.".format(item.id))
-                        continue
-
                 # Gender:
                 if item.sex not in (char.gender, "unisex"):
                     aeq_debug("Ignoring item {} on gender.".format(item.id))
@@ -1501,6 +1494,10 @@ init -10 python:
                 elif sub_purpose.intersection(item.pref_class):
                     weights.append(125)
                 else: # 'Any'
+                    # If no purpose is valid for the item, we want nothing to do with it.
+                    if slot not in ("misc", "consumable"):
+                        aeq_debug("Ignoring item {} on purpose.".format(item.id))
+                        continue
                     weights.append(55)
 
                 # Stats:

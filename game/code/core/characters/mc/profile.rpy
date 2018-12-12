@@ -71,14 +71,9 @@ label hero_profile:
 
 # Screens:
 screen hero_profile():
-    on "hide":
-        action Hide("show_trait_info")
-
     default lframe_display = "status"
     default rframe_display = "skills"
     default base_ss = hero.stats.get_base_ss()
-
-    key "mousedown_3" action Return(['control', 'return'])
 
     # HERO SPRITE ====================================>
     add Transform(hero.show("profile", resize=(550, 550)), alpha=.97) align .65, .9
@@ -556,6 +551,7 @@ screen hero_profile():
         hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
         action Hide("show_trait_info"), Return(['control', 'return'])
         tooltip "Return to previous screen!"
+        keysym "mousedown_3"
 
     # EXP BAR ====================================>
     fixed:
@@ -591,8 +587,6 @@ screen hero_profile():
 screen hero_team():
     zorder 1
     modal True
-
-    key "mousedown_3" action Hide("hero_team"), With(dissolve)
 
     add Transform("content/gfx/images/bg_gradient2.webp", alpha=.3)
 
@@ -730,13 +724,11 @@ screen hero_team():
             action Hide("hero_team"), With(dissolve)
             text "Close" style "pb_button_text"
             tooltip "Close team screen"
-            keysym "mouseup_3"
+            keysym "mousedown_3"
 
 screen hero_finances():
     modal True
     zorder 1
-
-    key "mousedown_3" action Hide("hero_finances"), With(dissolve)
 
     add Transform("content/gfx/images/bg_gradient2.webp", alpha=.3)
     frame:
@@ -918,15 +910,15 @@ screen hero_finances():
             # vbar value YScrollValue("herofin_vp")
         button:
             style_group "basic"
-            action Hide('hero_finances')
+            action Hide('hero_finances'), With(dissolve)
             minimum (250, 30)
             align (.5, .96)
             text "OK"
+            keysym "mousedown_3"
 
 screen mc_friends_list:
 
     modal True
-    key "mousedown_3" action Hide("mc_friends_list")
     frame:
         at slide(so1=(-2000, 0), t1=.7, so2=(0, 0), t2=.3, eo2=(-2000, 0))
         xysize (930, 450)
@@ -943,6 +935,7 @@ screen mc_friends_list:
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
             hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
             action Hide("mc_friends_list")
+            keysym "mousedown_3"
 
         vpgrid:
             ypos 40

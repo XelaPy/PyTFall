@@ -47,4 +47,4 @@ screen fonts(fonts):
     textbutton "Close":
         align (.5, 1.0)
         action Hide("fonts"), Jump("mainscreen")
-        keysym "mouseup_3"
+        keysym "mousedown_3"
