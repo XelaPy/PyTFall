@@ -824,9 +824,6 @@ init -6 python: # Guild, Tracker and Log.
         def combat_mobs(self, tracker, mob, opfor_team_size, log):
             # log is the Exploration Log object we add be reports to!
             # Do we really need to pass team size to this method instead of figuring everything out here?
-            if DEBUG_SE:
-                msg = "{} starting a fight vs Mobs".format(team.name)
-                se_debug(msg, mode="info")
 
             team = tracker.team
             opfor = Team(name="Enemy Team", max_size=opfor_team_size)
