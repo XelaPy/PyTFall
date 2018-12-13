@@ -64,7 +64,7 @@ screen chars_list(source=None):
             align .5, .2
             style "TisaOTM"
 
-    key "mousedown_3" action Return(['control', 'return'])
+    key "mousedown_3" action Return(['control', 'return']) # keep in sync with button - alternate
 
     # Normalize pages.
     default page_size = 10
@@ -99,6 +99,7 @@ screen chars_list(source=None):
                     hover_background Frame(Transform(img, alpha=.9), 10 ,10)
                     xysize (470, 115)
                     action Return(['choice', c])
+                    alternate Return(['control', 'return']) # keep in sync iwth mousedown_3
                     tooltip "Show {}'s Profile!".format(c.name)
 
                     # Image:

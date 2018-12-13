@@ -213,7 +213,7 @@ screen char_profile():
 
     key "mousedown_4" action Return(["control", "right"])
     key "mousedown_5" action Return(["control", "left"])
-    key "mousedown_3" action Return(['control', 'return'])
+    key "mousedown_3" action Return(['control', 'return']) # keep in sync with button - alternate
 
     on "hide":
         action Hide("show_trait_info")
@@ -235,6 +235,7 @@ screen char_profile():
                 sensitive controlled_char(char)
                 tooltip store.tt_str
                 add store.img
+                alternate Return(['control', 'return']) # keep in sync with mousedown_3
 
         # Mid-Bottom Frame: Level, experience ====================================>
         frame:
