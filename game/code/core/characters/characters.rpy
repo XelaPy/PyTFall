@@ -1966,8 +1966,6 @@ init -9 python:
             if getattr(store, "eqtarget", None) is self:
                 if item.jump_to_label:
                     renpy.scene(layer="screens") # hides all screens
-                    eqtarget.inventory.set_page_size(15)
-                    hero.inventory.set_page_size(15)
                     jump(item.jump_to_label)
 
         def item_counter(self):

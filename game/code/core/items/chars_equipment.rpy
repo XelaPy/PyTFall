@@ -83,8 +83,6 @@ label char_equip:
             else:
                 equip_girls = list(girl for girl in hero.chars if girl.is_available)
 
-        eqtarget.inventory.set_page_size(16)
-        hero.inventory.set_page_size(16)
         inv_source = eqtarget
 
     scene bg gallery3
@@ -107,8 +105,6 @@ label char_equip_loop:
             if result[1] == "item_transfer":
                 hide screen char_equip
                 $ items_transfer([hero] + (list(eqtarget.lst) if isinstance(eqtarget, PytGroup) else [eqtarget]))
-                $ eqtarget.inventory.set_page_size(16)
-                $ hero.inventory.set_page_size(16)
                 show screen char_equip
         elif result[0] == "equip_for":
             python:
@@ -288,9 +284,6 @@ label char_equip_finish:
     hide screen char_equip
 
     python:
-        eqtarget.inventory.set_page_size(15)
-        hero.inventory.set_page_size(15)
-
         # eqtarget.inventory.female_filter = False
         # hero.inventory.female_filter = False
         if eqtarget.location == locations["After Life"]:
@@ -374,7 +367,15 @@ screen equip_for(pos=()):
                 action Hide("equip_for")
                 keysym "mousedown_3"
 
+init python:
+    def ce_on_show():
+        eqtarget.inventory.set_page_size(16)
+        hero.inventory.set_page_size(16)
+
 screen char_equip():
+    on "show":
+        action Function(ce_on_show)
+ 
     modal True
 
     # Useful keymappings
@@ -805,7 +806,7 @@ screen char_equip_right_frame():
             button:
                 xysize 110, 30
                 action If(eqtarget != hero, true=[SetVariable("inv_source", hero),
-                                                  Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter),
+                                                  Function(hero.inventory.apply_filter, eqtarget.inventory.slot_filter),
                                                   Return(['con', 'return']),
                                                   With(dissolve)])
                 tooltip "Equip from {}'s Inventory".format(hero.nickname)

@@ -17,15 +17,9 @@ init python:
         for c in it_members:
             c.inventory.set_page_size(14)
 
-    def it_on_hide(it_members):
-        for c in it_members:
-            c.inventory.set_page_size(15)
-
 screen items_transfer(it_members):
     on "show":
         action Function(it_on_show, it_members)
-    on "hide":
-        action Function(it_on_hide, it_members)
 
     default lc = it_members[0]
     default source = it_members[0]

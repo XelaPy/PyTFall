@@ -116,12 +116,7 @@ label char_profile:
                     $ renpy.show_screen("message_screen", "This girl has run away!")
             # Else if you still have the girl
             else:
-                if result[0] == "jump":
-                    if result[1] == "item_transfer":
-                        hide screen char_profile
-                        $ items_transfer([hero, char])
-                        show screen char_profile
-                elif result[0] == "dropdown":
+                if result[0] == "dropdown":
                     python:
                         if result[1] == "workplace":
                             renpy.show_screen("set_workplace_dropdown", result[2], pos=renpy.get_mouse_pos())

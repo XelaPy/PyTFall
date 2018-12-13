@@ -10,8 +10,6 @@ label hero_profile:
     show screen hero_profile
     with dissolve
 
-    $ hero.inventory.set_page_size(18)
-
     while 1:
         $ result = ui.interact()
 
@@ -45,10 +43,6 @@ label hero_profile:
                 $ pytfall.hp.show_item_info = False
                 $ pytfall.hp.item = False
                 hide screen hero_profile
-
-                # Reset filters (prevents crap from happening in shops):
-                $ hero.inventory.male_filter = False
-                $ hero.inventory.apply_filter('all')
 
                 jump expression pytfall.hp.came_from
         elif result[0] == "dropdown":
