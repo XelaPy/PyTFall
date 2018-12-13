@@ -525,7 +525,7 @@ init -9 python:
 
             # randomly select an image
             if imgset:
-                return random.sample(imgset, 1)[0]
+                return choice(tuple(imgset))
             else:
                 return ""
 
@@ -604,10 +604,9 @@ init -9 python:
             # Direct image request:
             if "-" in tags[0]:
                 _path = "/".join([self.path_to_imgfolder, tags[0]])
-                if renpy.loadable(_path):
-                    return ProportionalScale(_path, maxw, maxh)
-                else:
-                    return ProportionalScale("content/gfx/interface/images/no_image.png", maxw, maxh)
+                if not renpy.loadable(_path):
+                    _path = "content/gfx/interface/images/no_image.png"
+                return ProportionalScale(_path, maxw, maxh)
 
             # Mood will never be checked in auto-mode when that is not sensible
             add_mood = kwargs.get("add_mood", True)
@@ -741,7 +740,7 @@ init -9 python:
             Useful for random events that use NV sprites, heigth in unique events can be set manually.
             ***This is mirrored in galleries testmode, this method is not actually used.
             """
-            return self.show("vnsprite", mood, resize=self.get_sprite_size())
+            return self.show("vnsprite", resize=self.get_sprite_size())
 
         # AP + Training ------------------------------------------------------------->
         def restore_ap(self):
@@ -1449,10 +1448,12 @@ init -9 python:
         def ab_equipment(self, _items, slot, amount, per_slot_amount,
                          rv, equip, check_money, direct_equip=False):
             buy_amount = min(amount, per_slot_amount)
-            amount_owned = self.get_owned_items_per_slot(slot)
+            # Check if we want to go on, skip needless calculations otherwise.
+            if not buy_amount:
+                return amount, per_slot_amount, rv
 
-            # We also want to set max amount to buy based on how many items
-            # char already has (5 for rings, 2 for everything else)
+            # We also want to set max amount to buy based on the slot
+            # (5 for rings, 2 for everything else)
             if not check_money: # special check, where we just force items.
                 pass
             elif slot == "ring":
@@ -1460,11 +1461,6 @@ init -9 python:
             else:
                 buy_amount = min(buy_amount, 2)
 
-            # Check if we want to go on, skip needless calculations otherwise.
-            if not buy_amount:
-                return amount, per_slot_amount, rv
-
-            # raise Exception(_items)
             _items = [(sum(weights), item) for weights, item in _items]
             _items.sort(key=itemgetter(0), reverse=True)
             for weight, item in _items:
@@ -1481,26 +1477,23 @@ init -9 python:
                     else:
                         self.inventory.append(item)
 
-                if not buy_amount:
-                    break
+                    if not buy_amount:
+                        break
 
             return amount, per_slot_amount, rv
 
         def ab_consumables(self, _items, slot, amount, per_slot_amount,
                          rv, equip, check_money):
             buy_amount = min(amount, per_slot_amount)
-            amount_owned = self.get_owned_items_per_slot(slot)
+            # Check if we want to go on, skip needless calculations otherwise.
+            if not buy_amount:
+                return amount, per_slot_amount, rv
 
-            # We also want to set max amount to buy based on how many items
-            # char already has (5 for rings, 2 for everything else)
+            # We also want to set max amount to buy based on the slot
             if not check_money: # special check, where we just force items.
                 pass
             else:
                 buy_amount = min(buy_amount, 20)
-
-            # Check if we want to go on, skip needless calculations otherwise.
-            if not buy_amount:
-                return amount, per_slot_amount, rv
 
             _items = [(sum(weights), item) for weights, item in _items]
             _items.sort(key=itemgetter(0), reverse=True)
@@ -1518,8 +1511,8 @@ init -9 python:
                     self.inventory.append(item)
                     rv.append(item.id)
 
-                if not buy_amount:
-                    break
+                    if not buy_amount:
+                        break
 
             return amount, per_slot_amount, rv
 
