@@ -1465,7 +1465,7 @@ init -9 python:
             _items.sort(key=itemgetter(0), reverse=True)
             for weight, item in _items:
                 c0 = not check_money
-                c1 = check_money and self.take_money(item.price, reason="Items")
+                c1 = check_money and dice(item.chance) and self.take_money(item.price, reason="Items")
                 if c0 or c1:
                     buy_amount -= 1
                     amount -= 1
@@ -1503,7 +1503,7 @@ init -9 python:
                     continue
 
                 c0 = not check_money
-                c1 = check_money and self.take_money(item.price, reason="Items")
+                c1 = check_money and dice(item.chance) and self.take_money(item.price, reason="Items")
                 if c0 or c1:
                     buy_amount -= 1
                     amount -= 1
