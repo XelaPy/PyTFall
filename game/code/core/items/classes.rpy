@@ -241,17 +241,15 @@ init -9 python:
 
         def next(self):
             """Next page"""
-            if self.max_page > 0:
-                self.page = (self.page + 1) % self.max_page
-            else:
+            self.page += 1
+            if self.page >= self.max_page:
                 self.page = 0
 
         def prev(self):
             """Previous page"""
-            if self.max_page > 0:
-                self.page = (self.page - 1) % self.max_page
-            else:
-                self.page = 0
+            self.page -= 1
+            if self.page < 0:
+                self.last()
 
         def first(self):
             """First page"""
@@ -259,7 +257,7 @@ init -9 python:
 
         def last(self):
             """Last page"""
-            self.page = self.max_page - 1 if self.paged_items else 0
+            self.page = max(self.max_page - 1, 0)
 
         @property
         def page_content(self):

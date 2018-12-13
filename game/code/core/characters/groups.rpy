@@ -142,16 +142,23 @@ init -8 python:
             return int(l / ps) + (l % ps > 0)
 
         def next(self):
-            if self.page + 1 < self.max_page:
-                self.page += 1
+            """Next page"""
+            self.page += 1
+            if self.page >= self.max_page:
+                self.page = 0
 
         def prev(self):
-            self.page = max(self.page - 1, 0)
+            """Previous page"""
+            self.page -= 1
+            if self.page < 0:
+                self.last()
 
         def first(self):
+            """First page"""
             self.page = 0
 
         def last(self):
+            """Last page"""
             self.page = max(self.max_page - 1, 0)
 
         def remove(self, item, amount=1):

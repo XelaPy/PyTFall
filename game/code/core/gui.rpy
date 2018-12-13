@@ -337,19 +337,20 @@ init -1 python:
 
         # Paging:
         def next_page(self):
-            if self.max_page>0:
-                self.page = (self.page + 1) % self.max_page
-            else:
+            """Next page"""
+            self.page += 1
+            if self.page >= self.max_page:
                 self.page = 0
 
         def prev_page(self):
-            if self.max_page>0:
-                self.page = (self.page - 1) % self.max_page
-            else:
-                self.page = 0
+            """Previous page"""
+            self.page -= 1
+            if self.page < 0:
+                self.last()
 
         def last_page(self):
-            self.page = self.max_page - 1 if self.paged_items else 0
+            """Last page"""
+            self.page = max(self.max_page - 1, 0)
 
         def first_page(self):
             self.page = 0

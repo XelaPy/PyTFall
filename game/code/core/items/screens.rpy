@@ -366,7 +366,7 @@ screen paging(path="content/gfx/interface/buttons/", use_filter=True,
                         idle (path+'prev.png')
                         hover (im.MatrixColor(path+'prev.png', im.matrix.brightness(.15)))
                         action Function(ref.prev)
-                label ("%d - %d"%(ref.page+1, ref.max_page)) align (.5, .5) text_color ivory
+                label ("%d - %d"%(ref.page+1, max(ref.max_page,1))) align (.5, .5) text_color ivory
                 hbox:
                     align (1.0, .5)
                     imagebutton:
