@@ -377,10 +377,8 @@ init -9 python:
                 if not len(setup[1]):
                     setup[2] = day + randint(3, 14)
                     teams = list()
-                    templist = copy.copy(self.lineup_1v1)
-                    # shuffle(templist) || Seems useless here
-                    for team in templist: # Should prolly draw from self.lineup_1v1 in final version!!! || Gonna do it right now... placing doesn't make much sense otherwise.
-                        if team == hero.team:
+                    for team in self.lineup_1v1:
+                        if team.leader == hero:
                             pass
                         elif setup[2] not in team.leader.fighting_days and team.leader not in self.get_matches_fighters(matches="1v1"):
                             teams.append(team)
@@ -395,7 +393,7 @@ init -9 python:
                     setup[2] = day + randint(3, 14)
                     teams = list()
                     for team in self.lineup_2v2:
-                        if team == hero.team:
+                        if team.leader == hero:
                             pass
                         else:
                             count = 0
@@ -416,7 +414,7 @@ init -9 python:
                     setup[2] = day + randint(3, 14)
                     teams = []
                     for team in self.lineup_3v3:
-                        if team == hero.team:
+                        if team.leader == hero:
                             pass
                         else:
                             count = 0
@@ -452,8 +450,17 @@ init -9 python:
                     lineup.insert(index-1, winner)
                     del lineup[index+1]
             else:
-                del lineup[-1]
-                lineup.append(winner)
+                # check if the hero has an another team in the lineup
+                if winner == hero.team:
+                    for idx, t in enumerate(lineup):
+                         if t.leader == hero:
+                             # another team in the lineup -> replace it with the current one
+                             lineup[idx] = winner 
+                             winner_added = True
+                             break
+                if not "winner_added" in locals():
+                    del lineup[-1]
+                    lineup.append(winner)
 
             if loser in lineup:
                 index = lineup.index(loser)
@@ -609,7 +616,7 @@ init -9 python:
             """
             # Figure out who we're fighting:
             for setup in list(itertools.chain(self.matches_1v1, self.matches_2v2, self.matches_3v3)):
-                if setup[2] == day and setup[0] == hero.team:
+                if setup[2] == day and setup[0].leader == hero:
                     battle_setup = setup
                     team = setup[1]
 
@@ -1401,7 +1408,7 @@ init -9 python:
             # Running the matches:
             # Join string method is used here to improve performance over += or + (Note: Same should prolly be done for jobs.)
             for setup in self.matches_1v1:
-                if setup[2] == day and setup[0] != hero.team:
+                if setup[2] == day and setup[0].leader != hero:
                     if setup[0] and setup[1]:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
                         self.append_match_result(txt, True, match_result) 
@@ -1410,7 +1417,7 @@ init -9 python:
                     setup[1] = Team(max_size=1)
 
             for setup in self.matches_2v2:
-                if setup[2] == day and setup[0] != hero.team:
+                if setup[2] == day and setup[0].leader != hero:
                     if setup[0] and setup[1]:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
                         self.append_match_result(txt, False, match_result)
@@ -1418,7 +1425,7 @@ init -9 python:
                     setup[1] = Team(max_size=2)
 
             for setup in self.matches_3v3:
-                if setup[2] == day and setup[0] != hero.team:
+                if setup[2] == day and setup[0].leader != hero:
                     if setup[0] and setup[1]:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
                         self.append_match_result(txt, False, match_result)
@@ -1431,7 +1438,7 @@ init -9 python:
                 # Locate combat setup:
                 for setup in list(itertools.chain(self.matches_1v1, self.matches_2v2, self.matches_3v3)):
                     # Needs testing...
-                    if setup[0] == hero.team and setup[2] == day:
+                    if setup[2] == day and setup[0].leader == hero:
                         penalty_setup = setup
 
                         # get rid of the failed team setup:
