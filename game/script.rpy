@@ -444,6 +444,9 @@ label after_load:
             pytfall.arena.df_count = 0
             pytfall.arena.hero_match_result = None 
 
+        if not hasattr(hero, "teams"):
+            hero.teams = [hero.team]
+
         for b in hero.buildings:
             if isinstance(b, UpgradableBuilding):
                 if not hasattr(b, "init_pep_talk"):

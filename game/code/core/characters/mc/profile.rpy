@@ -587,25 +587,38 @@ screen hero_team():
     # Hero team ====================================>
     frame:
         style_prefix "proper_stats"
-        align .54, .4
+        align .58, .4
         background Frame(Transform(im.Twocolor("content/gfx/frame/ink_box.png", white, black), alpha=.7), 5, 5)
         padding 10, 5
         has vbox spacing 10
 
+        # Name of the Team / Close
         hbox:
-            spacing 2
-            xalign .5
-            label "[hero.team.name]" text_color "#CDAD00" text_size 30
-            imagebutton:
-                idle im.Scale("content/gfx/interface/buttons/edit.png", 24, 30)
-                hover im.Scale("content/gfx/interface/buttons/edit_h.png", 24, 30)
-                action Return(["rename_team", "set_name"]), With(dissolve)
-                tooltip "Rename the team"
-
-        for member in hero.team:
-            $ img = member.show("portrait", resize=(120, 120), cache=True)
+            xminimum (285*len(hero.team))
             hbox:
-                spacing 7
+                spacing 2
+                xalign .5
+                label "[hero.team.name]" xalign .5 text_color "#CDAD00" text_size 30
+                imagebutton:
+                    idle im.Scale("content/gfx/interface/buttons/edit.png", 24, 30)
+                    hover im.Scale("content/gfx/interface/buttons/edit_h.png", 24, 30)
+                    action Return(["rename_team", "set_name"]), With(dissolve)
+                    tooltip "Rename the team"
+
+            imagebutton:
+                align (1.0, .0)
+                idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
+                hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
+                action Hide("hero_team"), With(dissolve)
+                keysym "mousedown_3"
+                tooltip "Close team screen"
+
+        # Members
+        hbox:
+            xalign .5
+            for member in hero.team:
+                $ img = member.show("portrait", resize=(120, 120), cache=True)
+                #spacing 7
                 # Portrait/Button:
                 fixed:
                     align .5, .5
@@ -711,14 +724,34 @@ screen hero_team():
                         $ tmb = red if member.vitality <= member.get_max("vitality")*.3 else "#F5F5DC"
                         text "[member.vitality]" size 14 color tmb bold True style_suffix "value_text" xpos 125 yoffset -8
 
+        # Preset teams
+        for team in hero.teams:
+            hbox:
+                style_group "pb"
+                spacing 10
+                imagebutton:
+                    if hero.team == team:
+                        action None
+                        idle ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_right.png", 24, 24)
+                    else:
+                        action Function(hero.remove_team, team)
+                        idle ProportionalScale("content/gfx/interface/buttons/round_blue.png", 24, 24)
+                        hover ProportionalScale("content/gfx/interface/buttons/round_blue_h.png", 24, 24)
+                        tooltip "Dissolve"
+                button:
+                    xminimum 100
+                    action Function(hero.select_team, team) 
+                    sensitive hero.team != team
+                    text "[team.name]" style "pb_button_text"
+                    tooltip "Select {}".format(team.name)
+
         button:
             style_group "pb"
             xalign .5
             xsize 120
-            action Hide("hero_team"), With(dissolve)
-            text "Close" style "pb_button_text"
-            tooltip "Close team screen"
-            keysym "mousedown_3"
+            action [Function(hero.new_team), Return(["rename_team", "set_name"])]
+            text "..." style "pb_button_text"
+            tooltip "Create new team"
 
 screen hero_finances():
     modal True

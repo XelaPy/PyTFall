@@ -2275,6 +2275,7 @@ init -9 python:
             # Team:
             self.team = Team(implicit=[self])
             self.team.name = "Player Team"
+            self.teams = [self.team]
 
             # Exp Bar:
             self.exp_bar = ExpBarController(self)
@@ -2366,6 +2367,18 @@ init -9 python:
                 self._chars.remove(char)
             else:
                 raise Exception, "This char (ID: %s) is not in service to the player!!!" % self.id
+
+        def new_team(self):
+            t = Team(implicit=[self])
+            self.team = t
+            self.teams.append(t)
+
+        def remove_team(self, team):
+            if self.team != team:
+                self.teams.remove(team)
+
+        def select_team(self, team):
+            self.team = team
 
         # ----------------------------------------------------------------------------------
         def nd_pay_taxes(self, txt, flag_red):
