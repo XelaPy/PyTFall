@@ -18,6 +18,7 @@ screen pytfallopedia():
             if pyp.sub_screen:
                 actions.append(Hide(pyp.sub_screen))
                 actions.append(SetField(pyp, "sub_focused", None))
+            actions.append(With(dissolve))
         $ img = im.Scale("content/gfx/interface/buttons/close.png", 35, 35)
         imagebutton:
             align .996, .5
