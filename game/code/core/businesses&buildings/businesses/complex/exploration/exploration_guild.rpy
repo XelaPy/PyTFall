@@ -752,7 +752,8 @@ init -6 python: # Guild, Tracker and Log.
                                 self.env.exit("captured rchar")
 
                 if not fought_mobs and tracker.mobs:
-                    encounter_chance = True # Condition here
+                    # Never fight anyone with risk lower than 25..
+                    encounter_chance = dice(carea.risk-25)
                     if encounter_chance:
                         fought_mobs = 1
 
@@ -916,7 +917,7 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # TODO: Make sure this is adapted to building skill(s) once we have it!
-            build_power = max(.5, sum(i.get_skill("exploration")/100.0 for i in team)) # We should have building skill in the future which could be used here instead.
+            build_power = max(1, tracker.ability/20)
 
             if len(teams) > 1:
                 temp = "Teams: {} are setting up basecamp!".format(", ".join([t.name for t in teams]))
