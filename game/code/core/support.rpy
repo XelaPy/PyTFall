@@ -536,6 +536,7 @@ init -9 python:
             self.reset_callable = reset_callable
             self.target_container = container
             self.sorted = list()
+
             self.status_filters = set()
             self.action_filters = set()
             self.class_filters = set()

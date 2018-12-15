@@ -99,6 +99,12 @@ label char_profile:
                                 if char in hero.team:
                                     hero.team.remove(char)
 
+                                try:
+                                    if char in char_lists_filters.sorted:
+                                        char_lists_filters.sorted.remove(char)
+                                except:
+                                    pass
+
                                 char.action = None
 
                                 if char.status == "slave":
@@ -144,6 +150,14 @@ label char_profile:
                                              message=message,
                                              yes_action=Return(True),
                                              no_action=Return(False)):
+
+                            python:
+                                try:
+                                    if char in char_lists_filters.sorted:
+                                        char_lists_filters.sorted.remove(char)
+                                except:
+                                    pass
+
                             if char.status == 'slave':
                                 python:
                                     hero.add_money(int(char.fin.get_price()*.8), reason="SlaveTrade")

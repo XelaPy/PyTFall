@@ -333,14 +333,19 @@ screen chars_list(source=None):
             xysize (250, 50)
             style_prefix "basic"
             has hbox spacing 5 align .5, .5
-            $ chars_on_page = set(charz_list) if hero.chars else set()
-            button: # select all on current listing, deselects them if all are selected
+            python:
+                try:
+                    chars_on_page = set(charz_list)
+                except:
+                    chars_on_page = set()
+            button: # select all on current page
                 xysize (66, 40)
-                if the_chosen.issuperset(chars_on_page):
-                    action SetVariable("the_chosen", the_chosen.difference(chars_on_page))
-                else:
-                    action SetVariable("the_chosen", the_chosen.union(chars_on_page))
-                sensitive listed_chars
+                # if the_chosen.issuperset(chars_on_page):
+                #     action SetVariable("the_chosen", the_chosen.difference(chars_on_page))
+                # else:
+                #     action SetVariable("the_chosen", the_chosen.union(chars_on_page))
+                action SetVariable("the_chosen", chars_on_page)
+                sensitive chars_on_page and (chars_on_page != the_chosen)
                 text "These"
                 tooltip 'Select all currently visible characters'
             button: # every of currently filtered, also in next tabs
