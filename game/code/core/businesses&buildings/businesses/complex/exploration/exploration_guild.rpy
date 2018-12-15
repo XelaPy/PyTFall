@@ -650,9 +650,6 @@ init -6 python: # Guild, Tracker and Log.
 
             # Let's run the expensive item calculations once and just give
             # Items as we explore. This just figures what items to give.
-            # This code and comment are both odd...
-            # We may have area items draw two times. Investigate later:
-
             # Get the max number of items that can be found in one day:
             max_items = int(round((tracker.ability+tracker.risk)*.01+(tracker.day*.2)))
             if DEBUG_SE:
