@@ -113,7 +113,7 @@ screen mainscreen():
             ypos 305
             spacing 15
             textbutton "Characters":
-                action Stop("world"), Hide("mainscreen"), Jump("chars_list")
+                action Stop("world"), Hide("mainscreen"), SetVariable("came_from_mainscreen", True), Jump("chars_list")
                 tooltip "A list of all of your workers"
             textbutton "Buildings":
                 action Return(["building_management"])

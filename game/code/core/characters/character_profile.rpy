@@ -76,7 +76,7 @@ label char_profile:
     with dissolve
 
     # reset the_chosen so it doesn't mess with any future checks.
-    $ the_chosen = None
+    # $ the_chosen = None
 
     while 1:
         $ result = ui.interact()

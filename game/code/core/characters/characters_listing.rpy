@@ -1,4 +1,6 @@
 init:
+    default came_from_mainscreen = None
+
     default status_filters = set()
     default location_filters = set()
     default action_filters = set()
@@ -14,7 +16,7 @@ init:
 label chars_list:
     scene bg gallery
     # Check if we're the screen was loaded or not:
-    if not renpy.get_screen("chars_list"):
+    if came_from_mainscreen:
         python:
             char_lists_filters = CharsSortingForGui(sorting_for_chars_list)
             char_lists_filters.sorting_order = "level"
@@ -29,7 +31,9 @@ label chars_list:
             selected_filters = set()
             the_chosen = set()
 
-        show screen chars_list(source=char_lists_filters)
+            came_from_mainscreen = False
+
+    show screen chars_list(source=char_lists_filters)
     with dissolve
 
     python:
