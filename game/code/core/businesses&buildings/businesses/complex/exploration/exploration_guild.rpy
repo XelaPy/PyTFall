@@ -742,6 +742,8 @@ init -6 python: # Guild, Tracker and Log.
                     if area.special_chars:
                         for char, explored in area.special_chars.items():
                             if explored >= area.explored:
+                                tracker.captured_char = char
+                                
                                 temp = "Your team has captured a 'special' characters called {}!".format(char.name)
                                 temp = set_font_color(temp, "orange")
                                 tracker.log(temp)
