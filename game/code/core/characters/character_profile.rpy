@@ -99,11 +99,7 @@ label char_profile:
                                 if char in hero.team:
                                     hero.team.remove(char)
 
-                                try:
-                                    if char in char_lists_filters.sorted:
-                                        char_lists_filters.sorted.remove(char)
-                                except:
-                                    pass
+                                rebuild_chars_listings = True
 
                                 char.action = None
 
@@ -151,12 +147,7 @@ label char_profile:
                                              yes_action=Return(True),
                                              no_action=Return(False)):
 
-                            python:
-                                try:
-                                    if char in char_lists_filters.sorted:
-                                        char_lists_filters.sorted.remove(char)
-                                except:
-                                    pass
+                            $ rebuild_chars_listings = True
 
                             if char.status == 'slave':
                                 python:
