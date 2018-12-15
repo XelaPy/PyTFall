@@ -19,6 +19,13 @@ init -9 python: # FG Area
             self.hazard = dict()
             self.items = dict()
             self.mobs = dict()
+
+            # Special fields for quests, keys are chars or items and values are
+            # exploration progress required to get them. Later we might add
+            # some complex conditions instead, like fighting mobs.
+            self.special_items = dict()
+            self.special_chars = dict()
+
             # Chars and char capture:
             self.capture_chars = False
             self.chars = dict()
@@ -732,6 +739,18 @@ init -6 python: # Guild, Tracker and Log.
                 #  =================================================>>>
                 # Copied area must be used for checks here as it preserves state.
                 if carea.capture_chars:
+                    if area.special_chars:
+                        for char, explored in area.special_chars.items():
+                            if explored >= area.explored:
+                                temp = "Your team has captured a 'special' characters called {}!".format(char.name)
+                                temp = set_font_color(temp, "orange")
+                                tracker.log(temp)
+                                if DEBUG_SE:
+                                    msg = "{} has finished an exploration scenario. (Captured a special char {})".format(team.name, char.id)
+                                    se_debug(msg, mode="info")
+
+                                self.env.exit("captured char")
+
                     for c in area.chars:
                         # Unique (Or prebuilt Randoms)!
                         # 0 Chance atm.
