@@ -103,7 +103,7 @@ screen chars_list(source=None):
                     hover_background Frame(Transform(img, alpha=.9), 10 ,10)
                     xysize (470, 115)
                     action Return(['choice', c])
-                    alternate Return(['control', 'return']) # keep in sync iwth mousedown_3
+                    alternate Return(['control', 'return']) # keep in sync with mousedown_3
                     tooltip "Show {}'s Profile!".format(c.name)
 
                     # Image:
@@ -293,6 +293,9 @@ screen chars_list(source=None):
                             text "[f]" color saddlebrown:
                                 if len(str(f)) > 12:
                                     size 10
+                                    line_spacing -6
+                                else:
+                                    layout "nobreak"
                             tooltip 'Toggle the filter'
                 if "Work" in selected_filters:
                     for f in work_filters:
@@ -303,6 +306,8 @@ screen chars_list(source=None):
                                 if len(str(f)) > 12:
                                     size 10
                                     line_spacing -6
+                                else:
+                                    layout "nobreak"
                             tooltip 'Toggle the filter'
                 if "Action" in selected_filters:
                     for f in action_filters:
@@ -316,6 +321,8 @@ screen chars_list(source=None):
                                 if len(str(t)) > 12:
                                     size 10
                                     line_spacing -6
+                                else:
+                                    layout "nobreak"
                             tooltip 'Toggle the filter'
                 if "Class" in selected_filters:
                     for f in class_filters:
