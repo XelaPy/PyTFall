@@ -451,10 +451,18 @@ label after_load:
             if isinstance(b, UpgradableBuilding):
                 if not hasattr(b, "init_pep_talk"):
                     ManagerData.__init__(b)
+            if isinstance(b, BuildingStats):
+                if isinstance(b.auto_clean, bool):
+                    del b.auto_clean
+                    b.auto_clean = 100 
         for b in businesses.values():
             if isinstance(b, UpgradableBuilding):
                 if not hasattr(b, "init_pep_talk"):
                     ManagerData.__init__(b)
+            if isinstance(b, BuildingStats):
+                if isinstance(b.auto_clean, bool):
+                    del b.auto_clean
+                    b.auto_clean = 100
 
     python hide:
         for obj in pytfall.__dict__.values():

@@ -841,17 +841,10 @@ init:
             yalign .95
             xysize(343, 675)
 
-            label (u"Building Controls:"):
-                 align .5, .05
-                 text_color ivory
-                 text_bold True
-                 text_size 20
-                 text_outlines [(2, "#424242", 0, 0)]
-
             # Controls themselves ---------------------------------->
             vbox:
                 style_group "basic"
-                xalign .5 ypos 70
+                xalign .5 ypos 30
 
                 button:
                     xysize (200, 32)
@@ -860,8 +853,37 @@ init:
                     tooltip "Give new name to your Building!"
                     text "Rename Building"
 
-                null height 5
                 if isinstance(building, BuildingStats):
+                    null height 20
+                    label (u"Cleaning Options:"):
+                        style "proper_stats_label"
+                        align .5, .05
+                        text_bold True
+                    null height 5
+
+                    hbox:
+                        xysize(200,32)
+                        xalign .5
+                        bar:
+                            xmaximum 120
+                            align (.5, .5)
+                            if building.auto_clean == 100:
+                                value 100
+                                range 100
+                            else:
+                                value FieldValue(building, "auto_clean", 99, style='scrollbar', offset=0, step=1)
+                                thumb 'content/gfx/interface/icons/move15.png'
+                                tooltip "Cleaners are called if dirt is more than %d%%" % building.auto_clean 
+                        python:
+                            def toggleClean(building):
+                                building.auto_clean = 90 if building.auto_clean == 100 else 100 
+                        button:
+                            xalign 1.0
+                            action Function(toggleClean, building)
+                            selected building.auto_clean != 100
+                            tooltip "Toggle automatic hiring of cleaners"
+                            text "Auto"
+
                     button:
                         xysize(200, 32)
                         xalign .5
@@ -882,26 +904,12 @@ init:
                         tooltip "Hire cleaners to completely clean all buildings for %d Gold." % price
                         text "Clean: All Buildings"
 
-                    button:
-                        xysize (200, 32)
-                        xalign .5
-                        action ToggleField(building, "auto_clean")
-                        tooltip "Enable automatic hiring of cleaners if the building gets too dirty!"
-                        text "Auto-Cleaning:" align (.0, .5)
-                        if not building.auto_clean:
-                            add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, .5)
-                        else:
-                            add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, .5)
-
                 if isinstance(building, UpgradableBuilding):
                     null height 20
                     label u"Management Options:":
-                         style "content_label"
+                         style "proper_stats_label"
                          xalign .5
-                         text_color ivory
                          text_bold True
-                         text_size 20
-                         text_outlines [(2, "#424242", 0, 0)]
                     null height 5
 
                     default fields = [

@@ -49,8 +49,8 @@ init -5 python:
                     temp = "{color=[red]}" + "DEBUG: {0:.2f} DIRT IN THE BUILDING!".format(dirt)
                     self.log(temp, True)
 
-                if dirt >= 900:
-                    if building.auto_clean:
+                if dirt > (building.auto_clean*10):
+                    if building.auto_clean != 100:
                         price = building.get_cleaning_price()
                         if hero.take_money(price, "Hired Cleaners"):
                             building.dirt = 0
@@ -59,12 +59,13 @@ init -5 python:
                                                 building.name)
                             self.log(temp)
 
-                    if not using_all_workers and dirt:
+                if dirt >= 900:
+                    if not using_all_workers:
                         using_all_workers = True
                         all_workers = self.all_on_deck(workers, job, power_flag_name)
                         workers = all_workers.union(workers)
 
-                    if not make_nd_report_at and dirt:
+                    if not make_nd_report_at:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:

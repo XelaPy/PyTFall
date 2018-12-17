@@ -323,7 +323,7 @@ init -10 python:
             """
             self.stats = {"dirt": 0, "threat": 0}
             self.max_stats = {"dirt": 1000, "threat": 1000}
-            self.auto_clean = False
+            self.auto_clean = 100
 
             # Logging stat changes during the day:
             self.stats_log = {}
