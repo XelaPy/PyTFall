@@ -64,9 +64,13 @@ init python:
         return char
 
 label char_profile:
-    if not hasattr(store, "girls") or girls is None or char not in girls:
-        $ girls = list(girl for girl in hero.chars if girl.action != "Exploring")
-        # TODO !!! Find a solid way to handle this.
+    if the_chosen:
+        if char and char not in the_chosen:
+            $ girls = list(c for c in hero.chars if c.is_available)
+        else:
+            $ girls = list(the_chosen)
+    elif not hasattr(store, "girls") or girls is None or char not in girls:
+        $ girls = list(c for c in hero.chars if c.is_available)
 
     $ change_char_in_profile("init")
 
@@ -74,9 +78,6 @@ label char_profile:
     $ renpy.retain_after_load()
     show screen char_profile
     with dissolve
-
-    # reset the_chosen so it doesn't mess with any future checks.
-    # $ the_chosen = None
 
     while 1:
         $ result = ui.interact()

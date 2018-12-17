@@ -32,30 +32,31 @@ label chars_list:
             the_chosen = set()
 
             rebuild_chars_listings = False
+            char = None
 
     show screen chars_list(source=char_lists_filters)
     with dissolve
 
-    python:
-        while 1:
+    while 1:
 
-            result = ui.interact()
+        $ result = ui.interact()
 
-            if result[0] == 'control':
-                if result[1] == 'return':
-                    break
-            elif result[0] == "dropdown":
-                if result[1] == "workplace":
-                    renpy.show_screen("set_workplace_dropdown", result[2], pos=renpy.get_mouse_pos())
-                elif result[1] == "home":
-                    renpy.show_screen("set_home_dropdown", result[2], pos=renpy.get_mouse_pos())
-                elif result[1] == "action":
-                    the_chosen = set()
-                    renpy.show_screen("set_action_dropdown", result[2], pos=renpy.get_mouse_pos())
-            elif result[0] == 'choice':
-                renpy.hide_screen("chars_list")
-                char = result[1]
-                jump('char_profile')
+        if result[0] == 'control':
+            if result[1] == 'return':
+                $ the_chosen = set()
+                hide screen chars_list
+                jump mainscreen
+        elif result[0] == "dropdown":
+            if result[1] == "workplace":
+                $ renpy.show_screen("set_workplace_dropdown", result[2], pos=renpy.get_mouse_pos())
+            elif result[1] == "home":
+                $ renpy.show_screen("set_home_dropdown", result[2], pos=renpy.get_mouse_pos())
+            elif result[1] == "action":
+                $ renpy.show_screen("set_action_dropdown", result[2], pos=renpy.get_mouse_pos())
+        elif result[0] == 'choice':
+            hide screen chars_list
+            $ char = result[1]
+            jump char_profile
 
     hide screen chars_list
     jump mainscreen
