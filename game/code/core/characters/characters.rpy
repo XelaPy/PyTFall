@@ -1393,14 +1393,21 @@ init -9 python:
 
             if not container: # Pick the container we usually shop from:
                 container = store.all_auto_buy_items
-            if slots:
-                slots_to_buy = slots
-                amount = float("inf") # We will subtract 1 from here below
+            if slots is None:
+                # add slots with reasonable limits
+                slots = {s: 2 for s in store.EQUIP_SLOTS}
+                slots["ring"] = 5
+                slots["consumable"] = 20
             else:
-                slots_to_buy = {s: float("inf") for s in self.eqslots.keys()}
+                amount = 0
+                for a in slots.values():
+                    amount += a
+
+            if amount == 0:
+                return []
 
             # Create dict gather data, we gather slot: ([30, 50], item) types:
-            weighted = {s: [] for s in slots_to_buy}
+            weighted = {s: [] for s in slots}
 
             if not purpose: # Let's see if we can get a purpose from last known auto equip purpose:
                 purpose = self.guess_aeq_purpose(self.last_known_aeq_purpose)
@@ -1421,100 +1428,35 @@ init -9 python:
 
             rv = [] # List of item name strings we return in case we need to report
             # what happened in this method to player.
-            for slot, _items in weighted.iteritems():
-                if not _items:
+            selected = []
+            for slot, picks in weighted.iteritems():
+                for _weight, item in picks:
+                    _weight = sum(_weight)
+                    if _weight > 0:
+                        selected.append([_weight, slot, item])
+            selected.sort(key=itemgetter(0), reverse=True)
+            for w, slot, item in selected:
+                if not (slots[slot] and dice(item.chance)):
                     continue
-
-                per_slot_amount = slots_to_buy[slot]
-                if slot in store.EQUIP_SLOTS:
-                    amount, per_slot_amount, rv = self.ab_equipment(_items,
-                                                   slot,
-                                                   amount, per_slot_amount,
-                                                   rv, equip, check_money,
-                                                   direct_equip=direct_equip)
-                elif slot == "consumable":
-                    amount, per_slot_amount, rv = self.ab_consumables(_items,
-                                                     slot,
-                                                     amount, per_slot_amount,
-                                                     rv, equip, check_money)
-                if amount <= 0:
-                    break
-
-            if equip and not direct_equip:
-                self.equip_for(purpose)
-
-            return rv
-
-        def ab_equipment(self, _items, slot, amount, per_slot_amount,
-                         rv, equip, check_money, direct_equip=False):
-            buy_amount = min(amount, per_slot_amount)
-            # Check if we want to go on, skip needless calculations otherwise.
-            if not buy_amount:
-                return amount, per_slot_amount, rv
-
-            # We also want to set max amount to buy based on the slot
-            # (5 for rings, 2 for everything else)
-            if not check_money: # special check, where we just force items.
-                pass
-            elif slot == "ring":
-                buy_amount = min(buy_amount, 5)
-            else:
-                buy_amount = min(buy_amount, 2)
-
-            _items = [(sum(weights), item) for weights, item in _items]
-            _items.sort(key=itemgetter(0), reverse=True)
-            for weight, item in _items:
                 c0 = not check_money
-                c1 = check_money and dice(item.chance) and self.take_money(item.price, reason="Items")
+                c1 = check_money and self.take_money(item.price, reason="Items")
                 if c0 or c1:
-                    buy_amount -= 1
-                    amount -= 1
-                    per_slot_amount -= 1
                     rv.append(item.id)
 
-                    if direct_equip:
+                    if direct_equip and slot != "consumable":
                         self.equip(item)
                     else:
                         self.inventory.append(item)
 
-                    if not buy_amount:
-                        break
-
-            return amount, per_slot_amount, rv
-
-        def ab_consumables(self, _items, slot, amount, per_slot_amount,
-                         rv, equip, check_money):
-            buy_amount = min(amount, per_slot_amount)
-            # Check if we want to go on, skip needless calculations otherwise.
-            if not buy_amount:
-                return amount, per_slot_amount, rv
-
-            # We also want to set max amount to buy based on the slot
-            if not check_money: # special check, where we just force items.
-                pass
-            else:
-                buy_amount = min(buy_amount, 20)
-
-            _items = [(sum(weights), item) for weights, item in _items]
-            _items.sort(key=itemgetter(0), reverse=True)
-            for weight, item in _items:
-                # Do not buy more than 3 of any consumable item:
-                if self.inventory[item] >= 3:
-                    continue
-
-                c0 = not check_money
-                c1 = check_money and dice(item.chance) and self.take_money(item.price, reason="Items")
-                if c0 or c1:
-                    buy_amount -= 1
+                    slots[slot] -= 1
                     amount -= 1
-                    per_slot_amount -= 1
-                    self.inventory.append(item)
-                    rv.append(item.id)
-
-                    if not buy_amount:
+                    if amount == 0:
                         break
+                
+            if equip and not direct_equip:
+                self.equip_for(purpose)
 
-            return amount, per_slot_amount, rv
+            return rv
 
         def auto_buy_old_but_optimized(self, item=None, amount=1, equip=False):
             """Older version of autobuy method which should be more optimized

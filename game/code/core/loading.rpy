@@ -623,6 +623,7 @@ init -11 python:
                     item.slot = "gift"
                     item.type = "gift"
                     item.sellable = True
+                    item.tier = 0
                     item.__dict__.update(key)
                     content[item.id] = item
         return content

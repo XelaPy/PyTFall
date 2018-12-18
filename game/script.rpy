@@ -400,6 +400,13 @@ label after_load:
             if id not in store.traits:
                 store.traits[id] = trait
 
+        tierless_items = store.tiered_items.get(None)
+        if tierless_items:
+            for item in tierless_items:
+                item.tier = 0
+                store.tiered_items[0].append(item)
+            del store.tiered_items[None]
+
     call sort_traits_for_gameplay from _call_sort_traits_for_gameplay_1
 
     # All kinds of chars:
