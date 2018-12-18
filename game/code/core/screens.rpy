@@ -1263,36 +1263,28 @@ screen digital_keyboard(line=""):
                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/hp_1s.png", im.matrix.brightness(.10)))
                     text str(i) color gold size 22 outlines [(1, "#000000", 0, 0)] align (.5, .5) text_align .5
                     action SetScreenVariable("current_number", digital_screen_logic(current_number, str(i)))
+                    keysym ("K_KP%d"%i), ("K_%d"%i)
             button:
                 xysize(60, 30)
                 background "content/gfx/interface/buttons/hp_1s.png"
                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/hp_1s.png", im.matrix.brightness(.10)))
                 text str("C") color gold size 22 outlines [(1, "#000000", 0, 0)] align (.5, .5) text_align .5
                 action SetScreenVariable("current_number", "0")
+                keysym "K_DELETE", "K_SPACE", "K_CLEAR", "K_KP_PERIOD"
             button:
                 xysize(60, 30)
                 background "content/gfx/interface/buttons/hp_1s.png"
                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/hp_1s.png", im.matrix.brightness(.10)))
                 text "0" color gold size 22 outlines [(1, "#000000", 0, 0)] align (.5, .5) text_align .5
                 action SetScreenVariable("current_number", digital_screen_logic(current_number, "0"))
+                keysym "K_KP0", "K_0"
             button:
                 xysize(60, 30)
                 background "content/gfx/interface/buttons/hp_1s.png"
                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/hp_1s.png", im.matrix.brightness(.10)))
                 text str("E") color gold size 22 outlines [(1, "#000000", 0, 0)] align (.5, .5) text_align .5
                 action Return(int(current_number))
+                keysym "K_KP_ENTER", "K_RETURN"
 
     key "mousedown_3" action Return(0)
     key "K_ESCAPE" action Return(0)
-    key "1" action SetScreenVariable("current_number", digital_screen_logic(current_number, "1"))
-    key "2" action SetScreenVariable("current_number", digital_screen_logic(current_number, "2"))
-    key "3" action SetScreenVariable("current_number", digital_screen_logic(current_number, "3"))
-    key "4" action SetScreenVariable("current_number", digital_screen_logic(current_number, "4"))
-    key "5" action SetScreenVariable("current_number", digital_screen_logic(current_number, "5"))
-    key "6" action SetScreenVariable("current_number", digital_screen_logic(current_number, "6"))
-    key "7" action SetScreenVariable("current_number", digital_screen_logic(current_number, "7"))
-    key "8" action SetScreenVariable("current_number", digital_screen_logic(current_number, "8"))
-    key "9" action SetScreenVariable("current_number", digital_screen_logic(current_number, "9"))
-    key "0" action SetScreenVariable("current_number", digital_screen_logic(current_number, "0"))
-    key "K_RETURN" action Return(int(current_number))
-    key "K_SPACE" action SetScreenVariable("current_number", "0")
