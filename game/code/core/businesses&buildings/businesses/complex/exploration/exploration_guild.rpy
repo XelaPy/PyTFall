@@ -707,8 +707,8 @@ init -6 python: # Guild, Tracker and Log.
 
                 # Items:
                 # Handle the special items (must be done here so it doesn't collide with other teams)
+                special_items = []
                 if area.special_items:
-                    special_items = []
                     for item, explored in area.special_items.items():
                         if area.explored >= explored:
                             special_items.append(item)
