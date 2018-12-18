@@ -66,6 +66,10 @@ init -9 python:
             # why is it commented out though? BE attributes are widely used by items...
 
         def init(self):
+            # make sure tier is always set
+            if self.tier is None:
+                self.tier = 0
+
             # Rules:
             if self.usable is None:
                 if self.slot in self.NOT_USABLE:
