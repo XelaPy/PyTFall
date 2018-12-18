@@ -431,8 +431,7 @@ init -6 python: # Guild, Tracker and Log.
                 elif tracker.state == "exploring":
                     result = yield process(self.explore(tracker))
                     if result == "captured char":
-                        char = tracker.captured_char
-                        temp = "{} captured!".format()
+                        tracker.state = "traveling back"
                 elif tracker.state == "camping":
                     yield process(self.camping(tracker))
                 elif tracker.state == "traveling back":
@@ -760,9 +759,10 @@ init -6 python: # Guild, Tracker and Log.
                     if area.special_chars:
                         for char, explored in area.special_chars.items():
                             if area.explored >= explored:
-                                tracker.captured_char = char
+                                del(area.special_chars[char])
+                                tracker.captured_chars.append(char)
 
-                                temp = "Your team has captured a 'special' characters called {}!".format(char.name)
+                                temp = "Your team has captured a 'special' character: {}!".format(char.name)
                                 temp = set_font_color(temp, "orange")
                                 tracker.log(temp)
                                 if DEBUG_SE:
@@ -775,10 +775,13 @@ init -6 python: # Guild, Tracker and Log.
                     if area.chars:
                         for id, data in area.chars.items():
                             explored, chance = data
-                            if area.explored >= explored and dice(chance*.1):
-                                char = chars[id]
-                                tracker.captured_char = char
-                                temp = "Your team has captured a characters called {}!".format(char.name)
+                            # if area.explored >= explored and dice(chance*.1):
+                            if area.explored >= explored and dice(chance):
+                                del(area.chars[id])
+
+                                char = store.chars[id]
+                                tracker.captured_chars.append(char)
+                                temp = "Your team has captured a character: {}!".format(char.name)
                                 temp = set_font_color(temp, "lawngreen")
                                 tracker.log(temp)
                                 if DEBUG_SE:
@@ -805,8 +808,8 @@ init -6 python: # Guild, Tracker and Log.
                                     kwargs["id"] = id
 
                                 char = build_rc(**kwargs)
-                                tracker.captured_char = char
-                                temp = "Your team has captured a characters called {}!".format(char.name)
+                                tracker.captured_chars.append(char)
+                                temp = "Your team has captured a character: {}!".format(char.name)
                                 temp = set_font_color(temp, "lawngreen")
                                 tracker.log(temp)
                                 if DEBUG_SE:
