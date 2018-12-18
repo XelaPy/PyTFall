@@ -1436,10 +1436,10 @@ init -9 python:
                         selected.append([_weight, slot, item])
             selected.sort(key=itemgetter(0), reverse=True)
             for w, slot, item in selected:
-                if not slots[slot]:
+                if not (slots[slot] and dice(item.chance)):
                     continue
                 c0 = not check_money
-                c1 = check_money and dice(item.chance) and self.take_money(item.price, reason="Items")
+                c1 = check_money and self.take_money(item.price, reason="Items")
                 if c0 or c1:
                     rv.append(item.id)
 
