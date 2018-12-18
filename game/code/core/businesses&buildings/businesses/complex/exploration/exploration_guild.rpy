@@ -26,9 +26,10 @@ init -9 python: # FG Area
             self.special_items = dict()
             self.special_chars = dict()
 
-            # Chars and char capture:
+            # Chars capture:
             self.capture_chars = False
-            self.chars = dict()
+            self.chars = dict() # id: [explored, chance_per_day]
+            self.rchars = dict() # id can be 'any' here, meaning any rChar.
 
             self.items_price_limit = 0
 
@@ -754,7 +755,8 @@ init -6 python: # Guild, Tracker and Log.
 
                 #  =================================================>>>
                 # Copied area must be used for checks here as it preserves state.
-                if carea.capture_chars:
+                if carea.capture_chars and not self.env.now % 10:
+                    # Special Chars:
                     if area.special_chars:
                         for char, explored in area.special_chars.items():
                             if area.explored >= explored:
@@ -769,21 +771,49 @@ init -6 python: # Guild, Tracker and Log.
 
                                 self.env.exit("captured char")
 
-                    for c in area.chars:
-                        # Unique (Or prebuilt Randoms)!
-                        # 0 Chance atm.
-
-                        # String location? TODO
-                        if c in store.chars and dice(area.girls[c] + tracker.day*.1 - 1000) and g.location == "se":
-                            tracker.captured_char = None # chars[g] # TODO: Properly create the rchar...
-                            self.env.exit("captured char")
-                        # Randoms!
-                        elif c in store.rchars and dice(area.girls[c] + tracker.day*.1 + 100): # We ensure capture for testing purposes.
-                                tracker.captured_char = build_rc()
+                    # uChars (also from Area):
+                    if area.chars:
+                        for id, data in area.chars.items():
+                            explored, chance = data
+                            if area.explored >= explored and dice(chance*.1):
+                                char = chars[id]
+                                tracker.captured_char = char
+                                temp = "Your team has captured a characters called {}!".format(char.name)
+                                temp = set_font_color(temp, "lawngreen")
+                                tracker.log(temp)
                                 if DEBUG_SE:
-                                    msg = "{} has finished an exploration scenario. (Captured a char)".format(team.name)
+                                    msg = "{} has finished an exploration scenario. (Captured a uChar {})".format(team.name, char.id)
                                     se_debug(msg, mode="info")
-                                self.env.exit("captured rchar")
+
+                                self.env.exit("captured char")
+
+                    # rChars:
+                    if area.rchars:
+                        for id, data in area.rchars.items():
+                            explored, chance = data
+                            if area.explored >= explored and dice(chance*.1):
+                                # Get tier:
+                                if area.tier == 0:
+                                    tier = random.uniform(.1, .3)
+                                else:
+                                    tier = random.uniform(area.tier*.8, area.tier*1.2)
+                                tier = min(.1, tier)
+                                tier = max(8, tier) # never build rChars over tier 8?
+
+                                kwargs = {"tier": tier, "set_status": True}
+                                if id != "any":
+                                    kwargs["id"] = id
+
+                                char = build_rc(**kwargs)
+                                tracker.captured_char = char
+                                temp = "Your team has captured a characters called {}!".format(char.name)
+                                temp = set_font_color(temp, "lawngreen")
+                                tracker.log(temp)
+                                if DEBUG_SE:
+                                    msg = "{} has finished an exploration scenario. (Captured an rChar {})".format(team.name, char.id)
+                                    se_debug(msg, mode="info")
+
+                                self.env.exit("captured char")
 
                 if not fought_mobs and tracker.mobs:
                     # Never fight anyone with risk lower than 25..
