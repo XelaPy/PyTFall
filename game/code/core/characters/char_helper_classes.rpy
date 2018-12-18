@@ -1452,13 +1452,15 @@ init -10 python:
                 slot = item.slot
                 if smart_ownership_limit:
                     owned = count_owned_items(char, item)
-                    if slot == "ring" and owned >= 3:
-                        continue
-                    elif slot == "consumable" and owned >= 5:
+                    if slot == "ring":
+                       if owned >= 3:
+                            continue
+                    elif slot == "consumable":
+                        if owned >= 5:
+                            continue
+                    elif owned >= 1:
                         continue
                     elif slot == "misc" and item in char.miscblock:
-                        continue
-                    elif owned >= 1:
                         continue
 
                 if slot not in weighted:
