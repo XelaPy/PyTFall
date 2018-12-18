@@ -1388,18 +1388,23 @@ init -9 python:
             - Add casual as attr.
             - Maybe merge with give_tiered_items somehow!
             """
-            if amount == 0:
-                return []
             if item:
                 return self.auto_buy_item(item, amount, equip)
 
             if not container: # Pick the container we usually shop from:
                 container = store.all_auto_buy_items
-            if not slots:
+            if slots is None:
                 # add slots with reasonable limits
                 slots = {s: 2 for s in store.EQUIP_SLOTS}
                 slots["ring"] = 5
                 slots["consumable"] = 20
+            else:
+                amount = 0
+                for a in slots.values():
+                    amount += a
+
+            if amount == 0:
+                return []
 
             # Create dict gather data, we gather slot: ([30, 50], item) types:
             weighted = {s: [] for s in slots}
