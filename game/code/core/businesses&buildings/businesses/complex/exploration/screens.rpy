@@ -16,7 +16,7 @@ screen building_management_leftframe_exploration_guild_mode:
 
             null height 5
 
-            # Main Area
+            # Main Area:
             # We assume that there is always at least one area!
             $ main_area = temp[focused_area_index]
             $ img = main_area.img

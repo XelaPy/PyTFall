@@ -705,7 +705,14 @@ init -6 python: # Guild, Tracker and Log.
                             char.mod_stat(stat, -var)
 
                 # Items:
-                if chosen_items and not self.env.now % 5:
+                # Handle the special items (must be done here so it doesn't collide with other teams)
+                if area.special_items:
+                    special_items = []
+                    for item, explored in area.special_items.items():
+                        if area.explored >= explored:
+                            special_items.append(item)
+
+                if (chosen_items or special_items) and not self.env.now % 5:
                     if self.env.now < 50:
                         chance = self.env.now/5
                     elif self.env.now < 80:
@@ -714,14 +721,23 @@ init -6 python: # Guild, Tracker and Log.
                         chance = 100
 
                     if dice(chance):
-                        item = chosen_items.pop()
+                        if special_items:
+                            item = special_items.pop()
+                            temp = "Found a special item %s!" % item
+                            temp = set_font_color(temp, "orange")
+                            tracker.log(temp, "Item", ui_log=True, item=store.items[item])
+                            if DEBUG_SE:
+                                msg = "{} Found a special item {}!".format(team.name, item)
+                                se_debug(msg, mode="info")
+                        else:
+                            item = chosen_items.pop()
+                            temp = "Found an item %s!" % item
+                            temp = set_font_color(temp, "lawngreen")
+                            tracker.log(temp, "Item", ui_log=True, item=store.items[item])
+                            if DEBUG_SE:
+                                msg = "{} Found an item {}!".format(team.name, item)
+                                se_debug(msg, mode="info")
                         items.append(item)
-
-                        temp = "{color=[lawngreen]}Found an item %s!{/color}" % item
-                        tracker.log(temp, "Item", ui_log=True, item=store.items[item])
-                        if DEBUG_SE:
-                            msg = "{} Found an item {}!".format(team.name, item)
-                            se_debug(msg, mode="info")
 
                 # Cash:
                 if max_cash > 0 and not self.env.now % 20:
@@ -743,7 +759,7 @@ init -6 python: # Guild, Tracker and Log.
                         for char, explored in area.special_chars.items():
                             if explored >= area.explored:
                                 tracker.captured_char = char
-                                
+
                                 temp = "Your team has captured a 'special' characters called {}!".format(char.name)
                                 temp = set_font_color(temp, "orange")
                                 tracker.log(temp)
