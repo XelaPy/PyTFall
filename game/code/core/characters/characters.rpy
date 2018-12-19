@@ -993,6 +993,9 @@ init -9 python:
                 return None
             if not item.eqchance or item.badness >= 100:
                 return None
+            if item.type == "permanent": # Never pick permanent?
+                return None
+
             chance = []
             when_drunk = 30
             appetite = 50
@@ -1019,11 +1022,8 @@ init -9 python:
                 elif trait == "Slim":
                     appetite -= 10
 
-            if item.type == "permanent": # Never pick permanent?
-                return None
-
             if item.slot == "consumable": # Special considerations like food poisoning.
-                if item in self.consblock or item in self.constemp:
+                if item in self.constemp:
                     return None
                 if item.type == "alcohol":
                     if self.get_flag("drunk_counter", 0) >= when_drunk:
@@ -1032,25 +1032,17 @@ init -9 python:
                         chance.append(30 + when_drunk)
                 elif item.type == "food":
                     food_poisoning = self.get_flag("food_poison_counter", 0)
-                    if not food_poisoning:
-                        chance.append(appetite)
-                    else:
-                        if food_poisoning >= 6:
-                            return None
-                        chance.append((6-food_poisoning)*9)
-            elif item.slot == "misc":
-                # If the item self-destructs or will be blocked after one use,
-                # it's now up to the caller to stop after the first item of this kind that is picked.
-                # no blocked misc items:
-                if item in self.miscblock:
-                    return None
+                    if food_poisoning:
+                        appetite -= food_poisoning * 8
+                    chance.append(appetite)
 
             if item.tier:
                 # only award tier bonus if it's reasonable.
                 target_tier = self.tier
                 item_tier = item.tier*2
-                tier_bonus = max(item_tier - target_tier, 0)
-                chance.append(tier_bonus*50)
+                tier_bonus = item_tier - target_tier
+                if tier_bonus > 0:
+                    chance.append(tier_bonus*50)
 
             chance.append(item.eqchance)
             if item.badness:
