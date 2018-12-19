@@ -600,7 +600,7 @@
     "hidden": true,
     "infinite": false,
     "slot": "consumable",
-    "type": "permanent",
+    "type": "upgrade",
     "mod": {"luck": 10},
     "locations": ["Exploration", "Arena"]
     },
