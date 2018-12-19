@@ -1450,7 +1450,7 @@ init -10 python:
 
             for item in inventory:
                 slot = item.slot
-                if smart_ownership_limit:
+                if smart_ownership_limit is True:
                     owned = count_owned_items(char, item)
                     if slot == "ring":
                        if owned >= 3:
@@ -1464,22 +1464,22 @@ init -10 python:
                         continue
 
                 if slot not in weighted:
-                    aeq_debug("Ignoring item {} on slot.".format(item.id))
+                    aeq_debug("Ignoring item %s on slot", item.id)
                     continue
 
                 if limit_tier is not False and item.tier > limit_tier:
-                    aeq_debug("Ignoring item {} on tier.".format(item.id))
+                    aeq_debug("Ignoring item %s on tier.", item.id)
                     continue
 
                 # Gender:
                 if item.sex not in (char.gender, "unisex"):
-                    aeq_debug("Ignoring item {} on gender.".format(item.id))
+                    aeq_debug("Ignoring item %s on gender.", item.id)
                     continue
 
                 # Money (conditioned):
-                if check_money:
+                if check_money is True:
                     if char.gold < item.price:
-                        aeq_debug("Ignoring item {} on money.".format(item.id))
+                        aeq_debug("Ignoring item %s on money.", item.id)
                         continue
 
                 #if "Slave" in base_purpose and "Slave" in item.pref_class:
@@ -1487,7 +1487,7 @@ init -10 python:
                 #else:
                 weights = chance_func(item) if chance_func else [item.eqchance]
                 if weights is None: # We move to the next item!
-                    aeq_debug("Ignoring item {} on weights.".format(item.id))
+                    aeq_debug("Ignoring item %s on weights.", item.id)
                     continue
 
                 # Handle purposes:
@@ -1498,7 +1498,7 @@ init -10 python:
                 else: # 'Any'
                     # If no purpose is valid for the item, we want nothing to do with it.
                     if slot not in ("misc", "consumable"):
-                        aeq_debug("Ignoring item {} on purpose.".format(item.id))
+                        aeq_debug("Ignoring item %s on purpose.", item.id)
                         continue
                     weights.append(55)
 
@@ -1536,13 +1536,18 @@ init -10 python:
                         elif new_max > curr_max:
                             weights.append(50 + max(new_max-curr_max, 50))
                         else: # Item lowers max of this stat for the character:
-                            if stat in exclude_on_stats:
-                                break # We want nothing to do with this item.
-                            else:
+                            if stat not in exclude_on_stats:
                                 change = curr_max-new_max
-                                if change > curr_max*.2: # If items takes off more that 20% of our stat...
-                                    break
+                                # proceed if it does not take off more than 20% of our stat...
+                                if change <= curr_max*.2:
+                                    continue
+                            # We want nothing to do with this item.
+                            weights = None
+                            break
 
+                if weights is None:
+                    continue # Loop did not finish -> skip
+ 
                 # Skills:
                 for skill, effect in item.mod_skills.iteritems():
                     temp = sum(effect)
@@ -1574,7 +1579,7 @@ init -10 python:
                             saturated_skill = max(value + 100, new_skill)
                             mod_val = 50 + 100*(new_skill - value) / saturated_skill
                             if mod_val > 100 or mod_val < -100:
-                                aeq_debug("Unusual mod value for skill {}: {}".format(skill, mod_val))
+                                aeq_debug("Unusual mod value for skill %s: %s", skill, mod_val)
                             weights.append(mod_val)
 
                 weighted[slot].append([weights, item])
