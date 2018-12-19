@@ -1001,10 +1001,10 @@ init -9 python:
             appetite = 50
 
             for trait in self.traits:
-                if trait in trait_selections["badtraits"] and item in trait_selections["badtraits"][trait]:
+                if trait in item.badtraits:
                     return None
 
-                if trait in trait_selections["goodtraits"] and item in trait_selections["goodtraits"][trait]:
+                if trait in item.goodtraits:
                     chance.append(100)
 
                 # Other traits:

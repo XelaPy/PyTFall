@@ -1517,10 +1517,27 @@ init -10 python:
                         # Get the resulting value:
                         new_stat = max(min(self.stats[stat] + self.imod[stat] + value, new_max), self.min[stat])
 
-                        # add the fraction increase/decrease
-                        temp = 100*(new_stat - stats['current_stat'][stat])/new_max
-                        temp = max(1, temp)
-                        weights.append(50 + temp)
+                        curr_stat = stats['current_stat'][stat]
+                        if curr_stat == new_stat:
+                            # the item could help, but not now
+                            if value > 0:
+                                weights.append(min(25, value*5))
+                        elif curr_stat < new_stat:
+                            # add the fraction increase/decrease
+                            temp = 100*(new_stat - curr_stat)/new_max
+                            weights.append(50 + temp)
+                        else: # Item lowers the stat for the character
+                            if stat not in exclude_on_stats:
+                                change = curr_stat - new_stat
+                                # proceed if it does not take off more than 20% of our stat...
+                                if change <= curr_stat*.2:
+                                    continue
+                            # We want nothing to do with this item.
+                            weights = None
+                            break
+
+                if weights is None:
+                    continue # Loop did not finish -> skip
 
                 # Max Stats:
                 for stat, value in item.max.iteritems():
