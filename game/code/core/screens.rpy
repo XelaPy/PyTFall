@@ -309,8 +309,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
 
         # AP Frame/Next Day button:
         $ tc_0 = any([renpy.current_screen().tag == "next_day", hero.AP == 0])
-        $ tc_1 = renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "slave_shopping"]
-        $ tc_2 = not show_team_status
+        $ tc_1 = show_lead_away_buttons and renpy.current_screen().tag not in ["mainscreen"]
         $ gm_points = gm.gm_points
 
         $ tt_string = "You have {} Action Points to interact with the world".format(hero.AP)
@@ -319,7 +318,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         else:
             $ tt_string += "!"
 
-        if all([tc_0, tc_1, tc_2, not gm_points]):
+        if all([tc_0, tc_1, not gm_points]):
             button:
                 style_group "basic"
                 align (.5, .6)
@@ -391,7 +390,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                     action Show("s_menu", transition=dissolve)
                     tooltip "Game Preferences"
 
-            if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"] and show_lead_away_buttons:
+            if renpy.current_screen().tag not in ["mainscreen", "dungeon"] and show_lead_away_buttons:
                 imagebutton:
                     idle im.Scale("content/gfx/interface/buttons/MS.png", 38, 37)
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png", 38, 37), im.matrix.brightness(.15))
@@ -408,7 +407,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                     action Return(["jump", "item_transfer"])
                     tooltip "Transfer items between {} and {}".format(hero.name, char.nickname)
 
-            if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"] and show_lead_away_buttons:
+            if renpy.current_screen().tag not in ["hero_profile"] and show_lead_away_buttons:
                 imagebutton:
                     idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(.15))
