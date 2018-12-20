@@ -478,8 +478,10 @@ init -6 python: # Guild, Tracker and Log.
                         se_debug(msg, mode="info")
 
                     temp = "{} arrived at {}!".format(team.name, area.id)
-                    if tracker.day > 0:
+                    if tracker.day > 1:
                         temp = temp + " It took {} {} to get there.".format(tracker.day, plural("day", tracker.day))
+                    else:
+                        temp = temp + " The trip took less then one day!"
                     tracker.log(temp, name="Arrival")
                     tracker.state = "exploring"
                     tracker.traveled = 0 # Reset for traveling back.
@@ -775,8 +777,7 @@ init -6 python: # Guild, Tracker and Log.
                     if area.chars:
                         for id, data in area.chars.items():
                             explored, chance = data
-                            # if area.explored >= explored and dice(chance*.1):
-                            if area.explored >= explored and dice(chance):
+                            if area.explored >= explored and dice(chance*.1):
                                 del(area.chars[id])
 
                                 char = store.chars[id]
