@@ -1432,11 +1432,12 @@ init -10 python:
 
             # call the functions for these only once
             char = self.instance
-            stats = {'current_stat': {}, 'current_max': {}}
+            _stats_curr = {}
+            _stats_max = {}
             skills = {s: self.get_skill(s) for s in target_skills}
             for stat in target_stats:
-                stats['current_stat'][stat] = self._get_stat(stat) # current stat value
-                stats['current_max'][stat] = self.get_max(stat)   # current stat max
+                _stats_curr[stat] = self._get_stat(stat) # current stat value
+                _stats_max[stat] = self.get_max(stat)   # current stat max
 
             # Add basetraits and occupations to basepurposes:
             base_purpose.update(bt.id for bt in char.traits.basetraits)
@@ -1508,16 +1509,16 @@ init -10 python:
                         weights.append(-100 + value*10)
                         continue
 
-                    if stat in stats['current_stat']:
+                    if stat in _stats_curr:
                         # a new max may have to be considered
-                        new_max = min(self.max[stat] + item.max[stat], self.lvl_max[stat]) if stat in item.max else stats['current_max'][stat]
+                        new_max = min(self.max[stat] + item.max[stat], self.lvl_max[stat]) if stat in item.max else _stats_max[stat]
                         if not new_max:
                             continue # Some weird exception?
 
                         # Get the resulting value:
                         new_stat = max(min(self.stats[stat] + self.imod[stat] + value, new_max), self.min[stat])
 
-                        curr_stat = stats['current_stat'][stat]
+                        curr_stat = _stats_curr[stat]
                         if curr_stat == new_stat:
                             # the item could help, but not now
                             if value > 0:
@@ -1530,7 +1531,7 @@ init -10 python:
                             if stat not in exclude_on_stats:
                                 change = curr_stat - new_stat
                                 # proceed if it does not take off more than 20% of our stat...
-                                if change <= curr_stat*.2:
+                                if change <= curr_stat/5:
                                     continue
                             # We want nothing to do with this item.
                             weights = None
@@ -1545,18 +1546,18 @@ init -10 python:
                         weights.append(-50 + value*5)
                         continue
 
-                    if stat in stats['current_max']:
+                    if stat in _stats_max:
                         new_max = min(self.max[stat] + value, self.lvl_max[stat])
-                        curr_max = stats['current_max'][stat]
+                        curr_max = _stats_max[stat]
                         if new_max == curr_max:
                             continue
                         elif new_max > curr_max:
-                            weights.append(50 + max(new_max-curr_max, 50))
+                            weights.append(50 + min(new_max-curr_max, 50))
                         else: # Item lowers max of this stat for the character:
-                            if stat not in exclude_on_stats:
+                            if True: #if stat not in exclude_on_stats:
                                 change = curr_max-new_max
                                 # proceed if it does not take off more than 20% of our stat...
-                                if change <= curr_max*.2:
+                                if change <= curr_max/5:
                                     continue
                             # We want nothing to do with this item.
                             weights = None
