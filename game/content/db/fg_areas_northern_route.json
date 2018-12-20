@@ -19,8 +19,8 @@
         },
         "cash_limit": 70,
         "items_price_limit": 100,
-        "chars": {"Kushina_Uzumaki": [0, 100]},
-        "rchars": {"any": [50, 30]},
+        "chars": {},
+        "rchars": {"any": [30, 10]},
         "items": {
             "Worn Clothes": 34,
             "Wooden Club": 34,
