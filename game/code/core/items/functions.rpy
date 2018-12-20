@@ -138,7 +138,7 @@ init -11 python:
                 renpy.show_screen('message_screen', "{} is already suffering from food poisoning. More food won't do any good.".format(character.name))
             return
         elif character.status == "slave":
-            if item.slot in ["weapon"] and not item.type.lower().startswith("tool"):
+            if item.slot in ["weapon"] and item.type != "tool":
                 if not silent:
                     renpy.show_screen('message_screen', "Slaves are forbidden to use large weapons by law.")
                 return
