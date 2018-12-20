@@ -978,18 +978,20 @@ screen next_day():
                         if i.red_flag:
                             red_flags = True
                             break
+                $ img = "content/gfx/frame/p_frame5.png"
                 button:
                     yalign .5
                     xysize (90, 90)
-                    idle_background Frame("content/gfx/frame/p_frame5.png", 5, 5)
+                    idle_background Frame(img, 5, 5)
                     if red_flags:
-                        hover_background Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(.10)), 5, 5)
+                        hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.10)), 5, 5)
                         tooltip "View all Events flagged Red!"
                         action [Return(['filter', 'red_flags']), SetScreenVariable("show_summary", None)]
                     else:
+                        hover_background Frame(img, 5, 5)
                         action NullAction()
                         tooltip "There are no events flagged Red!"
-                    text "!" align (.5, .5) color red size 60 style "proper_stats_text"
+                    text "!" align (.5, .5) color (red if red_flags else grey) size 60 style "proper_stats_text"
 
                 # School:
                 # Preparing info:

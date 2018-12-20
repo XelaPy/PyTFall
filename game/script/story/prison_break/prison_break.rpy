@@ -17,7 +17,7 @@ init:
     $ enemy_soldier2 = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/h1.png", 120, 120))
 
 screen prison_break_controls(): # control buttons screen
-    use top_stripe(False, None, False, True)
+    use top_stripe(False, show_lead_away_buttons=False, show_team_status=True)
     frame:
         xalign 0.95
         ypos 50

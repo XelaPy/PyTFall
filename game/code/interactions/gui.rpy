@@ -447,4 +447,4 @@ screen girl_interactions():
                     text_color ivory
                     keysym "mousedown_3"
 
-    use top_stripe(False)
+    use top_stripe(False, show_lead_away_buttons=False)

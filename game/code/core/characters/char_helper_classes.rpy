@@ -1432,11 +1432,12 @@ init -10 python:
 
             # call the functions for these only once
             char = self.instance
-            stats = {'current_stat': {}, 'current_max': {}}
+            _stats_curr = {}
+            _stats_max = {}
             skills = {s: self.get_skill(s) for s in target_skills}
             for stat in target_stats:
-                stats['current_stat'][stat] = self._get_stat(stat) # current stat value
-                stats['current_max'][stat] = self.get_max(stat)   # current stat max
+                _stats_curr[stat] = self._get_stat(stat) # current stat value
+                _stats_max[stat] = self.get_max(stat)   # current stat max
 
             # Add basetraits and occupations to basepurposes:
             base_purpose.update(bt.id for bt in char.traits.basetraits)
@@ -1450,7 +1451,7 @@ init -10 python:
 
             for item in inventory:
                 slot = item.slot
-                if smart_ownership_limit:
+                if smart_ownership_limit is True:
                     owned = count_owned_items(char, item)
                     if slot == "ring":
                        if owned >= 3:
@@ -1464,22 +1465,22 @@ init -10 python:
                         continue
 
                 if slot not in weighted:
-                    aeq_debug("Ignoring item {} on slot.".format(item.id))
+                    aeq_debug("Ignoring item %s on slot", item.id)
                     continue
 
                 if limit_tier is not False and item.tier > limit_tier:
-                    aeq_debug("Ignoring item {} on tier.".format(item.id))
+                    aeq_debug("Ignoring item %s on tier.", item.id)
                     continue
 
                 # Gender:
                 if item.sex not in (char.gender, "unisex"):
-                    aeq_debug("Ignoring item {} on gender.".format(item.id))
+                    aeq_debug("Ignoring item %s on gender.", item.id)
                     continue
 
                 # Money (conditioned):
-                if check_money:
+                if check_money is True:
                     if char.gold < item.price:
-                        aeq_debug("Ignoring item {} on money.".format(item.id))
+                        aeq_debug("Ignoring item %s on money.", item.id)
                         continue
 
                 #if "Slave" in base_purpose and "Slave" in item.pref_class:
@@ -1487,7 +1488,7 @@ init -10 python:
                 #else:
                 weights = chance_func(item) if chance_func else [item.eqchance]
                 if weights is None: # We move to the next item!
-                    aeq_debug("Ignoring item {} on weights.".format(item.id))
+                    aeq_debug("Ignoring item %s on weights.", item.id)
                     continue
 
                 # Handle purposes:
@@ -1498,7 +1499,7 @@ init -10 python:
                 else: # 'Any'
                     # If no purpose is valid for the item, we want nothing to do with it.
                     if slot not in ("misc", "consumable"):
-                        aeq_debug("Ignoring item {} on purpose.".format(item.id))
+                        aeq_debug("Ignoring item %s on purpose.", item.id)
                         continue
                     weights.append(55)
 
@@ -1508,19 +1509,36 @@ init -10 python:
                         weights.append(-100 + value*10)
                         continue
 
-                    if stat in stats['current_stat']:
+                    if stat in _stats_curr:
                         # a new max may have to be considered
-                        new_max = min(self.max[stat] + item.max[stat], self.lvl_max[stat]) if stat in item.max else stats['current_max'][stat]
+                        new_max = min(self.max[stat] + item.max[stat], self.lvl_max[stat]) if stat in item.max else _stats_max[stat]
                         if not new_max:
                             continue # Some weird exception?
 
                         # Get the resulting value:
                         new_stat = max(min(self.stats[stat] + self.imod[stat] + value, new_max), self.min[stat])
 
-                        # add the fraction increase/decrease
-                        temp = 100*(new_stat - stats['current_stat'][stat])/new_max
-                        temp = max(1, temp)
-                        weights.append(50 + temp)
+                        curr_stat = _stats_curr[stat]
+                        if curr_stat == new_stat:
+                            # the item could help, but not now
+                            if value > 0:
+                                weights.append(min(25, value*5))
+                        elif curr_stat < new_stat:
+                            # add the fraction increase/decrease
+                            temp = 100*(new_stat - curr_stat)/new_max
+                            weights.append(50 + temp)
+                        else: # Item lowers the stat for the character
+                            if stat not in exclude_on_stats:
+                                change = curr_stat - new_stat
+                                # proceed if it does not take off more than 20% of our stat...
+                                if change <= curr_stat/5:
+                                    continue
+                            # We want nothing to do with this item.
+                            weights = None
+                            break
+
+                if weights is None:
+                    continue # Loop did not finish -> skip
 
                 # Max Stats:
                 for stat, value in item.max.iteritems():
@@ -1528,21 +1546,26 @@ init -10 python:
                         weights.append(-50 + value*5)
                         continue
 
-                    if stat in stats['current_max']:
+                    if stat in _stats_max:
                         new_max = min(self.max[stat] + value, self.lvl_max[stat])
-                        curr_max = stats['current_max'][stat]
+                        curr_max = _stats_max[stat]
                         if new_max == curr_max:
                             continue
                         elif new_max > curr_max:
-                            weights.append(50 + max(new_max-curr_max, 50))
+                            weights.append(50 + min(new_max-curr_max, 50))
                         else: # Item lowers max of this stat for the character:
-                            if stat in exclude_on_stats:
-                                break # We want nothing to do with this item.
-                            else:
+                            if True: #if stat not in exclude_on_stats:
                                 change = curr_max-new_max
-                                if change > curr_max*.2: # If items takes off more that 20% of our stat...
-                                    break
+                                # proceed if it does not take off more than 20% of our stat...
+                                if change <= curr_max/5:
+                                    continue
+                            # We want nothing to do with this item.
+                            weights = None
+                            break
 
+                if weights is None:
+                    continue # Loop did not finish -> skip
+ 
                 # Skills:
                 for skill, effect in item.mod_skills.iteritems():
                     temp = sum(effect)
@@ -1574,7 +1597,7 @@ init -10 python:
                             saturated_skill = max(value + 100, new_skill)
                             mod_val = 50 + 100*(new_skill - value) / saturated_skill
                             if mod_val > 100 or mod_val < -100:
-                                aeq_debug("Unusual mod value for skill {}: {}".format(skill, mod_val))
+                                aeq_debug("Unusual mod value for skill %s: %s", skill, mod_val)
                             weights.append(mod_val)
 
                 weighted[slot].append([weights, item])

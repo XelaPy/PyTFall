@@ -521,40 +521,39 @@ init -11 python:
         Usually ran right after we created the said character.
         """
         if give_civilian_items or give_bt_items:
-            tiered_items = []
-            limit_tier = char.tier + 1
+            container = []
+            limit_tier = ((char.tier + 2)/2)
             for i in range(limit_tier):
-                tiered_items.extend(store.tiered_items.get(i, []))
+                container.extend(store.tiered_items.get(i, []))
 
         if give_civilian_items:
             if not gci_kwargs:
-                gci_kwargs = {}
-                gci_kwargs["slots"] = {slot: 1 for slot in EQUIP_SLOTS}
-                gci_kwargs["casual"] = True
-                gci_kwargs["equip"] = not give_bt_items # Equip only for civ items.
-                if char.status == "slave":
-                    gci_kwargs["purpose"] = "Slave"
-                else:
-                    gci_kwargs["purpose"] = "Casual"
-                gci_kwargs["check_money"] = False
-                gci_kwargs["limit_tier"] = limit_tier
-                gci_kwargs["container"] = tiered_items
-
+                gci_kwargs = {
+                    "slots": {slot: 1 for slot in EQUIP_SLOTS},
+                    #"casual": True,  - ignored and not necessary anyway
+                    "equip": not give_bt_items, # Equip only for civ items.
+                    "purpose": "Slave" if char.status == "slave" else "Casual",
+                    "check_money": False,
+                    "limit_tier": False, # No need, the items are already limited to limit_tier
+                    "container": container,
+                    "smart_ownership_limit": False
+                }
             char.auto_buy(**gci_kwargs)
 
         if give_bt_items:
             if not gbti_kwargs:
-                gbti_kwargs = {}
-                gbti_kwargs["slots"] = {slot: 1 for slot in EQUIP_SLOTS}
-                gbti_kwargs["casual"] = True
-                gbti_kwargs["equip"] = True
-                gbti_kwargs["check_money"] = False
-                gbti_kwargs["limit_tier"] = limit_tier
-                gbti_kwargs["container"] = tiered_items
+                gbti_kwargs = {
+                    "slots": {slot: 1 for slot in EQUIP_SLOTS},
+                    #"casual": True, - ignored and no necessary anyway
+                    "equip": True,
+                    "check_money": False,
+                    "limit_tier": False, # No need, the items are already limited to limit_tier
+                    "container": container,
+                    "smart_ownership_limit": give_civilian_items,
 
-                gbti_kwargs["purpose"] = None # Figure out in auto_buy method.
-                gbti_kwargs["direct_equip"] = True
-
+                    "purpose": None, # Figure out in auto_buy method.
+                    "direct_equip": True
+                }
             char.auto_buy(**gbti_kwargs)
 
     def auto_buy_for_bt(char, slots=None, casual=None, equip=True,
@@ -566,7 +565,7 @@ init -11 python:
             casual = True
         if container is None:
             container = []
-            limit_tier = round_int((char.tier + 1)*.5)
+            limit_tier = ((char.tier + 2)/2)
             for i in range(limit_tier):
                 container.extend(store.tiered_items.get(i, []))
 

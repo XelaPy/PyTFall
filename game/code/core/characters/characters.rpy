@@ -993,15 +993,18 @@ init -9 python:
                 return None
             if not item.eqchance or item.badness >= 100:
                 return None
+            if item.type == "permanent": # Never pick permanent?
+                return None
+
             chance = []
             when_drunk = 30
             appetite = 50
 
             for trait in self.traits:
-                if trait in trait_selections["badtraits"] and item in trait_selections["badtraits"][trait]:
+                if trait in item.badtraits:
                     return None
 
-                if trait in trait_selections["goodtraits"] and item in trait_selections["goodtraits"][trait]:
+                if trait in item.goodtraits:
                     chance.append(100)
 
                 # Other traits:
@@ -1019,11 +1022,8 @@ init -9 python:
                 elif trait == "Slim":
                     appetite -= 10
 
-            if item.type == "permanent": # Never pick permanent?
-                return None
-
             if item.slot == "consumable": # Special considerations like food poisoning.
-                if item in self.consblock or item in self.constemp:
+                if item in self.constemp:
                     return None
                 if item.type == "alcohol":
                     if self.get_flag("drunk_counter", 0) >= when_drunk:
@@ -1032,25 +1032,17 @@ init -9 python:
                         chance.append(30 + when_drunk)
                 elif item.type == "food":
                     food_poisoning = self.get_flag("food_poison_counter", 0)
-                    if not food_poisoning:
-                        chance.append(appetite)
-                    else:
-                        if food_poisoning >= 6:
-                            return None
-                        chance.append((6-food_poisoning)*9)
-            elif item.slot == "misc":
-                # If the item self-destructs or will be blocked after one use,
-                # it's now up to the caller to stop after the first item of this kind that is picked.
-                # no blocked misc items:
-                if item in self.miscblock:
-                    return None
+                    if food_poisoning:
+                        appetite -= food_poisoning * 8
+                    chance.append(appetite)
 
             if item.tier:
                 # only award tier bonus if it's reasonable.
                 target_tier = self.tier
                 item_tier = item.tier*2
-                tier_bonus = max(item_tier - target_tier, 0)
-                chance.append(tier_bonus*50)
+                tier_bonus = item_tier - target_tier
+                if tier_bonus > 0:
+                    chance.append(tier_bonus*50)
 
             chance.append(item.eqchance)
             if item.badness:
@@ -1176,104 +1168,94 @@ init -9 python:
                 if not picks:
                     continue
 
-                # We track one item, the one we think is best for all items,
-                # except consumable and rings.
-                selected = [0, None] if slot not in ("consumable", "ring") else []
+                if slot in ("consumable", "ring"):
+                   selected = []
+                   for _weight, item in picks:
+                       aeq_debug("(A-Eq=> %s) Slot: %s Item: %s ==> Weights: %s",
+                                        self.name, item.slot, item.id, str(_weight))
+                       _weight = sum(_weight) 
+                       selected.append([_weight, item])
 
-                # Get the total weight for every item:
-                for _weight, item in picks:
-                    aeq_debug("(A-Eq=> {}) Slot: {} Item: {} ==> Weights: {}".format(
-                                        self.name, item.slot, item.id, str(_weight)))
-                    _weight = sum(_weight)
+                   # Here we have a selected matrix with weights/items
+                   # consumables and rings that we may want to equip more than one of.
+                   selected.sort(key=itemgetter(0), reverse=True)
 
-                    if _weight > 0:
-                        if slot not in ("consumable", "ring"):
-                            c0 = slot in ("weapon", "smallweapon")
-                            c1 = not real_weapons and item.type != "tool"
-                            if c0 and c1:
-                                if DEBUG_AUTO_ITEM:
-                                    msg = []
-                                    msg.append("Skipping AE Weapons!")
-                                    msg.append("Real Weapons: {}".format(real_weapons))
-                                    if base_purpose:
-                                        msg.append("Base: {}".format(base_purpose))
-                                    if sub_purpose:
-                                        msg.append("Sub: {}".format(sub_purpose))
-                                    aeq_debug(" ".join(msg))
-                                continue
-                            if _weight > selected[0]:
-                                selected = [_weight, item] # store weight and item for the highest weight
-                        else:
-                            selected.append([_weight, item])
+                   equipped_rings = 0
+                   for weight, item in selected:
+                       while 1:
+                           # We got to run this calculation every time as the situation
+                           # will change with every item consumed or every ring equipped
+                           # it also considers effects (Drunk, overeating)
+                           result = self.equip_chance(item)
+                           if result is None or sum(result) <= 0:
+                               break
+   
+                           # Move on if we don't have any more of the item.
+                           if item not in inv:
+                               break
+   
+                           useful = False
+                           for stat in target_stats:
+                               if stat in item.max and item.max[stat] > 0:
+                                   useful = True
+                                   break
+                               if stat in item.mod:
+                                   bonus = item.get_stat_eq_bonus(self.stats, stat)
+                                   needed = self.get_max(stat) - getattr(self, stat)
+                                   if needed*1.4 >= bonus: # We basically allow 40% waste
+                                       useful = True
+                                       break
 
-                # For most slots, we just want to equip one item we selected:
-                if slot not in ("consumable", "ring"):
+                           if not useful: # Still here? Let's try skills:
+                               for skill in item.mod_skills:
+                                   if skill in target_skills:
+                                       useful = True
+                                       break
+
+                           if not useful:
+                               break
+                           else:
+                               inv.remove(item)
+                               self.equip(item, remove=False, aeq_mode=True)
+                               returns.append(item.id)
+                               if slot == "ring":
+                                   equipped_rings += 1
+                                   if equipped_rings == 3:
+                                       break
+
+                       if equipped_rings == 3:
+                           break
+                else:
+                    # Standard item -> track one item we think is best of all
+                    selected = [0, None]
+
+                    # Get the total weight for every item:
+                    c0 = real_weapons is False and slot in ("weapon", "smallweapon")
+                    for _weight, item in picks:
+                       aeq_debug("(A-Eq=> %s) Slot: %s Item: %s ==> Weights: %s",
+                                        self.name, item.slot, item.id, str(_weight))
+                       if c0 and item.type != "tool":
+                           if DEBUG_AUTO_ITEM:
+                               msg = []
+                               msg.append("Skipping AE Weapons!")
+                               msg.append("Real Weapons: {}".format(real_weapons))
+                               if base_purpose:
+                                   msg.append("Base: {}".format(base_purpose))
+                               if sub_purpose:
+                                   msg.append("Sub: {}".format(sub_purpose))
+                               aeq_debug(" ".join(msg))
+                           continue
+                       _weight = sum(_weight)
+                       if _weight > selected[0]:
+                           selected = [_weight, item] # store weight and item for the highest weight
+
+                    # equip one item we selected:
                     item = selected[1]
                     if item:
                         inv.remove(item)
                         self.equip(item, remove=False, aeq_mode=True)
-                        aeq_debug("     --> {} equipped {} to {}.".format(item.id, self.name, item.slot))
+                        aeq_debug("     --> %s equipped %s to %s.", item.id, self.name, item.slot)
                         returns.append(item.id)
-                    continue
-
-                # Here we have a selected matrix with weights/items
-                # consumables and rings that we may want to equip more than one of.
-                selected.sort(key=itemgetter(0), reverse=True)
-                for weight, item in selected:
-                    if slot == "ring":
-                        equipped_rings = []
-                        for s in ["ring", "ring1", "ring2"]:
-                            if isinstance(self.eqslots[s], Item):
-                                equipped_rings.append(s)
-                        if len(equipped_rings) == 3:
-                            break
-
-                    while 1:
-                        # We got to run this calculation every time as the situation
-                        # will change with every item consumed or every ring equipped
-                        # it also conciders effects (Drunk, overeating)
-                        result = self.equip_chance(item)
-                        if result is None or sum(result) <= 0:
-                            break
-
-                        # If we don't have any more of the item, let's move on.
-                        if item not in inv:
-                            break
-
-                        useful = False
-                        for stat in target_stats:
-                            if stat in item.max and item.max[stat] > 0:
-                                useful = True
-                                break
-                            if stat in item.mod:
-                                bonus = item.get_stat_eq_bonus(self.stats, stat)
-                                needed = self.get_max(stat) - getattr(self, stat)
-                                if needed*1.4 >= bonus: # We basically allow 40% waste
-                                    useful = True
-                                    break
-
-                        if not useful: # Still here? Let's try skills:
-                            for skill in item.mod_skills:
-                                if skill in target_skills:
-                                    useful = True
-                                    break
-
-                        if not useful:
-                            break
-                        else:
-                            inv.remove(item)
-                            self.equip(item, remove=False, aeq_mode=True)
-                            returns.append(item.id)
-
-                        # This is what we were missing! We can consume all the
-                        # Consumables that we have as long as they're useful.
-                        # But we need to equip only three rings tops:
-                        equipped_rings = []
-                        for s in ["ring", "ring1", "ring2"]:
-                            if isinstance(self.eqslots[s], Item):
-                                equipped_rings.append(s)
-                        if len(equipped_rings) == 3:
-                            break
 
             return returns
 

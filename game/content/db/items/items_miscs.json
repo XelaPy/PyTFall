@@ -53,7 +53,7 @@
     "hidden": true,
     "infinite": false,
     "slot": "misc",
-    "type": "permanent",
+    "type": "upgrade",
     "mtemp": 1,
     "mreusable": true,
     "mdestruct": false,

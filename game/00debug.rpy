@@ -39,9 +39,9 @@ init -998 python:
 
     # Item systems:
     DEBUG_AUTO_ITEM = False
-    def aeq_debug(msg):
+    def aeq_debug(msg, *args):
         if DEBUG_AUTO_ITEM:
-            devlog.info("|AEQ DEBUG| {}".format(msg))
+            devlog.info("|AEQ DEBUG| {}".format(msg), *args)
 
     # Battle Engine:
     DEBUG_BE = False

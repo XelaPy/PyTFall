@@ -151,4 +151,4 @@ screen quest_log():
                             for i in temp:
                                 text i color (211, 211, 211, 180) style "TisaOTMolxm" size 18 xpos 20 xanchor .0
 
-    use top_stripe(True)
+    use top_stripe(True, show_lead_away_buttons=False)

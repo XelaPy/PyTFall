@@ -260,4 +260,4 @@ screen school_training():
 
 
 
-    use top_stripe(True)
+    use top_stripe(True, show_lead_away_buttons=False)
