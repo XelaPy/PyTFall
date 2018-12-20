@@ -93,8 +93,8 @@ init python:
          "exclude_on_stats": ["intelligence", "character"],
          "target_skills": ["service", "bartending"],
          "exclude_on_skills": ["service", "bartending"],
-         "base_purpose": ["Service"],
-         "sub_purpose": [],
+         "base_purpose": ["Bartender"],
+         "sub_purpose": ["Service"],
          "real_weapons": False},
     "Service":
         {"target_stats": ["constitution", "agility", "vitality"],
