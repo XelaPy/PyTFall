@@ -140,6 +140,9 @@ init -9 python:
             return new_stat - char_stats._get_stat(stat)
 
 
+        def __str__(self):
+            return str(self.id)
+
     # Inventory with listing
     # this is used together with a specialized screens/functions
     class Inventory(_object):

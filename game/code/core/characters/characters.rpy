@@ -1167,67 +1167,67 @@ init -9 python:
 
             returns = list() # We return this list with all items used during the method.
 
+            if DEBUG_AUTO_ITEM:
+                for slot, picks in weighted.iteritems():
+                    for _weight, item in picks:
+                        aeq_debug("(A-Eq=> %s) Slot: %s Item: %s ==> Weights: %s",
+                                        self.name, item.slot, item.id, str(_weight))
+
             # Actually equip the items on per-slot basis:
             for slot, picks in weighted.iteritems():
                 if not picks:
                     continue
 
                 if slot in ("consumable", "ring"):
-                   selected = []
-                   for _weight, item in picks:
-                       aeq_debug("(A-Eq=> %s) Slot: %s Item: %s ==> Weights: %s",
-                                        self.name, item.slot, item.id, str(_weight))
-                       _weight = sum(_weight)
-                       selected.append([_weight, item])
-
-                   # Here we have a selected matrix with weights/items
-                   # consumables and rings that we may want to equip more than one of.
+                   # create a list of weight/item pairs for consumables
+                   #  and rings we may want to equip more than one of.
+                   selected = [[sum(_weight), item] for _weight, item in picks if sum(_weight) > 0]
                    selected.sort(key=itemgetter(0), reverse=True)
 
-                   equipped_rings = 0
+                   rings_to_equip = 3 if slot == "ring" else -1
                    for weight, item in selected:
                        while 1:
-                           # We got to run this calculation every time as the situation
-                           # will change with every item consumed or every ring equipped
-                           # it also considers effects (Drunk, overeating)
-                           result = self.equip_chance(item)
-                           if result is None or sum(result) <= 0:
-                               break
+                           # Recheck the situation before using an item
+
+                           # consider the effects of Drunk, overeating, etc...
+                           if rings_to_equip == -1:
+                               result = self.equip_chance(item)
+                               if result is None or sum(result) <= 0:
+                                   break
+
+                           # test if the item is still useful
+                           for stat in target_stats:
+                               if stat in item.max and item.max[stat] > 0:
+                                   break # useful
+                               if stat in item.mod:
+                                   bonus = item.mod[stat]
+                                   if bonus < 0:
+                                       continue
+                                   gain = item.get_stat_eq_bonus(self.stats, stat)
+                                   if gain > bonus/2: # We basically allow 50% waste
+                                       break # useful
+                           else:
+                               # not useful for stat -> Let's try skills:
+                               for skill in item.mod_skills:
+                                   if skill in target_skills:
+                                       break # useful
+                               else:
+                                   # not useful for skills either -> next
+                                   break
+
+                           inv.remove(item)
+                           self.equip(item, remove=False, aeq_mode=True)
+                           returns.append(item.id)
+                           if rings_to_equip > 0:
+                               rings_to_equip -= 1
+                               if rings_to_equip == 0:
+                                   break
 
                            # Move on if we don't have any more of the item.
                            if item not in inv:
                                break
 
-                           useful = False
-                           for stat in target_stats:
-                               if stat in item.max and item.max[stat] > 0:
-                                   useful = True
-                                   break
-                               if stat in item.mod:
-                                   bonus = item.get_stat_eq_bonus(self.stats, stat)
-                                   needed = self.get_max(stat) - getattr(self, stat)
-                                   if needed*1.4 >= bonus: # We basically allow 40% waste
-                                       useful = True
-                                       break
-
-                           if not useful: # Still here? Let's try skills:
-                               for skill in item.mod_skills:
-                                   if skill in target_skills:
-                                       useful = True
-                                       break
-
-                           if not useful:
-                               break
-                           else:
-                               inv.remove(item)
-                               self.equip(item, remove=False, aeq_mode=True)
-                               returns.append(item.id)
-                               if slot == "ring":
-                                   equipped_rings += 1
-                                   if equipped_rings == 3:
-                                       break
-
-                       if equipped_rings == 3:
+                       if rings_to_equip == 0:
                            break
                 else:
                     # Standard item -> track one item we think is best of all
@@ -1236,8 +1236,6 @@ init -9 python:
                     # Get the total weight for every item:
                     c0 = real_weapons is False and slot in ("weapon", "smallweapon")
                     for _weight, item in picks:
-                       aeq_debug("(A-Eq=> %s) Slot: %s Item: %s ==> Weights: %s",
-                                        self.name, item.slot, item.id, str(_weight))
                        if c0 and item.type != "tool":
                            if DEBUG_AUTO_ITEM:
                                msg = []
