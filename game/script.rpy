@@ -381,50 +381,120 @@ label after_load:
         for c in store.chars.values():
             c.clear_img_cache()
 
+    init python:
+        def update_object(obj_dest, obj_src, prefix):
+            for attr, v in vars(obj_dest).items():
+                if hasattr(obj_src, attr):
+                    v2 = getattr(obj_src, attr)
+                    if v2 != v:
+                        devlog.info("{} - Modified Attr {}: {} -> {} in {}".format(prefix, attr, str(v), str(v2), str(obj_dest)))
+                        setattr(obj_dest, attr, v2)
+                else:
+                    devlog.info("{} - Attr Removed: {} from {}".format(prefix, attr, str(obj_dest)))
+                    delattr(obj_dest, attr)
+
+            for attr, v2 in vars(obj_src).items():
+                if not hasattr(obj_dest, attr):
+                    devlog.info("{} - New Attr {} for {} with value {}".format(prefix, attr, str(obj_dest), str(v2)))
+                    setattr(obj_dest, attr, v2)
+
     # Updating Databases:
     # Items:
     python hide:
-        updated_items = load_items()
-        updated_items.update(load_gifts())
+        last_modified_items = global_flags.get_flag("last_modified_items", 0)
+        last_modified = os.path.getmtime(content_path('db/items'))
+        if last_modified_items < last_modified: 
+            tl.start("Updating items")
+            updated_items = load_items()
+            updated_items.update(load_gifts())
 
-        for id, item in updated_items.iteritems():
-            if id not in store.items:
-                store.items[id] = item
+            for id, item in updated_items.iteritems():
+                curr_item = store.items.get(id, None)
+                if curr_item is None:
+                    # Add new item
+                    store.items[id] = item
+                    devlog.info("New Item: {}".format(id))
+                else:
+                    # Update the existing item
+                    update_object(curr_item, item, "Item")
 
-    call sort_items_for_gameplay from _call_sort_items_for_gameplay_1
+            del updated_items
+            tl.end("Updating items")
+            global_flags.set_flag("last_modified_items", last_modified)
+            renpy.call("sort_items_for_gameplay")
 
     # Traits:
     python hide:
-        updated_traits = load_traits()
-        for id, trait in updated_traits.iteritems():
-            if id not in store.traits:
-                store.traits[id] = trait
+        last_modified_traits = global_flags.get_flag("last_modified_traits", 0)
+        last_modified = os.path.getmtime(content_path('db/traits'))
+        if last_modified_traits < last_modified:
+            tl.start("Updating traits")
+            updated_traits = load_traits()
+            for id, trait in updated_traits.iteritems():
+                curr_trait = store.traits.get(id, None)
+                if curr_trait is None:
+                    # Add new trait
+                    store.traits[id] = trait
+                    devlog.info("New Trait: {}".format(id))
+                else:
+                    # Update the existing trait
+                    update_object(curr_trait, trait, "Trait")
 
-        tierless_items = store.tiered_items.get(None)
-        if tierless_items:
-            for item in tierless_items:
-                item.tier = 0
-                store.tiered_items[0].append(item)
-            del store.tiered_items[None]
-
-    call sort_traits_for_gameplay from _call_sort_traits_for_gameplay_1
+            del updated_traits
+            tl.end("Updating traits")
+            global_flags.set_flag("last_modified_traits", last_modified) 
+            renpy.call("sort_traits_for_gameplay")
 
     # All kinds of chars:
     python hide:
         # uChars:
-        updated_chars = load_characters("chars", Char)
-        for id, char in updated_chars.items():
-            if id not in store.chars:
-                store.chars[id] = char
+        last_modified_chars = global_flags.get_flag("last_modified_chars", 0)
+        last_modified = os.path.getmtime(content_path('chars'))
+        if last_modified_chars < last_modified:
+            tl.start("Updating chars")
+            updated_chars = load_characters("chars", Char)
+            for id, char in updated_chars.items():
+                curr_char = store.chars.get(id, None)
+                if curr_char is None:
+                    # Add new char
+                    store.chars[id] = char
+                    devlog.info("New Character: {}".format(id))
+                else:
+                    # Update the existing char
+                    update_object(curr_char, char, "Char")
+
+            del updated_chars
+            tl.end("Updating chars")
+            global_flags.set_flag("last_modified_chars", last_modified)
 
         # NPCs:
-        updated_npcs = load_characters("npc", NPC)
-        for id, npc in updated_npcs.items():
-            if id not in store.npcs:
-                store.npcs[id] = npc
+        last_modified_npcs = global_flags.get_flag("last_modified_npcs", 0)
+        last_modified = os.path.getmtime(content_path('npc'))
+        if last_modified_npcs < last_modified:
+            tl.start("Updating NPCs")
+            updated_npcs = load_characters("npc", NPC)
+            for id, npc in updated_npcs.items():
+                curr_npc = store.npcs.get(id, None)
+                if curr_npc is None:
+                    # Add new NPC
+                    store.npcs[id] = npc
+                    devlog.info("New NPC: {}".format(id))
+                else:
+                    # Update the existing npc
+                    update_object(curr_npc, npc, "NPC")
+
+            del updated_npcs
+            tl.end("Updating NPCs")
+            global_flags.set_flag("last_modified_npcs", last_modified)
 
         # rChars:
-        store.rchars = load_random_characters()
+        last_modified_rchars = global_flags.get_flag("last_modified_rchars", 0)
+        last_modified = os.path.getmtime(content_path('rchars'))
+        if last_modified_rchars < last_modified:
+            tl.start("Updating rchars")
+            store.rchars = load_random_characters()
+            tl.end("Updating rchars")
+            global_flags.set_flag("last_modified_rchars", last_modified)
 
         # Arena Chars (We need this for databases it would seem...):
         load_special_arena_fighters()
@@ -447,6 +517,13 @@ label after_load:
     #         if c not in chars.itervalues():
     #             remove_from_gameworld(c)
     python hide:
+        tierless_items = store.tiered_items.get(None)
+        if tierless_items:
+            for item in tierless_items:
+                item.tier = 0
+                store.tiered_items[0].append(item)
+            del store.tiered_items[None]
+
         if not hasattr(pytfall.arena, "df_count"):
             pytfall.arena.df_count = 0
             pytfall.arena.hero_match_result = None 
