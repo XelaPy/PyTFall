@@ -156,11 +156,11 @@ label start:
 
         tl.start("Loading: All Characters!")
         chars = load_characters("chars", Char)
-        global_flags.set_flag("last_modified_chars", os.path.getmtime(content_path('chars')))
+        #global_flags.set_flag("last_modified_chars", os.path.getmtime(content_path('chars')))
         npcs = load_characters("npc", NPC)
-        global_flags.set_flag("last_modified_npcs", os.path.getmtime(content_path('npc')))
+        #global_flags.set_flag("last_modified_npcs", os.path.getmtime(content_path('npc')))
         rchars = load_random_characters()
-        global_flags.set_flag("last_modified_rchars", os.path.getmtime(content_path('rchars')))
+        #global_flags.set_flag("last_modified_rchars", os.path.getmtime(content_path('rchars')))
         tl.end("Loading: All Characters!")
         if DEBUG_LOG:
             devlog.info("Loaded %d images from filenames!" % tagdb.count_images())
@@ -453,53 +453,56 @@ label after_load:
     # All kinds of chars:
     python hide:
         # uChars:
-        last_modified_chars = global_flags.get_flag("last_modified_chars", 0)
-        last_modified = os.path.getmtime(content_path('chars'))
-        if last_modified_chars < last_modified:
-            tl.start("Updating chars")
+        # always run till tagdb is not separated from the load_characters
+        #last_modified_chars = global_flags.get_flag("last_modified_chars", 0)
+        #last_modified = os.path.getmtime(content_path('chars'))
+        if True: # last_modified_chars < last_modified:
+        #    tl.start("Updating chars")
             updated_chars = load_characters("chars", Char)
             for id, char in updated_chars.items():
                 curr_char = store.chars.get(id, None)
                 if curr_char is None:
                     # Add new char
                     store.chars[id] = char
-                    devlog.info("New Character: {}".format(id))
-                else:
-                    # Update the existing char
-                    update_object(curr_char, char, "Char")
+        #            devlog.info("New Character: {}".format(id))
+        #        else:
+        #            # Update the existing char
+        #            update_object(curr_char, char, "Char")
 
-            del updated_chars
-            tl.end("Updating chars")
-            global_flags.set_flag("last_modified_chars", last_modified)
+        #    del updated_chars
+        #    tl.end("Updating chars")
+        #    global_flags.set_flag("last_modified_chars", last_modified)
 
         # NPCs:
-        last_modified_npcs = global_flags.get_flag("last_modified_npcs", 0)
-        last_modified = os.path.getmtime(content_path('npc'))
-        if last_modified_npcs < last_modified:
-            tl.start("Updating NPCs")
+        # always run till tagdb is not separated from load_characters
+        #last_modified_npcs = global_flags.get_flag("last_modified_npcs", 0)
+        #last_modified = os.path.getmtime(content_path('npc'))
+        if True: #last_modified_npcs < last_modified:
+        #    tl.start("Updating NPCs")
             updated_npcs = load_characters("npc", NPC)
             for id, npc in updated_npcs.items():
                 curr_npc = store.npcs.get(id, None)
                 if curr_npc is None:
                     # Add new NPC
                     store.npcs[id] = npc
-                    devlog.info("New NPC: {}".format(id))
-                else:
-                    # Update the existing npc
-                    update_object(curr_npc, npc, "NPC")
+        #            devlog.info("New NPC: {}".format(id))
+        #        else:
+        #            # Update the existing npc
+        #            update_object(curr_npc, npc, "NPC")
 
-            del updated_npcs
-            tl.end("Updating NPCs")
-            global_flags.set_flag("last_modified_npcs", last_modified)
+        #    del updated_npcs
+        #    tl.end("Updating NPCs")
+        #    global_flags.set_flag("last_modified_npcs", last_modified)
 
         # rChars:
-        last_modified_rchars = global_flags.get_flag("last_modified_rchars", 0)
-        last_modified = os.path.getmtime(content_path('rchars'))
-        if last_modified_rchars < last_modified:
-            tl.start("Updating rchars")
+        # always run till tagdb is not separated from load_random_characters
+        # last_modified_rchars = global_flags.get_flag("last_modified_rchars", 0)
+        # last_modified = os.path.getmtime(content_path('rchars'))
+        if True: #last_modified_rchars < last_modified:
+        #    tl.start("Updating rchars")
             store.rchars = load_random_characters()
-            tl.end("Updating rchars")
-            global_flags.set_flag("last_modified_rchars", last_modified)
+        #    tl.end("Updating rchars")
+        #    global_flags.set_flag("last_modified_rchars", last_modified)
 
         # Arena Chars (We need this for databases it would seem...):
         load_special_arena_fighters()
