@@ -75,6 +75,7 @@ label start:
         # Load all game elements:
         tl.start("Loading/Sorting: Traits")
         traits = load_traits()
+        global_flags.set_flag("last_modified_traits", os.path.getmtime(content_path('db/traits')))
 
     call sort_traits_for_gameplay from _call_sort_traits_for_gameplay
 
@@ -84,6 +85,7 @@ label start:
         tl.start("Loading/Sorting: Items")
         items = load_items()
         items.update(load_gifts())
+        global_flags.set_flag("last_modified_items", os.path.getmtime(content_path('db/items')))
         items_upgrades = json.load(renpy.file("content/db/upgrades.json"))
 
         # Build shops:
@@ -154,8 +156,11 @@ label start:
 
         tl.start("Loading: All Characters!")
         chars = load_characters("chars", Char)
+        global_flags.set_flag("last_modified_chars", os.path.getmtime(content_path('chars')))
         npcs = load_characters("npc", NPC)
+        global_flags.set_flag("last_modified_npcs", os.path.getmtime(content_path('npc')))
         rchars = load_random_characters()
+        global_flags.set_flag("last_modified_rchars", os.path.getmtime(content_path('rchars')))
         tl.end("Loading: All Characters!")
         if DEBUG_LOG:
             devlog.info("Loaded %d images from filenames!" % tagdb.count_images())
