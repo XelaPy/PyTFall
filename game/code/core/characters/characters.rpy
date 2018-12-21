@@ -306,8 +306,12 @@ init -9 python:
                 return
 
             # SchoolCourses, we need to remove the student as action is being changed:
+            course = None
             if isinstance(self._action, SchoolCourse):
                 course = self._action
+            elif isinstance(self.previousaction, SchoolCourse):
+                course = self.previousaction
+            if course is not None:
                 self._action = None
                 course.remove_student(self)
 
@@ -1009,7 +1013,7 @@ init -9 python:
 
                 # Other traits:
                 if trait == "Kamidere": # Vanity: wants pricy uncommon items, but only lasting ones(especially scrolls should be excluded)
-                    if not (item.slot == "consumable"): 
+                    if not (item.slot == "consumable"):
                         chance.append((100 - item.chance + min(item.price/10, 100))/2)
                 elif trait == "Tsundere": # stubborn: what s|he won't buy, s|he won't wear.
                     chance.append(100 - item.badness)
@@ -1173,7 +1177,7 @@ init -9 python:
                    for _weight, item in picks:
                        aeq_debug("(A-Eq=> %s) Slot: %s Item: %s ==> Weights: %s",
                                         self.name, item.slot, item.id, str(_weight))
-                       _weight = sum(_weight) 
+                       _weight = sum(_weight)
                        selected.append([_weight, item])
 
                    # Here we have a selected matrix with weights/items
@@ -1189,11 +1193,11 @@ init -9 python:
                            result = self.equip_chance(item)
                            if result is None or sum(result) <= 0:
                                break
-   
+
                            # Move on if we don't have any more of the item.
                            if item not in inv:
                                break
-   
+
                            useful = False
                            for stat in target_stats:
                                if stat in item.max and item.max[stat] > 0:
@@ -1434,7 +1438,7 @@ init -9 python:
                     amount -= 1
                     if amount == 0:
                         break
-                
+
             if equip and not direct_equip:
                 self.equip_for(purpose)
 

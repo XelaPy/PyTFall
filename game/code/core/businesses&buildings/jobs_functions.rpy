@@ -142,6 +142,11 @@ init -10 python:
 
         AP check is optional and if True, also checks for jobpoints.
         """
+        # We do not want girls in school to AutoRest,
+        # Idea is that the school is taking care of this.
+        if isinstance(c.action, SchoolCourse):
+            return True
+
         if c.health < c.get_max("health")*.25:
             if log:
                 log.append("%s is injured and in need of medical attention! "%c.name)
