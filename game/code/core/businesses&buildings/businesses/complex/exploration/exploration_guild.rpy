@@ -835,7 +835,7 @@ init -6 python: # Guild, Tracker and Log.
                         mob = choice(tracker.mobs)
 
                         min_enemies = max(1, len(team) - 1)
-                        max_ememies = max(4, len(team) + randrange(2))
+                        max_ememies = max(3, len(team) + randrange(2))
                         enemies = randint(min_enemies, max_ememies)
 
                         temp = "\n{} were attacked by ".format(team.name)
