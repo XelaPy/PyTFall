@@ -214,16 +214,21 @@ init -6 python: # Guild, Tracker and Log.
             Make sure that everything is cleaned up.
             """
             global fg_areas
+            global items
             area = self.obj_area
 
             # Main and Sub Area Stuff:
             area.logs.extend([l for l in self.logs if l.ui_log])
             area.trackers.remove(self)
 
-            # Update data:
+            # Update data and settle rewards:
             area.mobs_defeated = add_dicts(area.mobs_defeated, self.mobs_defeated)
             found_items = collections.Counter(self.found_items)
             area.found_items = add_dicts(area.found_items, found_items)
+            for i in self.found_items:
+                item = items[i]
+                hero.add_item(item)
+
             area.chars_captured += len(self.captured_chars)
 
             main_area = fg_areas[area.area]
@@ -245,7 +250,9 @@ init -6 python: # Guild, Tracker and Log.
             # Build an image combo for the report:
             img = Fixed(xysize=(820, 705))
             img.add(Transform(area.img, size=(820, 705)))
-            vp = vp_or_fixed(self.team, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
+            vp = vp_or_fixed(self.team, ["fighting"],
+                             {"exclude": ["sex"],
+                             "resize": (150, 150)}, xmax=820)
             img.add(Transform(vp, align=(.5, .9)))
 
             # We need to create major report for nd to keep track of progress:

@@ -137,7 +137,7 @@ label next_day_calculations:
     $ tl.start("Next Day")
     python:
         nd_debug("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.chars), len(chars)))
-        $ FilteredList = list()
+        FilteredList = list()
         NextDayEvents = list()
 
     # Restore (AutoEquip for HP/Vit/MP) before the jobs:
