@@ -126,31 +126,31 @@ label next_day:
     jump mainscreen
 
 label next_day_calculations:
-    $ FilteredList = list()
-
     if global_flags.flag("nd_music_play"):
         $ global_flags.del_flag("nd_music_play")
         if not "pytfall" in ilists.world_music:
             $ ilists.world_music["pytfall"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("pytfall")]
         play world choice(ilists.world_music["pytfall"])
 
+    $ global_flags.set_flag("keep_playing_music")
+
     $ tl.start("Next Day")
     python:
-        global_flags.set_flag("keep_playing_music")
-
         nd_debug("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.chars), len(chars)))
+        $ FilteredList = list()
         NextDayEvents = list()
 
-        ################## Restore before the jobs ##################
-        tl.start("Char.restore for all MC chars") # TODO !!! Find out wtf this is for.
-        list(girl.restore() for girl in list(g for g in hero.chars if g.is_available))
-        tl.end("Char.restore for all MC chars")
+    # Restore (AutoEquip for HP/Vit/MP) before the jobs:
+    python hide:
+        tl.start("AutoEquip Consumables for Workers")
+        list(c.restore() for c in list(c for c in hero.chars if c.is_available))
+        tl.end("AutoEquip Consumables for Workers")
 
-    ################## Building events Start ##################
+    # Building events Start:
     $ tl.start("ND-Buildings")
-    # Ren'Py script:
-    $ nd_buildings = list(b for b in hero.buildings if isinstance(b, UpgradableBuilding))
 
+    # Generate buildings list and update manager effectiveness:
+    $ nd_buildings = list(b for b in hero.buildings if isinstance(b, UpgradableBuilding))
     python hide: # Figure out what managers can do for us.
         for b in nd_buildings:
             # We can calculate manager effectiveness once, so we don't have to do
@@ -161,15 +161,15 @@ label next_day_calculations:
                 b.manager_effectiveness = job.effectiveness(b.manager,
                                                     difficulty, None, False)
 
-    # $ ndr_chars2 = list(c for c in hero.chars if not can_do_work(c)) # Revise this for characters who are set to work till the drop???
     $ tl.start("ND-Rest (First pass)")
-
-    python: # Sets to AutoRest amongst other things.
+    # Sets to AutoRest amongst other things:
+    python hide:
         for c in hero.chars:
             if not isinstance(c.action, (Rest, SchoolCourse)):
                 can_do_work(c, check_ap=True, log=None)
 
-    $ ndr_chars = list(c for c in hero.chars if auto_rest_conditions(c)) # Next Day Resting Chars
+    # Next Day Resting Chars
+    $ ndr_chars = list(c for c in hero.chars if auto_rest_conditions(c))
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?
@@ -180,27 +180,25 @@ label next_day_calculations:
         $ building.run_nd()
         $ building.next_day()
 
-
     $ tl.end("ND-Buildings")
-        ################## Building events END ##################
-        #
-        #
-        ################## Training events Start ##################
+    # Building events END.
+
+    # Training events Start:
     python:
         tl.start("Schools ND")
         for school in schools.values():
             school.next_day()
         tl.end("Schools ND")
-        ################## Training events End ##################
-        #
-        #
-        ################## Searching events Start ####################
-        # tl.start("Searching") # TODO (lt) Find out if we still want escaping chars?
-        # for building in hero.buildings:
-        #     girls = building.get_girls("Search")
-        #     while girls:
-        #         EscapeeSearchJob(choice(girls), building, girls)
-        # tl.end("Searching")
+    # Training events End.
+
+    # Searching events Start:
+    # tl.start("Searching") # TODO (lt) Find out if we still want escaping chars?
+    # for building in hero.buildings:
+    #     girls = building.get_girls("Search")
+    #     while girls:
+    #         EscapeeSearchJob(choice(girls), building, girls)
+    # tl.end("Searching")
+    # Searching events End.
 
     # Second iteration of Rest:
     $ tl.start("ND-Rest (Second pass)")
@@ -217,15 +215,7 @@ label next_day_calculations:
             building.manager_effectiveness = 0
 
     python:
-        ################## Searching events End ####################
-        #
-        #
-        ################## Exploration ########################
-        # tl.start("Fighers Guild")
-        # if fg in hero.buildings:
-            # fg.next_day()
-        # tl.end("Fighers Guild")
-        ################## Logic #############################
+        ################## Logic ##################
         tl.start("pytfall/calender .next_day")
         pytfall.next_day()
         calendar.next() # day + 1 is here.

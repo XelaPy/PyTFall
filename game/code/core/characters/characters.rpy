@@ -2705,7 +2705,7 @@ init -9 python:
 
         ### Next Day Methods
         def restore(self):
-            # Called whenever character needs to have on of the main stats restored.
+            # Called whenever character needs to have one of the main stats restored.
             l = list()
             if self.autoequip:
                 if self.health < self.get_max("health")*.3:
