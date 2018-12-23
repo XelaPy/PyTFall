@@ -545,15 +545,15 @@ init -1 python: # Core classes:
         def damage_modifier(self, t, damage, type):
             """
             This calculates the multiplier to use with effect of the skill.
-            d: Damage (number per type)
+            t: target
+            damage: Damage (number per type)
             type: Damage Type
             """
-            effects = list()
+            if type in t.resist:
+                return 0
+
             a = self.source
             m = 1.0
-
-            if type in t.resist:
-                return "resisted"
 
             # Get multiplier from traits:
             # We decided that any trait could influence this:
@@ -948,12 +948,11 @@ init -1 python: # Core classes:
                     effects.append("backrow_penalty")
 
                 for type in self.damage:
-
-                    result = self.damage_modifier(t, attack, type) # Can return a number or "resisted" string
+                    result = self.damage_modifier(t, attack, type)
 
                     # Resisted:
-                    if result == "resisted":
-                        effects.append((type, result))
+                    if result == 0:
+                        effects.append((type, "resisted"))
                         continue
 
                     # We also check for absorbtion:
@@ -1982,12 +1981,7 @@ init -1 python: # Core classes:
         def __call__(self):
             skip = BESkip(source=self.source)
 
-            # Slaves case:
-            if self.slave_behavior() == "skip":
-                skip()
-                return
-
-            skills = self.get_availible_skills()
+            skills = self.get_available_skills()
             if skills:
                 skill = choice(skills)
                 # So we have a skill... now lets pick a target(s):
@@ -1999,14 +1993,13 @@ init -1 python: # Core classes:
             else:
                 skip()
 
-        def get_availible_skills(self):
+        def get_available_skills(self):
+            # slaves should not battle
+            if self.source.status == "slave":
+                return
+
             allskills = list(self.source.attack_skills) + list(self.source.magic_skills)
             return [s for s in allskills if s.check_conditions(self.source)]
-
-        def slave_behavior(self):
-            if self.source.status == "slave":
-                return "skip"
-
 
     class Complex_BE_AI(BE_AI):
         """This one does a lot more "thinking".
@@ -2025,12 +2018,7 @@ init -1 python: # Core classes:
         def __call__(self):
             skip = BESkip(source=self.source)
 
-            # Slaves case:
-            if self.slave_behavior() == "skip":
-                skip()
-                return
-
-            temp = self.get_availible_skills()
+            temp = self.get_available_skills()
             if not temp:
                 skip()
                 return
@@ -2093,7 +2081,6 @@ init -1 python: # Core classes:
             # In case we did not pick any specific skill:
             skip()
 
-
-    def get_char_with_lowest_attr(chars, attr="hp"):
-        chars.sort(key=attrgetter(attr))
-        return chars[0]
+    #def get_char_with_lowest_attr(chars, attr="hp"):
+    #    chars.sort(key=attrgetter(attr))
+    #    return chars[0]

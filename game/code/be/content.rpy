@@ -281,11 +281,7 @@ init python:
             damage = max(randint(5, 10), int(damage) + randint(-2, 2))
 
             # Take care of modifiers:
-            damage = self.damage_modifier(t, damage, self.type)
-            if damage == "resisted":
-                damage = 0
-            else:
-                damage = round_int(damage)
+            damage = round_int(self.damage_modifier(t, damage, self.type))
 
             # GFX:
             if not battle.logical:
@@ -728,11 +724,7 @@ init python:
                 effects = []
 
                 # We get the multi and any effects that those may bring:
-                restore = self.damage_modifier(t, base_restore, "healing")
-                if restore == "resisted":
-                    restore = 0
-
-                restore = round_int(restore)
+                restore = round_int(self.damage_modifier(t, base_restore, "healing"))
                 effects.append(("healing", restore))
 
                 t.dmg_font = "lawngreen" # Color the battle bounce green!
@@ -844,11 +836,7 @@ init python:
                 effects = []
 
                 # We get the multi and any effects that those may bring:
-                effect = self.damage_modifier(t, base_effect, "status")
-                if effect == "resisted":
-                    effect = 0
-
-                effect = round_int(effect)
+                effect = round_int(self.damage_modifier(t, base_effect, "status"))
 
                 if effect:
                     # Check if event is in play already:
