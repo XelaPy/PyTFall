@@ -973,18 +973,18 @@ init -1 python: # Core classes:
                     total_damage += result
 
                 if self.event_class:
-                    # Check if event is in play already:
-                    # Check for resistance first:
-                    duration = getattr(self, "event_duration", 3)
-                    temp = self.event_class(a, t, self.effect, duration=duration)
-                    if temp.type in t.resist or self.check_absorbtion(t, temp.type):
+                    # First check resistance, then check if event is already in play:
+                    type = self.buff_group
+                    if type in t.resist or self.check_absorbtion(t, type):
                         pass
                     else:
                         for event in store.battle.mid_turn_events:
-                            if t == event.target and event.type == self.buff_group:
-                                battle.log("%s is already effected by %s!" % (t.nickname, self.buff_group))
+                            if t == event.target and event.type == type:
+                                battle.log("%s is already effected by %s!" % (t.nickname, type))
                                 break
                         else:
+                            duration = getattr(self, "event_duration", 3)
+                            temp = self.event_class(a, t, self.effect, duration=duration)
                             battle.mid_turn_events.append(temp)
                             # We also add the icon to targets status overlay:
                             t.status_overlay.append(temp.icon)
