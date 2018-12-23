@@ -88,9 +88,11 @@ init -11 python:
             elif ai == "complex":
                 fighter.controller = Complex_BE_AI(fighter)
 
-        be_debug("\n    Custom Logical Combat Scenario ===================================================>>>>")
-        be_debug("{} VS {}".format(str([c.name for c in off_team.members]), str([c.name for c in def_team.members])))
-        be_debug("Using {} ai.".format(ai))
+        if DEBUG_BE:
+            msg = "\n    Custom Logical Combat Scenario ===================================================>>>>"
+            msg += "\n{} VS {}".format(str([c.name for c in off_team.members]), str([c.name for c in def_team.members]))
+            msg += "\nUsing {} ai.".format(ai)
+            be_debug(msg)
 
         tl.start("logical combat: BATTLE")
         battle.start_battle()
