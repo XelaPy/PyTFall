@@ -2064,14 +2064,11 @@ init -1 python: # Core classes:
             if attack_skills:
                 # Sort skills by menu_pos:
                 attack_skills.sort(key=attrgetter("menu_pos"))
-                total_skills = len(attack_skills)
                 while attack_skills:
                     # Most powerful skill has 70% chance to trigger.
-                    # If not triggered, next skill have slightly lower chance.
                     # Last skill in the list will execute!
-                    chance = 70.0*len(attack_skills)/total_skills
                     skill = attack_skills.pop()
-                    if not attack_skills or dice(chance):
+                    if not attack_skills or dice(70):
                         skill.source = self.source
                         targets = skill.get_targets()
                         targets = targets if "all" in skill.type else random.choice(targets)
