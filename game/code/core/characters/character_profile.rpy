@@ -661,7 +661,7 @@ screen char_profile():
                         text "Controls"
                     button:
                         xysize (150, 40)
-                        action Hide("char_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')
+                        action Hide("char_profile"), With(dissolve), SetVariable("came_to_equip_from", "char_profile"), SetVariable("eqtarget", char), Jump('char_equip')
                         sensitive controlled_char(char)
                         tooltip "Manage this girl's inventory and equipment!"
                         text "Equipment"
@@ -1017,8 +1017,7 @@ screen char_control():
             minimum(50, 30)
             align (.5, .95)
             text  "OK"
-
-    key "mousedown_3" action Hide("char_control")
+            keysym "mousedown_3"
 
 screen aeq_button(char):
     style_prefix "basic"

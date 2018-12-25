@@ -60,11 +60,6 @@ init python:
         return tempstr
 
 label char_equip:
-    if not char:
-        if eqtarget:
-            $ char = eqtarget
-        else:
-            $ char = hero # to definitely avoid ctds when eqtarget refuses to equip something and tells about it
     python:
         focusitem = None
         selectedslot = None
@@ -72,26 +67,26 @@ label char_equip:
         item_direction = None
         dummy = None
         eqsave = [False, False, False]
+        equip_girls = None
 
-        if not eqtarget:
-            came_to_equip_from = "chars_list"
-            eqtarget = PytGroup(the_chosen) if the_chosen else char
-
-        if not hasattr(store, "equip_girls") or equip_girls is None or char not in equip_girls:
-            if isinstance(eqtarget, PytGroup) or eqtarget == hero:
-                equip_girls = []
-            else:
-                equip_girls = list(girl for girl in hero.chars if girl.is_available)
+        if came_to_equip_from in ["char_profile", "building_management"]:
+            #assert(eqtarget == char)
+            equip_girls = list(girl for girl in hero.chars if girl.is_available)
+            if len(equip_girls) == 1:
+                equip_girls = None
+        elif came_to_equip_from == "chars_list":
+            # we came from listing, the girls are handled in a group
+            eqtarget = PytGroup(the_chosen)
 
         inv_source = eqtarget
+        if not "last_inv_filter" in globals():
+            last_inv_filter = "all"
+        inv_source.inventory.apply_filter(last_inv_filter)
 
     scene bg gallery3
 
     $ renpy.retain_after_load()
     show screen char_equip
-    if not "last_inv_filter" in globals():
-        $ last_inv_filter = "all"
-    $ inv_source.inventory.apply_filter(last_inv_filter)
 
 label char_equip_loop:
     while 1:
@@ -276,21 +271,16 @@ label char_equip_loop:
                     elif result[1] == 'right':
                         char = equip_girls[(index + 1) % len(equip_girls)]
 
+                    if char.inventory.page_size != 16:
+                        char.inventory.set_page_size(16)
                     if inv_source == eqtarget:
                         inv_source = char
+                        #inv_source.inventory.apply_filter(last_inv_filter)
+
                     eqtarget = char
-                    if eqtarget.inventory.page_size != 16:
-                        eqtarget.inventory.set_page_size(16)
 
 label char_equip_finish:
     hide screen char_equip
-
-    python:
-        # eqtarget.inventory.female_filter = False
-        # hero.inventory.female_filter = False
-        if eqtarget.location == locations["After Life"]:
-            renpy.show_screen("message_screen", "{} dies as a result of item manipulations...".format(eqtarget.fullname))
-            jump("mainscreen")
 
     python:
         # Reset all globals so screens that lead here don't get thrown off:
@@ -299,16 +289,22 @@ label char_equip_finish:
         unequip_slot = None
         item_direction = None
         dummy = None
-        eqtarget = None
         eqsave = None
         equip_girls = None
         equipment_safe_mode = False
 
-    if came_to_equip_from:
-        $ last_label, came_to_equip_from = came_to_equip_from, None
-        jump expression last_label
-    else:
-        jump char_profile
+        # eqtarget.inventory.female_filter = False
+        # hero.inventory.female_filter = False
+        if eqtarget.location == locations["After Life"]:
+            renpy.show_screen("message_screen", "{} dies as a result of item manipulations...".format(eqtarget.fullname))
+            eqtarget = None
+            came_to_equip_from = None
+            jump("mainscreen")
+
+        eqtarget = None
+
+    $ last_label, came_to_equip_from = came_to_equip_from, None
+    jump expression last_label
 
 screen equip_for(pos=()):
     zorder 3
@@ -437,7 +433,7 @@ screen char_equip_left_frame(stats_display):
             button:
                 xysize (32, 32)
                 background Null()
-                if equip_girls and not(equipment_safe_mode):
+                if equip_girls:
                     action Return(['control', 'left'])
                     foreground "content/gfx/interface/buttons/small_button_wood_left_idle.png" pos (10, 14)
                     hover_foreground "content/gfx/interface/buttons/small_button_wood_left_hover.png"
@@ -451,7 +447,7 @@ screen char_equip_left_frame(stats_display):
             button:
                 xysize (32, 32)
                 background Null()
-                if equip_girls and not(equipment_safe_mode):
+                if equip_girls:
                     action Return(['control', 'right'])
                     foreground "content/gfx/interface/buttons/small_button_wood_right_idle.png" pos (45, 14)
                     hover_foreground "content/gfx/interface/buttons/small_button_wood_right_hover.png"

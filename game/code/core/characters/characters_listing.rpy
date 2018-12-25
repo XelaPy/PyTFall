@@ -384,7 +384,7 @@ screen chars_list(source=None):
                 tooltip 'Set desired behavior for group'
             button:
                 xysize (150, 40)
-                action If(len(the_chosen), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])
+                action If(len(the_chosen), [Hide("chars_list"), With(dissolve), SetVariable("came_to_equip_from", "chars_list"), Jump('char_equip')])
                 text "Equipment"
                 selected False
                 tooltip "Manage Group's Equipment"
