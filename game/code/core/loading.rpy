@@ -40,6 +40,22 @@ init -11 python:
         path = "content/db/" + fn
         return load_json(path)
 
+    def load_tags_folder(folder, path):
+        for fn in os.listdir(path):
+            if check_image_extension(fn):
+                tags = fn.split("-")
+                try:
+                    del tags[0]
+                    tags[-1] = tags[-1].split(".")[0]
+                except IndexError:
+                    raise Exception("Invalid file path for image: %s in folder %s" % (fn, path))
+                for tag in tags:
+                    if tag not in tags_dict:
+                        raise Exception("Unknown image tag: %s, fn: %s, path: %s" % (tag, fn, path))
+                    tagdb.tagmap[tags_dict[tag]].add(fn)
+                # Adding filenames to girls id:
+                tagdb.tagmap.setdefault(folder, set()).add(fn)
+
     def load_team_names(amount):
         rn = load_db_json("names/team_names.json")
         return random.sample(rn, amount)
@@ -99,23 +115,10 @@ init -11 python:
                                 raise Exception("No id was specified in %s JSON Datafile!" % str(in_file))
 
                             folder = id = gd["id"]
-                            if os.path.isdir("/".join([dir, packfolder, folder])):
+                            _path = os.sep.join([dir, packfolder, folder]) 
+                            if os.path.isdir(_path):
                                 # We load the new tags!:
-                                for fn in os.listdir("/".join([dir, packfolder, folder])):
-                                    if check_image_extension(fn):
-                                        rp_path = "/".join(["content/{}".format(path), packfolder, folder, fn])
-                                        tags = fn.split("-")
-                                        try:
-                                            del tags[0]
-                                            tags[-1] = tags[-1].split(".")[0]
-                                        except IndexError:
-                                            raise Exception("Invalid file path for image: %s" % rp_path)
-                                        for tag in tags:
-                                            if tag not in tags_dict:
-                                                raise Exception("Unknown image tag: %s, path: %s" % (tag, rp_path))
-                                            tagdb.tagmap[tags_dict[tag]].add(fn)
-                                        # Adding filenames to girls id:
-                                        tagdb.tagmap.setdefault(folder, set()).add(fn)
+                                load_tags_folder(folder, _path)
 
                             if id in exist:
                                 continue
@@ -313,28 +316,14 @@ init -11 python:
                                 # Only time we throw an error instead of writing to log.
                                 raise Exception("No id was specified in %s JSON Datafile!" % str(in_file))
 
-                            random_girls[gd["id"]] = gd
-
                             folder = gd["id"]
 
+                            random_girls[folder] = gd
+
                             # Set the path to the folder:
-                            random_girls[gd["id"]]["_path_to_imgfolder"] = "/".join(["content/rchars", packfolder, folder])
+                            random_girls[folder]["_path_to_imgfolder"] = "/".join(["content/rchars", packfolder, folder])
                             # We load the new tags!:
-                            for fn in os.listdir(os.sep.join([dir, packfolder, folder])):
-                                if check_image_extension(fn):
-                                    rp_path = "/".join(["content/rchars", packfolder, folder, fn])
-                                    tags = fn.split("-")
-                                    try:
-                                        del tags[0]
-                                        tags[-1] = tags[-1].split(".")[0]
-                                    except IndexError:
-                                        raise Exception("Invalid file path for image: %s" % rp_path)
-                                    for tag in tags:
-                                        if tag not in tags_dict:
-                                            raise Exception("Unknown image tag: %s, path: %s" % (tag, rp_path))
-                                        tagdb.tagmap[tags_dict[tag]].add(fn)
-                                    # Adding filenames to girls id:
-                                    tagdb.tagmap.setdefault(folder, set()).add(fn)
+                            load_tags_folder(folder, os.sep.join([dir, packfolder, folder]))
 
         return random_girls
 
