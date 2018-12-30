@@ -1740,7 +1740,7 @@ init -9 python:
 
                 if condition:
                     if stat == "gold":
-                        if misc_mode and self.status == "slave":
+                        if misc_mode and self.status == "slave" and self in hero.chars:
                             temp = hero
                         else:
                             temp = self
