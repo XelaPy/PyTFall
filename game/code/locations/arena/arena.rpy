@@ -47,7 +47,6 @@ init -9 python:
             self.dogfights_3v3 = list()
             self.dogfight_day = 1
 
-            # use these variable when a new release is prepared where backwards compatibility issues are ignored 
             self.df_count = 0 
             self.hero_match_result = None 
             self.daily_report = []
@@ -472,43 +471,49 @@ init -9 python:
             Find a team to fight challenger team in the official arena matches.
             """
             # 1vs1:
+            fighters = None
             for setup in self.matches_1v1:
+                if setup[0]:
+                    continue
                 if setup[2] == day:
                     deadline = 100
                 elif setup[2] > day + 2:
                     deadline = 50
                 else:
-                    deadline = 0
-                if not setup[0] and dice(max(deadline, 15)):
-                    fighters = list()
-                    templist = list(i for i in self.get_arena_fighters() if i != None and i.arena_permit)
-                    for fighter in templist:
-                        if setup[2] not in fighter.fighting_days and fighter not in self.get_matches_fighters(matches="1v1"):
-                            fighters.append(fighter)
-                    shuffle(fighters)
+                    deadline = 15
+                if dice(deadline):
+                    if fighters is None:
+                        match_fighters = self.get_matches_fighters(matches="1v1")
+                        fighters = list(i for i in self.get_arena_fighters() if i.arena_permit and setup[2] not in i.fighting_days and i not in match_fighters)
+                        shuffle(fighters)
+
                     if fighters:
                         c_fighter = fighters.pop()
                         c_fighter.fighting_days.append(setup[2])
                         setup[0].add(c_fighter)
 
             # 2vs2
+            teams = None
             for setup in self.matches_2v2:
+                if setup[0]:
+                    continue
                 if setup[2] == day:
                     deadline = 100
                 elif setup[2] > day + 3:
                     deadline = 50
                 else:
-                    deadline = 0
-                if not setup[0] and dice(max(deadline, 20)):
-                    teams = []
-                    for team in self.teams_2v2:
-                        count = 0
-                        for fighter in team.members:
-                            if setup[2] not in fighter.fighting_days and fighter not in self.get_matches_fighters(matches="2v2"):
-                                count += 1
-                        if count == 2:
-                            teams.append(team)
-                    shuffle(teams)
+                    deadline = 20
+                if dice(deadline):
+                    if teams is None:
+                        match_fighters = self.get_matches_fighters(matches="2v2")
+                        teams = []
+                        for team in self.teams_2v2:
+                            for fighter in team.members:
+                                if setup[2] in fighter.fighting_days or fighter in match_fighters:
+                                    break
+                            else:
+                                teams.append(team)
+                        shuffle(teams)
                     if teams:
                         c_team = teams.pop()
                         for fighter in c_team:
@@ -516,23 +521,27 @@ init -9 python:
                         setup[0] = c_team
 
             # 3vs3
+            teams = None
             for setup in self.matches_3v3:
+                if setup[0]:
+                    continue
                 if setup[2] == day:
                     deadline = 100
                 elif setup[2] > day + 3:
                     deadline = 50
                 else:
-                    deadline = 0
-                if not setup[0] and dice(max(deadline, 25)):
-                    teams = []
-                    for team in self.teams_3v3:
-                        count = 0
-                        for fighter in team:
-                            if setup[2] not in fighter.fighting_days and fighter not in self.get_matches_fighters(matches="3v3"):
-                                count += 1
-                        if count == 3:
-                            teams.append(team)
-                    shuffle(teams)
+                    deadline = 25
+                if dice(deadline):
+                    if teams is None:
+                        match_fighters = self.get_matches_fighters(matches="3v3")
+                        teams = []
+                        for team in self.teams_3v3:
+                            for fighter in team:
+                                if setup[2] in fighter.fighting_days or fighter in match_fighters:
+                                    break
+                            else:
+                                teams.append(team)
+                        shuffle(teams)
                     if teams:
                         c_team = teams.pop()
                         for fighter in c_team:
@@ -648,8 +657,7 @@ init -9 python:
             # Update top 100 ladder:
             candidates = self.get_arena_fighters(include_hero_girls=True)
             candidates.append(hero)
-            candidates.sort(key=attrgetter("arena_rep"))
-            candidates.reverse()
+            candidates.sort(reverse=True, key=attrgetter("arena_rep"))
             self.ladder = candidates[:len(self.ladder)]
 
         def load_special_team_presets(self):
@@ -772,27 +780,25 @@ init -9 python:
             for c in candidates:
                 c.set_status("free")
 
-            _candidates = candidates[:]
-            shuffle(_candidates)
+            shuffle(candidates)
 
-            # print("CANDIDATES: {}".format(len(_candidates)))
+            # print("CANDIDATES: {}".format(len(candidates)))
 
             # Add da King!
             if not self.king:
                 tier_kwargs = {"level_bios": (1.0, 1.2), "stat_bios": (1.0, 1.2)}
-                if _candidates:
-                    char = _candidates.pop()
+                if candidates:
+                    char = candidates.pop()
                     tier_up_to(char, 7, **tier_kwargs)
                     auto_buy_for_bt(char, casual=None)
                     give_tiered_magic_skills(char)
                 else:
                     char = build_rc(tier=7,
+                                    set_status="free",
                                     tier_kwargs=tier_kwargs,
                                     give_bt_items=True,
                                     spells_to_tier=True)
-                    candidates.append(char)
 
-                char.set_status("free")
                 char.arena_active = True
                 char.arena_permit = True
                 char.home = locations["City Apartments"]
@@ -800,32 +806,32 @@ init -9 python:
                 char.action = "Arena Combat"
 
                 char.arena_rep = randint(79000, 81000)
-                candidates.remove(char)
                 self.king = char
 
             # Setting up some decent fighters:
-            power_levels = [uniform(.2, .8) for i in range(10)]
-            power_levels.extend([uniform(.4, 1.2) for i in range(10)])
-            power_levels.extend([uniform(.8, 1.8) for i in range(15)])
-            power_levels.extend([uniform(1.5, 2.3) for i in range(15)])
-            power_levels.extend([uniform(1.8, 2.6) for i in range(15)])
-            power_levels.extend([uniform(2.3, 3.5) for i in range(15)])
+            power_levels = [uniform(3.8, 5.2) for i in range(15)]
             power_levels.extend([uniform(3.0, 4.5) for i in range(15)])
-            power_levels.extend([uniform(3.8, 5.2) for i in range(15)])
+            power_levels.extend([uniform(2.3, 3.5) for i in range(15)])
+            power_levels.extend([uniform(1.8, 2.6) for i in range(15)])
+            power_levels.extend([uniform(1.5, 2.3) for i in range(15)])
+            power_levels.extend([uniform(.8, 1.8) for i in range(15)])
+            power_levels.extend([uniform(.4, 1.2) for i in range(10)])
+            power_levels.extend([uniform(.2, .8) for i in range(10)])
             # print("POWER LEVELS: {}".format(len(power_levels)))
-            for tier in power_levels:
-                if _candidates:
-                    fighter = _candidates.pop()
+            new_candidates = []
+            for tier, fighter in izip_longest(power_levels, candidates):
+                if tier is None:
+                    break
+                if fighter is None:
+                    fighter = build_rc(bt_go_patterns=["Combatant"], tier=tier,
+                           set_status="free", give_bt_items=True, spells_to_tier=True)
+                    # print("Created Arena RG: {}".format(fighter.name))
+                    new_candidates.append(fighter)
+                else:
                     tier_up_to(fighter, tier)
                     auto_buy_for_bt(fighter, casual=None)
                     give_tiered_magic_skills(fighter)
-                else:
-                    fighter = build_rc(bt_go_patterns=["Combatant"], tier=tier,
-                                       give_bt_items=True, spells_to_tier=True)
-                    # print("Created Arena RG: {}".format(fighter.name))
-                    candidates.append(fighter)
 
-                fighter.set_status("free")
                 fighter.arena_active = True
                 fighter.arena_permit = True
                 fighter.home = locations["City Apartments"]
@@ -834,17 +840,16 @@ init -9 python:
 
                 fighter.arena_rep = randint(int(tier*9000), int(tier*11000))
 
+            candidates.extend(new_candidates)
+
             # Populate the reputation ladder:
             self.update_ladder()
 
             # Populate tournament ladders:
             # 1v1 Ladder lineup:
-            if self.king:
-                self.lineup_1v1[0].add(self.king)
             temp = candidates[:30]
-            if self.king in temp:
-                temp.remove(self.king)
             shuffle(temp)
+            temp.append(self.king)
 
             for team in self.lineup_1v1:
                 if not team:
@@ -853,15 +858,9 @@ init -9 python:
                     team.add(f)
 
             # 2v2 Ladder lineup:
-            if self.king:
-                for lu in self.lineup_2v2:
-                    if not lu:
-                        lu.add(self.king)
-                        break
             temp = candidates[:50]
-            if self.king in temp:
-                temp.remove(self.king)
             shuffle(temp)
+            temp.append(self.king)
 
             for team in self.lineup_2v2:
                 if not team.name:
@@ -872,15 +871,9 @@ init -9 python:
                     team.add(f)
 
             # 3v3 Ladder lineup:
-            if self.king:
-                for lu in self.lineup_3v3:
-                    if not lu:
-                        lu.add(self.king)
-                        break
             temp = candidates[:60]
-            if self.king in temp:
-                temp.remove(self.king)
             shuffle(temp)
+            temp.append(self.king)
 
             for team in self.lineup_3v3:
                 if not team.name:
