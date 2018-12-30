@@ -110,7 +110,8 @@ init -11 python:
         folder = os.path.join("content", "sfx", "music", "be")
         path = os.path.join(gamedir, folder, '.')
         for fn in os.walk(path).next()[2]:
-            battle_tracks.append(os.path.join(folder, fn))
+            if fn.endswith(MUSIC_EXTENSIONS):
+                battle_tracks.append(os.path.join(folder, fn))
         return choice(battle_tracks)
 
     def be_hero_escaped(team):
