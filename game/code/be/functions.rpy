@@ -106,10 +106,11 @@ init -11 python:
 
     def get_random_battle_track():
         # get a list of all battle tracks:
-        battle_tracks = list()
-        for fn in renpy.list_files():
-            if "sfx/music/be/battle" in fn:
-                battle_tracks.append(fn)
+        battle_tracks = []
+        folder = os.path.join("content", "sfx", "music", "be")
+        path = os.path.join(gamedir, folder, '.')
+        for fn in os.walk(path).next()[2]:
+            battle_tracks.append(os.path.join(folder, fn))
         return choice(battle_tracks)
 
     def be_hero_escaped(team):
