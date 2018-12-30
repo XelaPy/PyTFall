@@ -263,36 +263,37 @@ init -9 python:
             '''Makes sure that there are enough teams for Arena to function properly.
             If members are removed from teams directly, it is up to the respective method to find a replacement...
             '''
+            candidates = None
             if len(self.teams_2v2) < 30:
-                candidates = self.get_arena_candidates_from_chars()
-                candidates.extend(self.arena_fighters.values())
+                if candidates is None:
+                    candidates = self.get_arena_candidates_from_chars()
+                    candidates.extend(self.arena_fighters.values())
                 inteams_2v2 = self.get_teams_fighters(teams="2v2")
                 templist = [fighter for fighter in candidates if fighter not in inteams_2v2]
                 shuffle(templist)
 
-                for __ in xrange(max(30, len(self.teams_2v2))):
-                    if len(templist) >= 2:
-                        team = Team(max_size=2)
-                        team.name = get_team_name()
-                        team.add(templist.pop())
-                        team.add(templist.pop())
-                        self.teams_2v2.append(team)
+                for __ in xrange(min(30, len(templist)/2)):
+                    team = Team(max_size=2)
+                    team.name = get_team_name()
+                    team.add(templist.pop())
+                    team.add(templist.pop())
+                    self.teams_2v2.append(team)
 
             if len(self.teams_3v3) < 30:
-                candidates = self.get_arena_candidates_from_chars()
-                candidates.extend(self.arena_fighters.values())
+                if candidates is None:
+                    candidates = self.get_arena_candidates_from_chars()
+                    candidates.extend(self.arena_fighters.values())
                 inteams_3v3 = self.get_teams_fighters(teams="3v3")
                 templist = [fighter for fighter in candidates if fighter not in inteams_3v3]
                 shuffle(templist)
 
-                for __ in xrange(max(30, len(self.teams_3v3))):
-                    if len(templist) >= 3:
-                        team = Team(max_size=3)
-                        team.name = get_team_name()
-                        team.add(templist.pop())
-                        team.add(templist.pop())
-                        team.add(templist.pop())
-                        self.teams_3v3.append(team)
+                for __ in xrange(min(30, len(templist)/3)):
+                    team = Team(max_size=3)
+                    team.name = get_team_name()
+                    team.add(templist.pop())
+                    team.add(templist.pop())
+                    team.add(templist.pop())
+                    self.teams_3v3.append(team)
 
         def update_dogfights(self):
             """
@@ -308,12 +309,12 @@ init -9 python:
                 chars_fighters = [f for f in chars_fighters if f not in dogfighters]
                 candidates.extend(chars_fighters)
 
-                amount = randint(15, 20)
+                amount = min(min(randint(15, 20), 20 - len(self.dogfights_1v1)), len(candidates))
                 in_range_exists = len([f for f in dogfighters if f.level in level_range])
 
                 # do first pass over those candidates who's level is near Hero's
                 for i in candidates[:]:
-                    if in_range_exists >= 5:
+                    if amount == 0 or in_range_exists >= 5:
                         break
 
                     if i.level in level_range:
@@ -324,31 +325,26 @@ init -9 python:
                         candidates.remove(i)
                         self.dogfights_1v1.append(team)
 
-                    if not amount or len(self.dogfights_1v1) >= 20:
-                        break
 
-                shuffle(candidates)
+                if amount != 0:
+                    shuffle(candidates)
 
-                if amount:
-                    for i in candidates[:]:
+                    while amount != 0:
                         amount -= 1
                         team = Team(max_size=1)
                         team.add(candidates.pop())
                         self.dogfights_1v1.append(team)
-
-                        if not amount or len(self.dogfights_1v1) >= 20:
-                            break
 
             # 2v2
             for teams, teams_setup in ([self.teams_2v2, self.dogfights_2v2],
                                        [self.teams_3v3, self.dogfights_3v3]):
                 if len(teams_setup) < 15:
                     candidates = [team for team in teams if team not in teams_setup]
-                    amount = randint(8, 15)
+                    amount = min(min(randint(8, 15), 15 - len(teams_setup)), len(candidates))
                     in_range_exists = len([t for t in teams_setup if t.get_level() in level_range])
 
                     for team in candidates[:]:
-                        if in_range_exists >= 4:
+                        if amount == 0 or in_range_exists >= 4:
                             break
 
                         if team.get_level() in level_range:
@@ -357,72 +353,66 @@ init -9 python:
                             candidates.remove(team)
                             teams_setup.append(team)
 
-                        if not amount or len(teams_setup) >= 15:
-                            break
 
-                    shuffle(candidates)
+                    if amount != 0:
+                        shuffle(candidates)
 
-                    if amount:
-                        for team in candidates[:]:
+                        while amount != 0:
                             amount -= 1
-                            teams_setup.append(team)
-
-                            if not amount or len(teams_setup) >= 15:
-                                break
+                            teams_setup.append(candidates.pop())
 
         def update_matches(self):
             # 1vs1:
+            teams = None
             for setup in self.matches_1v1:
                 if not len(setup[1]):
                     setup[2] = day + randint(3, 14)
-                    teams = list()
-                    for team in self.lineup_1v1:
-                        if team.leader == hero:
-                            pass
-                        elif setup[2] not in team.leader.fighting_days and team.leader not in self.get_matches_fighters(matches="1v1"):
-                            teams.append(team)
-                    shuffle(teams)
+                    if teams is None:
+                        match_fighters = self.get_matches_fighters(matches="1v1")
+                        match_fighters.add(hero)
+                        teams = list(i for i in self.lineup_1v1 if setup[2] not in i.leader.fighting_days and i.leader not in match_fighters)
+                        shuffle(teams)
                     if teams:
                         c_team = teams.pop()
                         c_team.leader.fighting_days.append(setup[2])
                         setup[1] = c_team
 
+            teams = None
             for setup in self.matches_2v2:
                 if not len(setup[1]):
                     setup[2] = day + randint(3, 14)
-                    teams = list()
-                    for team in self.lineup_2v2:
-                        if team.leader == hero:
-                            pass
-                        else:
-                            count = 0
+                    if teams is None:
+                        match_fighters = self.get_matches_fighters(matches="2v2")
+                        match_fighters.add(hero)
+                        teams = list()
+                        for team in self.lineup_2v2:
                             for fighter in team:
-                                if setup[2] not in fighter.fighting_days and fighter not in self.get_matches_fighters(matches="2v2"):
-                                    count += 1
-                            if count == 2:
+                                if setup[2] in fighter.fighting_days or fighter in match_fighters:
+                                    break
+                            else:
                                 teams.append(team)
-                    shuffle(teams)
+                        shuffle(teams)
                     if teams:
                         c_team = teams.pop()
                         for fighter in c_team.members:
                             fighter.fighting_days.append(setup[2])
                         setup[1] = c_team
 
+            teams = None
             for setup in self.matches_3v3:
                 if not len(setup[1]):
                     setup[2] = day + randint(3, 14)
-                    teams = []
-                    for team in self.lineup_3v3:
-                        if team.leader == hero:
-                            pass
-                        else:
-                            count = 0
+                    if teams is None:
+                        match_fighters = self.get_matches_fighters(matches="3v3")
+                        match_fighters.add(hero)
+                        teams = list()
+                        for team in self.lineup_3v3:
                             for fighter in team.members:
-                                if setup[2] not in fighter.fighting_days and fighter not in self.get_matches_fighters(matches="3v3"):
-                                    count += 1
-                            if count == 3:
+                                if setup[2] in fighter.fighting_days or fighter in match_fighters:
+                                    break
+                            else:
                                 teams.append(team)
-                    shuffle(teams)
+                        shuffle(teams)
                     if teams:
                         c_team = teams.pop()
                         for fighter in c_team.members:
