@@ -1012,7 +1012,10 @@ init -9 python:
                     chance.append(100)
 
                 # Other traits:
-                if trait == "Kamidere": # Vanity: wants pricy uncommon items, but only lasting ones(especially scrolls should be excluded)
+                trait = trait.id # never compare trait entity with trait str, it is SLOW
+                if trait == "Slim":
+                    appetite -= 10
+                elif trait == "Kamidere": # Vanity: wants pricy uncommon items, but only lasting ones(especially scrolls should be excluded)
                     if not (item.slot == "consumable"):
                         chance.append((100 - item.chance + min(item.price/10, 100))/2)
                 elif trait == "Tsundere": # stubborn: what s|he won't buy, s|he won't wear.
@@ -1023,8 +1026,6 @@ init -9 python:
                     when_drunk = 45
                 elif trait == "Always Hungry":
                     appetite += 20
-                elif trait == "Slim":
-                    appetite -= 10
 
             if item.slot == "consumable": # Special considerations like food poisoning.
                 if item in self.constemp:

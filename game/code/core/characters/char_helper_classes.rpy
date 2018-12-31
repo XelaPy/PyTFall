@@ -306,6 +306,9 @@ init -10 python:
             self.be_skill = be_skill # If we expect a be skill or similar mode.
             self.list = _list()
 
+        # the iterator of the MutableSequence is SLOW, use iterator of the list instead
+        def __iter__(self): return self.list.__iter__()
+
         def __len__(self): return len(self.list)
 
         def __getitem__(self, i): return self.list[i]
