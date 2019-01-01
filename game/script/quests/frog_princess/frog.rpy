@@ -174,7 +174,7 @@ label frog1_event_abby_2:
     with dissolve
 
     hero.say "Did you found anything?"
-    if dice(50 + day/3):
+    if dice(50 - day/3):
         w "I am still going through my books and scrolls. Come back later."
 
         $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the frog (again)")
