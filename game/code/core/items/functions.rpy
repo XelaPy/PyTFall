@@ -133,20 +133,20 @@ init -11 python:
             if not silent:
                 renpy.show_screen("message_screen", "This item cannot be used or equipped.")
             return
-        elif item.type in ["food"] and 'Food Poisoning' in character.effects:
+        elif item.type == "food" and 'Food Poisoning' in character.effects:
             if not silent:
                 renpy.show_screen('message_screen', "{} is already suffering from food poisoning. More food won't do any good.".format(character.name))
             return
         elif character.status == "slave":
-            if item.slot in ["weapon"] and item.type != "tool":
+            if item.slot == "weapon" and item.type != "tool":
                 if not silent:
                     renpy.show_screen('message_screen', "Slaves are forbidden to use large weapons by law.")
                 return
-            elif item.type in ["armor"]:
+            elif item.type == "armor":
                 if not silent:
                     renpy.show_screen('message_screen', "Slaves are forbidden to wear armor by law.")
                 return
-            elif item.type in ["shield"]:
+            elif item.type == "shield":
                 if not silent:
                     renpy.show_screen('message_screen', "Slaves are forbidden to use shields by law.")
                 return
@@ -319,8 +319,8 @@ init -11 python:
 
         return True
 
-    def give_to_mc_item_reward(type="consumable", price=1000):
-        item = get_item_drops(type, price)
+    def give_to_mc_item_reward(types, price=None, locations=["Exploration"]):
+        item = get_item_drops(types=types, price=price, tier=hero.tier, locations=locations)
         if item:
             hero.add_item(item)
             gfx_overlay.random_find(item, 'items')
