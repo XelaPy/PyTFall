@@ -53,64 +53,65 @@ init -10 python:
 
             target_tier = self.tier+1.0 # To get a float for Py2.7
             target_level = (target_tier)*20
-            tier_points = 0 # We need 100 to tier up!
+            if target_level > self.level:
+                tier_points = 0 # We need 100 to tier up!
 
-            level_points = self.level*50.0/target_level
+                level_points = self.level*50.0/target_level
 
-            default_points = 12.5
-            skill_bonus = stat_bonus = 0
-            for trait in self.traits.basetraits:
-                # Skills first (We calc this as 12.5% of the total)
-                skills = trait.base_skills
-                if not skills: # Some weird ass base trait, we just award 33% of total possible points.
-                    skill_bonus += default_points*.33
-                else:
-                    total_weight_points = sum(skills.values())
-                    for skill, weight in skills.items():
-                        weight_ratio = float(weight)/total_weight_points
-                        max_p = default_points*weight_ratio
+                default_points = 12.5
+                skill_bonus = stat_bonus = 0
+                for trait in self.traits.basetraits:
+                    # Skills first (We calc this as 12.5% of the total)
+                    skills = trait.base_skills
+                    if not skills: # Some weird ass base trait, we just award 33% of total possible points.
+                        skill_bonus += default_points*.33
+                    else:
+                        total_weight_points = sum(skills.values())
+                        for skill, weight in skills.items():
+                            weight_ratio = float(weight)/total_weight_points
+                            max_p = default_points*weight_ratio
 
-                        sp = self.get_skill(skill)
-                        sp_required = self.get_max_skill(skill, target_tier)
+                            sp = self.get_skill(skill)
+                            sp_required = self.get_max_skill(skill, target_tier)
 
-                        skill_bonus += min(sp*max_p/sp_required, max_p*1.1)
+                            skill_bonus += min(sp*max_p/sp_required, max_p*1.1)
 
-                stats = trait.base_stats
-                if not stats: # Some weird ass base trait, we just award 33% of total possible points.
-                    stat_bonus += default_points*.33
-                else:
-                    total_weight_points = sum(stats.values())
-                    for stat, weight in stats.items():
-                        weight_ratio = float(weight)/total_weight_points
-                        max_p = default_points*weight_ratio
+                    stats = trait.base_stats
+                    if not stats: # Some weird ass base trait, we just award 33% of total possible points.
+                        stat_bonus += default_points*.33
+                    else:
+                        total_weight_points = sum(stats.values())
+                        for stat, weight in stats.items():
+                            weight_ratio = float(weight)/total_weight_points
+                            max_p = default_points*weight_ratio
 
-                        sp = self.stats.stats[stat]
-                        if stat in self.stats.FIXED_MAX:
-                            sp_required = self.get_max(stat)
-                        else:
-                            sp_required = self.get_relative_max_stat(stat, target_tier)
+                            sp = self.stats.stats[stat]
+                            if stat in self.stats.FIXED_MAX:
+                                sp_required = self.get_max(stat)
+                            else:
+                                sp_required = self.get_relative_max_stat(stat, target_tier)
 
-                        stat_bonus += min(sp*max_p/sp_required, max_p*1.1)
+                            stat_bonus += min(sp*max_p/sp_required, max_p*1.1)
 
-            stats_skills_points = skill_bonus + stat_bonus
-            if len(self.traits.basetraits) == 1:
-                stats_skills_points *= 2
+                stats_skills_points = skill_bonus + stat_bonus
+                if len(self.traits.basetraits) == 1:
+                    stats_skills_points *= 2
 
-            total_points = level_points + stats_skills_points
+                total_points = level_points + stats_skills_points
 
-            # devlog.info("Name: {}, total tier points for Tier {}: {} (lvl: {}, st/sk=total: {}/{}==>{})".format(self.name,
-            #                                                                                             int(target_tier),
-            #                                                                                             round(total_points),
-            #                                                                                             round(level_points),
-            #                                                                                             round(stat_bonus),
-            #                                                                                             round(skill_bonus),
-            #                                                                                             round(stats_skills_points)))
+                # devlog.info("Name: {}, total tier points for Tier {}: {} (lvl: {}, st/sk=total: {}/{}==>{})".format(self.name,
+                #                                                                                             int(target_tier),
+                #                                                                                             round(total_points),
+                #                                                                                             round(level_points),
+                #                                                                                             round(stat_bonus),
+                #                                                                                             round(skill_bonus),
+                #                                                                                             round(stats_skills_points)))
 
-            if total_points >= 100 or self.level == target_level:
-                self.tier = min(10, self.tier+1)
-                return True
-            else:
-                return False
+                if total_points < 100:
+                    return False
+
+            self.tier = min(10, self.tier+1)
+            return True
 
         def calc_expected_wage(self, kind=None):
             """Amount of money each character expects to get paid for her skillset.
@@ -157,9 +158,8 @@ init -10 python:
             return wage
 
         def update_tier_info(self, kind=None):
-            for i in range(11):
-                if not self.recalculate_tier():
-                    break
+            while self.recalculate_tier():
+                continue 
             self.calc_expected_wage(kind=kind)
 
         # We need "reverse" calculation for when leveling up characters
