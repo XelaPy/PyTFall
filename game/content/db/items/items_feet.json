@@ -240,7 +240,6 @@
     "type": "dress",
     "evasion_bonus": 1,
     "max": {"agility": 15, "joy": 5},
-    "mod": {"agility": 15},
     "mod_skills": {"dancing": [0.1, 0.1, 0.15, 0, 0], "strip": [0.05, 0, 0.05, 0, 0]},
     "mod": {"charisma": 15},
     "locations": ["Tailor Store"],

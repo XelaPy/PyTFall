@@ -41,18 +41,18 @@ init python:
             self.txt = list()
             self.girl = girl
             self.img = None
-            self.girlmod = {'health': 0,
-                                    'vitality': 0,
-                                    'disposition': 0,
-                                    'joy': 0,
-                                    'mp': 0,
-                                    'reputation': 0,
-                                    "charisma": 0,
-                                    'constitution': 0,
-                                    'intelligence': 0,
-                                    "strip": 0,
-                                    "joy": 0,
-                                    "service": 0}
+            self.girlmod = {
+                'health': 0,
+                'vitality': 0,
+                'disposition': 0,
+                'mp': 0,
+                'reputation': 0,
+                "charisma": 0,
+                'constitution': 0,
+                'intelligence': 0,
+                "strip": 0,
+                "joy": 0,
+                "service": 0}
 
             if fg.upgrades["healing onsen"][0]:
                 while self.girl.AP and not all([(self.girl.vitality + self.girlmod['vitality'] >= self.girl.get_max("vitality") - 50),
