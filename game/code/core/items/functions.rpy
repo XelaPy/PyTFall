@@ -340,8 +340,11 @@ init -11 python:
         Can be sorted on price or tier or both (price will have the priority).
         Well return a list of items if amount is greater than 1 (be careful with this)
         """
-        if types != "all" and isinstance(types, basestring):
+        if isinstance(types, basestring) and types != "all":
             types = [types]
+
+        if locations is not None:
+            locations = set(locations)
 
         picked = set()
 
@@ -355,7 +358,7 @@ init -11 python:
                     continue
 
             if locations is not None:
-                if not set(locations).intersection(item.locations):
+                if not locations.intersection(item.locations):
                     continue
 
             if getattr(item, "jump_to_label", False):

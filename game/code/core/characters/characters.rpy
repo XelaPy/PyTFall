@@ -1138,6 +1138,7 @@ init -9 python:
             # traits that may influence the item selection process
             # This will never work, will it?????
             for t in self.traits:
+                t = t.id
                 # bad eyesight may cause inclusion of items with more penalty
                 if t == "Bad Eyesight":
                     min_value = -10
