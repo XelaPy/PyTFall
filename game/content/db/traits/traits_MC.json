@@ -259,8 +259,8 @@
     {
     "id": "Incorporeal",
     "desc": "All attacks and spells are less effective against you, but your attacks and spells are less effective too.",
-    "defence_multiplier": {"ranged": 0.2, "melee": 0.2, "ranged": 0.2, "status": 0.2},
-    "delivery_multiplier": {"ranged": -0.2, "melee": -0.2, "ranged": -0.2, "status": -0.2},
+    "defence_multiplier": {"melee": 0.2, "ranged": 0.2, "status": 0.2},
+    "delivery_multiplier": {"melee": -0.2, "ranged": -0.2, "status": -0.2},
     "el_defence": {"healing": 0.15},
     "el_damage": {"healing": -0.15},
     "MC_only_trait": true,
