@@ -611,8 +611,7 @@ init -10 python:
                     char.upkeep += trait.mod_stats.get("upkeep", [0, 0])[0]
                 if hasattr(char, "disposition"):
                     char.disposition += trait.mod_stats.get("disposition", [0, 0])[0]
-                for level in xrange(char.level+1):
-                    char.stats.apply_trait_statsmod(trait)
+                char.stats.apply_trait_statsmod(trait, 0, char.level)
 
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
@@ -701,8 +700,7 @@ init -10 python:
                     char.upkeep -= trait.mod_stats.get("upkeep", [0, 0])[0]
                 if hasattr(char, "disposition"):
                     char.disposition -= trait.mod_stats.get("disposition", [0, 0])[0]
-                for level in xrange(char.level+1):
-                    char.stats.apply_trait_statsmod(trait, reverse=True)
+                char.stats.apply_trait_statsmod(trait, char.level, 0)
 
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
@@ -1326,12 +1324,10 @@ init -10 python:
                         #         msg = "'{}' skill applied on leveling up to {} ({})!"
                         #         char_debug(str(msg.format(stat, self.instance.__class__, trait.id)))
 
-                for i in range(num_lvl):
-                    self.level += 1
+                self.level += num_lvl
 
-                    # Bonuses from traits:
-                    for trait in char.traits:
-                        self.apply_trait_statsmod(trait)
+                # Bonuses from traits:
+                self.apply_trait_statsmod(trait, self.level-num_lvl, self.level)
 
                 self.stats["health"] = self.get_max("health")
                 self.stats["mp"] = self.get_max("mp")
@@ -1339,13 +1335,24 @@ init -10 python:
 
                 self.instance.update_tier_info()
 
-        def apply_trait_statsmod(self, trait, reverse=False):
+        def apply_trait_statsmod(self, trait, from_lvl, to_lvl):
             """Applies "stats_mod" field on characters.
             """
+            delta_lvl = to_lvl - from_lvl
             for key in trait.mod_stats:
-                if key not in ["disposition", "upkeep"]:
-                    if not self.level%trait.mod_stats[key][1]:
-                        self._mod_base_stat(key, trait.mod_stats[key][0]) if not reverse else self._mod_base_stat(key, -trait.mod_stats[key][0])
+                if key in ["disposition", "upkeep"]:
+                    continue
+                mod = trait.mod_stats[key][1]
+                delta = delta_lvl / mod
+                rem = delta_lvl % mod
+                if rem != 0:
+                    rem = (to_lvl / mod) - ((to_lvl - rem) / mod)
+                    if rem > 0:
+                        delta += 1
+                    elif rem < 0:
+                        delta -= 1
+                if delta != 0:
+                    self._mod_base_stat(key, delta * trait.mod_stats[key][0])
 
         def _mod_base_stat(self, key, value):
             # Modifies the first layer of stats (self.stats)
