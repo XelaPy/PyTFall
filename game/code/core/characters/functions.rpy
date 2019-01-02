@@ -522,7 +522,7 @@ init -11 python:
         """
         if give_civilian_items or give_bt_items:
             container = []
-            limit_tier = ((char.tier + 2)/2)
+            limit_tier = ((char.tier/2)+1)
             for i in range(limit_tier):
                 container.extend(store.tiered_items.get(i, []))
 
@@ -565,7 +565,7 @@ init -11 python:
             casual = True
         if container is None:
             container = []
-            limit_tier = ((char.tier + 2)/2)
+            limit_tier = ((char.tier/2)+1)
             for i in range(limit_tier):
                 container.extend(store.tiered_items.get(i, []))
 
@@ -664,7 +664,7 @@ init -11 python:
                 purpose = "Manager"
             char.equip_for(purpose)
 
-    def give_tiered_magic_skills(char, amount="auto", support_amount="auto"):
+    def give_tiered_magic_skills(char, amount=None, support_amount=None):
         """Gives spells based on tier and class of the character.
         *We assume that is called on a char that actually needs it.
 
@@ -673,7 +673,7 @@ init -11 python:
         """
         tier = max(min(round_int(char.tier*.5), 4), 0)
         attributes = set([t.id.lower() for t in char.elements])
-        if support_amount == "auto":
+        if support_amount is None:
             if traits["Healer"] in char.traits.basetraits:
                 s_amount = max(tier, 2)
             elif traits["Healer"] in char.traits:
@@ -683,7 +683,7 @@ init -11 python:
         else:
             s_amount = support_amount
 
-        if amount == "auto":
+        if amount is None:
             if "Caster" in char.gen_occs:
                 amount = tier + randint(1, 2)
                 s_amount += 1
@@ -701,9 +701,9 @@ init -11 python:
         for _ in reversed(range(tier+1)):
             if amount > 0:
                 if "neutral" in attributes:
-                    spells = [s for s in tiered_magic_skills[_] if s.tier <= 10] # testing spells have tier higher than 10
+                    spells = tiered_magic_skills[_][:] # testing spells have tier higher than 10
                 else:
-                    spells = [s for s in tiered_magic_skills[_] if attributes.intersection(s.attributes) and s.tier <= 10]
+                    spells = [s for s in tiered_magic_skills[_] if attributes.intersection(s.attributes)]
                 shuffle(spells)
                 for s in spells:
                     if s not in char.magic_skills:
@@ -815,7 +815,7 @@ init -11 python:
 
         # Patterns:
         if pattern is None:
-            pattern = random.sample(client.GEN_OCCS, 1).pop()
+            pattern = choice(tuple(client.GEN_OCCS))
         pattern = create_traits_base(pattern)
         for i in pattern:
             client.traits.basetraits.add(i)
@@ -835,20 +835,21 @@ init -11 python:
         cl.add(choice(tgs.breasts))
         cl.add(choice(tgs.body))
         cl.add(choice(tgs.race))
-        cl = cl.union(random.sample(tgs.base, randint(1, 2)))
-        cl = cl.union(random.sample(tgs.elemental, randint(2, 3)))
-        cl = cl.union(random.sample(tgs.ct, randint(2, 4)))
-        cl = cl.union(random.sample(tgs.sexual, randint(1, 2)))
-        client.likes = cl
+        cl.update(random.sample(tgs.base, randint(1, 2)))
+        cl.update(random.sample(tgs.elemental, randint(2, 3)))
+        cl.update(random.sample(tgs.ct, randint(2, 4)))
+        cl.update(random.sample(tgs.sexual, randint(1, 2)))
 
         if likes:
-            client.likes = client.likes.union(likes)
+            cl.update(likes)
             # We pick some of the traits to like/dislike at random.
 
         if gender == "female":
-            client.likes.add(traits["Lesbian"])
-        elif gender == "male" and traits["Lesbian"] in client.likes:
-            client.likes.remove(traits["Lesbian"])
+            cl.add(traits["Lesbian"])
+        else: #if gender == "male":
+            cl.discard(traits["Lesbian"])
+
+        client.likes = cl
 
         tier_up_to(client, tier)
 

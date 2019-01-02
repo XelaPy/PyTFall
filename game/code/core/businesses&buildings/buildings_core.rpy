@@ -943,7 +943,6 @@ init -10 python:
                 # Clients:
                 tl.start("Generating clients in {}".format(self.name))
                 self.get_client_count(write_to_nd=True)
-                clnts = self.total_clients
 
                 # TODO B&B-clients: Generate and add regulars!
                 # Note (Beta): Basically what happened with this code is that all clients,
@@ -953,9 +952,10 @@ init -10 python:
                     self.all_clients = set()
                     self.clients_regen_day = day + randint(2, 4)
                 c0 = self.expects_clients and self.available_workers
+                clnts = self.total_clients - len(self.all_clients)
 
-                if c0 and len(self.all_clients) < clnts:
-                    for i in xrange(clnts - len(self.all_clients)):
+                if c0 and clnts > 0:
+                    for i in xrange(clnts):
                         client = self.create_customer(likes=[choice(client_businesses)])
                         self.all_clients.add(client)
                 self.clients = self.all_clients.copy()
