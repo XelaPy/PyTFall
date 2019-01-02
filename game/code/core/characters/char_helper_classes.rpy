@@ -1261,33 +1261,42 @@ init -10 python:
 
             self.exp = value
 
-            while self.exp >= self.goal:
-                # self.goal_increase += 1000
-                self.goal += self.goal_increase
-                self.level += 1
-
-                # Bonuses from traits:
-                for trait in char.traits:
-                    self.apply_trait_statsmod(trait)
+            if self.exp >= self.goal:
+                num_lvl = (self.exp - self.goal)/self.goal_increase + 1
+                self.goal += num_lvl * self.goal_increase
 
                 # Normal Max stat Bonuses:
                 for stat in self.stats:
                     if stat not in self.FIXED_MAX:
-                        self.lvl_max[stat] += 5
-                        self.max[stat] += 2
+                        self.lvl_max[stat] += 5 * num_lvl
+                        self.max[stat] += 2 * num_lvl
 
                         # Chance to increase max stats permanently based on level
-                        if self.level >= 20:
-                            val = self.level / 20.0
-                            if dice(val):
-                                self.lvl_max[stat] +=1
-                            if dice(val):
-                                self.max[stat] +=1
+                        chance = (2*self.level + num_lvl)*num_lvl/ 40.0
+                        value = min(random.expovariate(100.0/chance), num_lvl)
+                        val = int(value)
+                        if val != 0:
+                             self.lvl_max[stat] += val
+                             self.max[stat] += val
+                             value -= val
+                        value *= 100
+                        if dice(value):
+                             self.lvl_max[stat] += 1
+                        if dice(value):
+                             self.max[stat] += 1
+
+                        #if self.level >= 20:
+                        #    val = self.level / 20.0
+                        #    if dice(val):
+                        #        self.lvl_max[stat] +=1
+                        #    if dice(val):
+                        #        self.max[stat] +=1
 
                 # Super Bonuses from Base Traits:
                 if hasattr(char, "traits"):
                     traits = char.traits.basetraits
                     multiplier = 2 if len(traits) == 1 else 1
+                    multiplier *= num_lvl
                     for trait in traits:
                         # Super Stat Bonuses:
                         for stat in trait.leveling_stats:
@@ -1302,7 +1311,7 @@ init -10 python:
                             # Super Skill Bonuses:
                             for skill in trait.init_skills:
                                 if self.is_skill(skill):
-                                    self.mod_full_skill(skill, 20)
+                                    self.mod_full_skill(skill, 20*num_lvl)
                                 else:
                                     msg = "'{}' skill applied on leveling up to {} ({})!"
                                     char_debug(str(msg.format(stat, char.__class__, trait.id)))
@@ -1316,6 +1325,13 @@ init -10 python:
                         #     else:
                         #         msg = "'{}' skill applied on leveling up to {} ({})!"
                         #         char_debug(str(msg.format(stat, self.instance.__class__, trait.id)))
+
+                for i in range(num_lvl):
+                    self.level += 1
+
+                    # Bonuses from traits:
+                    for trait in char.traits:
+                        self.apply_trait_statsmod(trait)
 
                 self.stats["health"] = self.get_max("health")
                 self.stats["mp"] = self.get_max("mp")
