@@ -890,15 +890,17 @@ init -10 python:
                 raise NotImplementedError("Returning customers are not implemented yet")
 
             # determine gender of random customer
-            gender = choice(["male"]*5 + ['female']*2)
+            gender = "male" if dice(75) else "female"
 
             # determine caste of random customer
-            if self.rep < 50: caste = choice(['Peasant', 'Merchant'])
-            elif 50 <= self.rep <= 150: caste = choice(['Peasant', 'Merchant', 'Nomad'])
-            elif 151 <= self.rep <= 400: caste = choice(['Nomad', 'Merchant', 'Wealthy Merchant'])
-            elif 401 <= self.rep <= 600: caste = choice(['Merchant', 'Wealthy Merchant', 'Clerk'])
-            elif 601 <= self.rep <= 800: caste = choice(['Wealthy Merchant', 'Clerk', 'Noble'])
-            else: caste = choice(['Clerk', 'Noble', 'Royal'])
+            caste = randint(0, 2)
+            if self.rep < 50: caste = max(caste, 1)
+            elif self.rep <= 150: caste += 1
+            elif self.rep <= 400: caste += 2
+            elif self.rep <= 600: caste += 3
+            elif self.rep <= 800: caste += 4
+            else:                 caste += 5
+            caste = ilists.clientCastes[caste]
 
             # create random customer
             min_tier = float(max(self.tier-2, .1))
