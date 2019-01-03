@@ -874,9 +874,9 @@ init -9 python:
         def remove_item(self, item, amount=1):
             self.inventory.remove(item, amount=amount)
 
-        def remove_all_items(self):
-            for i in self.inventory:
-                self.inventory.remove(i.id, amount=has_items(i.id, [self]))
+        #def remove_all_items(self):
+        #    self.inventory.clear()
+        #    TODO eqlots?
 
         def equip(self, item, remove=True, aeq_mode=False): # Equips the item
             """
@@ -2296,6 +2296,11 @@ init -9 python:
         def remove_char(self, char):
             if char in self._chars:
                 self._chars.remove(char)
+
+                # remove from the teams as well
+                for team in self.teams:
+                    if char in team:
+                        team.remove(char)
             else:
                 raise Exception, "This char (ID: %s) is not in service to the player!!!" % self.id
 
@@ -2413,8 +2418,6 @@ init -9 python:
                     elif isinstance(confiscate, Char):
                         price = confiscate.fin.get_price()
                         hero.remove_char(confiscate)
-                        if confiscate in self.team:
-                            self.team.remove(confiscate)
                         # locations:
                         confiscate.home = pytfall.sm
                         confiscate.workplace = None

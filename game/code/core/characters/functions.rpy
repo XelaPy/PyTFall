@@ -198,8 +198,6 @@ init -11 python:
         char.alive = False
         if char in hero.chars:
             hero.remove_char(char)
-        if char in hero.team:
-            hero.team.remove(char)
         gm.remove_girl(char)
 
     def take_team_ap(value):

@@ -97,8 +97,6 @@ label char_profile:
                                 hero.remove_char(char)
                                 girls.remove(char)
                                 char.disposition -= 400
-                                if char in hero.team:
-                                    hero.team.remove(char)
 
                                 rebuild_chars_listings = True
 
@@ -177,8 +175,6 @@ label char_profile:
                             python:
                                 hero.remove_char(char)
                                 girls.remove(char)
-                                if char in hero.team:
-                                    hero.team.remove(char)
 
                             if girls:
                                 $ change_char_in_profile("next")

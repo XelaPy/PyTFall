@@ -679,8 +679,6 @@ init -9 python:
                         member = chars[member]
                         if member in hero.chars:
                             hero.remove_char(member)
-                        if member in hero.team:
-                            hero.team.remove(member)
                         if member in self.get_teams_fighters(teams="2v2"):
                             raise Exception("You've added unique character %s" \
                                             " to 2v2 Arena teams twice!" % chars[member].name)

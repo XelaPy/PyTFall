@@ -52,7 +52,9 @@ init -9 python:
                 self.girls[girl] = 0
                 girl.action = RunawayManager.ACTION
                 girl.location = RunawayManager.LOCATION
-                if girl in hero.team: hero.team.remove(girl)
+                for team in hero.teams:
+                    if girl in team:
+                        team.remove(girl)
                 girl_disobeys(girl, 10)
 
                 if jail:
@@ -512,8 +514,6 @@ init -9 python:
                         if dice(status) and dice(self.girls[girl]):
                             del self.girls[girl]
                             hero.remove_char(girl)
-                            if girl in hero.team:
-                                hero.team.remove(girl)
 
                             if cdb: txt.append("{color=[blue]}        escaped for good{/color}")
                             continue
