@@ -74,7 +74,7 @@ init -10 python:
                             sp = self.get_skill(skill)
                             sp_required = self.get_max_skill(skill, target_tier)
 
-                            skill_bonus += min(sp*max_p/sp_required, max_p*1.1)
+                            skill_bonus += min(float(sp)/sp_required, 1.1)*max_p
 
                     stats = trait.base_stats
                     if not stats: # Some weird ass base trait, we just award 33% of total possible points.
@@ -91,7 +91,7 @@ init -10 python:
                             else:
                                 sp_required = self.get_relative_max_stat(stat, target_tier)
 
-                            stat_bonus += min(sp*max_p/sp_required, max_p*1.1)
+                            stat_bonus += min(float(sp)/sp_required, 1.1)*max_p
 
                 stats_skills_points = skill_bonus + stat_bonus
                 if len(self.traits.basetraits) == 1:
@@ -150,9 +150,7 @@ init -10 python:
                 wage = wage*.75
 
             # Normalize:
-            wage = int(round(wage))
-            if wage < 10:
-                wage = 10
+            wage = max(int(round(wage)), 10)
 
             self.expected_wage = wage
             return wage
@@ -332,7 +330,7 @@ init -10 python:
                     if item in store.battle_skills:
                         item = store.battle_skills[item]
                     else:
-                        char_debug("Tried to apply unknown skill %s to %s!" % (item, self.instance.__class__), "warning")
+                        char_debug("Tried to apply unknown skill %s to %s!" % (item, self.instance.__class__))
                         return
             if normal: #  Item applied by anything other than that
                 self.normal.add(item)
@@ -355,7 +353,7 @@ init -10 python:
                     if item in store.battle_skills:
                         item = store.battle_skills[item]
                     else:
-                        char_debug("Tried to remove unknown skill %s from %s!" % (item, self.instance.__class__), "warning")
+                        char_debug("Tried to remove unknown skill %s from %s!" % (item, self.instance.__class__))
                         return
             if normal:
                 if item in self.normal:
@@ -534,7 +532,7 @@ init -10 python:
                         if bt == allowed:
                             return
                         elif bt > allowed:
-                            char_debug("BASE TRAITS OVER THE ALLOWED MAX! CHECK Traits.apply method!", "warning")
+                            char_debug("BASE TRAITS OVER THE ALLOWED MAX! CHECK Traits.apply method!")
                             return
 
             if not super(Traits, self).append(trait, truetrait):
@@ -551,21 +549,21 @@ init -10 python:
                         stats.lvl_max[stat] += trait.init_lvlmax[stat]*multiplier
                     else:
                         msg = "'%s' trait tried to apply unknown init lvl max stat: %s!"
-                        char_debug(str(msg % (trait.id, stat)), "warning")
+                        char_debug(str(msg % (trait.id, stat)))
 
                 for stat in trait.init_max: # Mod value setting
                     if stat in stats:
                         stats.max[stat] += trait.init_max[stat]*multiplier
                     else:
                         msg = "'%s' trait tried to apply unknown init max stat: %s!"
-                        char_debug(str(msg % (trait.id, stat)), "warning")
+                        char_debug(str(msg % (trait.id, stat)))
 
                 # for stat in trait.init_mod: # Mod value setting
                 #     if stat in stats:
                 #         stats.stats[stat] += trait.init_mod[stat] * multiplier
                 #     else:
                 #         msg = "'%s' trait tried to apply unknown init max stat: %s!"
-                #         char_debug(str(msg % (trait.id, stat)), "warning")
+                #         char_debug(str(msg % (trait.id, stat)))
 
                 # for skill in trait.init_skills: # Mod value setting
                 #     if skill in stats.skills:
@@ -573,7 +571,7 @@ init -10 python:
                 #         stats.skills[skill][1] += trait.init_skills[skill][1] * multiplier
                 #     else:
                 #         msg = "'%s' trait tried to apply unknown init skillt: %s!"
-                #         char_debug(str(msg % (trait.id, skill)), "warning")
+                #         char_debug(str(msg % (trait.id, skill)))
 
             # Only for body traits:
             if trait.body:
@@ -585,7 +583,7 @@ init -10 python:
                    stats.max[key] += trait.max[key]
                 else:
                     msg = "'%s' trait tried to apply unknown max stat: %s!"
-                    char_debug(str(msg % (trait.id, key)), "warning")
+                    char_debug(str(msg % (trait.id, key)))
 
             for key in trait.min:
                 # Preventing traits from messing up minimums of stats by pushing them into negative territory. @Review: No longer required as per new stats code.
@@ -593,13 +591,13 @@ init -10 python:
                     stats.min[key] += trait.min[key]
                 else:
                     msg = "'%s' trait tried to apply unknown min stat: %s!"
-                    char_debug(str(msg % (trait.id, key)), "warning")
+                    char_debug(str(msg % (trait.id, key)))
 
             for entry in trait.blocks:
                 if entry in traits:
                     self.blocked_traits.add(traits[entry])
                 else:
-                    char_debug(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, char.id, char.__class__)), "warning")
+                    char_debug(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, char.id, char.__class__)))
 
             # For now just the girls get effects...
             if hasattr(char, "effects"):
@@ -623,7 +621,7 @@ init -10 python:
                         sm[2] += m[2]
                     else:
                         msg = "'%s' trait tried to apply unknown skill: %s!"
-                        char_debug(str(msg % (trait.id, key)), "warning")
+                        char_debug(str(msg % (trait.id, key)))
 
             # Adding resisting elements and attacks:
             for i in trait.resist:
@@ -666,7 +664,7 @@ init -10 python:
                 if key in stats.max:
                     stats.max[key] -= trait.max[key]
                 else:
-                    char_debug(str('Maximum Value: %s for Trait: %s does not exist' % (key, trait.id)), "warning")
+                    char_debug(str('Maximum Value: %s for Trait: %s does not exist' % (key, trait.id)))
 
             for key in trait.min:
                 if key in stats.min:
@@ -675,7 +673,7 @@ init -10 python:
                     stats.min[key] -= trait.min[key]
                 else:
                     msg = "'%s' trait tried to apply unknown min stat: %s!"
-                    char_debug(str(msg % (trait.id, key)), "char_debug")
+                    char_debug(str(msg % (trait.id, key)))
 
             if trait.blocks:
                 _traits = set()
@@ -683,7 +681,7 @@ init -10 python:
                     if entry in traits:
                         _traits.add(traits[entry])
                     else:
-                        char_debug(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, char.id, char.__class__)), "warning")
+                        char_debug(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, char.id, char.__class__)))
                 self.blocked_traits -= _traits
 
             # Ensure that blocks forced by other traits were not removed:
@@ -712,7 +710,7 @@ init -10 python:
                         sm[2] -= m[2]
                     else:
                         msg = "'%s' trait tried to apply unknown skill: %s!"
-                        char_debug(str(msg % (trait.id, key)), "warning")
+                        char_debug(str(msg % (trait.id, key)))
 
             # Remove resisting elements and attacks:
             for i in trait.resist:
@@ -1206,9 +1204,8 @@ init -10 python:
 
         def get_max(self, key):
             val = min(self.max[key], self.lvl_max[key])
-            if key not in ["disposition"]:
-                if val <= 0:
-                    val = 1 # may prevent a zero dev error on fucked up items...
+            if val <= 0 and key != "disposition":
+                val = 1 # may prevent a zero dev error on fucked up items...
             return val
 
         def mod_item_stat(self, key, value):
@@ -1302,8 +1299,8 @@ init -10 python:
                                 self.lvl_max[stat] += trait.leveling_stats[stat][0] * multiplier
                                 self.max[stat] += trait.leveling_stats[stat][1] * multiplier
                             else:
-                                msg = "'%s' stat applied on leveling up (max mods) to %s (%s)!"
-                                char_debug(str(msg % (stat, char.__class__, trait.id)))
+                                msg = "Trait %s tried to raise unknown stat %s on leveling up (max mods) to %s!"
+                                char_debug(str(msg % (trait.id, stat, char.__class__)))
 
                         if not CHARS_INIT_PHASE:
                             # Super Skill Bonuses:
@@ -1311,8 +1308,8 @@ init -10 python:
                                 if self.is_skill(skill):
                                     self.mod_full_skill(skill, 20*num_lvl)
                                 else:
-                                    msg = "'{}' skill applied on leveling up to {} ({})!"
-                                    char_debug(str(msg.format(stat, char.__class__, trait.id)))
+                                    msg = "Trait %s tried to raise unknown skill %s on leveling up to %s!"
+                                    char_debug(str(msg % (trait.id, skill, char.__class__)))
 
                         # for skill in trait.init_skills:
                         #     if self.is_skill(skill):
