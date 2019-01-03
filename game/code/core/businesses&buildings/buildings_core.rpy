@@ -418,10 +418,9 @@ init -10 python:
             return round_int(dirt), dirt_string
 
         def clean(self, value):
-            result = self.dirt + value
-            self.dirt = result
+            self.dirt += value
             if self.env:
-                simpy_debug("{}: Clean Function: result: {}, self.dirt: {}".format(self.env.now, result, self.dirt))
+                simpy_debug("{}: Clean Function: value: {}, self.dirt: {}".format(self.env.now, value, self.dirt))
 
         def nd_log_stats(self):
             # Get a list of stats, usually all 4.

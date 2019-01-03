@@ -27,19 +27,16 @@ init -5 python:
             building = self.building
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             dirt_cleaned = 0 # We only do this for the ND report!
+            cleaners = set() # Everyone that cleaned for the report.
 
-            cleaning = False # set to true if there is active cleaning in process
-            using_all_service_workers = False
             using_all_workers = False
 
             power_flag_name = "ndd_cleaning_power"
             job = simple_jobs["Cleaning"]
 
-            # TODO This doesn't feel right, I don't like the fact that we copy the sets...
             # Pure cleaners, container is kept around for checking during all_on_deck scenarios
             strict_workers = self.get_strict_workers(job, power_flag_name)
-            all_workers = strict_workers.copy() # Everyone that cleaned for the report.
-            workers = all_workers.copy() # cleaners on active duty
+            workers = strict_workers.copy() # cleaners on active duty
 
             while 1:
                 simpy_debug("Entering Cleaners.business_control iteration at {}".format(self.env.now))
@@ -59,48 +56,23 @@ init -5 python:
                                                 building.name)
                             self.log(temp)
 
-                if dirt >= 900:
-                    if not using_all_workers:
-                        using_all_workers = True
-                        all_workers = self.all_on_deck(workers, job, power_flag_name)
-                        workers = all_workers.union(workers)
+                if dirt >= 200:
+                    wlen_color = "green"
+                    if dirt >= 500:
+                        if dirt >= 900:
+                            wlen_color = "red"
+
+                        if not using_all_workers:
+                            using_all_workers = True
+                            workers = self.all_on_deck(workers, job, power_flag_name)
 
                     if not make_nd_report_at:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
-                                                set_font_color(wlen, "red"), building.name)
+                                            set_font_color(wlen, wlen_color), building.name)
                             self.log(temp)
-                elif dirt >= 500:
-                    if not using_all_workers:
-                        using_all_workers = True
-                        all_workers = self.all_on_deck(workers, job, power_flag_name)
-                        workers = all_workers.union(workers)
-
-                    if not make_nd_report_at:
-                        wlen = len(workers)
-                        make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env and wlen:
-                            temp = "{} Workers have started to clean {}!".format(
-                                            set_font_color(wlen, "green"), building.name)
-                            self.log(temp)
-                elif dirt >= 200:
-                    if not make_nd_report_at:
-                        wlen = len(workers)
-                        make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env and wlen:
-                            temp = "{} Workers have started to clean {}!".format(
-                                            set_font_color(wlen, "green"), building.name)
-                            self.log(temp)
-
-                # switch back to normal cleaners only
-                if dirt <= 200 and using_all_workers:
-                    using_all_workers = False
-                    for worker in workers.copy():
-                        if worker not in strict_workers:
-                            workers.remove(worker)
-                            building.available_workers.insert(0, worker)
 
                 # Actually handle dirt cleaning:
                 if make_nd_report_at and building.dirt > 0:
@@ -117,8 +89,10 @@ init -5 python:
                     else:
                         for w in workers.copy():
                             value = w.flag(power_flag_name)
-                            dirt_cleaned += value
                             building.clean(value)
+
+                            dirt_cleaned += value
+                            cleaners.add(w)
 
                             w.jobpoints -= 5
                             w.up_counter("jobs_points_spent", 5)
@@ -131,27 +105,25 @@ init -5 python:
 
                 # Create actual report:
                 c0 = make_nd_report_at and dirt_cleaned
-                c1 = building.dirt <= 0 or self.env.now == make_nd_report_at
-                c2 = all_workers # No point in a report if no workers worked the cleaning.
+                c1 = self.env.now >= make_nd_report_at
+                c2 = cleaners # No point in a report if no workers worked the cleaning.
                 if all([c0, c1, c2]):
                     if DSNBR:
                         temp = "{}: DEBUG! WRITING CLEANING REPORT! c0: {}, c1: {}".format(self.env.now,
                                             c0, c1)
                         self.log(temp)
-                    self.write_nd_report(strict_workers, all_workers, -dirt_cleaned)
+                    self.write_nd_report(strict_workers, cleaners, -dirt_cleaned)
                     make_nd_report_at = 0
                     dirt_cleaned = 0
+                    cleaners = set()
 
-                    # Release none-pure cleaners:
-                    if dirt < 700 and using_all_workers:
-                        using_all_workers = False
-                        for worker in workers.copy():
-                            if worker not in strict_workers:
-                                workers.remove(worker)
-                                building.available_workers.insert(0, worker)
-
-                    # and finally update all cleaners container:
-                    all_workers = workers.copy()
+                # Release none-pure cleaners:
+                if building.dirt < 500 and using_all_workers:
+                    using_all_workers = False
+                    for worker in workers.copy():
+                        if worker not in strict_workers:
+                            workers.remove(worker)
+                            building.available_workers.insert(0, worker)
 
                 simpy_debug("Exiting Cleaners.business_control iteration at {}".format(self.env.now))
                 yield self.env.timeout(1)
