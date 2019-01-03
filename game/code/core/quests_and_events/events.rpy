@@ -51,14 +51,10 @@ init -9 python:
             event_name = The name of the event.
             cached = Whether to also remove cached events.
             """
-            for i in self.events[:]:
-                if i.name == event_name:
-                    self.events.remove(i)
+            self.events[:] = (i for i in self.events if i.name != event_name)
 
             if cached:
-                for i in self.events_cache[:]:
-                    if i.name == event_name:
-                        self.events_cache.remove(i)
+                self.events_cache[:] = (i for i in self.events_cache if i.name != event_name)
 
         def force_event(self, name):
             """

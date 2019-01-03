@@ -474,8 +474,6 @@ init -9 python:
             """
             Solves the next day logic for the girls.
             """
-            girls = self.girls.keys()
-            cdb = config.developer
             type = "schoolndreport"
             txt = ["Escaped girls:"]
 
@@ -493,15 +491,16 @@ init -9 python:
                 else:
                     self.jail_cache[i][0] -= 1
 
-            # Loop through girls
-            while girls:
-                girl = choice(girls)
-                girls.remove(girl)
+            # Loop through girls in a random order
+            girls = list(self.girls.keys())
+            shuffle(girls)
+            for girl in girls:
                 cdb = config.developer
                 txt.append("    %s"%girl.fullname)
 
                 # Increase girls escape time
-                self.girls[girl] += 1
+                girl_away_days = self.girls[girl] + 1
+                self.girls[girl] = girl_away_days
 
                 # Get status
                 status = self.status(girl)
@@ -510,8 +509,8 @@ init -9 python:
                 # If girl is free
                 if girl not in self.jail_cache:
                     # Chance to escape for good
-                    if self.girls[girl] > 20:
-                        if dice(status) and dice(self.girls[girl]):
+                    if girl_away_days > 20:
+                        if dice(status) and dice(girl_away_days):
                             del self.girls[girl]
                             hero.remove_char(girl)
 
@@ -519,11 +518,11 @@ init -9 python:
                             continue
 
                     # Chance to go to jail
-                    if self.girls[girl] > 10:
+                    if girl_away_days > 10:
                         if dice(status) and len(self.jail_cache) < 10:
                             self.jail_cache[girl] = [4, False]
 
-                            if cdb: txt.append("{color=[blue]}        sent to jail for 4 days (%s days till escape){/color}"%(20-self.girls[girl]))
+                            if cdb: txt.append("{color=[blue]}        sent to jail for 4 days (%s days till escape){/color}"%(20-girl_away_days))
                             continue
 
                     # Chance to find in look_around
@@ -533,22 +532,22 @@ init -9 python:
                         # Add event for girl (do we want high priority?)
                         register_event_in_label(ev, label=girl.runaway_look_event, trigger_type="look_around", locations=["all"], dice=status, max_runs=1, start_day=day+1, priority=999)
 
-                        if cdb: txt.append("{color=[blue]}        in look around (%s days till escape){/color}"%(20-self.girls[girl]))
+                        if cdb: txt.append("{color=[blue]}        in look around (%s days till escape){/color}"%(20-girl_away_days))
                         continue
 
-                    if cdb: txt.append("{color=[blue]}        %s days till escape{/color}"%(20-self.girls[girl]))
+                    if cdb: txt.append("{color=[blue]}        %s days till escape{/color}"%(20-girl_away_days))
 
                 # Else if girl is jailed
                 else:
                     # If we know they're in jail
                     if self.jail_cache[girl][1]:
                         txt.append("    %s, in jail for %s days"%(girl.fullname, self.jail_cache[girl][0]))
-                        if cdb: txt.append("{color=[blue]}    (%s days till escape){/color}"%(20-self.girls[girl]))
+                        if cdb: txt.append("{color=[blue]}    (%s days till escape){/color}"%(20-girl_away_days))
 
                     # Else
                     else:
                         txt.append("    %s"%girl.fullname)
-                        if cdb: txt.append("{color=[blue]}        in jail for %s days (%s days till escape){/color}"%(self.jail_cache[girl], (20-self.girls[girl])))
+                        if cdb: txt.append("{color=[blue]}        in jail for %s days (%s days till escape){/color}"%(self.jail_cache[girl], (20-girl_away_days)))
 
             # Slavemarket update
             self.index = 0

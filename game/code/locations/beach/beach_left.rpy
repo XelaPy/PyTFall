@@ -193,7 +193,7 @@ label fishing_logic_mor_quest_part:
             m "Yeah, I have special requests sometimes, but you need to learn something about fishing for a start. Practice a bit, ok?"
         else:
             if hero.flag("mor_fish_dice") != day: # no rerolling quest after asking again at the same day
-                $ fish = list(i for i in items.values() if "Fishing" in i.locations and i.type == "fish" and 3 <= i.price <= hero.get_skill("fishing"))
+                $ fish = list(i for i in items.values() if i.type == "fish" and "Fishing" in i.locations and 3 <= i.price <= hero.get_skill("fishing"))
                 $ mor_fish = random.choice(fish)
                 $ mor_quantity = locked_random("randint", 3, 10)
                 $ hero.set_flag("mor_fish_dice", value = day)
