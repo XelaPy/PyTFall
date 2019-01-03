@@ -317,7 +317,6 @@ init -1 python: # Core classes:
             """
             if not self.queue:
                 l = self.get_fighters()
-                l = list(i for i in itertools.chain.from_iterable(self.teams) if i not in self.corpses)
                 l.sort(key=attrgetter("agility"))
                 self.queue = l
             return self.queue.pop()
