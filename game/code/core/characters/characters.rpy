@@ -3008,10 +3008,6 @@ init -9 python:
             self.rank = ilists.clientCastes.index(caste)
             self.regular = False # Regular clients do not get removed from building lists as those are updated.
 
-            # Traits activation:
-            if dice(2):
-                self.apply_trait('Aggressive')
-
             # Alex, we should come up with a good way to set portrait depending on caste
             self.portrait = "" # path to portrait
             self.questpic = "" # path to picture used in quests
