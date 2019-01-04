@@ -945,12 +945,15 @@ init -10 python:
                 tl.start("Generating clients in {}".format(self.name))
                 self.get_client_count(write_to_nd=True)
 
-                # TODO B&B-clients: Generate and add regulars!
-                # Note (Beta): Basically what happened with this code is that all clients,
-                # became regulars. For now, I'll add shuffle and regen,
-                # later we want real regulars!
+                # Note (Beta): currently all clients are regulars
+                # remove maximum of 100 clients at a time (better perfomance, closer to RL)
                 if self.clients_regen_day <= day:
-                    self.all_clients = set()
+                    clients = list(self.all_clients)
+                    num = len(clients)
+                    to_remove = min(num/2, 100)
+                    idx = randint(0, num-to_remove)
+                    self.all_clients = set(clients[0:idx]+clients[idx+to_remove:num])
+                    # TODO make the remaining clients regulars?!
                     self.clients_regen_day = day + randint(2, 4)
                 c0 = self.expects_clients and self.available_workers
                 clnts = self.total_clients - len(self.all_clients)
