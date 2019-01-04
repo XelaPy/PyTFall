@@ -626,16 +626,16 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             if tracker.state == "exploring":
-                temp = "{} are done with exploring for the day and will now rest and recover! ".format(tracker.team.name)
+                temp = "{} are done with exploring for the day and will now rest and recover! ".format(team.name)
                 tracker.log(temp)
             elif tracker.state == "camping":
-                temp = "{} cozied up in their camp for the night! ".format(tracker.team.name)
+                temp = "{} cozied up in their camp for the night! ".format(team.name)
                 tracker.log(temp)
 
             for c in team:
-                c.health += randint(30, 40)
-                c.mp += randint(30, 40)
-                c.vitality += randint(100, 120)
+                c.health += round_int(c.get_max("health")*.1)
+                c.mp += round_int(c.get_max("mp")*.1)
+                c.vitality += round_int(c.get_max("vitality")*.1)
 
         def explore(self, tracker):
             """SimPy process that handles the exploration itself.
