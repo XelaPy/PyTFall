@@ -140,10 +140,10 @@ init -5 python:
                 # Release none-pure workers:
                 if building.threat < 500 and using_all_workers:
                     using_all_workers = False
-                    for worker in workers.copy():
-                        if worker not in strict_workers:
-                            workers.remove(worker)
-                            building.available_workers.insert(0, worker)
+                    extra = workers - strict_workers
+                    if extra:
+                        workers -= extra
+                        building.available_workers[0:0] = list(extra)
 
                 simpy_debug("Exiting WarriorQuarters.business_control at {}".format(self.env.now))
                 if not EnforcedOrder_active and threat >= 500 and not had_brawl_event:

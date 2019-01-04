@@ -119,10 +119,10 @@ init -5 python:
                 # Release none-pure cleaners:
                 if building.dirt < 500 and using_all_workers:
                     using_all_workers = False
-                    for worker in workers.copy():
-                        if worker not in strict_workers:
-                            workers.remove(worker)
-                            building.available_workers.insert(0, worker)
+                    extra = workers - strict_workers
+                    if extra:
+                        workers -= extra
+                        building.available_workers[0:0] = list(extra)
 
                 simpy_debug("Exiting Cleaners.business_control iteration at {}".format(self.env.now))
                 yield self.env.timeout(1)
