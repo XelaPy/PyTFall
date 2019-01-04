@@ -23,11 +23,8 @@ init python:
 
             # TODO: Remove char from every possible team setup in any of the buildings?!?
             for t in guild.teams:
-                if t != team:
-                    for char in team:
-                        for c in t:
-                            if c == char:
-                                t.remove(char)
+                if t != team and char in t:
+                    t.remove(char)
 
     # This all should prolly be adapted to serve SimPy soon.
     class FG_Rest(_object):
