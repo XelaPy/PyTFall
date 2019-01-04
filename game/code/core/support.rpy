@@ -207,7 +207,8 @@ init -9 python:
             global gazette
             gazette.clear()
 
-            # Shops and SlaveMarket:
+            # Shops:
+            tl.start("Shops.next_day")
             self.general_store.next_day()
             self.cafe.next_day()
             self.tavern.next_day()
@@ -219,12 +220,23 @@ init -9 python:
             self.witch_spells_shop.next_day()
             self.aine_shop.next_day()
             self.angelica_shop.next_day()
+            tl.end("Shops.next_day")
+
+            # Slave Market:
+            tl.start("SlaveMarket")
             self.sm.next_day()
+            tl.end("SlaveMarket")
+
+            # Employment Agency:
+            tl.start("EmploymentAgency")
             populate_ea()
+            tl.end("EmploymentAgency")
+
+            # Runaways:
+            tl.start("Runaway/Jail")
             self.ra.next_day()
             store.jail.next_day()
-
-
+            tl.end("Runaway/Jail")
 
             # Girlsmeets:
             # Termination:
@@ -234,9 +246,9 @@ init -9 python:
                     del cells[cell]
 
             # Arena:
-            tl.start("Anera.next_day")
+            tl.start("Arena.next_day")
             self.arena.next_day()
-            tl.end("Anera.next_day")
+            tl.end("Arena.next_day")
 
             # Girls, Buildings income and Hero:
             tl.start("MC's Chars .next_day")
