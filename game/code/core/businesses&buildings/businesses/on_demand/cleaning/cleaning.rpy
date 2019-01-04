@@ -104,14 +104,13 @@ init -5 python:
                                 workers.remove(w)
 
                 # Create actual report:
-                c0 = make_nd_report_at and dirt_cleaned
-                c1 = self.env.now >= make_nd_report_at
-                c2 = cleaners # No point in a report if no workers worked the cleaning.
-                if all([c0, c1, c2]):
+                c0 = self.env.now >= make_nd_report_at
+                c1 = cleaners # No point in a report if no workers worked the cleaning.
+                if c0 and c1:
                     if DSNBR:
-                        temp = "{}: DEBUG! WRITING CLEANING REPORT! c0: {}, c1: {}".format(self.env.now,
-                                            c0, c1)
+                        temp = "{}: DEBUG! WRITING CLEANING REPORT! ({}, {})".format(self.env.now, c0, c1)
                         self.log(temp)
+
                     self.write_nd_report(strict_workers, cleaners, -dirt_cleaned)
                     make_nd_report_at = 0
                     dirt_cleaned = 0
@@ -142,10 +141,6 @@ init -5 python:
             simpy_debug("Cleaners.write_nd_report marker 1")
 
             wlen = len(all_workers)
-
-            if not wlen:
-                raise Exception("About to write a report without workers!")
-
             temp = "{} Workers cleaned the building today.".format(set_font_color(wlen, "red"))
             log.append(temp)
 
@@ -160,6 +155,7 @@ init -5 python:
 
             simpy_debug("Cleaners.write_nd_report marker 2")
 
+            workers = all_workers
             if extra_workers:
                 temp = "Dirt overwhelmed your building so extra staff was called to clean it! "
                 if len(extra_workers) > 1:
@@ -168,12 +164,9 @@ init -5 python:
                     temp += "{} was pulled off her duty to help out...".format(", ".join([w.nickname for w in extra_workers]))
                 log.append(temp)
 
-            workers = all_workers - extra_workers
-            temp = "{} worked hard keeping your business clean".format(", ".join([w.nickname for w in workers]))
-            if extra_workers:
-                temp += " as it is their direct job!"
-            else:
-                temp += "!"
+                workers -= extra_workers
+
+            temp = "{} worked hard keeping your business clean as it is their direct job!".format(", ".join([w.nickname for w in workers]))
             log.append(temp)
 
             simpy_debug("Cleaners.write_nd_report marker 3")
@@ -182,7 +175,7 @@ init -5 python:
             temp = "\nA total of {} dirt was cleaned.".format(set_font_color(dirt_cleaned, "red"))
             log.append(temp)
 
-            # exp = dirt_cleaned/wlen
+            # exp = dirt_cleaned/wlen -> wlen MUST NOT be 0
             for w in strict_workers:
                 ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                 log.logws("vitality", round_int(ap_used*-5), char=w)

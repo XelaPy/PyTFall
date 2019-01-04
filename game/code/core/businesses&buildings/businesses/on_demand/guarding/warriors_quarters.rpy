@@ -115,13 +115,12 @@ init -5 python:
                                 w.joy -= 1
 
                 # Create actual report:
-                c0 = make_nd_report_at and threat_cleared
-                c1 = self.env.now >= make_nd_report_at
-                c2 = defenders # No point in a report if no workers participated in the guarding.
-                if all([c0, c1, c2]):
+                c0 = self.env.now >= make_nd_report_at
+                c1 = defenders # No point in a report if no workers participated in the guarding.
+                if c0 and c1:
                     if DSNBR:
-                        temp = "DEBUG! WRITING GUARDING REPORT! c0: {}, c1: {}".format(c0, c1)
-                        self.log(temp, True)
+                        temp = "{}: DEBUG! WRITING GUARDING REPORT! ({}, {})".format(self.env.now, c0, c1)
+                        self.log(temp)
 
                     c0 = not make_nd_report_at % 25 # what is this? some kind of random?
                     if all([SparringQuarters_active, c0, threat < 500]):
@@ -152,6 +151,7 @@ init -5 python:
 
         def write_nd_report(self, strict_workers, all_workers, threat_cleared, **kwargs):
             simpy_debug("Entering WarriorQuarters.write_nd_report at {}".format(self.env.now))
+
             job, loc = self.job, self.building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
 
@@ -159,6 +159,8 @@ init -5 python:
 
             temp = "{} Security Report!\n".format(loc.name)
             log.append(temp)
+
+            simpy_debug("Guards.write_nd_report marker 1")
 
             wlen = len(all_workers)
             temp = "{} Workers kept your businesses safe today.".format(set_font_color(wlen, "red"))
@@ -172,6 +174,9 @@ init -5 python:
 
             log.team = all_workers
 
+            simpy_debug("Guards.write_nd_report marker 2")
+
+            workers = all_workers
             if extra_workers:
                 temp = "Security threat became too high that non-combatant workers were called to mitigate it! "
                 if len(extra_workers) > 1:
@@ -180,16 +185,14 @@ init -5 python:
                     temp += "{} was pulled off her duty to help out...".format(", ".join([w.nickname for w in extra_workers]))
                 log.append(temp)
 
-            workers = all_workers - extra_workers
-            temp = "{} worked hard keeping your business safe".format(", ".join([w.nickname for w in workers]))
-            if extra_workers:
-                temp += " as it is their direct job!"
-            else:
-                temp += "!"
+                workers -= extra_workers
+
+            temp = "{} worked hard keeping your business safe as it is their direct job!".format(", ".join([w.nickname for w in workers]))
             log.append(temp)
 
-            threat_cleared = int(threat_cleared)
+            simpy_debug("Guards.write_nd_report marker 3")
 
+            threat_cleared = int(threat_cleared)
             temp = "\nA total of {} threat was removed.".format(set_font_color(threat_cleared, "red"))
             log.append(temp)
 
@@ -212,9 +215,7 @@ init -5 python:
                         if dice(20): # Small chance to get hurt.
                             log.logws("health", round_int(-w.get_max("health")*.2), char=w)
 
-            if not len(all_workers):
-                raise Exception("Zero Modulo Division Detected #01")
-            # exp = threat_cleared/len(all_workers)
+            # exp = threat_cleared/wlen -> wlen MUST NOT be 0
             for w in strict_workers:
                 ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                 log.logws("vitality", round_int(ap_used*-5), char=w)
@@ -254,6 +255,8 @@ init -5 python:
             log.logloc('threat', threat_cleared)
 
             log.type = "jobreport" # Come up with a new type for team reports?
+
+            simpy_debug("Guards.write_nd_report marker 4")
 
             log.after_job()
             NextDayEvents.append(log)
