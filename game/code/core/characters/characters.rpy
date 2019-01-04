@@ -3,19 +3,19 @@ init -9 python:
     ###### Character Classes ######
     class PytCharacter(Flags, Tier, JobsLogger, Pronouns):
         STATS = set()
-        SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service",
+        SKILLS = {"vaginal", "anal", "oral", "sex", "strip", "service",
                       "refinement", "group", "bdsm", "dancing",
                       "bartending", "cleaning", "waiting", "management",
                       "exploration", "teaching", "swimming", "fishing",
-                      "security"])
+                      "security"}
         # Used to access true, final, adjusted skill values through direct access to class, like: char.swimmingskill
         FULLSKILLS = set(skill + "skill" for skill in SKILLS)
-        GEN_OCCS = set(["SIW", "Combatant", "Server", "Specialist"])
-        STATUS = set(["slave", "free"])
+        GEN_OCCS = {"SIW", "Combatant", "Server", "Specialist"}
+        STATUS = {"slave", "free"}
 
-        MOOD_TAGS = set(["angry", "confident", "defiant", "ecstatic", "happy",
+        MOOD_TAGS = {"angry", "confident", "defiant", "ecstatic", "happy",
                          "indifferent", "provocative", "sad", "scared", "shy",
-                         "tired", "uncertain"])
+                         "tired", "uncertain"}
         UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS = ["zoom_fast", "zoom_slow", "test_case"]
         """Base Character class for PyTFall.
         """
@@ -614,7 +614,7 @@ init -9 python:
 
             # Mood will never be checked in auto-mode when that is not sensible
             add_mood = kwargs.get("add_mood", True)
-            if set(tags).intersection(self.MOOD_TAGS):
+            if not self.MOOD_TAGS.isdisjoint(set(tags)):
                 add_mood = False
 
             pure_tags = list(tags)
@@ -1309,10 +1309,11 @@ init -9 python:
             elif hint == "Fighting":
                 if traits["Shooter"] in bt:
                     purpose = "Shooter"
-                elif "Caster" in occs and "Warrior" not in occs:
-                    purpose = "Mage"
-                elif len(set(["Warrior", "Caster"]).intersection(occs)) == 2:
-                    purpose = "Battle Mage"
+                elif "Caster" in occs:
+                    if "Warrior" in occs:
+                        purpose = "Battle Mage"
+                    else:
+                        purpose = "Mage"
                 elif "Combatant" in occs:
                     purpose = "Barbarian"
             else: # We just guess...
@@ -1324,10 +1325,11 @@ init -9 python:
                     purpose = "Service"
                 elif traits["Prostitute"] in bt:
                     purpose = "Sex"
-                elif "Caster" in occs and "Warrior" not in occs:
-                    purpose = "Mage"
-                elif len(set(["Warrior", "Caster"]).intersection(occs)) == 2:
-                    purpose = "Battle Mage"
+                elif "Caster" in occs:
+                    if "Warrior" in occs:
+                        purpose = "Battle Mage"
+                    else:
+                        purpose = "Mage"
                 elif traits["Shooter"] in bt:
                     purpose = "Shooter"
                 elif "Combatant" in occs:
@@ -2601,10 +2603,10 @@ init -9 python:
                     self.apply_trait(i)
 
             if self.status not in self.STATUS:
-                if set(["Combatant", "Specialist"]).intersection(self.gen_occs):
+                if not {"Combatant", "Specialist"}.isdisjoint(self.gen_occs):
                     self.status = "free"
                 else:
-                    self.status = random.sample(self.STATUS, 1).pop()
+                    self.status = choice(tuple(self.STATUS))
 
             # Locations + Home + Status:
             # SM string --> object

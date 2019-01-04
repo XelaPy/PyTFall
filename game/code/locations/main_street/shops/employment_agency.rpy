@@ -17,8 +17,8 @@ init python:
 
         if day >= employment_agency_reroll_day:
             employment_agency_reroll_day = day + randint(7, 14)
-            for k, v in employment_agency_chars.items():
-                employment_agency_chars[k] = []
+            for k, v in employment_agency_chars.iteritems():
+                v[:] = []
                 for i in range(randint(2, 4)):
                     if dice(1): # Super char!
                         tier = hero.tier + uniform(2.5, 4.0)
@@ -33,7 +33,7 @@ init python:
                                     give_civilian_items=True,
                                     give_bt_items=True,
                                     spells_to_tier=False)
-                    employment_agency_chars[k].append(char)
+                    v.append(char)
 
             # Gazette:
             c = npcs["Charla_ea"]

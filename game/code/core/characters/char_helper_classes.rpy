@@ -356,8 +356,7 @@ init -10 python:
                         char_debug("Tried to remove unknown skill %s from %s!" % (item, self.instance.__class__))
                         return
             if normal:
-                if item in self.normal:
-                    self.normal.remove(item)
+                self.normal.discard(item)
             else:
                 self.items[item] = self.items.get(item, 0) - 1
 
@@ -1515,9 +1514,9 @@ init -10 python:
                     continue
 
                 # Handle purposes:
-                if base_purpose.intersection(item.pref_class):
+                if not base_purpose.isdisjoint(item.pref_class):
                     weights.append(200)
-                elif sub_purpose.intersection(item.pref_class):
+                elif not sub_purpose.isdisjoint(item.pref_class):
                     weights.append(125)
                 else: # 'Any'
                     # If no purpose is valid for the item, we want nothing to do with it.

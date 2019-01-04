@@ -152,7 +152,7 @@ init -12 python:
         def job(self):
             # This may not be required if we stick to a single job per business scenario:
             if self.jobs:
-                return random.sample(self.jobs, 1).pop()
+                return choice(tuple(self.jobs))
 
         # Reputation:
         # Prolly not a good idea to mess with this on per business basis, at least at first...
@@ -512,8 +512,7 @@ init -12 python:
                             worker.up_counter("_jobs_tips", tips)
 
                         # And remove client from actively served clients by the worker:
-                        if client in worker.serving_clients:
-                            worker.serving_clients.remove(client)
+                        worker.serving_clients.discard(client)
 
                     if client.du_without_service >= 2 and not self.send_in_worker:
                         # We need a worker ASAP:
@@ -533,10 +532,8 @@ init -12 python:
                                         set_font_color(client.name, "beige"), self.name, dirt)
                 self.log(temp, True)
 
-                if client in self.clients_being_served:
-                    self.clients_being_served.remove(client)
-                if client in self.clients_waiting:
-                    self.clients_waiting.remove(client)
+                self.clients_being_served.discard(client)
+                self.clients_waiting.discard(client)
                 client.del_flag("jobs_busy")
 
                 simpy_debug("Exiting PublicBusiness({}).client_control iteration at {}".format(self.name, self.env.now))

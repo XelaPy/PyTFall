@@ -279,12 +279,12 @@ init -11 python:
                 if item.eqchance <= 20 or item.badness >= 80:
                     return True
 
-                if item.badtraits.intersection(character.traits):
+                if not item.badtraits.isdisjoint(character.traits):
                     return True
 
             else:
                 # Bad Traits:
-                if item.badtraits.intersection(character.traits):
+                if not item.badtraits.isdisjoint(character.traits):
                     if not silent:
                         interactions_character_doesnt_want_bad_item(character)
                     return not allowed_to_equip
@@ -301,7 +301,7 @@ init -11 python:
                     return True
 
                 # Good traits:
-                if item.goodtraits.intersection(character.traits):
+                if not item.goodtraits.isdisjoint(character.traits):
                     return allowed_to_equip
 
                 # Just an awesome item in general:
@@ -358,7 +358,7 @@ init -11 python:
                     continue
 
             if locations is not None:
-                if not locations.intersection(item.locations):
+                if locations.isdisjoint(item.locations):
                     continue
 
             if getattr(item, "jump_to_label", False):
