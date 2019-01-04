@@ -736,21 +736,16 @@ screen char_equip_right_frame():
                             t_new.add(effect)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
-                    for i in temp:
+
+                        t_old = t_old.difference(t_new)
+                        t_old = sorted(list(t_old))
+                        t_new = temp
+                    for i in t_new:
                         frame:
                             xpadding 3
                             text u'{color=#43CD80}%s'%i size 16 yalign .5
 
-                    python:
-                        t_old = set(t.id for t in dummy.traits)
-                        for effect in dummy.effects.iterkeys():
-                            t_old.add(effect)
-                        t_new = set(t.id for t in eqt.traits)
-                        for effect in eqt.effects.iterkeys():
-                            t_new.add(effect)
-                        temp = t_new.difference(t_old)
-                        temp = sorted(list(temp))
-                    for i in temp:
+                    for i in t_old:
                         frame:
                             xpadding 3
                             text u'{color=#CD4F39}%s'%i size 16 yalign .5

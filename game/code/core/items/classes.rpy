@@ -384,7 +384,7 @@ init -9 python:
 
             items = store.items
             for item in items.itervalues():
-                if self.locations.intersection(item.locations) and dice(item.chance):
+                if (not self.locations.isdisjoint(item.locations)) and dice(item.chance):
                     if item.infinite:
                         x = 100
                     else:

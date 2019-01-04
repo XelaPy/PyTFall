@@ -19,9 +19,8 @@ init -5 python:
             building = self.building
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             threat_cleared = 0 # We only do this for the ND report!
+            defenders = set() # Everyone that defended for the report
 
-            guarding = False # set to true if there is active cleaning in process
-            using_all_service_workers = False
             using_all_workers = False
 
             power_flag_name = "ndd_guarding_power"
@@ -39,11 +38,9 @@ init -5 python:
             # Brawl event:
             had_brawl_event = False
 
-            # TODO Same as for Cleaning Job, this does not feel right.
             # Pure workers, container is kept around for checking during all_on_deck scenarios
             strict_workers = self.get_strict_workers(job, power_flag_name, use_slaves=False)
-            all_workers = strict_workers.copy() # Everyone that cleaned for the report
-            workers = all_workers.copy() # workers on active duty
+            workers = strict_workers.copy() # workers on active duty
 
             while 1:
                 simpy_debug("Entering WarriorQuarters.business_control at {}".format(self.env.now))
@@ -55,60 +52,35 @@ init -5 python:
 
                 if threat >= 900:
                     if True: # Add a condition similar to auto-cleaning? Or should this be forced?
+                        temp = "{}: Police arrived at {}!".format(self.env.now, building.name)
                         price = 500*building.get_max_client_capacity()*(building.tier or 1)
-                        price = min(hero.gold, price)
                         if hero.take_money(price, "Police"):
-                            building.threat = 0
-                            threat = 0
-                            temp = "Police arrived at {}!".format(building.name)
                             temp += " You paid {} in penalty fees for allowing things to get this out of hand.".format(price)
-                            temp += " {} reputation also took a very serious hit!".format(building.name)
-                            building.modrep(-(50*min(1, building.tier)))
-                            self.log(temp, True)
+                        else:
+                            price = int(price*1.25)
+                            temp += " You could not settle the due penalty fees. Now you have to pay {} as a property tax with interest.".format(price)
+                            hero.fin.property_tax_debt += price
+                        temp += " The building's reputation also took a very serious hit!"
+                        self.log(temp)
 
-                    if not using_all_workers and threat:
-                        using_all_workers = True
-                        all_workers = self.all_on_deck(workers, job,
+                        building.modrep(-(20*max(1, building.tier)))
+                        building.threat = 0
+                        threat = 0
+
+                if threat >= 200:
+                    if threat >= 500:
+                        if not using_all_workers:
+                            using_all_workers = True
+                            workers = self.all_on_deck(workers, job,
                                                 power_flag_name, use_slaves=False)
-                        workers = all_workers.union(workers)
-
-                    if not make_nd_report_at and threat:
-                        wlen = len(workers)
-                        make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env and wlen:
-                            temp = "{} Workers have started to guard {}!".format(
-                                      set_font_color(wlen, "red"), building.name)
-                            self.log(temp)
-                elif threat >= 500:
-                    if not using_all_workers:
-                        using_all_workers = True
-                        all_workers = self.all_on_deck(workers, job,
-                                            power_flag_name, use_slaves=False)
-                        workers = all_workers.union(workers)
 
                     if not make_nd_report_at:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:
-                            temp = "{} Workers have started to guard {}!".format(
+                            temp = "{}: {} Workers have started to guard {}!".format(self.env.now,
                                       set_font_color(wlen, "red"), building.name)
                             self.log(temp)
-                elif threat >= 200:
-                    if not make_nd_report_at:
-                        wlen = len(workers)
-                        make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env and wlen:
-                            temp = "{} Workers have started to guard {}!".format(
-                                      set_font_color(wlen, "red"), building.name)
-                            self.log(temp)
-
-                # switch back to normal workers only
-                if threat <= 200 and using_all_workers:
-                    using_all_workers = False
-                    for worker in workers.copy():
-                        if worker not in strict_workers:
-                            workers.remove(worker)
-                            building.available_workers.insert(0, worker)
 
                 # Actually handle threat cleared:
                 if make_nd_report_at and building.threat > 0:
@@ -123,8 +95,10 @@ init -5 python:
                     else:
                         for w in workers.copy():
                             value = w.flag(power_flag_name)
-                            threat_cleared += value
                             building.threat += value
+
+                            threat_cleared += value
+                            defenders.add(w)
 
                             # Adjust JP and Remove the clear after running out of jobpoints:
                             w.jobpoints -= 5
@@ -145,33 +119,31 @@ init -5 python:
                                 w.joy -= 1
 
                 # Create actual report:
-                c0 = make_nd_report_at and threat_cleared
-                c1 = building.threat <= 0 or self.env.now == make_nd_report_at
+                c0 = self.env.now >= make_nd_report_at
+                c1 = defenders # No point in a report if no workers participated in the guarding.
                 if c0 and c1:
                     if DSNBR:
-                        temp = "DEBUG! WRITING GUARDING REPORT! c0: {}, c1: {}".format(c0, c1)
-                        self.log(temp, True)
+                        temp = "{}: DEBUG! WRITING GUARDING REPORT! ({}, {})".format(self.env.now, c0, c1)
+                        self.log(temp)
 
-                    c0 = self.env.now > 0 and not self.env.now % 25
+                    c0 = not make_nd_report_at % 25 # what is this? some kind of random?
                     if all([SparringQuarters_active, c0, threat < 500]):
                         use_SQ = True
                     else:
                         use_SQ = False
-                    self.write_nd_report(strict_workers, all_workers,
+                    self.write_nd_report(strict_workers, defenders,
                                          -threat_cleared, use_SQ=use_SQ)
                     make_nd_report_at = 0
                     threat_cleared = 0
+                    defenders = set()
 
-                    # Release none-pure workers:
-                    if threat < 700 and using_all_workers:
-                        using_all_workers = False
-                        for worker in workers.copy():
-                            if worker not in strict_workers:
-                                workers.remove(worker)
-                                building.available_workers.insert(0, worker)
-
-                    # and finally update all workers container:
-                    all_workers = workers.copy()
+                # Release none-pure workers:
+                if building.threat < 500 and using_all_workers:
+                    using_all_workers = False
+                    extra = workers - strict_workers
+                    if extra:
+                        workers -= extra
+                        building.available_workers[0:0] = list(extra)
 
                 simpy_debug("Exiting WarriorQuarters.business_control at {}".format(self.env.now))
                 if not EnforcedOrder_active and threat >= 500 and not had_brawl_event:
@@ -183,6 +155,7 @@ init -5 python:
 
         def write_nd_report(self, strict_workers, all_workers, threat_cleared, **kwargs):
             simpy_debug("Entering WarriorQuarters.write_nd_report at {}".format(self.env.now))
+
             job, loc = self.job, self.building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
 
@@ -190,6 +163,8 @@ init -5 python:
 
             temp = "{} Security Report!\n".format(loc.name)
             log.append(temp)
+
+            simpy_debug("Guards.write_nd_report marker 1")
 
             wlen = len(all_workers)
             temp = "{} Workers kept your businesses safe today.".format(set_font_color(wlen, "red"))
@@ -203,6 +178,9 @@ init -5 python:
 
             log.team = all_workers
 
+            simpy_debug("Guards.write_nd_report marker 2")
+
+            workers = all_workers
             if extra_workers:
                 temp = "Security threat became too high that non-combatant workers were called to mitigate it! "
                 if len(extra_workers) > 1:
@@ -211,22 +189,20 @@ init -5 python:
                     temp += "{} was pulled off her duty to help out...".format(", ".join([w.nickname for w in extra_workers]))
                 log.append(temp)
 
-            workers = all_workers - extra_workers
-            temp = "{} worked hard keeping your business safe".format(", ".join([w.nickname for w in workers]))
-            if extra_workers:
-                temp += " as it is their direct job!"
-            else:
-                temp += "!"
+                workers -= extra_workers
+
+            temp = "{} worked hard keeping your business safe as it is their direct job!".format(", ".join([w.nickname for w in workers]))
             log.append(temp)
 
-            threat_cleared = int(threat_cleared)
+            simpy_debug("Guards.write_nd_report marker 3")
 
+            threat_cleared = int(threat_cleared)
             temp = "\nA total of {} threat was removed.".format(set_font_color(threat_cleared, "red"))
             log.append(temp)
 
             if kwargs.get("use_SQ", False):
                 log.append("Your guards managed to sneak in a friendly sparring match between their patrol duties!")
-                for w in strict_workers:
+                for w in workers:
                     ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                     if dice(25):
                         log.logws("security", 1, char=w)
@@ -243,10 +219,8 @@ init -5 python:
                         if dice(20): # Small chance to get hurt.
                             log.logws("health", round_int(-w.get_max("health")*.2), char=w)
 
-            if not len(all_workers):
-                raise Exception("Zero Modulo Division Detected #01")
-            # exp = threat_cleared/len(all_workers)
-            for w in strict_workers:
+            # exp = threat_cleared/wlen -> wlen MUST NOT be 0?
+            for w in workers:
                 ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                 log.logws("vitality", round_int(ap_used*-5), char=w)
                 log.logws("security", randint(1, 3), char=w)
@@ -285,6 +259,8 @@ init -5 python:
             log.logloc('threat', threat_cleared)
 
             log.type = "jobreport" # Come up with a new type for team reports?
+
+            simpy_debug("Guards.write_nd_report marker 4")
 
             log.after_job()
             NextDayEvents.append(log)

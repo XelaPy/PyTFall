@@ -3,19 +3,19 @@ init -9 python:
     ###### Character Classes ######
     class PytCharacter(Flags, Tier, JobsLogger, Pronouns):
         STATS = set()
-        SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service",
+        SKILLS = {"vaginal", "anal", "oral", "sex", "strip", "service",
                       "refinement", "group", "bdsm", "dancing",
                       "bartending", "cleaning", "waiting", "management",
                       "exploration", "teaching", "swimming", "fishing",
-                      "security"])
+                      "security"}
         # Used to access true, final, adjusted skill values through direct access to class, like: char.swimmingskill
         FULLSKILLS = set(skill + "skill" for skill in SKILLS)
-        GEN_OCCS = set(["SIW", "Combatant", "Server", "Specialist"])
-        STATUS = set(["slave", "free"])
+        GEN_OCCS = {"SIW", "Combatant", "Server", "Specialist"}
+        STATUS = {"slave", "free"}
 
-        MOOD_TAGS = set(["angry", "confident", "defiant", "ecstatic", "happy",
+        MOOD_TAGS = {"angry", "confident", "defiant", "ecstatic", "happy",
                          "indifferent", "provocative", "sad", "scared", "shy",
-                         "tired", "uncertain"])
+                         "tired", "uncertain"}
         UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS = ["zoom_fast", "zoom_slow", "test_case"]
         """Base Character class for PyTFall.
         """
@@ -614,7 +614,7 @@ init -9 python:
 
             # Mood will never be checked in auto-mode when that is not sensible
             add_mood = kwargs.get("add_mood", True)
-            if set(tags).intersection(self.MOOD_TAGS):
+            if not self.MOOD_TAGS.isdisjoint(set(tags)):
                 add_mood = False
 
             pure_tags = list(tags)
@@ -738,13 +738,16 @@ init -9 python:
             self.cache = list()
             self.label_cache = list()
 
-        def get_vnsprite(self, mood=("indifferent")):
+        def get_vnsprite(self, mood=None):
             """
             Returns VN sprite based on characters height.
             Useful for random events that use NV sprites, heigth in unique events can be set manually.
             ***This is mirrored in galleries testmode, this method is not actually used.
             """
-            return self.show("vnsprite", resize=self.get_sprite_size())
+            if mood:
+                return self.show("vnsprite", mood, resize=self.get_sprite_size())
+            else:
+                return self.show("vnsprite", resize=self.get_sprite_size())
 
         # AP + Training ------------------------------------------------------------->
         def restore_ap(self):
@@ -871,9 +874,9 @@ init -9 python:
         def remove_item(self, item, amount=1):
             self.inventory.remove(item, amount=amount)
 
-        def remove_all_items(self):
-            for i in self.inventory:
-                self.inventory.remove(i.id, amount=has_items(i.id, [self]))
+        #def remove_all_items(self):
+        #    self.inventory.clear()
+        #    TODO eqlots?
 
         def equip(self, item, remove=True, aeq_mode=False): # Equips the item
             """
@@ -1012,7 +1015,10 @@ init -9 python:
                     chance.append(100)
 
                 # Other traits:
-                if trait == "Kamidere": # Vanity: wants pricy uncommon items, but only lasting ones(especially scrolls should be excluded)
+                trait = trait.id # never compare trait entity with trait str, it is SLOW
+                if trait == "Slim":
+                    appetite -= 10
+                elif trait == "Kamidere": # Vanity: wants pricy uncommon items, but only lasting ones(especially scrolls should be excluded)
                     if not (item.slot == "consumable"):
                         chance.append((100 - item.chance + min(item.price/10, 100))/2)
                 elif trait == "Tsundere": # stubborn: what s|he won't buy, s|he won't wear.
@@ -1023,8 +1029,6 @@ init -9 python:
                     when_drunk = 45
                 elif trait == "Always Hungry":
                     appetite += 20
-                elif trait == "Slim":
-                    appetite -= 10
 
             if item.slot == "consumable": # Special considerations like food poisoning.
                 if item in self.constemp:
@@ -1134,6 +1138,7 @@ init -9 python:
             # traits that may influence the item selection process
             # This will never work, will it?????
             for t in self.traits:
+                t = t.id
                 # bad eyesight may cause inclusion of items with more penalty
                 if t == "Bad Eyesight":
                     min_value = -10
@@ -1304,10 +1309,11 @@ init -9 python:
             elif hint == "Fighting":
                 if traits["Shooter"] in bt:
                     purpose = "Shooter"
-                elif "Caster" in occs and "Warrior" not in occs:
-                    purpose = "Mage"
-                elif len(set(["Warrior", "Caster"]).intersection(occs)) == 2:
-                    purpose = "Battle Mage"
+                elif "Caster" in occs:
+                    if "Warrior" in occs:
+                        purpose = "Battle Mage"
+                    else:
+                        purpose = "Mage"
                 elif "Combatant" in occs:
                     purpose = "Barbarian"
             else: # We just guess...
@@ -1319,10 +1325,11 @@ init -9 python:
                     purpose = "Service"
                 elif traits["Prostitute"] in bt:
                     purpose = "Sex"
-                elif "Caster" in occs and "Warrior" not in occs:
-                    purpose = "Mage"
-                elif len(set(["Warrior", "Caster"]).intersection(occs)) == 2:
-                    purpose = "Battle Mage"
+                elif "Caster" in occs:
+                    if "Warrior" in occs:
+                        purpose = "Battle Mage"
+                    else:
+                        purpose = "Mage"
                 elif traits["Shooter"] in bt:
                     purpose = "Shooter"
                 elif "Combatant" in occs:
@@ -1740,7 +1747,7 @@ init -9 python:
 
                 if condition:
                     if stat == "gold":
-                        if misc_mode and self.status == "slave":
+                        if misc_mode and self.status == "slave" and self in hero.chars:
                             temp = hero
                         else:
                             temp = self
@@ -2291,6 +2298,11 @@ init -9 python:
         def remove_char(self, char):
             if char in self._chars:
                 self._chars.remove(char)
+
+                # remove from the teams as well
+                for team in self.teams:
+                    if char in team:
+                        team.remove(char)
             else:
                 raise Exception, "This char (ID: %s) is not in service to the player!!!" % self.id
 
@@ -2408,8 +2420,6 @@ init -9 python:
                     elif isinstance(confiscate, Char):
                         price = confiscate.fin.get_price()
                         hero.remove_char(confiscate)
-                        if confiscate in self.team:
-                            self.team.remove(confiscate)
                         # locations:
                         confiscate.home = pytfall.sm
                         confiscate.workplace = None
@@ -2593,10 +2603,10 @@ init -9 python:
                     self.apply_trait(i)
 
             if self.status not in self.STATUS:
-                if set(["Combatant", "Specialist"]).intersection(self.gen_occs):
+                if not {"Combatant", "Specialist"}.isdisjoint(self.gen_occs):
                     self.status = "free"
                 else:
-                    self.status = random.sample(self.STATUS, 1).pop()
+                    self.status = choice(tuple(self.STATUS))
 
             # Locations + Home + Status:
             # SM string --> object
@@ -2999,10 +3009,6 @@ init -9 python:
             self.caste = caste
             self.rank = ilists.clientCastes.index(caste)
             self.regular = False # Regular clients do not get removed from building lists as those are updated.
-
-            # Traits activation:
-            if dice(2):
-                self.apply_trait('Aggressive')
 
             # Alex, we should come up with a good way to set portrait depending on caste
             self.portrait = "" # path to portrait

@@ -172,6 +172,7 @@ init -950 python:
 
     ######################## Classes/Functions ###################################
     IMAGE_EXTENSIONS = (".png", ".jpg", ".gif", ".jpeg", ".webp")
+    MUSIC_EXTENSIONS = (".mp3", ".ogg", ".wav")
 
     def check_image_extension(fn):
         return fn.lower().endswith(IMAGE_EXTENSIONS)

@@ -127,13 +127,11 @@ init -9 python:
 
             for c in rc_slaves[:]:
                 if c.get_flag("days_in_game", 0) > 10:
-                    id = getattr(c, "dict_id", "_".join([c.id, c.name, c.fullname.split(" ")[1]]))
                     rc_slaves.remove(c)
                     remove_from_gameworld(c)
 
             for c in rc_free[:]:
                 if c.get_flag("days_in_game", 0) > 20 and c.disposition <= 0:
-                    id = getattr(c, "dict_id", "_".join([c.id, c.name, c.fullname.split(" ")[1]]))
                     rc_free.remove(c)
                     remove_from_gameworld(c)
 
@@ -142,10 +140,10 @@ init -9 python:
 
         def populate_rchars(self, ingame_rchars, status, tier_offset=.0):
             if status == "free":
-                distibution_wanted = self.rc_free_pop_distr.copy()
+                distibution_wanted = self.rc_free_pop_distr
                 rchar_wanted = self.rc_free_population
             else:
-                distibution_wanted = self.rc_slave_pop_distr.copy()
+                distibution_wanted = self.rc_slave_pop_distr
                 rchar_wanted = self.rc_slave_population
 
             required = rchar_wanted - len(ingame_rchars)
@@ -154,31 +152,25 @@ init -9 python:
 
             # Distribution of the above:
             current_distibution_raw = self.RCD.copy()
-            wanted_distibution_perc = self.RCD.copy()
-            distibution = self.RCD.copy()
 
             for c in ingame_rchars:
-                if "SIW" in c.gen_occs:
-                    current_distibution_raw["SIW"] += 1
-                if "Specialist" in c.gen_occs:
-                    current_distibution_raw["Specialist"] += 1
-                if "Combatant" in c.gen_occs:
-                    current_distibution_raw["Combatant"] += 1
-                if "Server" in c.gen_occs:
-                    current_distibution_raw["Server"] += 1
+                for occ in c.gen_occs:
+                    if occ in current_distibution_raw:
+                        current_distibution_raw[occ] += 1
                 if "Healer" in c.traits:
                     current_distibution_raw["Healer"] += 1
 
+            wanted_distibution_perc = {}
             total = sum(current_distibution_raw.values())
-            if not total:
+            if total == 0:
                 wanted_distibution_perc = distibution_wanted
             else:
-                for key, value in current_distibution_raw.items():
-                    wanted_distibution_perc[key] = 100.0*value/total
                 for key, value in distibution_wanted.items():
-                    wanted_distibution_perc[key] = max(0, value-wanted_distibution_perc[key])
+                    value -= 100.0*current_distibution_raw[key]/total
+                    wanted_distibution_perc[key] = max(0, value)
 
             total = float(sum(wanted_distibution_perc.values()))
+            distibution = {}
             for key, value in wanted_distibution_perc.items():
                 distibution[key] = round_int(required*value/total)
 
@@ -193,23 +185,18 @@ init -9 python:
                         tier = hero.tier + uniform(.1, 1.0)
                     tier += tier_offset
 
-                    if bt_group in ["Combatant", "Specialist", "Healer"]:
-                        if DEBUG and status == "slave":
+                    if status == "slave" and bt_group in ["Combatant", "Specialist", "Healer"]:
+                        if DEBUG:
                             devlog.warning("Tried to populate with weird slave {}!".format())
                         status = "free"
 
-                    if status == "free":
-                        give_civilian_items = True
-                        give_bt_items = True
-                    else:
-                        give_civilian_items = True
-                        give_bt_items = False
+                    give_bt_items = status == "free"
 
                     build_rc(bt_group=bt_group,
                              set_locations=True,
                              set_status=status,
                              tier=tier, tier_kwargs=None,
-                             give_civilian_items=give_civilian_items,
+                             give_civilian_items=True,
                              give_bt_items=give_bt_items,
                              spells_to_tier=False) # Do we want this for mages?
 
@@ -220,7 +207,8 @@ init -9 python:
             global gazette
             gazette.clear()
 
-            # Shops and SlaveMarket:
+            # Shops:
+            tl.start("Shops.next_day")
             self.general_store.next_day()
             self.cafe.next_day()
             self.tavern.next_day()
@@ -232,12 +220,23 @@ init -9 python:
             self.witch_spells_shop.next_day()
             self.aine_shop.next_day()
             self.angelica_shop.next_day()
+            tl.end("Shops.next_day")
+
+            # Slave Market:
+            tl.start("SlaveMarket")
             self.sm.next_day()
+            tl.end("SlaveMarket")
+
+            # Employment Agency:
+            tl.start("EmploymentAgency")
             populate_ea()
+            tl.end("EmploymentAgency")
+
+            # Runaways:
+            tl.start("Runaway/Jail")
             self.ra.next_day()
             store.jail.next_day()
-
-
+            tl.end("Runaway/Jail")
 
             # Girlsmeets:
             # Termination:
@@ -247,9 +246,9 @@ init -9 python:
                     del cells[cell]
 
             # Arena:
-            tl.start("Anera.next_day")
+            tl.start("Arena.next_day")
             self.arena.next_day()
-            tl.end("Anera.next_day")
+            tl.end("Arena.next_day")
 
             # Girls, Buildings income and Hero:
             tl.start("MC's Chars .next_day")

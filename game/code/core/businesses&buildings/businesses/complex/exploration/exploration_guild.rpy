@@ -384,9 +384,8 @@ init -6 python: # Guild, Tracker and Log.
             for t in self.teams:
                 if t != team:
                     for char in team:
-                        for c in t:
-                            if c == char:
-                                t.remove(char)
+                        if char in t:
+                            t.remove(char)
 
             tracker = ExplorationTracker(team, area, self)
             area.trackers.add(tracker)

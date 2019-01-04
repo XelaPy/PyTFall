@@ -1,32 +1,33 @@
-label create_xeona:
-    python:
-        if not "xeona_status" in globals():
+init -9 python:
+    def setup_xeona(status=None):
+        xeona_status = getattr(store, "xeona_status", None)
+        if xeona_status is None:
             xeona_status = object()
             xeona_status.stage = 0
             xeona_status.flirt = False
             xeona_status.disposition = 0
             xeona_status.meet_day = 0
             xeona_status.heal_day = 0
+            store.xeona_status = xeona_status
             
         if xeona_status.disposition > 0:
             if day%3 == 0:
                 xeona_status.flirt = True
             else:
                 xeona_status.flirt = False
-            
-    if xeona_status.flirt:
-        $ xeona_sprite = npcs["Xeona_arena"].get_vnsprite("happy")
-        $ npcs["Xeona_arena"].override_portrait("portrait", "happy")
-    elif xeona_status.stage < 2:
-        $ xeona_sprite = npcs["Xeona_arena"].get_vnsprite("indifferent")
-        $ npcs["Xeona_arena"].override_portrait("portrait", "indifferent")
-    else:
-        $ xeona_sprite = npcs["Xeona_arena"].get_vnsprite("confident")
-        $ npcs["Xeona_arena"].override_portrait("portrait", "confident")
-    return
+
+        if status is None:
+            if xeona_status.flirt:
+                status = "happy"
+            elif xeona_status.stage < 2:
+                status = "indifferent"
+            else:
+                status = "confident"
+        xeona_status.sprite = npcs["Xeona_arena"].get_vnsprite(status)
+        npcs["Xeona_arena"].override_portrait("portrait", status)
     
 label arena_outside:
-    call create_xeona
+    $ setup_xeona()
     if not global_flags.has_flag("menu_return"):
         $ gm.enter_location(goodtraits=["Manly", "Courageous", "Aggressive"], badtraits=["Coward", "Nerd", "Homebody"], goodoccupations=["Combatant"], curious_priority=False)
         $ coords = [[.1, .6], [.59, .64], [.98, .61]]
@@ -47,7 +48,7 @@ label arena_outside:
             $ global_flags.set_flag("visited_arena")
             $ heard_about_arena = False
             'You see a pretty, confident girl approaching you.'
-            show expression xeona_sprite as xeona
+            show expression xeona_status.sprite as xeona
             with dissolve
             ax "I've never seen you before. What brings you here?"
             ax "Lust for blood? Fame? Power? Or Respect?"
@@ -258,14 +259,11 @@ label xeona_talking:
                             "You gave her the blade."
                             ax "Let's see..."
                             hide xeona
-                            with dissolve
+                            with Fade(.25, 0, .25, color=darkred)
                             $ xeona_status.stage = 2
                             $ xeona_status.flirt = False
-                            call create_xeona
-                            with Fade(.25, 0, .25, color=darkred)
-                            $ xeona_sprite = npcs["Xeona_arena"].get_vnsprite("confident")
-                            $ npcs["Xeona_arena"].override_portrait("portrait", "confident")
-                            show expression xeona_sprite as xeona
+                            $ setup_xeona("confident")
+                            show expression xeona_status.sprite as xeona
                             with dissolve
                             $ xeona_status.meet_day = day
                             ax "Awesome! It worked! Thank you, [hero.name]!"
@@ -306,7 +304,7 @@ label xeona_talking:
 label find_xeona:
     hide screen arena_outside
     $ ax = npcs["Xeona_arena"].say
-    show expression xeona_sprite as xeona
+    show expression xeona_status.sprite as xeona
     with dissolve
     ax "Hi again! Is there something you want?"
     jump xeona_menu

@@ -418,10 +418,9 @@ init -10 python:
             return round_int(dirt), dirt_string
 
         def clean(self, value):
-            result = self.dirt + value
-            self.dirt = result
+            self.dirt += value
             if self.env:
-                simpy_debug("{}: Clean Function: result: {}, self.dirt: {}".format(self.env.now, result, self.dirt))
+                simpy_debug("{}: Clean Function: value: {}, self.dirt: {}".format(self.env.now, value, self.dirt))
 
         def nd_log_stats(self):
             # Get a list of stats, usually all 4.
@@ -890,15 +889,17 @@ init -10 python:
                 raise NotImplementedError("Returning customers are not implemented yet")
 
             # determine gender of random customer
-            gender = choice(["male"]*5 + ['female']*2)
+            gender = "male" if dice(75) else "female"
 
             # determine caste of random customer
-            if self.rep < 50: caste = choice(['Peasant', 'Merchant'])
-            elif 50 <= self.rep <= 150: caste = choice(['Peasant', 'Merchant', 'Nomad'])
-            elif 151 <= self.rep <= 400: caste = choice(['Nomad', 'Merchant', 'Wealthy Merchant'])
-            elif 401 <= self.rep <= 600: caste = choice(['Merchant', 'Wealthy Merchant', 'Clerk'])
-            elif 601 <= self.rep <= 800: caste = choice(['Wealthy Merchant', 'Clerk', 'Noble'])
-            else: caste = choice(['Clerk', 'Noble', 'Royal'])
+            caste = randint(0, 2)
+            if self.rep < 50: caste = max(caste, 1)
+            elif self.rep <= 150: caste += 1
+            elif self.rep <= 400: caste += 2
+            elif self.rep <= 600: caste += 3
+            elif self.rep <= 800: caste += 4
+            else:                 caste += 5
+            caste = ilists.clientCastes[caste]
 
             # create random customer
             min_tier = float(max(self.tier-2, .1))
@@ -943,19 +944,22 @@ init -10 python:
                 # Clients:
                 tl.start("Generating clients in {}".format(self.name))
                 self.get_client_count(write_to_nd=True)
-                clnts = self.total_clients
 
-                # TODO B&B-clients: Generate and add regulars!
-                # Note (Beta): Basically what happened with this code is that all clients,
-                # became regulars. For now, I'll add shuffle and regen,
-                # later we want real regulars!
+                # Note (Beta): currently all clients are regulars
+                # remove maximum of 100 clients at a time (better perfomance, closer to RL)
                 if self.clients_regen_day <= day:
-                    self.all_clients = set()
+                    clients = list(self.all_clients)
+                    num = len(clients)
+                    to_remove = min(num/2, 100)
+                    idx = randint(0, num-to_remove)
+                    self.all_clients = set(clients[0:idx]+clients[idx+to_remove:num])
+                    # TODO make the remaining clients regulars?!
                     self.clients_regen_day = day + randint(2, 4)
                 c0 = self.expects_clients and self.available_workers
+                clnts = self.total_clients - len(self.all_clients)
 
-                if c0 and len(self.all_clients) < clnts:
-                    for i in xrange(clnts - len(self.all_clients)):
+                if c0 and clnts > 0:
+                    for i in xrange(clnts):
                         client = self.create_customer(likes=[choice(client_businesses)])
                         self.all_clients.add(client)
                 self.clients = self.all_clients.copy()

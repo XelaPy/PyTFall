@@ -27,16 +27,15 @@ init python:
 
         def set_image(self):
             images = []
-            folder = "content/schools/" + self.data["image"]
-            for fn in renpy.list_files():
-                if folder in fn and fn.endswith(IMAGE_EXTENSIONS):
-                    images.append(fn)
+            folder = os.path.join("content", "schools", self.data["image"])
+            path = os.path.join(gamedir, folder)
+            if os.path.isdir(path):
+                for fn in os.listdir(path):
+                    if fn.endswith(IMAGE_EXTENSIONS):
+                        images.append(os.path.join(folder, fn)) 
 
-            if not images:
-                self.img = renpy.displayable("no_image")
-            else:
-                img = choice(images)
-                self.img = renpy.displayable(img)
+            img = choice(images) if images else "no_image"
+            self.img = renpy.displayable(img)
 
         def get_status(self, char):
             if char in self.students:

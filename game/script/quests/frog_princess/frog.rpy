@@ -15,10 +15,6 @@ init python:
                        start_day=choice([15, 25, 35]), jump=True,
                        dice=90, max_runs=20)
 
-label show_frog_deathfight:
-    $ menu_extensions.add_extension("Xeona Main", ("Deathfight vs Goblin Champ!", Jump("frog_deathfight")))
-    jump arena_outside
-
 label show_frog_final:
     show screen show_frog_final
     jump forest_entrance
@@ -174,7 +170,7 @@ label frog1_event_abby_2:
     with dissolve
 
     hero.say "Did you found anything?"
-    if dice(50 + day/3):
+    if dice(50 - day/3):
         w "I am still going through my books and scrolls. Come back later."
 
         $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the frog (again)")
@@ -212,11 +208,36 @@ label frog_event_arena:
     ax "Also, don't expect him to be along even if you are, people will expect a vicious fight, deathmatches are rare enough, so it's best to make it look good!"
     $ hero.take_ap(1)
     $ pytfall.world_quests.get("Frog Princess!").next_in_label("Xeona agreed to set up a match per your request but you've been warned that it is a {color=[red]}very{/color} dangerous endeavour and it would be a good idea to bring some backup!")
-    if DEBUG_QE:
-        $ register_event_in_label("show_frog_deathfight", locations=["arena_outside"], trigger_type="auto", restore_priority=1, priority=300, start_day=day, jump=True, dice=100, max_runs=1)
-    else:
-        $ register_event_in_label("show_frog_deathfight", locations=["arena_outside"], trigger_type="auto", restore_priority=1, priority=300, start_day=day+3, jump=True, dice=100, max_runs=1)
     $ menu_extensions.remove_extension("Xeona Main", "Enquire about an eye of a Goblin Champion!")
+    $ menu_extensions.add_extension("Xeona Main", ("Deathfight vs Goblin Champ!", Jump("frog_deathfight"), "day == {}".format(day+3)))
+    $ menu_extensions.add_extension("Xeona Main", ("Missed Deathfight...", Jump("missed_frog_deathfight"), "day > {}".format(day+3)))
+
+    jump arena_outside
+
+label missed_frog_deathfight:
+    hide screen arena_outside
+    "You find Xeona to talk about the missed fight."
+    $ ax = npcs["Xeona_arena"].say
+    show expression npcs["Xeona_arena"].get_vnsprite() as xeona
+    with dissolve
+
+    $ menu_extensions.remove_extension("Xeona Main", "Deathfight vs Goblin Champ!")
+ 
+    ax "Well, well, well..."
+    ax "It seems that someone forgot something."
+    ax "The Goblin Champ was really pissed by the events. If you want to have a fight, you need to pay a compensation of {color=[gold]}2000 Gold{/color}."
+    ax "Are you willing to pay the price?"
+    menu:
+        "Yes, of course." if hero.gold >= 2000:
+            $ hero.take_money(2000, reason="Events")
+            ax "Great! The fight is going to be in three days as usual. Do not forget this time."
+            $ menu_extensions.add_extension("Xeona Main", ("Deathfight vs Goblin Champ!", Jump("frog_deathfight"), "day == {}".format(day+3)))
+            $ menu_extensions.remove_extension("Xeona Main", "Missed Deathfight...")
+            $ menu_extensions.add_extension("Xeona Main", ("Missed Deathfight...", Jump("missed_frog_deathfight"), "day > {}".format(day+3)))
+
+        "Sorry, it is too much.":
+            ax "As you wish, come back if you changed your mind."
+
     jump arena_outside
 
 label frog_deathfight:
@@ -259,6 +280,8 @@ label frog_deathfight:
     $ menu_extensions.add_extension("Abby The Witch Main", ("Give her the eye", Jump("frog1_event_abby_3")))
     $ pytfall.world_events.kill_event("show_frog_arena_eye")
     $ menu_extensions.remove_extension("Xeona Main", "Deathfight vs Goblin Champ!")
+    $ menu_extensions.remove_extension("Xeona Main", "Missed Deathfight...")
+
     jump arena_outside
 
 label frog1_event_abby_3:
