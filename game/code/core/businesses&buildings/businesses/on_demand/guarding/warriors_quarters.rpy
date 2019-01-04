@@ -198,7 +198,7 @@ init -5 python:
 
             if kwargs.get("use_SQ", False):
                 log.append("Your guards managed to sneak in a friendly sparring match between their patrol duties!")
-                for w in strict_workers:
+                for w in workers:
                     ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                     if dice(25):
                         log.logws("security", 1, char=w)
@@ -215,8 +215,8 @@ init -5 python:
                         if dice(20): # Small chance to get hurt.
                             log.logws("health", round_int(-w.get_max("health")*.2), char=w)
 
-            # exp = threat_cleared/wlen -> wlen MUST NOT be 0
-            for w in strict_workers:
+            # exp = threat_cleared/wlen -> wlen MUST NOT be 0?
+            for w in workers:
                 ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                 log.logws("vitality", round_int(ap_used*-5), char=w)
                 log.logws("security", randint(1, 3), char=w)

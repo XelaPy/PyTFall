@@ -175,8 +175,8 @@ init -5 python:
             temp = "\nA total of {} dirt was cleaned.".format(set_font_color(dirt_cleaned, "red"))
             log.append(temp)
 
-            # exp = dirt_cleaned/wlen -> wlen MUST NOT be 0
-            for w in strict_workers:
+            # exp = dirt_cleaned/wlen -> wlen MUST NOT be 0?
+            for w in workers:
                 ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                 log.logws("vitality", round_int(ap_used*-5), char=w)
                 log.logws("cleaning", randint(1, 3), char=w)
