@@ -1836,20 +1836,23 @@ init -9 python:
             # Special modifiers based off traits:
             temp = ["smallweapon", "weapon", "body", "cape", "feet", "wrist", "head"]
             if "Royal Assassin" in self.traits and item.slot in temp:
-                value = int(item.price*.01) if direction else -int(item.price*.01)
+                value = int((item.price if direction else -item.price)*.01)
                 self.stats.max["attack"] += value
                 self.mod_stat("attack", value)
             elif "Armor Expert" in self.traits and item.slot in temp:
-                value = int(item.price*.01) if direction else -int(item.price*.01)
+                value = int((item.price if direction else -item.price)*.01)
                 self.stats.max["defence"] += value
                 self.mod_stat("defence", value)
             elif "Arcane Archer" in self.traits and item.type in ["bow", "crossbow", "throwing"]:
-                max_val = int(item.max["attack"]*.5) if direction else -int(item.max["attack"]*.5)
-                imod_val = int(item.mod["attack"]*.5) if direction else -int(item.mod["attack"]*.5)
+                max_val = int(item.max.get("attack", 0)*.5)
+                imod_val = int(item.mod.get("attack", 0)*.5)
+                if not direction:
+                    max_val = -max_val
+                    imod_val = -imod_val
                 self.stats.max["magic"] += max_val
                 self.stats.imod["magic"] += imod_val
-            if direction and "Recharging" in self.traits and item.slot == 'consumable' \
-                and not item.ctemp and not("mp" in item.mod):
+            if item.slot == 'consumable' and "Recharging" in self.traits \
+                and not item.ctemp and not("mp" in item.mod) and direction:
                 self.mod_stat("mp", 10)
 
             # Skills:
