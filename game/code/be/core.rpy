@@ -127,7 +127,7 @@ init -1 python: # Core classes:
 
                 # If the controller was killed off during the mid_turn_events:
                 if fighter not in self.corpses:
-                    if fighter.controller != "player":
+                    if fighter.controller is not None:
                         # This character is not controlled by the player so we call the (AI) controller:
                         fighter.controller()
                     else: # Controller is the player:
@@ -807,7 +807,8 @@ init -1 python: # Core classes:
             # @Review: Prevent AI from casting the same Buffs endlessly:
             # Note that we do not have a concrete setup for buffs yet so this
             # is coded to be safe.
-            if char.controller != "player":
+            if char.controller is not None:
+                # a character controller by an AI
                 buff_group = getattr(self, "buff_group", "no_buff_group")
                 for target in in_range[:]:
                     for ev in store.battle.get_all_events():

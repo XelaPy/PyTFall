@@ -279,7 +279,7 @@ init -10 python:
         def reset_controller(self):
             # Resets combat controller
             for m in self.members:
-                m.controller = "player"
+                m.controller = None
 
 
     class JobsLogger(_object):

@@ -931,8 +931,9 @@ init -6 python: # Guild, Tracker and Log.
             # Add the battle report to log!:
             log.battle_log = list(reversed(battle.combat_log))
 
+            # Reset the controllers:
             for i in team:
-                i.controller = "player"
+                i.controller = None
 
             tracker.points -= 100*len(team)
 

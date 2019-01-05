@@ -150,7 +150,7 @@ init -9 python:
             self.besk = None # BE Show **Kwargs!
             # self.besprite_size = None # Sprite size in pixels. THIS IS NOW A PROPERTY!
             self.allegiance = None # BE will default this to the team name.
-            self.controller = "player"
+            self.controller = None # by default the player is in control
             self.beeffects = []
             self.can_die = False
             self.dmg_font = "red"

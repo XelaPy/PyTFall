@@ -99,8 +99,9 @@ init -11 python:
         tl.end("logical combat: BATTLE")
         be_debug("\n\n")
 
+        # Reset the controllers:
         for fighter in chained():
-            fighter.controller = "player"
+            fighter.controller = None
 
         return battle
 
@@ -142,7 +143,7 @@ init -11 python:
                     member.controller = BE_AI(member)
                     your_team.add(member)
                 elif member.status == "free":
-                    member.controller = "player"
+                    member.controller = None # no AI -> controlled by the player
                     your_team.add(member)
 
         # Controllers:

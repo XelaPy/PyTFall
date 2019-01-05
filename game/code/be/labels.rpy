@@ -139,9 +139,9 @@ label test_be_logical:
         tl.end("Logical BE Scenario without Setup!")
 
         # Reset Controller:
-        hero.controller = "player"
-        n.controller = "player"
-        h.controller = "player"
+        hero.controller = None
+        n.controller = None
+        h.controller = None
 
     $ tl.end("Logical BE Scenario with Setup!")
 
