@@ -356,12 +356,10 @@ init -11 python:
 
         if not id:
             id = choice(rchars.keys())
-
-        if id in rchars:
-            data = rchars[id]
-            rg.id = id
-        else:
-            raise Exception("Unknown id {} when creating a random character!".format(id))
+        elif id not in rchars:
+            raise Exception(str("Unknown id %s when creating a random character!" % (id)))
+        data = rchars[id]
+        rg.id = id
 
         # Blocking traits:
         for key in ("blocked_traits", "ab_traits"):
@@ -379,11 +377,13 @@ init -11 python:
             for item in data["random_traits"]:
                 trait, chance = item
                 if dice(chance):
-                    if trait in traits:
-                        rg.apply_trait(traits[trait])
+                    trait = traits.get(trait, None)
+                    if trait is None:
+                        char_debug(str("Unknown trait: %s for random girl: %s!" % (item[0], id)))
+                    elif trait.basetrait:
+                        char_debug(str("Trait: %s for random girl: %s is a basetrait which can not be set this way!" % (trait.id, id)))
                     else:
-                        # Added str() call to avoid cp850 encoding
-                        char_debug("Trait: {} for random girl with id: {} is not a valid trait for this game!".format(str(trait), str(id)))
+                        rg.apply_trait(trait)
 
         # Names/Origin:
         if not name:
@@ -398,13 +398,12 @@ init -11 python:
 
         rg.nickname = rg.name
 
-        if "origin" not in data:
-            rg.origin = choice(["Alkion", "PyTFall", "Crossgate"])
-        else:
-            origin = data["origin"]
-            if isinstance(origin, basestring):
-                origin = [origin]
-            rg.origin = choice(origin)
+        origin = data.get("origin", None)
+        if origin is None:
+            origin = choice(["Alkion", "PyTFall", "Crossgate"])
+        elif not isinstance(origin, basestring):
+            origin = choice(origin)
+        rg.origin = origin
 
         # Status next:
         if set_status is False:
@@ -424,7 +423,7 @@ init -11 python:
                 set_location(rg, locations["City"])
 
         # BASE TRAITS:
-        selection = []
+        selection = None
         if bt_direct:
             selection = bt_direct
         elif bt_go_patterns:
@@ -434,18 +433,17 @@ init -11 python:
         elif bt_preset:
             selection = choice(base_trait_presets[bt_preset])
         else:
-            selection = []
-            selection.extend(base_trait_presets["Combatant"])
-            selection.extend(base_trait_presets["SIW"])
-            selection.extend(base_trait_presets["Maid"])
+            selection = base_trait_presets["Combatant"] + base_trait_presets["SIW"] + base_trait_presets["Maid"]
             selection = choice(selection)
 
-        basetraits = []
+        if len(selection) > 2:
+            selection = random.sample(selection, 2)
+
+        basetraits = set()
         for t in selection:
             if isinstance(t, basestring):
                 t = traits[t]
-            basetraits.append(t)
-        basetraits = set(random.sample(basetraits, min(len(basetraits), 2)))
+            basetraits.add(t)
         rg.traits.basetraits = basetraits
         for t in basetraits:
             rg.apply_trait(t)
@@ -456,16 +454,18 @@ init -11 python:
             if skill in store.battle_skills:
                 rg.default_attack_skill = store.battle_skills[skill]
             else:
-                char_debug(str("%s Random Girl tried to apply unknown battle skill: %s!" % (id, skill)))
+                char_debug(str("Unknown default battle skill: %s for random girl: %s!" % (skill, id)))
 
         if "magic_skills" in data:
-            d = data["magic_skills"]
-            for skill, chance in d:
+            for skill, chance in data["magic_skills"]:
                 if dice(chance):
-                    if skill in store.battle_skills:
-                        rg.magic_skills.append(store.battle_skills[skill])
+                    ms = store.battle_skills.get(skill, None)
+                    if ms is None:
+                        char_debug(str("Unknown magic skill: %s for random girl: %s!" % (skill, id)))
+                    elif ms in rg.magic_skills:
+                        char_debug(str("Magic skill: %s added twice for random girl: %s!" (skill, id)))
                     else:
-                        char_debug(str("%s Random Girl tried to apply unknown battle skill: %s!" % (id, skill)))
+                        rg.magic_skills.append(ms) 
 
         # Rest of the expected data:
         for i in ("gold", "desc", "height", "full_race"):
@@ -475,13 +475,14 @@ init -11 python:
         # Colors in say screen:
         for key in ("color", "what_color"):
             if key in data:
-                if data[key] in globals():
-                    color = getattr(store, data[key])
+                color = data[key]
+                if color in globals():
+                    color = getattr(store, color)
                 else:
                     try:
-                        color = Color(data[key])
+                        color = Color(color)
                     except:
-                        char_debug("{} color supplied to girl {} is an invalid color!".format(str(data[key]), str(id)))
+                        char_debug("Invalid %s: %s for random girl: %s!" % (key, data[key], id))
                         color = ivory
                 rg.say_style[key] = color
 
