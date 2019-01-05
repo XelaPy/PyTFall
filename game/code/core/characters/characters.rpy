@@ -1746,18 +1746,13 @@ init -9 python:
 
             # Items Stats:
             for stat, value in item.mod.items():
+                if item.statmax and getattr(self, stat) >= item.statmax and value > 0:
+                    continue
+
                 # Reverse the value if appropriate:
                 original_value = value
                 if not direction:
                     value = -value
-
-                # This health thing could be handled differently (note for the post-beta refactor)
-                if stat == "health" and self.health + value <= 0:
-                    self.health = 1 # prevents death by accident...
-                    continue
-
-                if original_value >= 0 and item.statmax and getattr(self, stat) >= item.statmax:
-                    continue
 
                 if stat == "gold":
                     if misc_mode and self.status == "slave" and self in hero.chars:
@@ -1791,6 +1786,11 @@ init -9 python:
                                     value *= 2
                                 else:
                                     value *= 1.5
+
+                    # This health thing could be handled differently (note for the post-beta refactor)
+                    if stat == "health" and self.health + value <= 0:
+                        self.health = 1 # prevents death by accident...
+                        continue
 
                     self.mod_stat(stat, int(value))
                 else:
@@ -1872,7 +1872,7 @@ init -9 python:
                     s[1] += data[4]
 
             # Traits:
-            for trait in item.removetraits + item.addtraits:
+            for trait in itertools.chain(item.removetraits, item.addtraits):
                 if trait not in store.traits:
                     char_debug("Item: {} has tried to apply an invalid trait: {}!".format(item.id, trait))
                     continue
@@ -1890,13 +1890,13 @@ init -9 python:
 
             # Effects:
             if hasattr(self, "effects"):
-                if direction:
-                    if item.slot == 'consumable' and item.type == 'food':
+                if item.slot == 'consumable' and direction:
+                    if item.type == 'food':
                         self.up_counter("food_poison_counter", 1)
                         if self.get_flag("food_poison_counter", 0) >= 7 and not ('Food Poisoning' in self.effects):
                             self.enable_effect('Food Poisoning')
 
-                    if item.slot == 'consumable' and item.type == 'alcohol':
+                    elif item.type == 'alcohol':
                         self.up_counter("drunk_counter", item.mod["joy"])
                         if self.get_flag("drunk_counter", 0) >= 35 and not ('Drunk' in self.effects):
                             self.enable_effect('Drunk')
