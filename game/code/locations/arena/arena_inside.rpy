@@ -1244,7 +1244,7 @@ init: # ChainFights vs Mobs:
 
             # Opposing Sprites:
             add hero.show("battle_sprite", resize=(200, 200)) at slide(so1=(-600, 0), t1=.7, eo2=(-1300, 0), t2=.7) align .35, .5
-            add pytfall.arena.cf_mob.show("battle_sprite", resize=(200, 200)) at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7) align .65, .5
+            add pytfall.arena.cf_mob.leader.show("battle_sprite", resize=(200, 200)) at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7) align .65, .5
 
             # Title Text and Boss name if appropriate:
             if pytfall.arena.cf_count == 5:

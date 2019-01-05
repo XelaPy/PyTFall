@@ -895,14 +895,13 @@ init -9 python:
             """Setting up a chainfight.
             """
             # Case: First battle:
-            if not pytfall.arena.cf_mob:
+            if not self.cf_mob:
                 # renpy.hide_screen("arena_inside")
                 renpy.call_screen("chain_fight")
 
-                result = self.result
+                result, self.result = self.result, None
 
                 if result == "break":
-                    self.result = None
                     renpy.show_screen("arena_inside")
                     return
 
@@ -911,18 +910,26 @@ init -9 python:
                     member.AP -= 2
 
                 self.cf_setup = self.chain_fights[result]
-                self.result = None
 
             # Picking an opponent(s):
-            base_level = self.cf_setup["level"]
-            new_level = base_level + base_level*(.1*self.cf_count)
-            new_level = round_int(new_level)
+            num_opps = len(hero.team) 
+            team = Team(name=self.cf_setup.get("id", "Captured Creatures"), max_size=num_opps)
+
+            new_level = self.cf_setup["level"]
+            new_level += new_level*(.1*self.cf_count)
             if self.cf_count == 5: # Boss!
                 new_level = round_int(new_level*1.1) # 10% extra for the Boss!
-                self.cf_mob = build_mob(self.cf_setup["boss"], level=new_level)
-            else: # Nub!
-                self.cf_mob = build_mob(choice(self.cf_setup["mobs"]), level=new_level)
+                team.add(build_mob(self.cf_setup["boss"], level=new_level))
+                num_opps -= 1
+            else:
+                new_level = round_int(new_level)
+ 
+            # Add the same amount of mobs as there characters on the MCs team:
+            for i in range(num_opps):
+                mob = build_mob(choice(self.cf_setup["mobs"]), level=new_level)
+                team.add(mob)
 
+            self.cf_mob = team
             self.mob_power = new_level
 
             luck = 0
@@ -932,12 +939,7 @@ init -9 python:
             luck = float(luck)/len(hero.team)
 
             # Bonus:
-            bonus = False
-
-            if dice(25+self.cf_count*3 + luck*.5):
-                bonus = True
-            else:
-                bonus = False
+            bonus = dice(25+self.cf_count*3 + luck*.5)
 
             # if DEBUG:
             #     bonus = True
@@ -950,14 +952,7 @@ init -9 python:
             """
             Bridge to battle engine + rewards/penalties.
             """
-            team = Team(name=self.cf_setup.get("id", "Captured Creatures"), max_size=len(hero.team))
-            # Add the same amount of mobs as there characters on the MCs team:
-            team.add(self.cf_mob)
-
-            for i in range(len(hero.team)-1):
-                mob = choice(self.cf_setup["mobs"])
-                mob = build_mob(mob, level=self.mob_power)
-                team.add(mob)
+            team = self.cf_mob
 
             renpy.music.stop(channel="world")
             renpy.play(choice(["content/sfx/sound/world/arena/prepare.mp3", "content/sfx/sound/world/arena/new_opp.mp3"]))
