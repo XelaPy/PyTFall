@@ -148,7 +148,7 @@ init -11 python:
 
         # Controllers:
         for member in enemy_team:
-            member.controller = BE_AI(member)
+            member.controller = Complex_BE_AI(member)
 
         global battle
         battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5),

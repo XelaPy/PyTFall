@@ -209,7 +209,6 @@ label city_dark_forest_hideout_fight:
         for i in range(3):
             mob_id = choice(["Samurai", "Warrior", "Archer", "Soldier", "Barbarian", "Orc", "Infantryman", "Thug", "Mercenary", "Dark Elf Archer"])
             mob = build_mob(id=mob_id, level=levels)
-            mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
     $ place = interactions_pick_background_for_fight("forest")
@@ -275,7 +274,6 @@ label city_dark_forest_fight:
         for i in range(et_len):
             mob_id = choice(mob_ids)
             mob = build_mob(id=mob_id, level=levels)
-            mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
     narrator "[msg]"

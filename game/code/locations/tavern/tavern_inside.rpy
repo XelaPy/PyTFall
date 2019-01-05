@@ -269,7 +269,6 @@ label city_tavern_thugs_fight: # fight with random thugs in the brawl mode
         for j in range(randint(2, 3)):
             mob = build_mob(id=random.choice(enemies), level=randint(5, 25))
             mob.front_row = True
-            mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
         back = interactions_pick_background_for_fight("tavern")
         result = run_default_be(enemy_team, background=back,

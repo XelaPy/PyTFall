@@ -9,7 +9,6 @@ init python:
         levels = randint(lvl_ht-2, lvl_ht+5)
         for i in range(min(3, len_ht+randint(0, 1))):
             mob = build_mob(id=mob_id, level=levels)
-            mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
         place = "content/gfx/bg/be/b_dungeon_1.webp"

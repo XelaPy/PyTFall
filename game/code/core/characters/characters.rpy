@@ -2147,7 +2147,7 @@ init -9 python:
             self.battle_sprite = ""
             self.combat_img = ""
 
-            self.controller = BE_AI(self)
+            self.controller = None
 
         @property
         def besprite_size(self):
