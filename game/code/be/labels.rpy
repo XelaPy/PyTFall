@@ -140,8 +140,7 @@ label test_be_logical:
 
         # Reset Controller:
         hero.controller = None
-        n.controller = None
-        h.controller = None
+        enemy_team.reset_controller()
 
     $ tl.end("Logical BE Scenario with Setup!")
 

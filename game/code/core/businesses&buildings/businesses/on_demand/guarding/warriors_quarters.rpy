@@ -347,8 +347,8 @@ init -5 python:
             battle.start_battle()
 
             # Reset the controllers:
-            for i in defenders:
-                i.controller = None
+            defence_team.reset_controller()
+            enemy_team.reset_controller()
 
             # We also should restore the list if there was interruption:
             # if "active_workers_backup" in locals():

@@ -932,8 +932,8 @@ init -6 python: # Guild, Tracker and Log.
             log.battle_log = list(reversed(battle.combat_log))
 
             # Reset the controllers:
-            for i in team:
-                i.controller = None
+            team.reset_controller()
+            opfor.reset_controller()
 
             tracker.points -= 100*len(team)
 

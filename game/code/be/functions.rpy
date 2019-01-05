@@ -100,8 +100,8 @@ init -11 python:
         be_debug("\n\n")
 
         # Reset the controllers:
-        for fighter in chained():
-            fighter.controller = None
+        off_team.reset_controller()
+        def_team.reset_controller()
 
         return battle
 
