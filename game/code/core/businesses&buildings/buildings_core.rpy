@@ -899,7 +899,7 @@ init -10 python:
             elif self.rep <= 600: caste += 3
             elif self.rep <= 800: caste += 4
             else:                 caste += 5
-            caste = ilists.clientCastes[caste]
+            caste = CLIENT_CASTES[caste]
 
             # create random customer
             min_tier = float(max(self.tier-2, .1))

@@ -3032,7 +3032,7 @@ init -9 python:
 
             self.gender = gender
             self.caste = caste
-            self.rank = ilists.clientCastes.index(caste)
+            self.rank = CLIENT_CASTES.index(caste)
             self.regular = False # Regular clients do not get removed from building lists as those are updated.
 
             # Alex, we should come up with a good way to set portrait depending on caste

@@ -438,6 +438,7 @@ init -1 python: # Constants:
     # for f in renpy.list_files():
         # if check_image_extension(f):
             # renpy.image(f, At(f, slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)))
+    CLIENT_CASTES = ['None', 'Peasant', 'Merchant', 'Nomad', 'Wealthy Merchant', 'Clerk', 'Noble', 'Royal']
     EQUIP_SLOTS = ['body', 'head', 'feet', 'wrist', 'amulet',
                    'cape', 'weapon', 'misc', 'ring', 'smallweapon']
     SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand",
