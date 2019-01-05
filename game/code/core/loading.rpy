@@ -87,21 +87,14 @@ init -11 python:
         dirlist = os.listdir(dir)
         content = dict()
 
-        tags_dict = store.tags_dict
-        tagdb = store.tagdb
-
         exist = getattr(store, "chars", {}).keys()
         exist.extend(getattr(store, "npcs", {}).keys())
 
-        for packfolder in dirlist:
-            kind = None
-            if os.path.isdir('/'.join([dir, packfolder])):
-                # Get to a folder with unique girl datafiles and imagefolders:
-                girlfolders = os.listdir('/'.join([dir, packfolder]))
-                for file in girlfolders: # Load data files one after another.
+        # Get to a folder with unique girl datafiles and imagefolders:
+        for packfolder in os.walk(os.path.join(dir,'.')).next()[1]:
+                # Load data files one after another.
+                for file in os.walk(os.path.join(dir, packfolder, '.')).next()[2]:
                     if file.startswith("data") and file.endswith(".json"):
-                        kind = "pytfall_native"
-
                         # Load the file:
                         in_file = os.sep.join([dir, packfolder, file])
                         char_debug("Loading from %s!"%str(in_file)) # Str call to avoid unicode
@@ -293,39 +286,43 @@ init -11 python:
     def load_random_characters():
         dir = content_path('rchars')
         dirlist = os.listdir(dir)
-        random_girls = {}
-        tags_dict = store.tags_dict
+        content = dict()
 
-        char_debug("Loading Random Characters:")
+        #exist = getattr(store, "rchars", {}).keys()
 
         # Loading all rgirls into the game:
-        for packfolder in dirlist:
-            if os.path.isdir(os.sep.join([dir, packfolder])): #if not packfolder.endswith('.gitignore'):
-                girlfolders = os.listdir(os.sep.join([dir, packfolder]))
-                for file in girlfolders:
-                    if file.startswith('data') and file.endswith('.json'):
-                        in_file = os.sep.join([dir, packfolder, file])
-                        char_debug("Loading from %s!"%str(in_file)) # Str call to avoid unicode
-                        with open(in_file) as f:
-                            rgirls = json.load(f)
+        for packfolder in os.walk(os.path.join(dir,'.')).next()[1]:
+            for file in os.walk(os.path.join(dir, packfolder, '.')).next()[2]:
+                if file.startswith('data') and file.endswith('.json'):
+                    # Load the file:
+                    in_file = os.path.join(dir, packfolder, file)
+                    char_debug("Loading from %s!"%str(in_file)) # Str call to avoid unicode
+                    with open(in_file) as f:
+                        rgirls = json.load(f)
 
-                        for gd in rgirls:
-                            # @Review: We will return dictionaries instead of blank instances of rGirl from now on!
-                            # rg = rChar()
-                            if "id" not in gd:
-                                # Only time we throw an error instead of writing to log.
-                                raise Exception("No id was specified in %s JSON Datafile!" % str(in_file))
+                    for gd in rgirls:
+                        # @Review: We will return dictionaries instead of blank instances of rGirl from now on!
+                        # rg = rChar()
+                        if "id" not in gd:
+                            # Only time we throw an error instead of writing to log.
+                            raise Exception("No id was specified in %s JSON Datafile!" % str(in_file))
 
-                            folder = gd["id"]
+                        folder = id = gd["id"]
 
-                            random_girls[folder] = gd
+                        # We load the new tags!:
+                        _path = os.path.join(dir, packfolder, folder)
+                        if os.path.isdir(_path):
+                            load_tags_folder(folder, _path)
 
-                            # Set the path to the folder:
-                            random_girls[folder]["_path_to_imgfolder"] = "/".join(["content/rchars", packfolder, folder])
-                            # We load the new tags!:
-                            load_tags_folder(folder, os.sep.join([dir, packfolder, folder]))
+                        #if id in exist:
+                        #    continue
 
-        return random_girls
+                        # Set the path to the folder:
+                        gd["_path_to_imgfolder"] = os.path.join("content", "rchars", packfolder, folder)
+
+                        content[id] = gd
+
+        return content
 
     def load_special_arena_fighters():
         exist = getattr(store, "female_fighters", {}).keys()
