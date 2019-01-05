@@ -99,11 +99,11 @@ init -9 python:
 
             # Ensure stats in girlmod
             if girlmod:
-                if "health" not in girlmod: girlmod["health"] = 0
-                if "vitality" not in girlmod: girlmod["vitality"] = 0
-                if "joy" not in girlmod: girlmod["joy"] = 0
-                if "disposition" not in girlmod: girlmod["dosposition"] = 0
-                if "exp" not in girlmod: girlmod["exp"] = 0
+                girlmod.setdefault("health", 0)
+                girlmod.setdefault("vitality", 0)
+                girlmod.setdefault("joy", 0)
+                girlmod.setdefault("disposition", 0)
+                girlmod.setdefault("exp", 0)
 
             be_kwargs = dict() if be_kwargs is None else be_kwargs
             # Get traits
