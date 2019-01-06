@@ -83,15 +83,18 @@ init -5 python:
                     worker = choice(workers)
                     cheered_up_workers.add(worker)
 
-                    if check_stat_perc(w, "joy", .5):
-                        handle = "tired"
-                    else:
-                        handle = "sad"
                     temp0 = "\n{} noticed that {} looks a bit {}.".format(manager.nickname,
                                                     worker.nickname, handle)
 
                     give_joy = check_stat_perc(worker, "joy", .5)
                     give_vit = check_stat_perc(worker, "vitality", .3)
+                    if give_joy:
+                        handle = "sad"
+                    else:
+                        handle = "tired"
+                    temp0 = "\n{} noticed that {} looks a bit {}.".format(manager.nickname,
+                                                    worker.nickname, handle)
+
                     if give_joy and give_vit:
                         bonus_str = "(+10% Joy, +15% Vitality)"
                         mod_by_max(worker, "joy", .1)
