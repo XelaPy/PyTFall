@@ -69,7 +69,7 @@ init -5 python:
                     if not make_nd_report_at:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env and wlen:
+                        if wlen:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
                                             set_font_color(wlen, wlen_color), building.name)
                             self.log(temp)
@@ -89,7 +89,9 @@ init -5 python:
                     else:
                         for w in workers.copy():
                             value = w.flag(power_flag_name)
-                            building.clean(value)
+
+                            building.dirt += value
+                            simpy_debug("%s: Cleaning value: %s, remaining dirt: %s", self.env.now, value, building.dirt)
 
                             dirt_cleaned += value
                             cleaners.add(w)

@@ -417,11 +417,6 @@ init -10 python:
 
             return round_int(dirt), dirt_string
 
-        def clean(self, value):
-            self.dirt += value
-            if self.env:
-                simpy_debug("%s: Clean Function: value: %s, self.dirt: %s", self.env.now, value, self.dirt)
-
         def nd_log_stats(self):
             # Get a list of stats, usually all 4.
             diff = OrderedDict()

@@ -77,7 +77,7 @@ init -5 python:
                     if not make_nd_report_at:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env and wlen:
+                        if wlen:
                             temp = "{}: {} Workers have started to guard {}!".format(self.env.now,
                                       set_font_color(wlen, "red"), building.name)
                             self.log(temp)
