@@ -27,9 +27,9 @@ init -998 python:
     # SimPy:
     DEBUG_SIMPY = True
     DEBUG_SIMPY_ND_BUILDING_REPORT = DSNBR = False
-    def simpy_debug(msg):
+    def simpy_debug(msg, *args):
         if DEBUG_SIMPY:
-            devlog.info("|SIMPY DEBUG| {}".format(msg))
+            devlog.info("|SIMPY DEBUG| {}".format(msg), *args)
 
     DEBUG_ND = False
     def nd_debug(msg, mode="info"):

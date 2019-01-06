@@ -62,7 +62,7 @@ init -5 python:
 
         while (1):
             yield env.timeout(1)
-            simpy_debug("Entering manager_process at {}".format(env.now))
+            simpy_debug("Entering manager_process at %s", env.now)
             # Special direct bonus to tired/sad characters
             c0 = building.cheering_up
             c1 = not env.now % 5
@@ -110,7 +110,7 @@ init -5 python:
 
                     manager.jobpoints -= 10
 
-            simpy_debug("Exiting manager_process at {}".format(env.now))
+            simpy_debug("Exiting manager_process at %s", env.now)
 
 
     def mp_init_jp_bonus(manager, building, effectiveness, log):

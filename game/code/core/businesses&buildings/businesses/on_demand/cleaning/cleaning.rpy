@@ -39,7 +39,7 @@ init -5 python:
             workers = strict_workers.copy() # cleaners on active duty
 
             while 1:
-                simpy_debug("Entering Cleaners.business_control iteration at {}".format(self.env.now))
+                simpy_debug("Entering Cleaners.business_control iteration at %s", self.env.now)
 
                 dirt = building.dirt
                 if DSNBR and not self.env.now % 5:
@@ -124,11 +124,11 @@ init -5 python:
                         workers -= extra
                         building.available_workers[0:0] = list(extra)
 
-                simpy_debug("Exiting Cleaners.business_control iteration at {}".format(self.env.now))
+                simpy_debug("Exiting Cleaners.business_control iteration at %s", self.env.now)
                 yield self.env.timeout(1)
 
         def write_nd_report(self, strict_workers, all_workers, dirt_cleaned):
-            simpy_debug("Entering Cleaners.write_nd_report at {}".format(self.env.now))
+            simpy_debug("Entering Cleaners.write_nd_report at %s", self.env.now)
 
             job, loc = self.job, self.building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
@@ -208,4 +208,4 @@ init -5 python:
             log.after_job()
             NextDayEvents.append(log)
 
-            simpy_debug("Exiting Cleaners.write_nd_report at {}".format(self.env.now))
+            simpy_debug("Exiting Cleaners.write_nd_report at %s", self.env.now)

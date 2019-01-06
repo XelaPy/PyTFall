@@ -420,7 +420,7 @@ init -10 python:
         def clean(self, value):
             self.dirt += value
             if self.env:
-                simpy_debug("{}: Clean Function: value: {}, self.dirt: {}".format(self.env.now, value, self.dirt))
+                simpy_debug("%s: Clean Function: value: %s, self.dirt: %s", self.env.now, value, self.dirt)
 
         def nd_log_stats(self):
             # Get a list of stats, usually all 4.
@@ -1053,7 +1053,7 @@ init -10 python:
                 temp = "\n{color=[green]}%d =========>>>{/color}" % (env.now)
                 self.log(temp)
                 yield env.timeout(1)
-                simpy_debug("{} DU Executing =====================>>>".format(env.now))
+                simpy_debug("%s DU Executing =====================>>>", env.now)
 
                 # Delete the line if nothing happened on this turn:
                 if self.nd_events_report[-1] == temp:
@@ -1115,7 +1115,7 @@ init -10 python:
             rush_hour_step = self.total_clients*.5/30
 
             while (1):
-                simpy_debug("Entering PublicBusiness({}).client_dispatcher iteration at {}".format(self.name, self.env.now))
+                simpy_debug("Entering PublicBusiness(%s).client_dispatcher iteration at %s", self.name, self.env.now)
 
                 if self.env.now >= end:
                     break
@@ -1140,7 +1140,7 @@ init -10 python:
 
                 if DSNBR:
                     devlog.info("Client Distribution running: {}".format(running))
-                simpy_debug("Exiting PublicBusiness({}).client_dispatcher iteration at {}".format(self.name, self.env.now))
+                simpy_debug("Exiting PublicBusiness(%s).client_dispatcher iteration at %s", self.name, self.env.now)
                 yield self.env.timeout(1)
 
         def client_manager(self, client, has_garden=False):
