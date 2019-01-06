@@ -340,14 +340,14 @@ init -12 python:
         def inactive_process(self):
             temp = "{} is currently inactive, no actions will be conducted here!".format(self.name)
             self.log(temp)
-            yield self.env.timeout(100)
+            #yield self.env.timeout(100)
 
         # SimPy:
         def business_control(self):
             """SimPy business controller.
             """
-            while 1:
-                yield self.env.timeout(100)
+            while (1):
+                break #yield self.env.timeout(100)
 
         # Business MainUpgrade related:
         def add_upgrade(self, upgrade, pay=False):
@@ -556,13 +556,12 @@ init -12 python:
         def business_control(self):
             """This runs the club as a SimPy process from start to the end.
             """
-            counter = 0
+            #counter = 0
             building = self.building
-            tier = building.tier
+            #tier = building.tier
 
             while 1:
                 simpy_debug("Entering PublicBusiness({}).business_control iteration at {}".format(self.name, self.env.now))
-                every_5_du = not self.env.now % 5
 
                 if self.send_in_worker: # Sends in workers when needed!
                     new_workers_required = max(1, len(self.clients_waiting)/5)
@@ -576,8 +575,6 @@ init -12 python:
                     for i in range(new_workers_required):
                         self.add_worker()
                     self.send_in_worker = False
-
-                yield self.env.timeout(1)
 
                 # Could be flipped to a job Brawl event?:
                 # if False:
@@ -596,7 +593,8 @@ init -12 python:
                 #         self.env.process(u.intercept(interrupted=True))
                 # =====================================>>>
 
-                if every_5_du:
+                # Every 5 DU
+                if not self.env.now % 5:
                     if DSNBR:
                         temp = "Debug: {} capacity is currently in use.".format(
                                 set_font_color(self.res.count, "red"))
@@ -612,6 +610,7 @@ init -12 python:
                         break
 
                 simpy_debug("Exiting PublicBusiness({}).business_control iteration at {}".format(self.name, self.env.now))
+                yield self.env.timeout(1)
 
             # We remove the business from nd if there are no more strippers to entertain:
             temp = "There are no workers available in the {} so it is shutting down!".format(self.name)
