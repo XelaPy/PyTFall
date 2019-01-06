@@ -255,16 +255,17 @@ init -1 python: # Core classes:
             # Plainly sets allegiance of chars to their teams.
             # Allegiance may change during the fight (confusion skill for example once we have one).
             # I've also included part of team/char positioning logic here.
+            pos = "l"
             for team in self.teams:
-                team.position = "l" if not self.teams.index(team) else "r"
-                for char in team:
+                team.position = pos
+                size = len(team)
+                for idx, char in enumerate(team.members):
                     # Position:
-                    char.beteampos = team.position
-                    char_index = team.members.index(char)
-                    if len(team) == 3 and char_index < 2:
-                        char_index = not int(bool(char_index))
-                    char.beinx = char_index
-                    if team.position == "l":
+                    char.beteampos = pos
+                    if size == 3 and idx < 2:
+                        idx = 1 - idx
+                    char.beinx = idx
+                    if pos == "l":
                         char.row = int(char.front_row)
                     else: # Case "r"
                         char.row = 2 if char.front_row else 3
@@ -274,6 +275,8 @@ init -1 python: # Core classes:
 
                     if not self.logical:
                         char.stats.update_delayed()
+
+                pos = "r"
 
         def end_battle(self):
             """Ends the battle, trying to normalize any variables that may have been used during the battle.
@@ -482,22 +485,29 @@ init -1 python: # Core classes:
             # For now this assumes that team indexed 0 is player team.
             if self.terminate:
                 return True
-            elif self.combat_status in ("escape", "surrender"):
+            if self.combat_status in ("escape", "surrender"):
                 self.win = False
                 self.winner = self.teams[1]
                 return True
-            elif self.logical and self.logical_counter >= self.max_turn:
+            if self.logical and self.logical_counter >= self.max_turn:
                 self.winner = self.teams[1]
                 self.log("Battle went on for far too long! %s is considered the winner!" % self.winner.name)
                 return True
-            elif len(self.teams[1]) == len(self.get_fighters(state="dead", rows=(2, 3))):
-                self.winner = self.teams[0]
-                self.win = True
-                self.log("%s is victorious!" % self.winner.name)
-                return True
-            elif len(self.teams[0]) == len(self.get_fighters(state="dead", rows=(0, 1))):
+            team0 = len(self.teams[0])
+            team1 = len(self.teams[1])
+            for c in self.corpses:
+                if c.row < 2:
+                    team0 -= 1
+                else:
+                    team1 -= 1
+            if team0 == 0:
                 self.winner = self.teams[1]
                 self.win = False
+                self.log("%s is victorious!" % self.winner.name)
+                return True
+            if team1 == 0:
+                self.winner = self.teams[0]
+                self.win = True
                 self.log("%s is victorious!" % self.winner.name)
                 return True
 
@@ -1013,7 +1023,7 @@ init -1 python: # Core classes:
             if t.row == 3:
                 if battle.get_fighters(rows=[2]) and not self.true_pierce:
                     return True
-            if t.row == 0:
+            elif t.row == 0:
                 if battle.get_fighters(rows=[1]) and not self.true_pierce:
                     return True
 
