@@ -502,8 +502,7 @@ init -1 python: # Core classes:
                 return True
 
         def get_all_events(self):
-            # returns a list of all events on this battle field:
-            return self.start_turn_events + self.mid_turn_events + self.end_turn_events
+            return itertools.chain(self.start_turn_events, self.mid_turn_events, self.end_turn_events)
 
 
     class BE_Event(_object):
@@ -740,31 +739,32 @@ init -1 python: # Core classes:
 
             # First figure out all targets within the range:
             # We calculate this by assigning.
-            target_rows = range(char.row - self.range, char.row + 1 + self.range)
+            rows_from, rows_to = char.row - self.range, char.row + self.range
             all_targets = battle.get_fighters(self.target_state)
-            in_range = set(f for f in all_targets if f.row in target_rows)
+            in_range = [f for f in all_targets if rows_from <= f.row <= rows_to]
 
-            if any(t for t in in_range if isinstance(t, basestring)):
-                raise Exception(in_range)
+            #if DEBUG_BE:
+            #    if any(t for t in in_range if isinstance(t, basestring)):
+            #        raise Exception(in_range)
 
             # Lets handle the piercing (Or not piercing since piercing attacks include everyone in range already):
             if not self.piercing:
-                if char.row in [0, 1]:
+                if char.row < 2:
                     # Source is on left team:
                     # We need to check if there is at least one member on the opposing front row and if true, remove everyone in the back.
-                    if battle.get_fighters(rows=[2]):
+                    if (f for f in in_range if f.row == 2):
                         # opfor has a defender:
                         # we need to remove everyone from the back row:
                         in_range = [f for f in in_range if f.row != 3]
                 else:
-                    if battle.get_fighters(rows=[1]):
+                    if (f for f in in_range if f.row == 1):
                         in_range = [f for f in in_range if f.row != 0]
 
             # Now the type, we just care about friends and enemies:
-            if self.type in ["all_enemies", "se"]:
-                in_range = set([f for f in in_range if char.allegiance != f.allegiance])
-            elif self.type in ["all_allies", "sa"]:
-                in_range = set([f for f in in_range if char.allegiance == f.allegiance])
+            if self.type in ("all_enemies", "se"):
+                in_range = [f for f in in_range if char.allegiance != f.allegiance]
+            elif self.type in ("all_allies", "sa"):
+                in_range = [f for f in in_range if char.allegiance == f.allegiance]
 
             # In a perfect world, we're done, however we have to overwrite normal
             # rules if no targets are found and backrow can hit over it's own range (for example):
@@ -775,34 +775,33 @@ init -1 python: # Core classes:
                     # Case: Fighter in backrow and there is no defender on own team:
                     if not battle.get_fighters(rows=[1]):
                         # but there is at least one on the opfor:
-                        if battle.get_fighters(rows=[2]):
-                            in_range = in_range.union(battle.get_fighters(rows=[2]))
-                        # else, there is are no defenders at all anywhere...
-                        else:
-                            in_range = in_range.union(battle.get_fighters(rows=[3]))
+                        in_range = battle.get_fighters(rows=[2])
+                        if not in_range:
+                            # else, there is are no defenders at all anywhere...
+                            in_range = battle.get_fighters(rows=[3])
                 elif char.row == 1:
                     if not battle.get_fighters(rows=[2]):
                         # We add everyone in the back row for target practice :)
-                        in_range = in_range.union(battle.get_fighters(rows=[3]))
+                        in_range = battle.get_fighters(rows=[3])
                 elif char.row == 2:
                     if not battle.get_fighters(rows=[1]):
                         # We add everyone in the back row for target practice :)
-                        in_range = in_range.union(battle.get_fighters(rows=[0]))
+                        in_range = battle.get_fighters(rows=[0])
                 elif char.row == 3:
                     if not battle.get_fighters(rows=[1]) and self.range > 1:
                         # We add everyone in the back row for target practice :)
-                        in_range = in_range.union(battle.get_fighters(rows=[0]))
+                        in_range = battle.get_fighters(rows=[0])
                     # Case: Fighter in backrow and there is no defender on own team,
                     if not battle.get_fighters(rows=[2]):
                         # but there is at least one on the opfor:
                         if battle.get_fighters(rows=[1]):
-                            in_range = in_range.union(battle.get_fighters(rows=[1]))
+                            in_range = battle.get_fighters(rows=[1])
                         # else, there is are no defenders at all anywhere...
                         else:
-                            in_range = in_range.union(battle.get_fighters(rows=[0]))
+                            in_range = battle.get_fighters(rows=[0])
 
-            # And we need to check for dead people again... better code is needed to avoid cr@p like this in the future:
-            in_range = [i for i in in_range if i in all_targets]
+                # And we need to check for dead people again... better code is needed to avoid cr@p like this in the future:
+                in_range = [i for i in in_range if i in all_targets]
 
             # @Review: Prevent AI from casting the same Buffs endlessly:
             # Note that we do not have a concrete setup for buffs yet so this
