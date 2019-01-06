@@ -739,8 +739,24 @@ init -1 python: # Core classes:
 
             # First figure out all targets within the range:
             # We calculate this by assigning.
-            rows_from, rows_to = char.row - self.range, char.row + self.range
             all_targets = battle.get_fighters(self.target_state)
+            left_front_row_empty = not (f for f in all_targets if f.row == 1)
+            right_front_row_empty = not (f for f in all_targets if f.row == 2)
+            range = self.range
+            if left_front_row_empty:
+                # 'move' closer because of an empty row
+                range += 1
+            elif char.row == 0 and self.range == 1:
+                # allow to reach over a teammate
+                range += 1
+            if right_front_row_empty:
+                # 'move' closer because of an empty row
+                range += 1
+            elif char.row == 3 and self.range == 1:
+                # allow to reach over a teammate
+                range += 1
+
+            rows_from, rows_to = char.row - range, char.row + range
             in_range = [f for f in all_targets if rows_from <= f.row <= rows_to]
 
             #if DEBUG_BE:
@@ -752,12 +768,12 @@ init -1 python: # Core classes:
                 if char.row < 2:
                     # Source is on left team:
                     # We need to check if there is at least one member on the opposing front row and if true, remove everyone in the back.
-                    if (f for f in in_range if f.row == 2):
+                    if not right_front_row_empty:
                         # opfor has a defender:
                         # we need to remove everyone from the back row:
                         in_range = [f for f in in_range if f.row != 3]
                 else:
-                    if (f for f in in_range if f.row == 1):
+                    if not left_front_row_empty:
                         in_range = [f for f in in_range if f.row != 0]
 
             # Now the type, we just care about friends and enemies:
@@ -768,40 +784,40 @@ init -1 python: # Core classes:
 
             # In a perfect world, we're done, however we have to overwrite normal
             # rules if no targets are found and backrow can hit over it's own range (for example):
-            if not in_range: # <== We need to run "frenemy" code prior to this!
-                # Another step is to allow any range > 1 backrow attack and any frontrow attack hitting backrow of the opfor...
-                # and... if there is noone if front row, allow longer reach fighters in backrow even if their range normally would not allow it.
-                if char.row == 0:
-                    # Case: Fighter in backrow and there is no defender on own team:
-                    if not battle.get_fighters(rows=[1]):
-                        # but there is at least one on the opfor:
-                        in_range = battle.get_fighters(rows=[2])
-                        if not in_range:
-                            # else, there is are no defenders at all anywhere...
-                            in_range = battle.get_fighters(rows=[3])
-                elif char.row == 1:
-                    if not battle.get_fighters(rows=[2]):
-                        # We add everyone in the back row for target practice :)
-                        in_range = battle.get_fighters(rows=[3])
-                elif char.row == 2:
-                    if not battle.get_fighters(rows=[1]):
-                        # We add everyone in the back row for target practice :)
-                        in_range = battle.get_fighters(rows=[0])
-                elif char.row == 3:
-                    if not battle.get_fighters(rows=[1]) and self.range > 1:
-                        # We add everyone in the back row for target practice :)
-                        in_range = battle.get_fighters(rows=[0])
-                    # Case: Fighter in backrow and there is no defender on own team,
-                    if not battle.get_fighters(rows=[2]):
-                        # but there is at least one on the opfor:
-                        if battle.get_fighters(rows=[1]):
-                            in_range = battle.get_fighters(rows=[1])
-                        # else, there is are no defenders at all anywhere...
-                        else:
-                            in_range = battle.get_fighters(rows=[0])
+            #if not in_range: # <== We need to run "frenemy" code prior to this!
+            #    # Another step is to allow any range > 1 backrow attack and any frontrow attack hitting backrow of the opfor...
+            #    # and... if there is noone if front row, allow longer reach fighters in backrow even if their range normally would not allow it.
+            #    if char.row == 0:
+            #        # Case: Fighter in backrow and there is no defender on own team:
+            #        if not battle.get_fighters(rows=[1]):
+            #            # but there is at least one on the opfor:
+            #            in_range = battle.get_fighters(rows=[2])
+            #            if not in_range:
+            #                # else, there is are no defenders at all anywhere...
+            #                in_range = battle.get_fighters(rows=[3])
+            #    elif char.row == 1:
+            #        if not battle.get_fighters(rows=[2]):
+            #            # We add everyone in the back row for target practice :)
+            #            in_range = battle.get_fighters(rows=[3])
+            #    elif char.row == 2:
+            #        if not battle.get_fighters(rows=[1]):
+            #            # We add everyone in the back row for target practice :)
+            #            in_range = battle.get_fighters(rows=[0])
+            #    elif char.row == 3:
+            #        if not battle.get_fighters(rows=[1]) and self.range > 1:
+            #            # We add everyone in the back row for target practice :)
+            #            in_range = battle.get_fighters(rows=[0])
+            #        # Case: Fighter in backrow and there is no defender on own team,
+            #        if not battle.get_fighters(rows=[2]):
+            #            # but there is at least one on the opfor:
+            #            if battle.get_fighters(rows=[1]):
+            #                in_range = battle.get_fighters(rows=[1])
+            #            # else, there is are no defenders at all anywhere...
+            #            else:
+            #                in_range = battle.get_fighters(rows=[0])
 
-                # And we need to check for dead people again... better code is needed to avoid cr@p like this in the future:
-                in_range = [i for i in in_range if i in all_targets]
+            #    # And we need to check for dead people again... better code is needed to avoid cr@p like this in the future:
+            #    in_range = [i for i in in_range if i in all_targets]
 
             # @Review: Prevent AI from casting the same Buffs endlessly:
             # Note that we do not have a concrete setup for buffs yet so this
