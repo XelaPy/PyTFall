@@ -61,12 +61,12 @@ init -5 python:
         cheered_up_workers = set()
 
         while (1):
-            yield env.timeout(1)
+            yield env.timeout(5)
             simpy_debug("Entering manager_process at %s", env.now)
             # Special direct bonus to tired/sad characters
             c0 = building.cheering_up
-            c1 = not env.now % 5
-            if c0 and c1 and all([
+            #c1 = not env.now % 5
+            if c0 and all([
                     manager.jobpoints > 10,
                     dice(effectiveness-50)]):
                 workers = [w for w in building.available_workers if
