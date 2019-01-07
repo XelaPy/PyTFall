@@ -199,9 +199,9 @@ init -9 python:
                     for fighter in team:
                         fighters.add(fighter)
             elif dogfights == "all":
-                fighters = fighters.union(self.get_dogfights_fighters(dogfights="1v1"))
-                fighters = fighters.union(self.get_dogfights_fighters(dogfights="2v2"))
-                fighters = fighters.union(self.get_dogfights_fighters(dogfights="3v3"))
+                fighters = self.get_dogfights_fighters(dogfights="1v1")
+                fighters.update(self.get_dogfights_fighters(dogfights="2v2"))
+                fighters.update(self.get_dogfights_fighters(dogfights="3v3"))
 
             return fighters
 
@@ -231,7 +231,8 @@ init -9 python:
 
             restore_battle_stats(fighter)
 
-        def check_if_team_ready_for_dogfight(self, unit):
+        @staticmethod
+        def check_if_team_ready_for_dogfight(unit, dogfighters):
             """
             Checks if a team/fighter is ready for dogfight by eliminating them on grounds of health, scheduled matches, presense in other dogfights or lack of AP.
             """
@@ -243,7 +244,7 @@ init -9 python:
                         return False
                     if member.AP < 2:
                         return False
-                if unit in list(itertools.chain(self.dogfights_1v1, self.dogfights_2v2, self.dogfights_3v3)):
+                if unit in dogfighters:
                     return False
 
             else:   # Any single fighter.
@@ -253,7 +254,7 @@ init -9 python:
                     return False
                 if unit.AP < 2:
                     return False
-                if unit in self.get_dogfights_fighters():
+                if unit in dogfighters:
                     return False
 
             return True
@@ -303,7 +304,7 @@ init -9 python:
 
             # 1v1
             if len(self.dogfights_1v1) < 20:
-                dogfighters = list(self.get_dogfights_fighters("all"))
+                dogfighters = self.get_dogfights_fighters()
                 candidates = [f for f in self.arena_fighters.values() if f not in dogfighters]
                 chars_fighters = self.get_arena_candidates_from_chars()
                 chars_fighters = [f for f in chars_fighters if f not in dogfighters]
@@ -1124,7 +1125,7 @@ init -9 python:
             return reward
 
         # -------------------------- Battle/Next Day ------------------------------->
-        @staticmethod 
+        @staticmethod
         def arena_rep_reward(loser, winner):
             return max(0.0, (loser.get_rep() - (winner.get_rep() / 2)) / 10.0) 
 
@@ -1448,9 +1449,9 @@ init -9 python:
             # 1v1:
             tl.start("Arena: Dogfights")
             opfor_pool = list()
-
+            dogfighters = self.get_dogfights_fighters()
             for fighter in self.get_arena_fighters():
-                if self.check_if_team_ready_for_dogfight(fighter):
+                if self.check_if_team_ready_for_dogfight(fighter, dogfighters):
                     opfor_pool.append(fighter)
 
             shuffle(opfor_pool)
@@ -1468,7 +1469,7 @@ init -9 python:
             opfor_pool = list()
 
             for team in self.teams_2v2:
-                if self.check_if_team_ready_for_dogfight(team):
+                if self.check_if_team_ready_for_dogfight(team, self.dogfights_2v2):
                     opfor_pool.append(team)
 
             shuffle(opfor_pool)
@@ -1484,7 +1485,7 @@ init -9 python:
             opfor_pool = list()
 
             for team in self.teams_3v3:
-                if self.check_if_team_ready_for_dogfight(team):
+                if self.check_if_team_ready_for_dogfight(team, self.dogfights_3v3):
                     opfor_pool.append(team)
 
             shuffle(opfor_pool)
