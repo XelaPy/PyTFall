@@ -834,12 +834,13 @@ init -1 python: # Core classes:
             # is coded to be safe.
             if char.controller is not None:
                 # a character controller by an AI
-                buff_group = getattr(self, "buff_group", "no_buff_group")
-                for target in in_range[:]:
-                    for ev in store.battle.get_all_events():
-                        if target == ev.target and getattr(ev, "group", "no_group") == buff_group:
-                            in_range.remove(target)
-                            break
+                buff_group = getattr(self, "buff_group", None)
+                if buff_group is not None:
+                    for target in in_range[:]:
+                        for ev in store.battle.get_all_events():
+                            if target == ev.target and getattr(ev, "group", "no_group") == buff_group:
+                                in_range.remove(target)
+                                break
 
             return in_range # List: So we can support indexing...
 
