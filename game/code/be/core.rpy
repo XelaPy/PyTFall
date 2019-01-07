@@ -837,7 +837,7 @@ init -1 python: # Core classes:
                 buff_group = getattr(self, "buff_group", "no_buff_group")
                 for target in in_range[:]:
                     for ev in store.battle.get_all_events():
-                        if getattr(ev, "group", "no_group") == buff_group:
+                        if target == ev.target and getattr(ev, "group", "no_group") == buff_group:
                             in_range.remove(target)
                             break
 
