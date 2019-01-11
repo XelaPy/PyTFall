@@ -167,6 +167,8 @@ label building_management_loop:
                             i.dirt = 0
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
+                elif result[1] == "toggle_clean":
+                    building.auto_clean = 90 if building.auto_clean == 100 else 100
                 elif result[1] == "rename_building":
                     building.name = renpy.call_screen("pyt_input", default=building.name, text="Enter Building name:")
                 elif result[1] == "retrieve_jail":
@@ -874,12 +876,9 @@ init:
                                 value FieldValue(building, "auto_clean", 99, style='scrollbar', offset=0, step=1)
                                 thumb 'content/gfx/interface/icons/move15.png'
                                 tooltip "Cleaners are called if dirt is more than %d%%" % building.auto_clean 
-                        python:
-                            def toggleClean(building):
-                                building.auto_clean = 90 if building.auto_clean == 100 else 100 
                         button:
                             xalign 1.0
-                            action Function(toggleClean, building)
+                            action Return(['maintenance', "toggle_clean"])
                             selected building.auto_clean != 100
                             tooltip "Toggle automatic hiring of cleaners"
                             text "Auto"
