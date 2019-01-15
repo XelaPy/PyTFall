@@ -405,6 +405,26 @@ label interaction_sex_scene_choice:
             $ sex_prelude = True
             jump interactions_sex_scene_logic_part
 
+        "Cuddle her":
+            $ current_action = "hug"
+            jump interactions_sex_scene_logic_part
+
+        "French kiss":
+            $ current_action = "kiss"
+            jump interactions_sex_scene_logic_part
+
+        "Caress her tits":
+            $ current_action = "caresstits"
+            jump interactions_sex_scene_logic_part
+
+        "Finger her pussy":
+            $ current_action = "fingervag"
+            jump interactions_sex_scene_logic_part
+
+        "Lick her pussy":
+            $ current_action = "lickvag"
+            jump interactions_sex_scene_logic_part
+
         "Ask for a blowjob":
             $ current_action = "blow"
             jump interactions_sex_scene_logic_part
@@ -744,26 +764,31 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         $ char.vitality -= randint(5, 25)
         $ char.joy -= randint(3, 6)
     $ char.health = max(1, char.health - 2)
-    if current_action != "strip":
+    if current_action not in ["hug", "kiss", "caresstits", "strip"]:
         $ sex_count += 1
-    if current_action in ["blow", "tits", "hand", "foot", "vag", "anal"] and "Mana Source" in hero.traits:
-        $ char.mp += int(char.get_max("mp")*.5)
-    if current_action == "mast":
-        $ get_single_sex_picture(char, act="masturbation", location=sex_scene_location, hidden_partner=True)
+        if current_action in ["blow", "tits", "hand", "foot", "vag", "anal"] and "Mana Source" in hero.traits:
+            $ char.mp += int(char.get_max("mp")*.5)
+
+    if current_action == "hug":
+        $ get_single_sex_picture(char, act="hug", location=sex_scene_location, hidden_partner=True)
         if char.has_flag("raped_by_player"):
-            "She pleasures herself briefly, hesitantly avoiding your glance."
+            "You can feel her tense up as you put your arm around her."
         else:
-            if sub > 0:
-                "She leisurely pleasures herself for a while, seductively glancing at you."
-            elif sub < 0:
-                "She diligently pleasures herself for a while until you tell her to stop."
-            else:
-                "She pleasures herself briefly, hesitantly avoiding your glance."
-            if dice(60):
-                extend " She is more aroused now."
+            "[char.name] feels comfortable in your arms. Her chest moves up and down as she breaths."
+            if dice(30):
+                extend " You can feel her heart starts to beat faster. She is more aroused now."
+                $ sex_scene_libido += 1
+
+    elif current_action == "kiss":
+        $ get_single_sex_picture(char, act="kiss", location=sex_scene_location, hidden_partner=True)
+        if char.has_flag("raped_by_player"):
+            "Her lips are closed tightly. You have to force your tongue to reach inside."
+        else:
+            "Her soft lips welcoming your approach. Your gently move around, back and forth in her mouth."
+            if dice(45):
+                extend " You don't have to wait too long for a response. She is more aroused now."
                 $ sex_scene_libido += 2
-        $ char.vitality -= randint(5, 10)
-        $ mast_count +=1
+
     elif current_action == "strip":
         $ get_single_sex_picture(char, act="stripping", location=sex_scene_location, hidden_partner=True)
 
@@ -788,6 +813,94 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             "She tried her best, but the moves were quite clumsy and unnatural. At least she learned something new today."
         else:
             "It looks like [char.name] barely knows what she's doing. Even just standing still without clothes would have made a better impression."
+
+    elif current_action == "mast":
+        $ get_single_sex_picture(char, act="masturbation", location=sex_scene_location, hidden_partner=True)
+        if char.has_flag("raped_by_player"):
+            "She pleasures herself briefly, hesitantly avoiding your glance."
+        else:
+            if sub > 0:
+                "She leisurely pleasures herself for a while, seductively glancing at you."
+            elif sub < 0:
+                "She diligently pleasures herself for a while until you tell her to stop."
+            else:
+                "She pleasures herself briefly, hesitantly avoiding your glance."
+            if dice(60):
+                extend " She is more aroused now."
+                $ sex_scene_libido += 2
+        $ char.vitality -= randint(5, 10)
+        $ mast_count +=1
+
+    elif current_action == "caresstits":
+        $ get_single_sex_picture(char, act="caresstits", location=sex_scene_location, hidden_partner=True)
+        if char.has_flag("raped_by_player"):
+            "You grab her tits with force."
+            if ct("Big Boobs"):
+                extend " You squeeze as much as you can."
+            elif ct("Abnormally Large Boobs"):
+                extend " Your hands are not big enough to hold her enormous breasts in place."
+            elif ct("Small Boobs"):
+                extend " You can barely feel them at all."
+            else:
+                extend " They feel cold but hard."
+        else:
+            "You hold her breast in your hands. [char.name] looks into your eyes with much expectation."
+            if ct("Big Boobs"):
+                extend " It feels nice to play around with those beautiful peaches."
+            elif ct("Abnormally Large Boobs"):
+                extend " Your fingers dig deep into her enormous breasts."
+            elif ct("Small Boobs"):
+                extend " You can feel as her nips became hard."
+            else:
+                extend " Her apples fit perfectly."
+            $ sex_scene_libido += 1
+        $ char.vitality -= randint(1, 5)
+
+    elif current_action == "fingervag":
+        $ get_single_sex_picture(char, act="vaginalfingering", location=sex_scene_location, hidden_partner=True)
+        $ image_tags = gm.img.get_image_tags()
+        $ skill_for_checking = 2 * char.get_skill("sex")
+        if ct("Lesbian"):
+            $ skill_for_checking *= .8
+        $ male_skill_for_checking = hero.get_skill("refinement") + hero.get_skill("sex")
+        $ temp = randint(1, 5)
+        if (skill_for_checking - male_skill_for_checking) > 250 and dice(75):
+            $ temp += randint(1, 5)
+        $ hero.sex += temp
+        $ char.sex += randint(2, 6)
+        $ hero.sex += randint(1, 4)
+
+        if sex_scene_libido > 0 and not char.has_flag("raped_by_player"):
+            "[char.name] opens her mouth a bit. Her gaze is filled with anticipation."
+        else:
+            "[char.name] bites her lips and looks away."
+        if not char.has_flag("raped_by_player"):
+            extend " As you touch her lips, they become swollen. A drop of fluid glances at the bottom."  
+        else:
+            extend " Your fingers dig deep into her. You move in and out of her pussy in quick successions." 
+
+    elif current_action == "lickvag":
+        $ get_single_sex_picture(char, act="lickpussy", location=sex_scene_location, hidden_partner=True)
+        $ image_tags = gm.img.get_image_tags()
+        $ skill_for_checking = 2 * char.get_skill("sex")
+        if ct("Lesbian"):
+            $ skill_for_checking *= .8
+        $ male_skill_for_checking = hero.get_skill("oral") + hero.get_skill("sex")
+        $ temp = randint(1, 5)
+        if (skill_for_checking - male_skill_for_checking) > 250 and dice(75):
+            $ temp += randint(1, 5)
+        $ hero.oral += temp
+        $ char.sex += randint(2, 6)
+        $ hero.sex += randint(1, 4)
+
+        if sex_scene_libido > 0 and not char.has_flag("raped_by_player"):
+            "[char.name] spreads her legs to let you closer."
+        else:
+            "You have to push her legs apart."
+        if not char.has_flag("raped_by_player"):
+            extend " First your tongue just barely touches her pussy, but soon you reach deeper."
+        else:
+            extend " As you put your tongue inside her, you flex the muscles in your tongue to widen the gap as much as possible."
 
     elif current_action == "blow":
         $ get_single_sex_picture(char, act="blowjob", location=sex_scene_location, hidden_partner=True)
