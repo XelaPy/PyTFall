@@ -184,7 +184,7 @@ init -11 python:
 
                             # if "stats" in gd:
                             #     for stat in gd["stats"]:
-                            #         if stat in char.STATS:
+                            #         if stat in STATIC_CHAR.STATS:
                             #             value = gd["stats"][stat]
                             #             if stat != "luck":
                             #                 value = int(round(float(value)*char.get_max(stat))/100)

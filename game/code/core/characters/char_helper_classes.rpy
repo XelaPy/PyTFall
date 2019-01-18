@@ -612,7 +612,7 @@ init -10 python:
 
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
-                    if key in char.SKILLS:
+                    if key in STATIC_CHAR.SKILLS:
                         sm = stats.skills_multipliers[key] # skillz muplties
                         m = trait.mod_skills[key] # mod
                         sm[0] += m[0]
@@ -701,7 +701,7 @@ init -10 python:
 
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
-                    if key in char.SKILLS:
+                    if key in STATIC_CHAR.SKILLS:
                         sm = stats.skills_multipliers[key] # skillz muplties
                         m = trait.mod_skills[key] # mod
                         sm[0] -= m[0]
@@ -1079,9 +1079,9 @@ init -10 python:
 
             # [action_value, training_value]
             self.skills = dict()
-            for s in self.instance.SKILLS:
+            for s in STATIC_CHAR.SKILLS:
                 self.skills[s] = list([0, 0])
-            # {k: [0, 0] for k in self.instance.SKILLS}
+            # {k: [0, 0] for k in STATIC_CHAR.SKILLS}
             # [actions_multi, training_multi, value_multi]
             # self.skills_multipliers = {k: [1, 1, 1] for k in self.skills}
             self.skills_multipliers = dict()

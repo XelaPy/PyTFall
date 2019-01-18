@@ -536,6 +536,23 @@ label after_load:
             pytfall.arena.df_count = 0
             pytfall.arena.hero_match_result = None 
 
+        if hasattr(hero, "STATS"):
+            for c in itertools.chain(chars.values(), [hero], hero.chars, npcs.values()):
+                if hasattr(c, "STATS"):
+                    del c.STATS
+                if hasattr(c, "SKILLS"):
+                    del c.SKILLS
+                if hasattr(c, "FULLSKILLS"):
+                    del c.FULLSKILLS
+                if hasattr(c, "GEN_OCCS"):
+                    del c.GEN_OCCS
+                if hasattr(c, "STATUS"):
+                    del c.STATUS
+                if hasattr(c, "MOOD_TAGS"):
+                    del c.MOOD_TAGS
+                if hasattr(c, "UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS"):
+                    del c.UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS
+
         if hero.controller == "player":
             hero.controller = None
             clearControllers = True

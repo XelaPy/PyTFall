@@ -1,8 +1,10 @@
 # Characters classes and methods:
 init -9 python:
-    ###### Character Classes ######
-    class PytCharacter(Flags, Tier, JobsLogger, Pronouns):
-        STATS = set()
+    class STATIC_CHAR():
+        __slots__ = ("STATS", "SKILLS", "FULLSKILLS", "GEN_OCCS", "STATUS", "MOOD_TAGS", "UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS")
+        STATS =  {"charisma", "constitution", "joy", "character", "reputation",
+                  "health", "fame", "mood", "disposition", "vitality", "intelligence",
+                  "luck", "attack", "magic", "defence", "agility", "mp"}
         SKILLS = {"vaginal", "anal", "oral", "sex", "strip", "service",
                       "refinement", "group", "bdsm", "dancing",
                       "bartending", "cleaning", "waiting", "management",
@@ -17,6 +19,9 @@ init -9 python:
                          "indifferent", "provocative", "sad", "scared", "shy",
                          "tired", "uncertain"}
         UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS = ["zoom_fast", "zoom_slow", "test_case"]
+
+    ###### Character Classes ######
+    class PytCharacter(Flags, Tier, JobsLogger, Pronouns):
         """Base Character class for PyTFall.
         """
         def __init__(self, arena=False, inventory=False, effects=False, is_worker=True):
@@ -78,7 +83,7 @@ init -9 python:
             # Items
             if inventory:
                 self.inventory = Inventory(15)
-                self.eqslots = {
+                eqslots = {
                     'head': False,
                     'body': False,
                     'cape': False,
@@ -93,11 +98,12 @@ init -9 python:
                     'misc': False,
                     'consumable': None,
                 }
+                self.eqslots = eqslots
+                self.eqsave = [eqslots.copy(), eqslots.copy(), eqslots.copy()] # saved equipment states
                 self.consblock = dict()  # Dict (Counter) of blocked consumable items.
                 self.constemp = dict()  # Dict of consumables with temp effects.
                 self.miscitems = dict()  # Counter for misc items.
                 self.miscblock = list()  # List of blocked misc items.
-                self.eqsave = [self.eqslots.copy(), self.eqslots.copy(), self.eqslots.copy()] # saved equipment states
                 self.last_known_aeq_purpose = "" # We don't want to aeq needlessly, it's an expensive operation.
                 # List to keep track of temporary effect
                 # consumables that failed to activate on cmax **We are not using this or at least I can't find this in code!
@@ -131,7 +137,6 @@ init -9 python:
                 'mp': [30, 0, 30, 50]
             }
             self.stats = Stats(self, stats=stats)
-            self.STATS = set(self.stats.stats.keys())
 
             if effects:
                 # Effects assets:
@@ -182,11 +187,11 @@ init -9 python:
                 key = "defence"
 
             stats = self.__dict__.get("stats", {})
-            if key in self.STATS:
+            if key in STATIC_CHAR.STATS:
                 return stats._get_stat(key)
-            elif key.lower() in self.SKILLS:
+            elif key.lower() in STATIC_CHAR.SKILLS:
                 return stats._raw_skill(key)
-            elif key in self.FULLSKILLS:
+            elif key in STATIC_CHAR.FULLSKILLS:
                 return self.stats.get_skill(key[:-5])
             raise AttributeError("Object of %r class has no attribute %r" %
                                           (self.__class__, key))
@@ -195,11 +200,11 @@ init -9 python:
             if key == "defense":
                 key = "defence"
 
-            if key in self.STATS:
+            if key in STATIC_CHAR.STATS:
                 # Primary stat dict modifier...
                 value = value - self.stats._get_stat(key)
                 self.stats._mod_base_stat(key, int(round(value)))
-            elif key.lower() in self.SKILLS:
+            elif key.lower() in STATIC_CHAR.SKILLS:
                 self.__dict__["stats"]._mod_raw_skill(key, value)
             else:
                 super(PytCharacter, self).__setattr__(key, value)
@@ -487,7 +492,7 @@ init -9 python:
         def show_portrait_overlay(self, s, mode="normal"):
             self.say_screen_portrait_overlay_mode = s
 
-            if not s in self.UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS:
+            if not s in STATIC_CHAR.UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS:
                 interactions_portraits_overlay.change(s, mode)
 
         def hide_portrait_overlay(self):
@@ -614,7 +619,7 @@ init -9 python:
 
             # Mood will never be checked in auto-mode when that is not sensible
             add_mood = kwargs.get("add_mood", True)
-            if not self.MOOD_TAGS.isdisjoint(set(tags)):
+            if not STATIC_CHAR.MOOD_TAGS.isdisjoint(set(tags)):
                 add_mood = False
 
             pure_tags = list(tags)
@@ -627,7 +632,7 @@ init -9 python:
 
             if label_cache:
                 for entry in self.label_cache:
-                    if entry[0] == tags and entry[1] == last_label:
+                    if entry[1] == last_label and entry[0] == tags:
                         return ProportionalScale(entry[2], maxw, maxh)
 
             if cache:
@@ -849,7 +854,7 @@ init -9 python:
             self.stats.log = shallowcopy(self.stats.stats)
             self.stats.log["exp"] = self.exp
             self.stats.log["level"] = self.level
-            for skill in self.SKILLS:
+            for skill in STATIC_CHAR.SKILLS:
                 self.stats.log[skill] = self.stats.get_skill(skill)
 
         # Items/Equipment related, Inventory is assumed!
@@ -2132,7 +2137,7 @@ init -9 python:
                     charmod[stat] = self.exp - value
                 elif stat == "level":
                     charmod[stat] = self.level - value
-                elif stat in self.SKILLS:
+                elif stat in STATIC_CHAR.SKILLS:
                     charmod[stat] = round_int(self.stats.get_skill(stat) - value)
                 else:
                     charmod[stat] = self.stats.stats[stat] - value
@@ -2638,16 +2643,16 @@ init -9 python:
 
             # Base Class | Status normalization:
             if not self.traits.basetraits:
-                pattern = create_traits_base(self.GEN_OCCS)
+                pattern = create_traits_base(STATIC_CHAR.GEN_OCCS)
                 for i in pattern:
                     self.traits.basetraits.add(i)
                     self.apply_trait(i)
 
-            if self.status not in self.STATUS:
+            if self.status not in STATIC_CHAR.STATUS:
                 if not {"Combatant", "Specialist"}.isdisjoint(self.gen_occs):
                     self.status = "free"
                 else:
-                    self.status = choice(tuple(self.STATUS))
+                    self.status = choice(tuple(STATIC_CHAR.STATUS))
 
             # Locations + Home + Status:
             # SM string --> object

@@ -253,7 +253,6 @@ init -11 python:
 
     def build_mob(id=None, level=1, max_out_stats=False):
         mob = Mob()
-        stats = mob.STATS
         skills = mob.stats.skills.keys()
 
         if not id:
@@ -351,8 +350,6 @@ init -11 python:
             stt_kwargs = {}
 
         rg = rChar()
-        Stats = rg.STATS
-        Skills = rg.stats.skills.keys()
 
         if not id:
             id = choice(rchars.keys())
@@ -814,7 +811,7 @@ init -11 python:
 
         # Patterns:
         if pattern is None:
-            pattern = choice(tuple(client.GEN_OCCS))
+            pattern = choice(tuple(STATIC_CHAR.GEN_OCCS))
         pattern = create_traits_base(pattern)
         for i in pattern:
             client.traits.basetraits.add(i)
