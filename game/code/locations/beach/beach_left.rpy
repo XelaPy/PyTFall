@@ -26,7 +26,30 @@ label city_beach_left:
         $ result = ui.interact()
 
         if result[0] == 'jump':
-            $ gm.start_gm(result[1])
+            $ girl = result[1]
+            $ tags = girl.get_tags_from_cache(last_label)
+            if not tags:
+                $ beach_tags_list = []
+                # main set
+                if girl.has_image("girlmeets", "beach"):
+                    $ beach_tags_list.append(("girlmeets", "beach"))
+                if girl.has_image("girlmeets","swimsuit", "simple bg"):
+                    $ beach_tags_list.append(("girlmeets", "swimsuit", "simple bg"))
+                if girl.has_image("girlmeets","swimsuit", "outdoors"):
+                    $ beach_tags_list.append(("girlmeets", "swimsuit", "outdoors"))
+                # secondary set if nothing found
+                if not beach_tags_list:
+                    if girl.has_image("girlmeets", "outdoors"):
+                        $ beach_tags_list.append(("girlmeets", "outdoors"))
+                    if girl.has_image("girlmeets", "simple bg"):
+                        $ beach_tags_list.append(("girlmeets", "simple bg"))
+                # giveup
+                if not beach_tags_list:
+                    $ beach_tags_list.append(("girlmeets", ))
+                $ tags.extend(choice(beach_tags_list))
+
+            $ gm.start_gm(girl, img=girl.show(*tags, type="first_default", label_cache=True, resize=(300, 400), gm_mode=True,
+                    exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"]))
 
         if result[0] == 'control':
             if result[1] == 'return':
@@ -79,34 +102,10 @@ screen city_beach_left():
 
         add "content/gfx/images/bg_gradient.webp" yalign .45
 
-        $ j = 0
-        for entry in gm.display_girls():
+        for j, entry in enumerate(gm.display_girls()):
             hbox:
                 align (coords[j])
-                $ j += 1
-                $ tags = entry.get_tags_from_cache(last_label)
-                if not tags:
-                    $ beach_tags_list = []
-                    # main set
-                    if entry.has_image("girlmeets", "beach"):
-                        $ beach_tags_list.append(("girlmeets", "beach"))
-                    if entry.has_image("girlmeets","swimsuit", "simple bg"):
-                        $ beach_tags_list.append(("girlmeets", "swimsuit", "simple bg"))
-                    if entry.has_image("girlmeets","swimsuit", "outdoors"):
-                        $ beach_tags_list.append(("girlmeets", "swimsuit", "outdoors"))
-                    # secondary set if nothing found
-                    if not beach_tags_list:
-                        if entry.has_image("girlmeets", "outdoors"):
-                            $ beach_tags_list.append(("girlmeets", "outdoors"))
-                        if entry.has_image("girlmeets", "simple bg"):
-                            $ beach_tags_list.append(("girlmeets", "simple bg"))
-                    # giveup
-                    if not beach_tags_list:
-                        $ beach_tags_list.append(("girlmeets", ))
-                    $ tags.extend(choice(beach_tags_list))
-
-                use rg_lightbutton(img=entry.show(*tags, exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="first_default", label_cache=True, resize=(300, 400), gm_mode=True),
-                             return_value=['jump', entry])
+                use rg_lightbutton(return_value=['jump', entry])
 
 label mc_action_city_beach_rest:
     show bg beach_rest with dissolve
@@ -127,8 +126,6 @@ label mc_action_city_beach_rest:
                             picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
                     elif member.has_image("rest", "beach", exclude=["sex", "stripping"]):
                         picture.append(member.show("rest", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
-                    elif member.has_image("bathing", "beach", exclude=["sex", "stripping"]):
-                        picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
                     elif member.has_image("bathing", "beach", exclude=["sex", "stripping"]):
                         picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
                     elif member.has_image("beach", exclude=["sex", "stripping"]):

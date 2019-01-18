@@ -42,7 +42,7 @@ label main_street:
             $ jump(result[1])
 
         if result[0] == 'jump':
-            $ gm.start_gm(result[1])
+            $ gm.start_gm(result[1], img=result[1].show("girlmeets", "outdoors", "urban", exclude=["swimsuit", "indoor", "wildness", "suburb", "beach", "pool", "onsen", "nature"], type="reduce", label_cache=True, resize=(300, 400), gm_mode=True))
 
 
 screen main_street():
@@ -100,10 +100,8 @@ screen main_street():
         key "mousedown_3" action ToggleField(gm, "show_girls")
 
         add "content/gfx/images/bg_gradient.webp" yalign .45
-        $ j = 0
 
-        for entry in gm.display_girls():
+        for j, entry in enumerate(gm.display_girls()):
             hbox:
                 align (coords[j])
-                $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "urban", exclude=["swimsuit", "indoor", "wildness", "suburb", "beach", "pool", "onsen", "nature"], label_cache=True, resize=(300, 400), type="reduce", gm_mode=True), return_value=['jump', entry])
+                use rg_lightbutton(return_value=['jump', entry])

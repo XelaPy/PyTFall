@@ -29,7 +29,9 @@ label graveyard_town:
         $ result = ui.interact()
 
         if result[0] == 'jump':
-            $ gm.start_gm(result[1])
+            $ gm.start_gm(result[1], img=result[1].show('girlmeets', type="first_default", label_cache=True, resize=(300, 400),
+                        exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage", "onsen", "indoors", "indoor"]))
+
         if result[0] == 'control':
             $ renpy.hide_screen("graveyard_town")
             if result[1] == 'return':
@@ -174,10 +176,4 @@ screen graveyard_town():
         for j, entry in enumerate(gm.display_girls()):
             hbox:
                 align (coords[j])
-                use rg_lightbutton(img=entry.show('girlmeets',
-                        exclude=["swimsuit", "wildness",
-                                 "beach", "pool", "urban", "stage",
-                                 "onsen", "indoors", "indoor"],
-                                 type="first_default", label_cache=True,
-                                 resize=(300, 400)),
-                                 return_value=['jump', entry])
+                use rg_lightbutton(return_value=['jump', entry])

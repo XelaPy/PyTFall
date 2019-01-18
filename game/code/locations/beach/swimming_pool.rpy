@@ -32,7 +32,25 @@ label swimming_pool:
         $ result = ui.interact()
 
         if result[0] == 'jump':
-            $ gm.start_gm(result[1])
+            $ girl = result[1]
+            $ tags = girl.get_tags_from_cache(last_label)
+            if not tags:
+                $ pool_tags_list = []
+                # main set
+                if girl.has_image("girlmeets", "pool"):
+                    $ pool_tags_list.append(("girlmeets", "pool"))
+                if girl.has_image("girlmeets", "swimsuit", "simple bg"):
+                    $ pool_tags_list.append(("girlmeets", "swimsuit", "simple bg"))
+                # if nothing found
+                if not pool_tags_list:
+                    if girl.has_image("girlmeets","simple bg"):
+                        $ pool_tags_list.append(("girlmeets", "simple bg"))
+                    else:
+                        $ pool_tags_list.append(("girlmeets", "swimsuit"))
+
+                $ tags.extend(choice(pool_tags_list))
+
+            $ gm.start_gm(girl, img=girl.show(*tags, exclude=["beach"], type="first_default", label_cache=True, resize=(300, 400), gm_mode=True))
 
         if result[0] == 'control':
             if result[1] == 'return':
@@ -66,24 +84,7 @@ screen swimming_pool():
         for j, entry in enumerate(gm.display_girls()):
             hbox:
                 align (coords[j])
-                $ tags = girl.get_tags_from_cache(last_label)
-                if not tags:
-                    $ pool_tags_list = []
-                    # main set
-                    if girl.has_image("girlmeets", "pool"):
-                        $ pool_tags_list.append(("girlmeets", "pool"))
-                    if girl.has_image("girlmeets", "swimsuit", "simple bg"):
-                        $ pool_tags_list.append(("girlmeets", "swimsuit", "simple bg"))
-                    # if nothing found
-                    if not pool_tags_list:
-                        if girl.has_image("girlmeets","simple bg"):
-                            $ pool_tags_list.append(("girlmeets", "simple bg"))
-                        else:
-                            $ pool_tags_list.append(("girlmeets", "swimsuit"))
-
-                    $ tags.extend(choice(pool_tags_list))
-
-                use rg_lightbutton(img=entry.show(*tags, exclude=["beach"], type="first_default", label_cache=True, resize=(300, 400), gm_mode=True), return_value=['jump', entry])
+                use rg_lightbutton(return_value=['jump', entry])
 
 screen swimmong_pool_swim():
     style_prefix "dropdown_gm"

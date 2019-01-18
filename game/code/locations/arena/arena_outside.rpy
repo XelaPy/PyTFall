@@ -80,7 +80,7 @@ label arena_outside:
 
         if result[0] == 'jump':
             $ global_flags.set_flag("keep_playing_music")
-            $ gm.start_gm(result[1])
+            $ gm.start_gm(result[1], img=result[1].show("girlmeets", "armor", exclude=["swimsuit", "beach", "pool", "onsen", "bunny", "indoor", "formal", "wildness"], label_cache=True, gm_mode=True, resize=(300, 400), type="reduce"))
 
         if result[0] == 'control':
             if result[1] == "enter_arena":
@@ -365,13 +365,10 @@ screen arena_outside:
         key "mousedown_3" action ToggleField(gm, "show_girls")
 
         add "content/gfx/images/bg_gradient.webp" yalign .45
-        $ j = 0
-
-        for entry in gm.display_girls():
+        for j, entry in enumerate(gm.display_girls()):
             hbox:
                 align (coords[j])
-                $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "armor", exclude=["swimsuit", "beach", "pool", "onsen", "bunny", "indoor", "formal", "wildness"], label_cache=True, gm_mode=True, resize=(300, 400), type="reduce"), return_value=['jump', entry])
+                use rg_lightbutton(return_value=['jump', entry])
 
 screen xeona_screen():
     style_prefix "dropdown_gm"
