@@ -1,5 +1,5 @@
 label swimming_pool:
-    $ gm.enter_location(has_tags=["swimsuit", "sfw"], has_no_tags=["beach", "sleeping"], curious_priority=False)
+    $ gm.enter_location(has_tags=["girlmeets", "swimsuit"], has_no_tags=["beach", "sleeping"], curious_priority=False)
     if not "swimming_pool" in ilists.world_music:
         $ ilists.world_music["swimming_pool"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("swimming_pool")]
     if not global_flags.has_flag("keep_playing_music"):

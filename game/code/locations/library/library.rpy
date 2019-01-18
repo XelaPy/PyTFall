@@ -128,7 +128,7 @@ init python:
         return books
 
 label academy_town:
-    $ gm.enter_location(badtraits=["Adventurous", "Slime", "Monster"], curious_priority=True, has_tags=["sfw", "schoolgirl"])
+    $ gm.enter_location(badtraits=["Adventurous", "Slime", "Monster"], curious_priority=True, has_tags=["girlmeets", "schoolgirl"])
     $ coords = [[.1, .55], [.45, .64], [.86, .65]]
     $ e = npcs["Eleven"].say
     $ npcs["Eleven"].override_portrait("portrait", "indifferent")
