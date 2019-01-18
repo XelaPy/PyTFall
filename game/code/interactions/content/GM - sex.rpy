@@ -467,21 +467,22 @@ label mc_action_scene_finish_sex:
 
     if (together_count > 0 and sex_count >1) or (sex_count >2 and girl_count >=1 and guy_count >= 1):
         $ excluded = ["angry", "sad", "scared", "in pain"]
-        if sex_scene_location == "beach":
-            if char.has_image("profile", "beach", exclude=excluded):
-                $ gm.set_img("profile", "beach", "happy", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "happy", "beach", exclude=excluded, type="reduce")
+        $ loc_tag = sex_scene_location
+        if sex_scene_location == "room":
+            $ loc_tag = "living"
+        #elif sex_scene_location == "beach":
+        #    $ pass
         elif sex_scene_location == "park":
-            if char.has_image("profile", "nature", exclude=excluded):
-                $ gm.set_img("profile", "nature", "happy", "urban", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "happy", "nature", "urban", exclude=excluded, type="reduce")
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "wildness"])
+        elif sex_scene_location == "forest":
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "urban"])
+
+        if char.has_image("profile", loc_tag, exclude=excluded):
+            $ gm.set_img("profile", loc_tag, "happy", exclude=excluded, type="reduce")
         else:
-            if char.has_image("profile", "living", exclude=excluded):
-                $ gm.set_img("profile", "living", "happy", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "happy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
+            $ gm.set_img("girlmeets", "happy", loc_tag, exclude=excluded, type="reduce")
 
         if not char.has_flag("raped_by_player"):
             $ char.disposition += randint(50, 100)
@@ -491,21 +492,22 @@ label mc_action_scene_finish_sex:
         $ char.vitality -= randint(5, 10)
     elif girl_count < 1 and guy_count > 0:
         $ excluded = ["happy", "scared", "in pain", "ecstatic", "suggestive"]
-        if sex_scene_location == "beach":
-            if char.has_image("profile", "beach", exclude=excluded):
-                $ gm.set_img("profile", "beach", "angry", exclude=excluded)
-            else:
-                $ gm.set_img("girlmeets", "angry", "beach", exclude=excluded, type="reduce")
+        $ loc_tag = sex_scene_location
+        if sex_scene_location == "room":
+            $ loc_tag = "living"
+        #elif sex_scene_location == "beach":
+        #    $ pass
         elif sex_scene_location == "park":
-            if char.has_image("profile", "nature", exclude=excluded):
-                $ gm.set_img("profile", "nature", "angry", "urban", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "angry", "nature", "urban", exclude=excluded, type="reduce")
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "wildness"])
+        elif sex_scene_location == "forest":
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "urban"])
+
+        if char.has_image("profile", loc_tag, exclude=excluded):
+            $ gm.set_img("profile", loc_tag, "angry", exclude=excluded)
         else:
-            if char.has_image("profile", "living", exclude=excluded):
-                $ gm.set_img("profile", "living", "angry", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "angry", "indoors", exclude=excluded, type="reduce")
+            $ gm.set_img("girlmeets", "angry", loc_tag, exclude=excluded, type="reduce")
 
             if not char.has_flag("raped_by_player"):
                 $ char.disposition -= randint(15, 35)
@@ -516,21 +518,23 @@ label mc_action_scene_finish_sex:
             $ char.vitality -= randint(5, 10)
     elif girl_count > 0 and guy_count < 1 and cum_count < 1 and sex_count > 0:
         $ excluded = ["happy", "scared", "in pain", "ecstatic", "suggestive"]
-        if sex_scene_location == "beach":
-            if char.has_image("profile", "beach", exclude=excluded):
-                $ gm.set_img("profile", "beach", "sad", exclude=excluded)
-            else:
-                $ gm.set_img("girlmeets", "sad", "beach", exclude=excluded, type="reduce")
+        $ loc_tag = sex_scene_location
+        if sex_scene_location == "room":
+            $ loc_tag = "living"
+        #elif sex_scene_location == "beach":
+        #    $ pass
         elif sex_scene_location == "park":
-            if char.has_image("profile", "nature", exclude=excluded):
-                $ gm.set_img("profile", "nature", "sad", "urban", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "sad", "nature", "urban", exclude=excluded, type="reduce")
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "wildness"])
+        elif sex_scene_location == "forest":
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "urban"])
+
+        if char.has_image("profile", loc_tag, exclude=excluded):
+            $ gm.set_img("profile", loc_tag, "sad", exclude=excluded)
         else:
-            if char.has_image("profile", "living", exclude=excluded):
-                $ gm.set_img("profile", "living", "sad", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "sad", "indoors", exclude=excluded, type="reduce")
+            $ gm.set_img("girlmeets", "sad", loc_tag, exclude=excluded, type="reduce")
+
         if not char.has_flag("raped_by_player"):
             $ char.disposition += randint(15, 30)
             $ char.joy -= randint(10, 15)
@@ -540,21 +544,23 @@ label mc_action_scene_finish_sex:
         $ char.vitality -= randint(5, 15)
     elif (cum_count >=4) and (cum_count > girl_count):
         $ excluded = ["angry", "sad", "scared", "in pain"]
-        if sex_scene_location == "beach":
-            if char.has_image("profile", "beach", exclude=excluded):
-                $ gm.set_img("profile", "beach", "shy", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "shy", "beach", exclude=excluded, type="reduce")
+        $ loc_tag = sex_scene_location
+        if sex_scene_location == "room":
+            $ loc_tag = "living"
+        #elif sex_scene_location == "beach":
+        #    $ pass
         elif sex_scene_location == "park":
-            if char.has_image("profile", "nature", exclude=excluded):
-                $ gm.set_img("profile", "nature", "shy", "urban", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "shy", "nature", "urban", exclude=excluded, type="reduce")
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "wildness"])
+        elif sex_scene_location == "forest":
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "urban"])
+
+        if char.has_image("profile", loc_tag, exclude=excluded):
+            $ gm.set_img("profile", loc_tag, "shy", exclude=excluded, type="reduce")
         else:
-            if char.has_image("profile", "living", exclude=excluded):
-                $ gm.set_img("profile", "living", "shy", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "shy", "indoors", exclude=excluded, type="reduce")
+            $ gm.set_img("girlmeets", "shy", loc_tag, exclude=excluded, type="reduce")
+
         if not char.has_flag("raped_by_player"):
             $ char.disposition += randint(25, 50)
             call interactions_guy_cum_alot from _call_interactions_guy_cum_alot
@@ -563,21 +569,22 @@ label mc_action_scene_finish_sex:
         $ char.vitality -= randint(5, 10)
     elif sex_count < 1 and mast_count < 1:
         $ excluded = ["happy", "scared", "in pain", "ecstatic", "suggestive"]
-        if sex_scene_location == "beach":
-            if char.has_image("profile", "beach", exclude=excluded):
-                $ gm.set_img("profile", "beach", "angry", exclude=excluded)
-            else:
-                $ gm.set_img("girlmeets", "angry", "beach", exclude=excluded, type="reduce")
+        $ loc_tag = sex_scene_location
+        if sex_scene_location == "room":
+            $ loc_tag = "living"
+        #elif sex_scene_location == "beach":
+        #    $ pass
         elif sex_scene_location == "park":
-            if char.has_image("profile", "nature", exclude=excluded):
-                $ gm.set_img("profile", "nature", "angry", "urban", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "angry", "nature", "urban", exclude=excluded, type="reduce")
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "wildness"])
+        elif sex_scene_location == "forest":
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "urban"])
+
+        if char.has_image("profile", loc_tag, exclude=excluded):
+            $ gm.set_img("profile", loc_tag, "angry", exclude=excluded)
         else:
-            if char.has_image("profile", "living", exclude=excluded):
-                $ gm.set_img("profile", "living", "angry", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "angry", "indoors", exclude=excluded, type="reduce")
+            $ gm.set_img("girlmeets", "angry", loc_tag, exclude=excluded, type="reduce")
         if char.status == "slave":
             "She is puzzled and confused by the fact that you didn't do anything. She quickly leaves, probably thinking that you teased her."
         else:
@@ -587,21 +594,23 @@ label mc_action_scene_finish_sex:
             $ char.vitality -= 5
     elif mast_count > 0 and guy_count < 1 and girl_count < 1:
         $ excluded = ["angry", "sad", "scared", "in pain"]
-        if sex_scene_location == "beach":
-            if char.has_image("profile", "beach", exclude=excluded):
-                $ gm.set_img("profile", "beach", "shy", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "shy", "beach", exclude=excluded, type="reduce")
+        $ loc_tag = sex_scene_location
+        if sex_scene_location == "room":
+            $ loc_tag = "living"
+        #elif sex_scene_location == "beach":
+        #    $ pass
         elif sex_scene_location == "park":
-            if char.has_image("profile", "nature", exclude=excluded):
-                $ gm.set_img("profile", "nature", "shy", "urban", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "shy", "nature", "urban", exclude=excluded, type="reduce")
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "wildness"])
+        elif sex_scene_location == "forest":
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "urban"])
+
+        if char.has_image("profile", loc_tag, exclude=excluded):
+            $ gm.set_img("profile", loc_tag, "shy", exclude=excluded, type="reduce")
         else:
-            if char.has_image("profile", "living", exclude=excluded):
-                $ gm.set_img("profile", "living", "shy", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "shy", "indoors", exclude=excluded, type="reduce")
+            $ gm.set_img("girlmeets", "shy", loc_tag, exclude=excluded, type="reduce")
+
         "She did nothing but masturbated in front of you. Be prepared for rumors about your impotence or orientation."
         if not char.has_flag("raped_by_player"):
             $ char.disposition -= randint(10, 25)
@@ -609,21 +618,23 @@ label mc_action_scene_finish_sex:
         $ char.vitality -= 5
     else:
         $ excluded = ["angry", "sad", "scared", "in pain"]
-        if sex_scene_location == "beach":
-            if char.has_image("profile", "beach", exclude=excluded):
-                $ gm.set_img("profile", "beach", "happy", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "happy", "beach", exclude=excluded, type="reduce")
+        $ loc_tag = sex_scene_location
+        if sex_scene_location == "room":
+            $ loc_tag = "living"
+        #elif sex_scene_location == "beach":
+        #    $ pass
         elif sex_scene_location == "park":
-            if char.has_image("profile", "nature", exclude=excluded):
-                $ gm.set_img("profile", "nature", "happy", "urban", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "happy", "nature", "urban", exclude=excluded, type="reduce")
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "wildness"])
+        elif sex_scene_location == "forest":
+            $ loc_tag = "nature"
+            $ excluded.extend(["beach", "urban"])
+
+        if char.has_image("profile", loc_tag, exclude=excluded):
+            $ gm.set_img("profile", loc_tag, "happy", exclude=excluded, type="reduce")
         else:
-            if char.has_image("profile", "living", exclude=excluded):
-                $ gm.set_img("profile", "living", "happy", exclude=excluded, type="reduce")
-            else:
-                $ gm.set_img("girlmeets", "happy", "indoors", exclude=excluded, type="reduce")
+            $ gm.set_img("girlmeets", "happy", loc_tag, exclude=excluded, type="reduce")
+
         if not char.has_flag("raped_by_player"):
             $ char.disposition += randint(30, 60)
             call interactions_after_normal_sex from _call_interactions_after_normal_sex
