@@ -770,7 +770,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             $ char.mp += int(char.get_max("mp")*.5)
 
     if current_action == "hug":
-        $ get_single_sex_picture(char, act="hug", location=sex_scene_location, hidden_partner=True)
+        $ get_single_sex_picture(char, act="2c hug", location=sex_scene_location, hidden_partner=True)
         if char.has_flag("raped_by_player"):
             "You can feel her tense up as you put your arm around her."
         else:
@@ -780,7 +780,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
                 $ sex_scene_libido += 1
 
     elif current_action == "kiss":
-        $ get_single_sex_picture(char, act="kiss", location=sex_scene_location, hidden_partner=True)
+        $ get_single_sex_picture(char, act="2c kiss", location=sex_scene_location, hidden_partner=True)
         if char.has_flag("raped_by_player"):
             "Her lips are closed tightly. You have to force your tongue to reach inside."
         else:
@@ -832,7 +832,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         $ mast_count +=1
 
     elif current_action == "caresstits":
-        $ get_single_sex_picture(char, act="caresstits", location=sex_scene_location, hidden_partner=True)
+        $ get_single_sex_picture(char, act="2c caresstits", location=sex_scene_location, hidden_partner=True)
         if char.has_flag("raped_by_player"):
             "You grab her tits with force."
             if ct("Big Boobs"):
@@ -857,7 +857,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         $ char.vitality -= randint(1, 5)
 
     elif current_action == "fingervag":
-        $ get_single_sex_picture(char, act="vaginalfingering", location=sex_scene_location, hidden_partner=True)
+        $ get_single_sex_picture(char, act="2c vaginalfingering", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
         $ skill_for_checking = 2 * char.get_skill("sex")
         if ct("Lesbian"):
@@ -880,7 +880,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             extend " Your fingers dig deep into her. You move in and out of her pussy in quick successions." 
 
     elif current_action == "lickvag":
-        $ get_single_sex_picture(char, act="lickpussy", location=sex_scene_location, hidden_partner=True)
+        $ get_single_sex_picture(char, act="2c lickpussy", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
         $ skill_for_checking = 2 * char.get_skill("sex")
         if ct("Lesbian"):
@@ -903,7 +903,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             extend " As you put your tongue inside her, you flex the muscles in your tongue to widen the gap as much as possible."
 
     elif current_action == "blow":
-        $ get_single_sex_picture(char, act="blowjob", location=sex_scene_location, hidden_partner=True)
+        $ get_single_sex_picture(char, act="bc blowjob", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
 
         $ skill_for_checking = char.get_skill("oral") + char.get_skill("sex")
@@ -953,7 +953,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs
 
     elif current_action == "tits":
-        $ get_single_sex_picture(char, act="titsjob", location=sex_scene_location, hidden_partner=True)
+        $ get_single_sex_picture(char, act="bc titsjob", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
 
         $ skill_for_checking = char.get_skill("oral") + char.get_skill("sex")
@@ -994,7 +994,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs_1
 
     elif current_action == "hand":
-        $ get_single_sex_picture(char, act="handjob", location=sex_scene_location, hidden_partner=True)
+        $ get_single_sex_picture(char, act="bc handjob", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
 
         $ skill_for_checking = char.get_skill("oral") + char.get_skill("sex")
@@ -1018,7 +1018,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs_2
 
     elif current_action == "foot":
-        $ get_single_sex_picture(char, act="footjob", location=sex_scene_location, hidden_partner=True)
+        $ get_single_sex_picture(char, act="bc footjob", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
 
         $ skill_for_checking = char.get_skill("refinement") + char.get_skill("sex")
@@ -1067,7 +1067,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs_3
 
     elif current_action == "vag":
-        $ get_single_sex_picture(char, act="vaginal", location=sex_scene_location, hidden_partner=True)
+        $ get_single_sex_picture(char, act="bc vaginal", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
 
         $ skill_for_checking = char.get_skill("vaginal") + char.get_skill("sex")
@@ -1150,7 +1150,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         call interaction_sex_scene_check_skill_acts from _call_interaction_sex_scene_check_skill_acts
 
     elif current_action == "anal":
-        $ get_single_sex_picture(char, act="anal", location=sex_scene_location, hidden_partner=True)
+        $ get_single_sex_picture(char, act="2c anal", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
 
         $ skill_for_checking = char.get_skill("anal") + char.get_skill("sex")
