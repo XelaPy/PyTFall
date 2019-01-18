@@ -466,7 +466,7 @@ label mc_action_scene_finish_sex:
         $ char.disposition -= round(sex_scene_libido*3)
 
     if (together_count > 0 and sex_count >1) or (sex_count >2 and girl_count >=1 and guy_count >= 1):
-        excluded = ["angry", "sad", "scared", "in pain"]
+        $ excluded = ["angry", "sad", "scared", "in pain"]
         if sex_scene_location == "beach":
             if char.has_image("profile", "beach", exclude=excluded):
                 $ gm.set_img("profile", "beach", "happy", exclude=excluded, type="reduce")
@@ -490,7 +490,7 @@ label mc_action_scene_finish_sex:
             "She quickly dresses up and leaves."
         $ char.vitality -= randint(5, 10)
     elif girl_count < 1 and guy_count > 0:
-        excluded = ["happy", "scared", "in pain", "ecstatic", "suggestive"]
+        $ excluded = ["happy", "scared", "in pain", "ecstatic", "suggestive"]
         if sex_scene_location == "beach":
             if char.has_image("profile", "beach", exclude=excluded):
                 $ gm.set_img("profile", "beach", "angry", exclude=excluded)
@@ -515,7 +515,7 @@ label mc_action_scene_finish_sex:
                 "She quickly dresses up and leaves."
             $ char.vitality -= randint(5, 10)
     elif girl_count > 0 and guy_count < 1 and cum_count < 1 and sex_count > 0:
-        excluded = ["happy", "scared", "in pain", "ecstatic", "suggestive"]
+        $ excluded = ["happy", "scared", "in pain", "ecstatic", "suggestive"]
         if sex_scene_location == "beach":
             if char.has_image("profile", "beach", exclude=excluded):
                 $ gm.set_img("profile", "beach", "sad", exclude=excluded)
@@ -539,7 +539,7 @@ label mc_action_scene_finish_sex:
             "She quickly dresses up and leaves."
         $ char.vitality -= randint(5, 15)
     elif (cum_count >=4) and (cum_count > girl_count):
-        excluded = ["angry", "sad", "scared", "in pain"]
+        $ excluded = ["angry", "sad", "scared", "in pain"]
         if sex_scene_location == "beach":
             if char.has_image("profile", "beach", exclude=excluded):
                 $ gm.set_img("profile", "beach", "shy", exclude=excluded, type="reduce")
@@ -562,7 +562,7 @@ label mc_action_scene_finish_sex:
             "She quickly dresses up and leaves."
         $ char.vitality -= randint(5, 10)
     elif sex_count < 1 and mast_count < 1:
-        excluded = ["happy", "scared", "in pain", "ecstatic", "suggestive"]
+        $ excluded = ["happy", "scared", "in pain", "ecstatic", "suggestive"]
         if sex_scene_location == "beach":
             if char.has_image("profile", "beach", exclude=excluded):
                 $ gm.set_img("profile", "beach", "angry", exclude=excluded)
@@ -586,7 +586,7 @@ label mc_action_scene_finish_sex:
             $ char.joy -= randint(15, 30)
             $ char.vitality -= 5
     elif mast_count > 0 and guy_count < 1 and girl_count < 1:
-        excluded = ["angry", "sad", "scared", "in pain"]
+        $ excluded = ["angry", "sad", "scared", "in pain"]
         if sex_scene_location == "beach":
             if char.has_image("profile", "beach", exclude=excluded):
                 $ gm.set_img("profile", "beach", "shy", exclude=excluded, type="reduce")
@@ -608,7 +608,7 @@ label mc_action_scene_finish_sex:
         call interactions_girl_dissapointed from _call_interactions_girl_dissapointed_3
         $ char.vitality -= 5
     else:
-        excluded = ["angry", "sad", "scared", "in pain"]
+        $ excluded = ["angry", "sad", "scared", "in pain"]
         if sex_scene_location == "beach":
             if char.has_image("profile", "beach", exclude=excluded):
                 $ gm.set_img("profile", "beach", "happy", exclude=excluded, type="reduce")
