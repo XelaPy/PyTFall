@@ -777,7 +777,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             "[char.name] feels comfortable in your arms. Her chest moves up and down as she breaths."
             if dice(30):
                 extend " You can feel her heart starts to beat faster. She is more aroused now."
-                $ sex_scene_libido += 1
+                $ sex_scene_libido += 2
 
     elif current_action == "kiss":
         $ get_single_sex_picture(char, act="2c kiss", location=sex_scene_location, hidden_partner=True)
@@ -853,18 +853,18 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
                 extend " You can feel as her nips became hard."
             else:
                 extend " Her apples fit perfectly."
-            $ sex_scene_libido += 1
+            $ sex_scene_libido += 2
         $ char.vitality -= randint(1, 5)
 
     elif current_action == "fingervag":
         $ get_single_sex_picture(char, act="2c vaginalfingering", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
-        $ skill_for_checking = 2 * char.get_skill("sex")
+        $ char_skill_for_checking = 2 * char.get_skill("sex")
         if ct("Lesbian"):
-            $ skill_for_checking *= .8
-        $ male_skill_for_checking = hero.get_skill("refinement") + hero.get_skill("sex")
+            $ char_skill_for_checking *= .8
+        $ skill_for_checking = hero.get_skill("refinement") + hero.get_skill("sex")
         $ temp = randint(1, 5)
-        if (skill_for_checking - male_skill_for_checking) > 250 and dice(75):
+        if (char_skill_for_checking - skill_for_checking) > 250 and dice(75):
             $ temp += randint(1, 5)
         $ hero.sex += temp
         $ char.sex += randint(2, 6)
@@ -879,15 +879,17 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         else:
             extend " Your fingers dig deep into her. You move in and out of her pussy in quick successions." 
 
+        call interaction_sex_scene_check_skill_gives from _call_interaction_sex_scene_check_skill_gives
+
     elif current_action == "lickvag":
         $ get_single_sex_picture(char, act="2c lickpussy", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
-        $ skill_for_checking = 2 * char.get_skill("sex")
+        $ char_skill_for_checking = 2 * char.get_skill("sex")
         if ct("Lesbian"):
-            $ skill_for_checking *= .8
-        $ male_skill_for_checking = hero.get_skill("oral") + hero.get_skill("sex")
+            $ char_skill_for_checking *= .8
+        $ skill_for_checking = hero.get_skill("oral") + hero.get_skill("sex")
         $ temp = randint(1, 5)
-        if (skill_for_checking - male_skill_for_checking) > 250 and dice(75):
+        if (char_skill_for_checking - skill_for_checking) > 250 and dice(75):
             $ temp += randint(1, 5)
         $ hero.oral += temp
         $ char.sex += randint(2, 6)
@@ -901,6 +903,8 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             extend " First your tongue just barely touches her pussy, but soon you reach deeper."
         else:
             extend " As you put your tongue inside her, you flex the muscles in your tongue to widen the gap as much as possible."
+
+        call interaction_sex_scene_check_skill_gives from _call_interaction_sex_scene_check_skill_gives_1
 
     elif current_action == "blow":
         $ get_single_sex_picture(char, act="bc blowjob", location=sex_scene_location, hidden_partner=True)
@@ -1234,7 +1238,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     $ sex_scene_libido -= 1
     jump interaction_scene_choice
 
-label interaction_sex_scene_check_skill_jobs: # skill level check for one side actions
+label interaction_sex_scene_check_skill_jobs: # skill level check for girl side actions
 
     if current_action == "hand":
         if skill_for_checking <= 200:
@@ -1343,6 +1347,65 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
     if skill_for_checking >= 50:
         $ guy_count +=1
         $ cum_count += 1
+    return
+
+label interaction_sex_scene_check_skill_gives: # # skill level check for MC side actions
+    if sex_scene_libido > 0:
+        if current_action == "lickvag":
+            if skill_for_checking >= 2000:
+                extend " The pleasure from joy went through her body as she reached an orgasm."
+                $ char.joy += randint(3, 5)
+            elif skill_for_checking >= 1000:
+                extend " You managed to make her cum multiple times."
+                $ char.joy += randint(2, 4)
+            elif skill_for_checking >= 500:
+                extend " Finally you made her cum."
+                $ char.joy += randint(1, 2)
+            elif skill_for_checking >= 200:
+                extend " You licked her pussy until she came. It felt good."
+                $ char.joy += randint(0, 1)
+            elif skill_for_checking >= 100:
+                extend " You licked her pussy until she came."
+                $ hero.vitality -= randint(5, 10)
+            elif skill_for_checking >= 50:
+                extend " You had some difficulties with bringing her to orgasm but managed to overcome them."
+                $ hero.vitality -= randint(10, 15)
+            else:
+                extend " Unfortunately, you didn't have the skill to satisfy her as well. [char.name] looks disappointed."
+                $ hero.vitality -= randint(10, 15)
+
+        elif current_action == "fingervag":
+            if skill_for_checking >= 2000:
+                extend " Your bodies merged into a single entity, filling each other with pleasure and satisfaction."
+                $ char.joy += randint(3, 5)
+            elif skill_for_checking >= 1000:
+                extend " You managed to make her cum multiple times."
+                $ char.joy += randint(2, 4)
+            elif skill_for_checking >= 500:
+                extend " Finally you made her cum."
+                $ char.joy += randint(1, 2)
+            elif skill_for_checking >= 200:
+                extend " You fingered her until she came. It felt good."
+                $ char.joy += randint(0, 1)
+            elif skill_for_checking >= 100:
+                extend " You fingered her until she came."
+                $ hero.vitality -= randint(5, 10)
+            elif skill_for_checking >= 50:
+                extend " You had some difficulties with bringing her to orgasm but managed to overcome them."
+                $ hero.vitality -= randint(10, 15)
+            else:
+                extend " Unfortunately, you didn't have the skill to satisfy her as well. [char.name] looks disappointed."
+                $ hero.vitality -= randint(10, 15)
+
+    else:
+        if skill_for_checking >= 1000:
+            extend " You did your best to make her cum, but it brought more pain than pleasure judging by her expression."
+        else:
+            " She is not in the mood anymore. Your efforts to make her cum were in vain."
+
+    $ sex_count += 1
+    if skill_for_checking >= 50:
+        $ girl_count += 1
     return
 
 label interaction_sex_scene_check_skill_acts: # skill level check for two sides actions
