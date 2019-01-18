@@ -1,5 +1,6 @@
 label swimming_pool:
     $ gm.enter_location(has_tags=["girlmeets", "swimsuit"], has_no_tags=["beach", "sleeping"], curious_priority=False)
+    $ coords = [[.2, .45], [.42, .6], [.7, .5]]
     if not "swimming_pool" in ilists.world_music:
         $ ilists.world_music["swimming_pool"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("swimming_pool")]
     if not global_flags.has_flag("keep_playing_music"):
@@ -62,11 +63,9 @@ screen swimming_pool():
 
         add "content/gfx/images/bg_gradient.webp" yalign .45
 
-        hbox:
-            align(.5, .3)
-            spacing 70
-
-            for entry in gm.display_girls():
+        for j, entry in enumerate(gm.display_girls()):
+            hbox:
+                align (coords[j])
                 use rg_lightbutton(img=entry.show("sfw", "swimsuit", "pool", exclude=["beach"], type="reduce", label_cache=True, resize=(300, 400), gm_mode=True), return_value=['jump', entry])
 
 screen swimmong_pool_swim():
