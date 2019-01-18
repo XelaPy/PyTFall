@@ -734,9 +734,22 @@ init -9 python:
 
             return ""
 
+        def get_tags_from_cache(self, label):
+            """
+            Returns tags from cache based on the label provided.
+            """
+            for entry in self.tags_cache:
+                if entry[0] == label:
+                    return entry[1]
+            
+            entry = [label, []]
+            self.tags_cache.append(entry)
+            return entry[1]
+
         def clear_img_cache(self):
             self.cache = list()
             self.label_cache = list()
+            self.tags_cache = list()
 
         def get_vnsprite(self, mood=None):
             """

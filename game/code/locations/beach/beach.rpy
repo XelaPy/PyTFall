@@ -88,10 +88,29 @@ screen city_beach():
             hbox:
                 align (coords[j])
                 $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach",
-                            exclude=["urban", "wildness", "suburb", "nature", "winter",
-                                     "night", "formal", "indoor", "indoors"],
-                            type="reduce", label_cache=True, resize=(300, 400), gm_mode=True),
+                $ tags = entry.get_tags_from_cache(last_label)
+                if not tags:
+                    $ beach_tags_list = []
+                    # main set
+                    if entry.has_image("girlmeets", "beach"):
+                        $ beach_tags_list.append(("girlmeets", "beach"))
+                    if entry.has_image("girlmeets","swimsuit", "simple bg"):
+                        $ beach_tags_list.append(("girlmeets", "swimsuit", "simple bg"))
+                    if entry.has_image("girlmeets","swimsuit", "outdoors"):
+                        $ beach_tags_list.append(("girlmeets", "swimsuit", "outdoors"))
+                    # secondary set if nothing found
+                    if not beach_tags_list:
+                        if entry.has_image("girlmeets", "outdoors"):
+                            $ beach_tags_list.append(("girlmeets", "outdoors"))
+                        if entry.has_image("girlmeets", "simple bg"):
+                            $ beach_tags_list.append(("girlmeets", "simple bg"))
+                    # giveup
+                    if not beach_tags_list:
+                        $ beach_tags_list.append(("girlmeets", ))
+                    $ tags.extend(choice(beach_tags_list))
+
+                use rg_lightbutton(img=entry.show(*tags, type="first_default", label_cache=True, resize=(300, 400), gm_mode=True,
+                            exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"]),
                             return_value=['jump', entry])
 
 screen city_beach_swim():
