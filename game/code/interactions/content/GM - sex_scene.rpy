@@ -176,16 +176,16 @@ init python:
                 optional_included.append("sexwithmc")
 
             # image selection
-            if char.has_image(act_tag, loc_tag, exclude=excluded):
-                gm.set_img(act_tag, loc_tag, *optional_included, exclude=excluded, type="reduce")
-            elif char.has_image(act_tag, loc_tag, exclude=excluded_1):
-                gm.set_img(act_tag, loc_tag, *optional_included, exclude=excluded_1, type="reduce")
+            if char.has_image(act, loc_tag, exclude=excluded):
+                gm.set_img(act, loc_tag, *optional_included, exclude=excluded, type="reduce")
+            elif char.has_image(act, loc_tag, exclude=excluded_1):
+                gm.set_img(act, loc_tag, *optional_included, exclude=excluded_1, type="reduce")
             elif char.has_image("after sex", loc_tag, exclude=excluded):
                 gm.set_img("after sex", loc_tag, *optional_included, exclude=excluded, type="reduce")
             elif char.has_image("after sex", loc_tag, exclude=excluded_1):
                 gm.set_img("after sex", loc_tag, *optional_included, exclude=excluded_1, type="reduce")
             else:
-                tags = ([act_tag, "simple bg"], [act_tag, "no bg"], ["after sex", "simple bg"], ["after sex", "no bg"])
+                tags = ([act, "simple bg"], [act, "no bg"], ["after sex", "simple bg"], ["after sex", "no bg"])
                 result = get_simple_act(char, tags, excluded)
                 if result:
                     result.append(optional_included[-1])
