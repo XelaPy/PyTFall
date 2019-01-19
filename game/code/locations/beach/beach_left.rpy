@@ -155,7 +155,19 @@ label mc_action_city_beach_rest:
 
             # jump interactions_sex_scene_begins
 
-            show expression char.show("beach", "bc handjob", "bc blowjob", "bc footjob", "bc titsjob", exclude=["rape", "bdsm", "group", "forced"], type="first_default", resize=(300, 400)) at truecenter with dissolve
+            $ excluded = ["rape", "bdsm", "group", "forced"]
+            $ tags = (["bc handjob", "beach"], ["bc blowjob", "beach"], ["bc footjob", "beach"], ["bc titsjob", "beach"])
+            $ result = get_simple_act(char, tags, excluded)
+            if not result:
+                $ tags = (["bc handjob", "no bg"], ["bc blowjob", "no bg"], ["bc footjob", "no bg"], ["bc titsjob", "no bg"],
+                        ["bc handjob", "simple bg"], ["bc blowjob", "simple bg"], ["bc footjob", "simple bg"], ["bc titsjob", "simple bg"])
+                $ result = get_simple_act(char, tags, excluded)
+                if not result:
+                    # give up
+                    $ result = ("beach", "swimsuit")
+
+            show expression char.show(*result, exclude=excluded, type="reduce", resize=(300, 400)) at truecenter with dissolve
+
             "Unfortunately [char.name] forgot her sunscreen today, so you had no choice but to provide another liquid as a replacement."
             $ char.sex += 1
             $ hero.sex += 1
