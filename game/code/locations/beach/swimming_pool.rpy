@@ -35,22 +35,17 @@ label swimming_pool:
             $ girl = result[1]
             $ tags = girl.get_tags_from_cache(last_label)
             if not tags:
-                $ pool_tags_list = []
-                # main set
-                if girl.has_image("girlmeets", "pool"):
-                    $ pool_tags_list.append(("girlmeets", "pool"))
-                if girl.has_image("girlmeets", "swimsuit", "simple bg"):
-                    $ pool_tags_list.append(("girlmeets", "swimsuit", "simple bg"))
-                # if nothing found
-                if not pool_tags_list:
-                    if girl.has_image("girlmeets","simple bg"):
-                        $ pool_tags_list.append(("girlmeets", "simple bg"))
-                    else:
-                        $ pool_tags_list.append(("girlmeets", "swimsuit"))
+                $ img_tags = (["girlmeets", "pool"], ["girlmeets", "swimsuit", "simple bg"], ["girlmeets", "swimsuit", "no bg"])
+                $ result = get_simple_act(girl, img_tags)
+                if not result:
+                    $ img_tags = (["girlmeets", "simple bg"], ["girlmeets", "no bg"])
+                    $ result = get_simple_act(girl, img_tags)
+                    if not result:
+                        # giveup
+                        $ result = ("girlmeets", "swimsuit")
+                $ tags.extend(result)
 
-                $ tags.extend(choice(pool_tags_list))
-
-            $ gm.start_gm(girl, img=girl.show(*tags, exclude=["beach"], type="first_default", label_cache=True, resize=(300, 400), gm_mode=True))
+            $ gm.start_gm(girl, img=girl.show(*tags, type="reduce", label_cache=True, resize=(300, 400), gm_mode=True))
 
         if result[0] == 'control':
             if result[1] == 'return':
