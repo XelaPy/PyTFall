@@ -1106,3 +1106,33 @@ init -11 python:
         TODO: Do the same as above for money using one or more functions.
         """
         pass
+
+    #def get_act(character, tags): # copypaste from jobs without the self part, allows to randomly select one of existing tags sets
+    #        acts = list()
+    #        for t in tags:
+    #            if isinstance(t, tuple):
+    #                if character.has_image(*t):
+    #                    acts.append(t)
+    #            elif isinstance(t, dict):
+    #                if character.has_image(*t.get("tags", []), exclude=t.get("exclude", [])) and dice(t.get("dice", 100)):
+    #                    acts.append(t)
+
+    #        if acts:
+    #            act = choice(acts)
+    #        else:
+    #            act = None
+
+    #        return act
+
+    # copypaste of get_act from jobs without the self part, allows to randomly select one of existing tags sets
+    #  unlike the function from jobs it supports only one set of excluded tags
+    def get_simple_act(char, tags, excluded=None):
+        acts = list()
+        for t in tags:
+            if char.has_image(*t, exclude=excluded):
+                acts.append(t)
+        if acts:
+            act = choice(acts)
+        else:
+            act = None
+        return act

@@ -1,15 +1,4 @@
 init python:
-    def get_simple_act(char, tags, excluded): # copypaste from jobs without the self part, allows to randomly select one of existing tags sets; unlike the function from jobs it supports only one set of excluded tags
-        acts = list()
-        for t in tags:
-            if char.has_image(*t, exclude=excluded):
-                acts.append(t)
-        if acts:
-            act = choice(acts)
-        else:
-            act = None
-        return act
-        
     def get_rape_picture(char=None, hidden_partner=False):
         """
         This function returns the best possible rape picture, without specifying where or what kind of action it should have since rape pics are not common enough to be so demanding.
