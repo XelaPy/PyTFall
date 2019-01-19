@@ -70,7 +70,7 @@ screen say(who, what, side_image=None, two_window=False):
                 add side_image.say_screen_portrait pos 219, 639 anchor .5, .5
 
 
-            if side_image.say_screen_portrait_overlay_mode not in [None] + side_image.UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS:
+            if side_image.say_screen_portrait_overlay_mode not in [None] + STATIC_CHAR.UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS:
                 timer .0001 action Function(interactions_portraits_overlay.change, side_image.say_screen_portrait_overlay_mode)
                 add interactions_portraits_overlay
         else:
