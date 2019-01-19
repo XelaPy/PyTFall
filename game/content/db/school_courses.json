@@ -2,9 +2,15 @@
     "Beauty": {
         "desc": "This course focuses on training charisma and refinement.",
         "image": "Beauty/",
+        "imageMode": "any",
         "imageTags": [
             "beauty",
             "studying"
+        ],
+        "noImageTags": [
+            "sex",
+            "nude",
+            "rest"
         ],
         "primary": [
             "charisma", "refinement"
@@ -29,11 +35,16 @@
     "Dance": {
         "desc": "This course focuses on agility and charisma. May also improve constitution and striptease skill.",
         "image": "Dance/",
+        "imageMode": "any",
         "imageTags": [
             "dancing",
             "stripping",
             "singing"
-            
+        ],
+        "noImageTags": [
+            "sex",
+            "nude",
+            "rest"
         ],
         "primary": [
             "agility", "charisma"
@@ -46,12 +57,16 @@
         "desc": "This course focuses on training attack and security. May also improve defense.",
         "image": "Combat/",
         "type": "combat",
-        "imageMode": "normal",
+        "imageMode": "any",
         "imageTags": [
-            "sfw",
             "battle",
             "armor",
             "ninja"
+        ],
+        "noImageTags": [
+            "sex",
+            "nude",
+            "rest"
         ],
         "primary": [
             "attack",
@@ -64,14 +79,14 @@
     "Leadership": {
         "desc": "This course focuses on training management and character.",
         "image": "Leader/",
-        "imageMode": "normal",
+        "imageMode": "any",
         "imageTags": [
-            "sfw",
-            "profile",
             "confident",
             "defiant"
         ],
         "noImageTags": [
+            "sex",
+            "nude",
             "rest"
         ],
         "primary": [
@@ -86,6 +101,7 @@
         "desc": "This course focuses on training defence and security. May also improve constitution.",
         "image": "Combat/",
         "type": "combat",
+        "imageMode": "any",
         "imageTags": [
             "battle",
             "armor",
@@ -108,10 +124,16 @@
         "desc": "This course focuses on training attack and agility. May also improve general sex and security.",
         "image": "Kunoichi/",
         "type": "combat",
+        "imageMode": "any",
         "imageTags": [
             "ninja",
             "battle",
             "exercising"
+        ],
+        "noImageTags": [
+            "sex",
+            "nude",
+            "rest"
         ],
         "primary": [
             "attack",
@@ -140,9 +162,15 @@
     "Etiquette": {
         "desc": "This course focuses on refinement. May also improve service and intelligence.",
         "image": "Etiquette/",
+        "imageMode": "any",
         "imageTags": [
             "etiquette",
             "studying"
+        ],
+        "noImageTags": [
+            "sex",
+            "nude",
+            "rest"
         ],
         "primary": [
             "refinement"
@@ -155,11 +183,16 @@
     "Maid": {
         "desc": "This course focuses on maid skills. May also improve character and intelligence.",
         "image": "Service/",
+        "imageMode": "any",
         "imageTags": [
-            "sfw",
             "maid",
             "cleaning",
             "bunny"
+        ],
+        "noImageTags": [
+            "sex",
+            "nude",
+            "rest"
         ],
         "primary": [
             "service",
@@ -175,11 +208,16 @@
     "Cleaning": {
         "desc": "This course focuses on cleaning and service skills, as well as agility and constitution.",
         "image": "Service/",
+        "imageMode": "any",
         "imageTags": [
-            "sfw",
             "maid",
             "cleaning",
             "bunny"
+        ],
+        "noImageTags": [
+            "sex",
+            "nude",
+            "rest"
         ],
         "primary": [
             "constitution",
@@ -193,11 +231,17 @@
     "Barmaid": {
         "desc": "This course focuses on bartending and service skills, intelligence and character. May also improve constitution.",
         "image": "Service/",
+        "imageMode": "any",
         "imageTags": [
-            "sfw",
             "maid",
             "cleaning",
+            "waitress",
             "bunny"
+        ],
+        "noImageTags": [
+            "sex",
+            "nude",
+            "rest"
         ],
         "primary": [
             "bartending",
