@@ -597,11 +597,10 @@ init -9 python:
                         if not "revealing" in tags:
                             tags += ("revealing",)
                 else:
-                    if not "nude" in exclude:
-                        if not exclude:
-                            exclude = ["nude"]
-                        else:
-                            exclude.append("nude")
+                    if not exclude:
+                        exclude = ["nude"]
+                    elif not "nude" in exclude:
+                        exclude.append("nude")
 
 
             if not all([maxw, maxh]):
