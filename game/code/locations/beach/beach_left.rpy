@@ -104,66 +104,65 @@ label mc_action_city_beach_rest:
         jump city_beach_left
     $ hero.set_flag("rest_at_beach", value=day)
 
-    python:
-        picture = []
-        if len(hero.team) > 1:
+    if len(hero.team) > 1:
+        python:
+            picture = []
+            excluded = ["sex", "stripping"]
             for member in hero.team:
                 if member != hero:
-                    if member.has_image("rest", "beach", exclude=["sex", "stripping"]) and member.has_image("bathing", "beach", exclude=["sex", "stripping"]):
-                        if dice(50):
-                            picture.append(member.show("rest", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
-                        else:
-                            picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
-                    elif member.has_image("rest", "beach", exclude=["sex", "stripping"]):
-                        picture.append(member.show("rest", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
-                    elif member.has_image("bathing", "beach", exclude=["sex", "stripping"]):
-                        picture.append(member.show("bathing", "beach", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
-                    elif member.has_image("beach", exclude=["sex", "stripping"]):
-                        picture.append(member.show("beach", "sfw", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
-                    elif member.has_image("swimsuit", "simple bg", exclude=["sex", "stripping"]):
-                        picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
-                    elif member.has_image("swimsuit", "no bg", exclude=["sex", "stripping"]):
-                        picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(300, 400)))
+                    tags = (["rest", "beach"], ["bathing", "beach"], ["sleeping", "beach"])
+                    result = get_simple_act(member, tags, excluded)
+                    if result:
+                        picture.append(member.show(*result, exclude=excluded, type="reduce", resize=(300, 400)))
+                        continue
 
-    if len(picture) == 1:
-        show expression picture[0] at truecenter as temp1
-        with dissolve
-    elif len(picture) == 2:
-        show expression picture[0] at center_left as temp1
-        show expression picture[1] at center_right as temp2
-        with dissolve
+                    tags = (["rest", "swimsuit", "no bg"], ["bathing", "swimsuit", "no bg"], ["sleeping", "swimsuit", "no bg"],
+                            ["rest", "swimsuit", "simple bg"], ["bathing", "swimsuit", "simple bg"], ["sleeping", "swimsuit", "simple bg"])
+                    result = get_simple_act(member, tags, excluded)
+                    if result:
+                        picture.append(member.show(*result, exclude=excluded, type="reduce", resize=(300, 400)))
+                    elif member.has_image("beach", exclude=excluded):
+                        picture.append(member.show("beach", "sfw", exclude=excluded, type="reduce", resize=(300, 400)))
 
-    if len(hero.team) > 1:
+        if len(picture) == 1:
+            show expression picture[0] at truecenter as temp1
+            with dissolve
+        elif len(picture) == 2:
+           show expression picture[0] at center_left as temp1
+           show expression picture[1] at center_right as temp2
+           with dissolve
+
         "You're relaxing at the beach with your team."
+
+        $ members = list(x for x in hero.team if (x != hero and 'Horny' in x.effects and (check_lovers(x, hero) or x.disposition >= 500) and interactions_silent_check_for_bad_stuff(x)))
+        if members:
+            $ char = choice(members)
+            hide temp1
+            hide temp2
+            # Further goes example of running sex scene from anywhere, DO NOT DELETE until it will be implemented elsewhere
+            # $ sex_scene_location = "beach"
+            # $ interactions_run_gm_anywhere(char, exit="city_beach_left", background="beach_rest", custom=True)
+
+            # # Setup all the required globals:
+            # python:
+                # picture_before_sex = False
+                # sex_scene_location = "beach"
+
+            # hide temp1
+            # hide temp2
+            # show screen girl_interactions
+            # with dissolve
+
+            # jump interactions_sex_scene_begins
+
+            show expression char.show("beach", "bc handjob", "bc blowjob", "bc footjob", "bc titsjob", exclude=["rape", "bdsm", "group", "forced"], type="first_default", resize=(300, 400)) at truecenter with dissolve
+            "Unfortunately [char.name] forgot her sunscreen today, so you had no choice but to provide another liquid as a replacement."
+            $ char.sex += 1
+            $ hero.sex += 1
+            $ char.disposition += 3
+
     else:
         "You're relaxing at the beach."
-
-    $ members = list(x for x in hero.team if (x != hero and 'Horny' in x.effects and (check_lovers(x, hero) or x.disposition >= 500) and interactions_silent_check_for_bad_stuff(x)))
-    if members:
-        $ char = choice(members)
-        hide temp1
-        hide temp2
-        # Further goes example of running sex scene from anywhere, DO NOT DELETE until it will be implemented elsewhere
-        # $ sex_scene_location = "beach"
-        # $ interactions_run_gm_anywhere(char, exit="city_beach_left", background="beach_rest", custom=True)
-
-        # # Setup all the required globals:
-        # python:
-            # picture_before_sex = False
-            # sex_scene_location = "beach"
-
-        # hide temp1
-        # hide temp2
-        # show screen girl_interactions
-        # with dissolve
-
-        # jump interactions_sex_scene_begins
-
-        show expression char.show("sex", "beach", exclude=["2c anal", "2c vaginal", "gay", "living", "group", "pool", "stage", "dungeon", "onsen"], type="reduce", resize=(300, 400)) at truecenter with dissolve
-        "Unfortunately [char.name] forgot her sunscreen today, so you had no choice but to provide another liquid as a replacement."
-        $ char.sex += 1
-        $ hero.sex += 1
-        $ char.disposition += 3
 
     python:
         for member in hero.team:
