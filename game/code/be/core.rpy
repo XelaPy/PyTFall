@@ -1483,34 +1483,36 @@ init -1 python: # Core classes:
             return what
 
         def show_attackers_first_effect(self, battle, attacker, targets):
-            gfx, sfx = self.attacker_effects["gfx"], self.attacker_effects["sfx"]
-            what = self.get_attackers_first_effect_gfx()
+            gfx = self.attacker_effects["gfx"]
+            if gfx:
+                what = self.get_attackers_first_effect_gfx()
 
-            if sfx == "default":
-                sfx="content/sfx/sound/be/casting_1.mp3"
+                if gfx == "orb":
+                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
+                elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
+                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-75), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
+                elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
+                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
+                elif gfx == "default_1":
+                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc"), align=(.5, .5))], zorder=attacker.besk["zorder"]-1)
+                elif gfx == "circle_1":
+                    renpy.show("casting", what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-10), align=(.5, .5))], zorder=attacker.besk["zorder"]-1)
+                elif gfx == "circle_2":
+                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
+                elif gfx == "circle_3":
+                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center", yo=-50), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
+                elif gfx == "runes_1":
+                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-50), align=(.5, .5))], zorder=attacker.besk["zorder"]-1)
+                elif gfx == "wolf" or gfx == "bear":
+                    if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
+                        renpy.show("casting", what=what,  at_list=[Transform(xzoom=-1, pos=battle.get_cp(attacker, type="center"), align=(1.0, .5))], zorder=attacker.besk["zorder"]+1)
+                    else:
+                        renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(.1, .5))], zorder=attacker.besk["zorder"]+1)
 
-            if gfx == "orb":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
-            elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-75), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
-            elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
-            elif gfx == "default_1":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc"), align=(.5, .5))], zorder=attacker.besk["zorder"]-1)
-            elif gfx == "circle_1":
-                renpy.show("casting", what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-10), align=(.5, .5))], zorder=attacker.besk["zorder"]-1)
-            elif gfx == "circle_2":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
-            elif gfx == "circle_3":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center", yo=-50), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
-            elif gfx == "runes_1":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-50), align=(.5, .5))], zorder=attacker.besk["zorder"]-1)
-            elif gfx == "wolf" or gfx == "bear":
-                if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
-                    renpy.show("casting", what=what,  at_list=[Transform(xzoom=-1, pos=battle.get_cp(attacker, type="center"), align=(1.0, .5))], zorder=attacker.besk["zorder"]+1)
-                else:
-                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(.1, .5))], zorder=attacker.besk["zorder"]+1)
+            sfx = self.attacker_effects["sfx"]
             if sfx:
+                if sfx == "default":
+                    sfx="content/sfx/sound/be/casting_1.mp3"
                 renpy.sound.play(sfx)
 
         def get_attackers_first_effect_pause(self, battle, attacker):
@@ -1575,9 +1577,18 @@ init -1 python: # Core classes:
 
             # GFX:
             if gfx:
+                # Zoom if requested
+                xzoom = self.main_effect.get("xzoom", 1.0)
+                yzoom = self.main_effect.get("yzoom", 1.0)
+                zoom = self.main_effect.get("zoom", None)
+                if zoom is not None:
+                    xzoom *= zoom
+                    yzoom *= zoom
                 # Flip the attack image if required:
-                if self.main_effect.get("hflip", None):
-                    gfx = Transform(gfx, xzoom=-1) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else gfx
+                if self.main_effect.get("hflip", None) and battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
+                    xzoom = -xzoom
+                if xzoom != 1.0 or yzoom != 1.0:
+                    gfx = Transform(gfx, xzoom=xzoom, yzoom=yzoom)
 
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
