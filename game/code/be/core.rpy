@@ -1577,6 +1577,17 @@ init -1 python: # Core classes:
 
             # GFX:
             if gfx:
+                # use AlphaBlend
+                blend = self.main_effect.get("blend", None)
+                if blend is not None:
+                    alpha = blend.get("alpha", None)
+                    if alpha is not None:
+                        gfx = Transform(gfx, alpha=alpha)
+                    effect = getattr(store, blend.get("effect", None), None)
+                    if effect is not None:
+                        size = blend["size"]
+                        gfx = AlphaBlend(gfx, gfx, effect(*size), alpha=True)
+
                 # Zoom if requested
                 xzoom = self.main_effect.get("xzoom", 1.0)
                 yzoom = self.main_effect.get("yzoom", 1.0)
