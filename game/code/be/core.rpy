@@ -661,66 +661,37 @@ init -1 python: # Core classes:
             self.timestamps = {} # We keep all gfx effects here!
 
             # Normalize:
-            self.attacker_action = attacker_action.copy()
-            self.attacker_action["gfx"] = self.attacker_action.get("gfx", "step_forward")
-            self.attacker_action["sfx"] = self.attacker_action.get("sfx", None)
+            self.attacker_action = { "gfx" : "step_forward", "sfx" : None }
+            self.attacker_action.update(attacker_action)
 
-            self.attacker_effects = attacker_effects.copy()
-            self.attacker_effects["gfx"] = attacker_effects.get("gfx", None)
-            self.attacker_effects["sfx"] = attacker_effects.get("sfx", None)
+            self.attacker_effects = { "gfx" : None, "sfx" : None }
+            self.attacker_effects.update(attacker_effects)
 
-            dp = deepcopy(main_effect)
-            self.main_effect = dp
-            self.main_effect["gfx"] = main_effect.get("gfx", None)
-            self.main_effect["sfx"] = main_effect.get("sfx", None)
-            self.main_effect["start_at"] = main_effect.get("start_at", 0)
-            self.main_effect["aim"] = dp.get("aim", {})
-            if self.delivery in ["melee", "ranged"]:
-                self.main_effect["duration"] = main_effect.get("duration", .1)
-            else:
-                self.main_effect["duration"] = main_effect.get("duration", .5)
+            self.main_effect = { "gfx" : None, "sfx" : None, "start_at" : 0, "aim": {},
+                                 "duration": (.1 if self.delivery in ["melee", "ranged"] else .5) }
+            self.main_effect.update(main_effect)
 
-            self.dodge_effect = dodge_effect.copy()
-            self.dodge_effect["gfx"] = dodge_effect.get("gfx", "dodge")
+            self.dodge_effect = { "gfx": "dodge" }
+            self.dodge_effect.update(dodge_effect)
 
-            self.target_sprite_damage_effect = target_sprite_damage_effect.copy()
-            self.target_sprite_damage_effect["gfx"] = target_sprite_damage_effect.get("gfx", "shake")
-            self.target_sprite_damage_effect["duration"] = target_sprite_damage_effect.get("duration", self.main_effect["duration"])
-            self.target_sprite_damage_effect["sfx"] = target_sprite_damage_effect.get("sfx", None)
-            if self.delivery in ["melee", "ranged"]:
-                self.target_sprite_damage_effect["initial_pause"] = target_sprite_damage_effect.get("initial_pause", .1)
-            else:
-                self.target_sprite_damage_effect["initial_pause"] = target_sprite_damage_effect.get("initial_pause", .2)
+            self.target_sprite_damage_effect = { "gfx" : "shake", "sfx" : None, "duration": self.main_effect["duration"],
+                                 "initial_pause": (.1 if self.delivery in ["melee", "ranged"] else .2) }
+            self.target_sprite_damage_effect.update(target_sprite_damage_effect)
 
-            self.target_damage_effect = target_damage_effect.copy()
-            self.target_damage_effect["gfx"] = target_damage_effect.get("gfx", "battle_bounce")
-            self.target_damage_effect["sfx"] = target_damage_effect.get("sfx", None)
-            if not self.delivery in ["melee", "ranged"]:
-                self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", .21)
-            else:
-                self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", self.main_effect["duration"] * .75)
+            self.target_damage_effect = { "gfx" : "battle_bounce", "sfx" : None,
+                                 "initial_pause": ((self.main_effect["duration"] * .75) if self.delivery in ["melee", "ranged"] else .21) }
+            self.target_damage_effect.update(target_damage_effect)
 
-            self.target_death_effect = target_death_effect.copy()
-            self.target_death_effect["gfx"] = target_death_effect.get("gfx", "dissolve")
-            self.target_death_effect["duration"] = self.target_death_effect.get("duration", .5)
-            self.target_death_effect["sfx"] = target_death_effect.get("sfx", None)
-            if self.delivery in ["melee", "ranged"]:
-                self.target_death_effect["initial_pause"] = target_death_effect.get("initial_pause", .2)
-            else:
-                self.target_death_effect["initial_pause"] = target_death_effect.get("initial_pause", self.target_sprite_damage_effect["initial_pause"] + .1)
+            self.target_death_effect = { "gfx" : "dissolve", "sfx" : None, "duration": .5,
+                                 "initial_pause": (.2 if self.delivery in ["melee", "ranged"] else (self.target_sprite_damage_effect["initial_pause"] + .1)) }
+            self.target_death_effect.update(target_death_effect)
 
-            self.bg_main_effect = bg_main_effect.copy()
-            self.bg_main_effect["gfx"] = bg_main_effect.get("gfx", None)
-            if self.bg_main_effect["gfx"]:
-                self.bg_main_effect["initial_pause"] = self.bg_main_effect.get("initial_pause", self.main_effect["start_at"])
-                self.bg_main_effect["duration"] = self.bg_main_effect.get("duration", main_effect.get("duration", .4))
+            self.bg_main_effect = { "gfx" : None, "initial_pause" : self.main_effect["start_at"], "duration": self.main_effect["duration"] }
+            self.bg_main_effect.update(bg_main_effect)
 
             # Cost of the attack:
             self.mp_cost = mp_cost
-            if not(isinstance(health_cost, int)) and health_cost > .9:
-                self.health_cost = .9
-            else:
-                self.health_cost = health_cost
+            self.health_cost = health_cost
             self.vitality_cost = vitality_cost
 
         def __call__(self, ai=False, t=None):
@@ -1896,9 +1867,9 @@ init -1 python: # Core classes:
             if sfx:
                 renpy.sound.play(sfx)
 
-            if gfx in ["mirage"]:
+            if gfx == "mirage":
                 battle.bg.change(gfx)
-            if gfx in ["black"]:
+            elif gfx == "black":
                 renpy.with_statement(None)
                 renpy.show("bg", what=Solid("#000000"))
                 renpy.with_statement(dissolve)
@@ -1906,9 +1877,9 @@ init -1 python: # Core classes:
 
         def hide_bg_main_effect(self):
             gfx = self.bg_main_effect["gfx"]
-            if gfx in ["mirage"]:
+            if gfx == "mirage":
                 battle.bg.change("default")
-            if gfx in ["black"]:
+            elif gfx == "black":
                 renpy.with_statement(None)
                 renpy.show("bg", what=battle.bg)
                 renpy.with_statement(dissolve)
