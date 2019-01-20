@@ -1646,26 +1646,27 @@ init -9 python:
             """
             # Attacks/Magic -------------------------------------------------->
             # Attack Skills:
-            attack_skills = getattr(item, "attacks", [])
-            for battle_skill in attack_skills:
-                if battle_skill not in store.battle_skills:
-                    msg = "Item: {} applied invalid {} battle skill to: {} ({})!".format(item.id, battle_skill, self.fullname, self.__class__)
-                    char_debug(msg)
-                    continue
-                else:
-                    battle_skill = store.battle_skills[battle_skill]
-                func = self.attack_skills.append if direction else self.attack_skills.remove
-                func(battle_skill, False)
-            if attack_skills:
+            attack_skills = getattr(item, "attacks", None)
+            if attack_skills is not None:
+                for battle_skill in attack_skills:
+                    if battle_skill not in store.battle_skills:
+                        msg = "Item: {} applied invalid {} battle skill to: {} ({})!".format(item.id, battle_skill, self.fullname, self.__class__)
+                        char_debug(msg)
+                        continue
+                    else:
+                        battle_skill = store.battle_skills[battle_skill]
+                    func = self.attack_skills.append if direction else self.attack_skills.remove
+                    func(battle_skill, False)
+
                 # Settle the default attack skill:
                 default = self.default_attack_skill
-                if len(self.attack_skills) > 1 and default in self.attack_skills:
-                    self.attack_skills.remove(default)
-                elif not self.attack_skills:
+                if not self.attack_skills:
                     self.attack_skills.append(default)
+                elif len(self.attack_skills) > 1 and default in self.attack_skills:
+                    self.attack_skills.remove(default)
 
             # Combat Spells:
-            for battle_skill in item.add_be_spells + item.remove_be_spells:
+            for battle_skill in itertools.chain(item.add_be_spells, item.remove_be_spells):
                 if battle_skill not in store.battle_skills:
                     msg = "Item: {} applied invalid {} battle skill to: {} ({})!".format(item.id, battle_skill, self.fullname, self.__class__)
                     char_debug(msg)
