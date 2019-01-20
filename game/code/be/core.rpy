@@ -1590,6 +1590,11 @@ init -1 python: # Core classes:
                 if xzoom != 1.0 or yzoom != 1.0:
                     gfx = Transform(gfx, xzoom=xzoom, yzoom=yzoom)
 
+                # Scale if requested
+                scale = self.main_effect.get("scale", None)
+                if scale is not None:
+                    gfx = ProportionalScale(gfx, *scale)
+
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
                 anchor = aim.get("anchor", (.5, .5))
