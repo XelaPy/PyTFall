@@ -697,6 +697,8 @@ init -1 python: # Core classes:
             self.target_damage_effect["sfx"] = target_damage_effect.get("sfx", None)
             if not self.delivery in ["melee", "ranged"]:
                 self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", .21)
+            else:
+                self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", self.main_effect["duration"] * .75)
 
             self.target_death_effect = target_death_effect.copy()
             self.target_death_effect["gfx"] = target_death_effect.get("gfx", "dissolve")
@@ -1758,8 +1760,7 @@ init -1 python: # Core classes:
             # Used to be .2 but it is a better idea to show
             # it after the attack gfx effects are finished
             # if no value was specified directly.
-            default =  self.main_effect["duration"] * .75
-            damage_effect_start = start + self.target_damage_effect.get("initial_pause", default)
+            damage_effect_start = start + self.target_damage_effect["initial_pause"]
 
             if damage_effect_start in self.timestamps:
                 damage_effect_start = damage_effect_start + uniform(.001, .002)

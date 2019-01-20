@@ -525,6 +525,10 @@ label after_load:
     #         if c not in chars.itervalues():
     #             remove_from_gameworld(c)
     python hide:
+        for s in store.battle_skills.values():
+            if "initial_pause" not in s.target_damage_effect.keys():
+                s.target_damage_effect["initial_pause"] = s.main_effect["duration"] * .75
+
         tierless_items = store.tiered_items.get(None)
         if tierless_items:
             for item in tierless_items:
