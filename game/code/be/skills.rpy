@@ -1278,7 +1278,7 @@ python: # Darkness:
             desc="Conjures primary darkness tearing apart all living things.", tier=4,
             attacker_effects={"gfx": "orb", "sfx": "default"},
             main_effect={"gfx": "dominion", "sfx": "content/sfx/sound/be/darkness5.mp3", "duration": 2.5},
-            arget_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.5},
+            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.5},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 2.4},
             target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": .5},
             bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.6})
