@@ -452,4 +452,4 @@ screen be_status_overlay():
         hbox:
             pos temp xanchor .5
             for status_icon in fighter.status_overlay:
-                add Text(status_icon) at status_overlay(sv1=.8, ev1=1.0, t1=.9, sv2=1.0, ev2=.8, t2=.9) yalign .5
+                add Text(ProportionalScale(status_icon, 30, 30)) at status_overlay(sv1=.8, ev1=1.0, t1=.9, sv2=1.0, ev2=.8, t2=.9) yalign .5

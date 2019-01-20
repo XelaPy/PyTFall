@@ -1373,7 +1373,7 @@ python: # Poison:
 python: # Buffs:
     DefenceBuffSpell("Aery Field", menu_pos=6, attributes=["status", "air"], kind="buff",
                      defence_multiplier={"ranged": 1.5}, buff_group="ranged shield",
-                     buff_icon=ProportionalScale("content/gfx/be/buffs/ranged_def.webp", 30, 30),
+                     buff_icon="content/gfx/be/buffs/ranged_def.webp",
                      mp_cost=.1, vitality_cost=.1, range=4, type="sa", defence_gfx="air_shield",
             desc="Creates a force field, reducing damage from ranged attacks.", tier=1,
             main_effect={"gfx": AlphaBlend("ranged_shield1_webm",
@@ -1385,7 +1385,7 @@ python: # Buffs:
             target_death_effect={"gfx": None})
     DefenceBuffSpell("Aery Shield", menu_pos=7, attributes=["status", "air"],
                      kind="buff", defence_multiplier={"ranged": 3.0}, buff_group="ranged shield",
-                     buff_icon=ProportionalScale("content/gfx/be/buffs/big_ranged_def.webp", 30, 30),
+                     buff_icon="content/gfx/be/buffs/big_ranged_def.webp",
                      mp_cost=.2, vitality_cost=.2, range=4, type="sa", defence_gfx="air_shield",
                      desc="Creates a powerful force field, reducing damage from ranged attacks.", tier=2,
                      main_effect={"gfx": AlphaBlend("ranged_shield1_webm",
@@ -1395,25 +1395,25 @@ python: # Buffs:
                      target_sprite_damage_effect={"gfx": None},
                      target_damage_effect={"gfx": None},
                      target_death_effect={"gfx": None})
-    DefenceBuffSpell("Arcane Field", menu_pos=6, attributes=["status", "darkness"], kind="buff", defence_multiplier={"magic": 1.5}, buff_group="spell shield", buff_icon=ProportionalScale("content/gfx/be/buffs/mag_def.webp", 30, 30), mp_cost=.1, vitality_cost=.1, range=4, type="sa",
+    DefenceBuffSpell("Arcane Field", menu_pos=6, attributes=["status", "darkness"], kind="buff", defence_multiplier={"magic": 1.5}, buff_group="spell shield", buff_icon="content/gfx/be/buffs/mag_def.webp", mp_cost=.1, vitality_cost=.1, range=4, type="sa",
             desc="Sets up a force field, partly shielding from magical damage.", tier=1,
             main_effect={"gfx": "magic_shield_webm", "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}, "zoom": 1.1},
             target_sprite_damage_effect={"gfx": None},
             target_damage_effect={"gfx": None},
             target_death_effect={"gfx": None})
-    DefenceBuffSpell("Arcane Shield", menu_pos=7, attributes=["status", "darkness"], kind="buff", defence_multiplier={"magic": 3.0}, buff_group="spell shield", vitality_cost=.2, mp_cost=.2, buff_icon=ProportionalScale("content/gfx/be/buffs/big_mag_def.webp", 30, 30), range=4, type="sa",
+    DefenceBuffSpell("Arcane Shield", menu_pos=7, attributes=["status", "darkness"], kind="buff", defence_multiplier={"magic": 3.0}, buff_group="spell shield", vitality_cost=.2, mp_cost=.2, buff_icon="content/gfx/be/buffs/big_mag_def.webp", range=4, type="sa",
             desc="Sets up a powerful force field, shielding from magical damage.", tier=2,
             main_effect={"gfx": "magic_shield_webm", "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}, "zoom": 1.1},
             target_sprite_damage_effect={"gfx": None},
             target_damage_effect={"gfx": None},
             target_death_effect={"gfx": None})
-    DefenceBuffSpell("Solid Field", menu_pos=6, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 1.5}, buff_group="melee shield", buff_icon=ProportionalScale("content/gfx/be/buffs/melee_def.webp", 30, 30), mp_cost=.1, vitality_cost=.1, range=4, type="sa", defence_gfx="solid_shield",
+    DefenceBuffSpell("Solid Field", menu_pos=6, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 1.5}, buff_group="melee shield", buff_icon="content/gfx/be/buffs/melee_def.webp", mp_cost=.1, vitality_cost=.1, range=4, type="sa", defence_gfx="solid_shield",
             desc="Sets up a force field, partly shielding from melee damage.", tier=1,
             main_effect={"gfx": "shield_1", "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}, "zoom": 2.0},
             target_sprite_damage_effect={"gfx": None},
             target_damage_effect={"gfx": None},
             target_death_effect={"gfx": None})
-    DefenceBuffSpell("Solid Shield", menu_pos=7, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 3.0}, buff_group="melee shield", vitality_cost=.2, mp_cost=.2, buff_icon=ProportionalScale("content/gfx/be/buffs/big_melee_def.webp", 30, 30), range=4, type="sa", defence_gfx="solid_shield",
+    DefenceBuffSpell("Solid Shield", menu_pos=7, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 3.0}, buff_group="melee shield", vitality_cost=.2, mp_cost=.2, buff_icon="content/gfx/be/buffs/big_melee_def.webp", range=4, type="sa", defence_gfx="solid_shield",
             desc="Sets up a powerful force field, shielding from melee damage.", tier=2,
             main_effect={"gfx": "shield_1", "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}, "zoom": 2.0},
             target_sprite_damage_effect={"gfx": None},
@@ -1421,7 +1421,7 @@ python: # Buffs:
             target_death_effect={"gfx": None})
     DefenceBuffSpell("Gray Shield", menu_pos=8, attributes=["status", "darkness", "light"], kind="buff",
             defence_multiplier={"melee": 3.0, "magic": 3.0, "ranged": 3.0}, buff_group="melee shield",
-            vitality_cost=.25, mp_cost=.25, buff_icon=ProportionalScale("content/gfx/be/buffs/gray.webp", 30, 30),
+            vitality_cost=.25, mp_cost=.25, buff_icon="content/gfx/be/buffs/gray.webp",
             range=4, type="sa", defence_gfx="gray_shield", item_only=True,
             desc="The apathy of the Gray Ring denies the existence of most incoming attacks, decreasing their power because it's such a bother to deal with them...",
             main_effect={"gfx": AlphaBlend("magic_shield_webm", "magic_shield_webm", gray_shield(340, 330), alpha=True), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
