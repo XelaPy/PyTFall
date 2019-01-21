@@ -78,7 +78,6 @@ python: # Sword attacks:
             menuname="D Projective", effect=60, multiplier=1.05, vitality_cost=10, mp_cost=.1,
             desc="Dark inner powers of the weapon allow performing attacks even at great distance.", item_only=True,
             projectile_effects={"gfx": "dark_projective_webm", "sfx": "content/sfx/sound/be/pr_sl.mp3", "duration": .55, "aim": {"point": "center", "anchor": (.5, .5)}},
-            main_effect={"gfx": Null(), "sfx": None, "duration": .01, "aim": {"anchor": (.5, .5), "xo": 0 ,"yo": 0}},
             target_sprite_damage_effect={"gfx": "on_darkness", "initial_pause": .55, "duration": .25},
             target_death_effect={"gfx": "dissolve", "initial_pause": .55, "duration": .5},
             dodge_effect={"initial_pause": .005})
@@ -179,7 +178,6 @@ python: # Sword attacks:
             desc="With special enchantments, even simplest blades can be used to summon cutting waves.", item_only=True,
             projectile_effects={"gfx": "simple_projective_webm", "sfx": "content/sfx/sound/be/pr_sl.mp3", "duration": .55,
                                 "aim": {"point": "center", "anchor": (.5, .5)}},
-            main_effect={"gfx": Null(), "sfx": None, "duration": .01, "aim": {"anchor": (.5, .5), "xo": 0 ,"yo": 0}},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .01, "duration": .2},
             target_death_effect={"gfx": "dissolve", "initial_pause": .55, "duration": .5},
             dodge_effect={"initial_pause": -.01})
