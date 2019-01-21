@@ -100,12 +100,10 @@ label start:
         dungeons = load_dungeons()
         tl.end("Loading: Dungeons")
 
-    # Battle Skills:
-    $ tl.start("Loading: Battle Skills")
-    $ battle_skills = dict()
-    call load_battle_skills from _call_load_battle_skills
-    $ tiered_magic_skills = dict()
-    python:
+        # Battle Skills:
+        tl.start("Loading: Battle Skills")
+        battle_skills = load_battle_skills()
+        tiered_magic_skills = dict()
         for s in battle_skills.values():
             tiered_magic_skills.setdefault(s.tier, []).append(s)
 

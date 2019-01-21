@@ -625,6 +625,32 @@ init -11 python:
 
         return { d['id']: Dungeon(**d) for d in content }
 
+    def load_battle_skills():
+        content = dict()
+        battle_skills_data = load_db_json("battle_skills.json")
+        fx_maps = ("attacker_action", "attacker_effects", "main_effect", "dodge_effect", "target_sprite_damage_effect", "target_damage_effect", "target_death_effect", "bg_main_effect")
+
+        for skill in battle_skills_data:
+            constructor = globals()[skill.pop("class")]
+            s = constructor()
+
+            for key, value in skill.iteritems():
+                if key in fx_maps:
+                    getattr(s, key).update(value)
+                elif key == "_COMMENT":
+                    pass
+                elif key == "_DEBUG_BE":
+                    if not DEBUG_BE:
+                        break
+                else:
+                    setattr(s, key, value)
+            else:
+                s.init()
+                content[s.name] = s
+
+        return content
+
+
 label load_resources:
     $ buildings = dict()
 

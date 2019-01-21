@@ -150,7 +150,7 @@ init -1 python: # Core classes:
                                     break
                             else: # Normal Skills:
                                 if isinstance(rv, Item):
-                                    skill = ConsumeItem("Use Item")
+                                    skill = ConsumeItem()
                                     skill.item = rv
                                 else:
                                     skill = rv
@@ -596,54 +596,48 @@ init -1 python: # Core classes:
                      "electricity": "{image=ele_element_be_size20}", "light": "{image=light_element_be_size20}", "darkness": "{image=darkness_element_be_size20}",
                      "healing": "{image=healing_be_size20}", "poison": "{image=poison_be_size20}"}
 
-        def __init__(self, name, mp_cost=0, health_cost=0, vitality_cost=0, kind="assault",
-                           range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
-                           menuname=None, critpower=0, sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
-                           add2skills=True, desc="", pause=0, target_state="alive", menu_pos=0,
-                           attacker_action={},
-                           attacker_effects={},
-                           main_effect={},
-                           dodge_effect={},
-                           target_sprite_damage_effect={},
-                           target_damage_effect={},
-                           target_death_effect={},
-                           bg_main_effect={},
-                           event_class = None, # If a class, instance of this even will be created and placed in the queue. This invokes special checks in the effects method.
-                           **kwargs):
-            """
-            range: range of the spell, 1 is minimum.
-            damage_effect: None is default, character is dissolved with the death effect in gfx method in special cases.
-            type: type of the attack, types are:
-            *all: Everyone in the range. *This doesn't work yet
-            *all_enemies: All enemies within the range.
-            *all_allies: All allies within the range.
-            *se: Single enemy within range.
-            *sa: Single ally within range.
-            """
+
+        def __init__(self):
             # Naming/Sorting:
-            self.name = name
-            self.kind = kind
-            self.menu_pos = menu_pos # Skill level might be a better name.
-            self.tier = kwargs.get("tier", None)
-            if not menuname:
-                self.mn = self.name
-            else:
-                self.mn = menuname
+            self.name = self.mn = None
+            self.kind = "assault"
+            self.menu_pos = 0 # Skill level might be a better name.
+            self.tier = None
 
             # Logic:
-            self.range = range
-            self.source = source
-            self.type = type
-            self.critpower = critpower
-            self.piercing = piercing
-            self.true_pierce = true_pierce # Does full damage to back rows.
-            self.attributes = attributes
-            self.effect = effect
-            self.multiplier = multiplier
-            self.desc = desc
-            self.target_state = target_state
+            self.range = 1
+            self.source = None
+            self.type = "se"
+            self.critpower = 0
+            self.piercing = False
+            self.true_pierce = False # Does full damage to back rows.
+            self.attributes = []
+            self.effect = 0
+            self.multiplier = 1
+            self.desc = ""
+            self.target_state = "alive"
 
-            self.event_class = event_class
+            self.event_class = None # If a class, instance of this even will be created and placed in the queue. This invokes special checks in the effects method.):
+
+            # GFX/SFX:
+            self.attacker_action = { "gfx" : "step_forward", "sfx" : None }
+            self.attacker_effects = { "gfx" : None, "sfx" : None }
+            self.main_effect = { "gfx" : None, "sfx" : None, "start_at" : 0, "aim": {}, "duration": None }
+            self.dodge_effect = { "gfx": "dodge" }
+            self.target_sprite_damage_effect = { "gfx" : "shake", "sfx" : None, "duration": None, "initial_pause": None }
+            self.target_damage_effect = { "gfx" : "battle_bounce", "sfx" : None, "initial_pause": None }
+            self.target_death_effect = { "gfx" : "dissolve", "sfx" : None, "duration": .5, "initial_pause": None }
+            self.bg_main_effect = { "gfx" : None, "initial_pause" : None, "duration": None }
+
+            # Cost of the attack:
+            self.mp_cost = 0
+            self.health_cost = 0
+            self.vitality_cost = 0
+
+        def init(self):
+            # set default values
+            if not self.mn:
+                self.mn = self.name
 
             try:
                 self.delivery = self.DELIVERY.intersection(self.attributes).pop()
@@ -652,47 +646,30 @@ init -1 python: # Core classes:
 
             self.damage = [d for d in self.attributes if d in self.DAMAGE]
 
+            # Dicts:
             self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's course and cleared for the next use.
+            self.timestamps = {} # Container for the timed gfx effects
 
-            if add2skills:
-                battle_skills[self.name] = self
+            if self.main_effect["duration"] is None:
+                self.main_effect["duration"] = (.1 if self.delivery in ["melee", "ranged"] else .5)
 
-            # GFX/SFX + Dicts:
-            self.timestamps = {} # We keep all gfx effects here!
+            if self.target_sprite_damage_effect["duration"] is None:
+                self.target_sprite_damage_effect["duration"] = self.main_effect["duration"]
 
-            # Normalize:
-            self.attacker_action = { "gfx" : "step_forward", "sfx" : None }
-            self.attacker_action.update(attacker_action)
+            if self.target_sprite_damage_effect["initial_pause"] is None:
+                self.target_sprite_damage_effect["initial_pause"] = .1 if self.delivery in ["melee", "ranged"] else .2
 
-            self.attacker_effects = { "gfx" : None, "sfx" : None }
-            self.attacker_effects.update(attacker_effects)
+            if self.target_damage_effect["initial_pause"] is None:
+                self.target_damage_effect["initial_pause"] = (self.main_effect["duration"] * .75) if self.delivery in ["melee", "ranged"] else .21
 
-            self.main_effect = { "gfx" : None, "sfx" : None, "start_at" : 0, "aim": {},
-                                 "duration": (.1 if self.delivery in ["melee", "ranged"] else .5) }
-            self.main_effect.update(main_effect)
+            if self.target_death_effect["initial_pause"] is None:
+                self.target_death_effect["initial_pause"] = (.2 if self.delivery in ["melee", "ranged"] else (self.target_sprite_damage_effect["initial_pause"] + .1))
 
-            self.dodge_effect = { "gfx": "dodge" }
-            self.dodge_effect.update(dodge_effect)
+            if self.bg_main_effect["initial_pause"] is None:
+                self.bg_main_effect["initial_pause"] = self.main_effect["start_at"]
 
-            self.target_sprite_damage_effect = { "gfx" : "shake", "sfx" : None, "duration": self.main_effect["duration"],
-                                 "initial_pause": (.1 if self.delivery in ["melee", "ranged"] else .2) }
-            self.target_sprite_damage_effect.update(target_sprite_damage_effect)
-
-            self.target_damage_effect = { "gfx" : "battle_bounce", "sfx" : None,
-                                 "initial_pause": ((self.main_effect["duration"] * .75) if self.delivery in ["melee", "ranged"] else .21) }
-            self.target_damage_effect.update(target_damage_effect)
-
-            self.target_death_effect = { "gfx" : "dissolve", "sfx" : None, "duration": .5,
-                                 "initial_pause": (.2 if self.delivery in ["melee", "ranged"] else (self.target_sprite_damage_effect["initial_pause"] + .1)) }
-            self.target_death_effect.update(target_death_effect)
-
-            self.bg_main_effect = { "gfx" : None, "initial_pause" : self.main_effect["start_at"], "duration": self.main_effect["duration"] }
-            self.bg_main_effect.update(bg_main_effect)
-
-            # Cost of the attack:
-            self.mp_cost = mp_cost
-            self.health_cost = health_cost
-            self.vitality_cost = vitality_cost
+            if self.bg_main_effect["duration"] is None:
+                self.bg_main_effect["duration"] = self.main_effect["duration"]
 
         def __call__(self, ai=False, t=None):
             self.effects_resolver(t)
