@@ -1329,7 +1329,7 @@ init -1 python: # Core classes:
             if self.attacker_effects["gfx"]:
                 renpy.start_predict(self.get_attackers_first_effect_gfx())
             if self.main_effect["gfx"]:
-                renpy.start_predict(self.main_effect["gfx"])
+                renpy.start_predict(self.get_main_gfx())
 
             # Simple effects for the magic attack:
             attacker = self.source
@@ -1411,7 +1411,7 @@ init -1 python: # Core classes:
             if self.attacker_effects["gfx"]:
                 renpy.stop_predict(self.get_attackers_first_effect_gfx())
             if self.main_effect["gfx"]:
-                renpy.stop_predict(self.main_effect["gfx"])
+                renpy.stop_predict(self.get_main_gfx())
 
         def time_attackers_first_action(self, battle, attacker):
             # Lets start with the very first part (attacker_action):
@@ -1457,14 +1457,6 @@ init -1 python: # Core classes:
         def get_attackers_first_effect_gfx(self):
             gfx = self.attacker_effects["gfx"]
             zoom = self.attacker_effects.get("zoom", None)
-            if gfx == "orb":
-                gfx="cast_orb_1"
-            elif gfx == "wolf":
-                gfx="wolf_1_webm"
-            elif gfx == "bear":
-                gfx="bear_1_webm"
-            else:
-                gfx="cast_" + gfx
 
             if zoom is not None:
                 gfx = Transform(gfx, zoom=zoom)
@@ -1515,6 +1507,37 @@ init -1 python: # Core classes:
 
             self.timestamps[pause] = renpy.curry(self.hide_main_gfx)(targets)
 
+        def get_main_gfx(self):
+            gfx = self.main_effect["gfx"]
+
+            # use AlphaBlend
+            blend = self.main_effect.get("blend", None)
+            if blend is not None:
+                alpha = blend.get("alpha", None)
+                if alpha is not None:
+                    gfx = Transform(gfx, alpha=alpha)
+                effect = getattr(store, blend.get("effect", None), None)
+                if effect is not None:
+                    size = blend["size"]
+                    gfx = AlphaBlend(gfx, gfx, effect(*size), alpha=True)
+
+            # Zoom if requested
+            xzoom = self.main_effect.get("xzoom", 1.0)
+            yzoom = self.main_effect.get("yzoom", 1.0)
+            zoom = self.main_effect.get("zoom", None)
+            if zoom is not None:
+                xzoom *= zoom
+                yzoom *= zoom
+            if xzoom != 1.0 or yzoom != 1.0:
+                gfx = Transform(gfx, xzoom=xzoom, yzoom=yzoom)
+
+            # Scale if requested
+            scale = self.main_effect.get("scale", None)
+            if scale is not None:
+                gfx = ProportionalScale(gfx, *scale)
+
+            return gfx
+
         def show_main_gfx(self, battle, attacker, targets):
             # Shows the MAIN part of the attack and handles appropriate sfx.
             gfx = self.main_effect["gfx"]
@@ -1531,34 +1554,7 @@ init -1 python: # Core classes:
 
             # GFX:
             if gfx:
-                # use AlphaBlend
-                blend = self.main_effect.get("blend", None)
-                if blend is not None:
-                    alpha = blend.get("alpha", None)
-                    if alpha is not None:
-                        gfx = Transform(gfx, alpha=alpha)
-                    effect = getattr(store, blend.get("effect", None), None)
-                    if effect is not None:
-                        size = blend["size"]
-                        gfx = AlphaBlend(gfx, gfx, effect(*size), alpha=True)
-
-                # Zoom if requested
-                xzoom = self.main_effect.get("xzoom", 1.0)
-                yzoom = self.main_effect.get("yzoom", 1.0)
-                zoom = self.main_effect.get("zoom", None)
-                if zoom is not None:
-                    xzoom *= zoom
-                    yzoom *= zoom
-                # Flip the attack image if required:
-                if self.main_effect.get("hflip", None) and battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
-                    xzoom = -xzoom
-                if xzoom != 1.0 or yzoom != 1.0:
-                    gfx = Transform(gfx, xzoom=xzoom, yzoom=yzoom)
-
-                # Scale if requested
-                scale = self.main_effect.get("scale", None)
-                if scale is not None:
-                    gfx = ProportionalScale(gfx, *scale)
+                what = self.get_main_gfx()
 
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
@@ -1566,9 +1562,13 @@ init -1 python: # Core classes:
                 xo = aim.get("xo", 0)
                 yo = aim.get("yo", 0)
 
+                # Flip the attack image if required:
+                if self.main_effect.get("hflip", None) and battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
+                    what = Transform(what, xzoom=-1)
+
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
-                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
+                    renpy.show(gfxtag, what=what, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
 
         def hide_main_gfx(self, targets):
             for i in xrange(len(targets)):
