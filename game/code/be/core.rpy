@@ -1346,18 +1346,18 @@ init -1 python: # Core classes:
 
             # Next is the "casting effect":
             # Here we need to start checking for overlapping time_stamps so we don't overwrite:
+            # calculate start time in any case, because we'll need it later
+            start = self.main_effect["start_at"]
             if self.attacker_effects["gfx"] or self.attacker_effects["sfx"]:
-                effects_delay = self.time_attackers_first_effect(battle, attacker, targets)
+                # We start as effects gfx is finished.
+                start += self.time_attackers_first_effect(battle, attacker, targets)
 
-            # Next is the main GFX/SFX effect! ==> We calc the start in any case because we'll need it later...
-            if "effects_delay" in locals(): # We start as effects gfx is finished.
-                start = effects_delay + self.main_effect.get("start_at", 0)
-            elif "delay" in locals(): # We start after atackers first action is finished.
-                start = delay + self.main_effect["start_at"]
-            else: # We plainly start at timestamp...
-                start = self.main_effect["start_at"]
+            #  We start after attackers first action is finished.
+            elif "delay" in locals():
+                start += delay
+            #else: # We plainly start at timestamp...
 
-            # Main Effects!:
+            # Next is the main GFX/SFX effect!:
             if self.main_effect["gfx"] or self.main_effect["sfx"]:
                 self.time_main_gfx(battle, attacker, targets, start)
 
@@ -1383,8 +1383,7 @@ init -1 python: # Core classes:
 
             # Doesn't feel conceptually correct to put this here,
             # but it's likely the safest solution atm.
-            if not battle.logical:
-                gfx_overlay.be_taunt(attacker, self)
+            gfx_overlay.be_taunt(attacker, self)
 
             time_stamps = sorted(self.timestamps.keys())
             st = time.time()
@@ -1417,7 +1416,7 @@ init -1 python: # Core classes:
         def time_attackers_first_action(self, battle, attacker):
             # Lets start with the very first part (attacker_action):
             self.timestamps[0] = renpy.curry(self.show_attackers_first_action)(battle, attacker)
-            delay = self.get_show_attackers_first_action_duration() + self.get_attackers_first_effect_pause(battle, attacker)
+            delay = self.get_show_attackers_first_action_initial_pause() + self.attacker_effects.get("duration", 0)
             hide_first_action = delay + self.attacker_action.get("keep_alive_delay", 0)
             self.timestamps[hide_first_action] = renpy.curry(self.hide_attackers_first_action)(battle, attacker)
             return delay
@@ -1430,7 +1429,7 @@ init -1 python: # Core classes:
             if sfx:
                 renpy.sound.play(sfx)
 
-        def get_show_attackers_first_action_duration(self):
+        def get_show_attackers_first_action_initial_pause(self):
             if self.attacker_action["gfx"] == "step_forward":
                 return .5
             else:
@@ -1441,13 +1440,13 @@ init -1 python: # Core classes:
                 battle.move(attacker, attacker.dpos, .5, pause=False)
 
         def time_attackers_first_effect(self, battle, attacker, targets):
-            start = self.get_show_attackers_first_action_duration()
+            start = self.get_show_attackers_first_action_initial_pause()
             if start in self.timestamps:
                 start = start + uniform(.001, .002)
             self.timestamps[start] = renpy.curry(self.show_attackers_first_effect)(battle, attacker, targets)
 
             if self.attacker_effects["gfx"]:
-                effects_delay = start + self.get_attackers_first_effect_pause(battle, attacker)
+                effects_delay = start + self.attacker_effects.get("duration", 0)
                 if effects_delay in self.timestamps:
                     effects_delay = effects_delay + uniform(.001, .002)
                 self.timestamps[effects_delay] = renpy.curry(self.hide_attackers_first_effect)(battle, attacker)
@@ -1457,30 +1456,20 @@ init -1 python: # Core classes:
 
         def get_attackers_first_effect_gfx(self):
             gfx = self.attacker_effects["gfx"]
+            zoom = self.attacker_effects.get("zoom", None)
             if gfx == "orb":
-                what=Transform("cast_orb_1", zoom=1.85)
+                gfx="cast_orb_1"
             elif gfx == "wolf":
-                what=Transform("wolf_1_webm", zoom=.85)
+                gfx="wolf_1_webm"
             elif gfx == "bear":
-                what=Transform("bear_1_webm", zoom=.85)
-            elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
-                what=Transform("cast_" + gfx, zoom=1.5)
-            elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
-                what=Transform("cast_" + gfx, zoom=.9)
-            elif gfx == "default_1":
-                what=Transform("cast_default_1", zoom=1.6)
-            elif gfx == "circle_1":
-                what=Transform("cast_circle_1", zoom=1.9)
-            elif gfx == "circle_2":
-                what=Transform("cast_circle_2", zoom=1.8)
-            elif gfx == "circle_3":
-                what=Transform("cast_circle_3", zoom=1.8)
-            elif gfx == "runes_1":
-                what=Transform("cast_runes_1", zoom=1.1)
+                gfx="bear_1_webm"
             else:
-                what=Null()
+                gfx="cast_" + gfx
 
-            return what
+            if zoom is not None:
+                gfx = Transform(gfx, zoom=zoom)
+
+            return gfx
 
         def show_attackers_first_effect(self, battle, attacker, targets):
             gfx = self.attacker_effects["gfx"]
@@ -1514,33 +1503,6 @@ init -1 python: # Core classes:
                 if sfx == "default":
                     sfx="content/sfx/sound/be/casting_1.mp3"
                 renpy.sound.play(sfx)
-
-        def get_attackers_first_effect_pause(self, battle, attacker):
-            gfx = self.attacker_effects["gfx"]
-            if gfx == "orb":
-                pause = .84
-            elif gfx == "wolf":
-                pause = 1.27
-            elif gfx == "bear":
-                pause = .97
-            elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
-                pause = .84
-            elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
-                pause = 1.4
-            elif gfx == "default_1":
-                pause = 1.12
-            elif gfx == "circle_1":
-                pause = 1.05
-            elif gfx == "circle_2":
-                pause = 1.1
-            elif gfx == "circle_3":
-                pause = .96
-            elif gfx == "runes_1":
-                pause = .75
-            else:
-                pause = 0
-
-            return pause
 
         def hide_attackers_first_effect(self, battle, attacker):
             # For now we just hide the tagged image here:

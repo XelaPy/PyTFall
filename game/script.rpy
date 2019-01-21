@@ -528,6 +528,40 @@ label after_load:
         for s in store.battle_skills.values():
             if "initial_pause" not in s.target_damage_effect.keys():
                 s.target_damage_effect["initial_pause"] = s.main_effect["duration"] * .75
+            gfx = s.attacker_effects[gfx]
+            if isinstance(gfx, basestring):
+                if gfx == "orb":
+                    s.attacker_effects["zoom"] = 1.85
+                    s.attacker_effects["duration"] = 0.84
+                elif gfx == "wolf":
+                    s.attacker_effects["zoom"] = .85
+                    s.attacker_effects["duration"] = 1.27
+                elif gfx == "bear":
+                    s.attacker_effects["zoom"] = .85
+                    s.attacker_effects["duration"] = 0.97
+                elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
+                    s.attacker_effects["zoom"] = 1.5
+                    s.attacker_effects["duration"] = 0.84
+                elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
+                    s.attacker_effects["zoom"] = .9
+                    s.attacker_effects["duration"] = 1.4
+                elif gfx == "default_1":
+                    s.attacker_effects["zoom"] = 1.6
+                    s.attacker_effects["duration"] = 1.12
+                elif gfx == "circle_1":
+                    s.attacker_effects["zoom"] = 1.9
+                    s.attacker_effects["duration"] = 1.05
+                elif gfx == "circle_2":
+                    s.attacker_effects["zoom"] = 1.8
+                    s.attacker_effects["duration"] = 1.1
+                elif gfx == "circle_3":
+                    s.attacker_effects["zoom"] = 1.8
+                    s.attacker_effects["duration"] = 0.96
+                elif gfx == "runes_1":
+                    s.attacker_effects["zoom"] = 1.1
+                    s.attacker_effects["duration"] = 0.75
+                else:
+                    be_debug("GFX %s not known %s" % (gfx, s.name))
 
         tierless_items = store.tiered_items.get(None)
         if tierless_items:
