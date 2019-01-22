@@ -695,6 +695,7 @@ screen s_menu(s_menu="Settings", main_menu=False):
     modal True
 
     key "mousedown_3" action Hide("s_menu"), With(dissolve)
+    key "K_ESCAPE" action Hide("s_menu"), With(dissolve)
 
     # default s_menu = "Settings"
 
