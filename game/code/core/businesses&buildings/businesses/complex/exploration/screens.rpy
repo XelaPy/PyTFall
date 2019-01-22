@@ -538,6 +538,8 @@ screen fg_area(area):
 
     key "mousedown_3" action Hide("fg_area")
 
+    add Transform("content/gfx/images/bg_gradient2.webp", alpha=.5)
+
     style_prefix "basic"
 
     # Left frame with Area controls
