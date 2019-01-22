@@ -377,8 +377,9 @@ init -6 python: # Guild, Tracker and Log.
                 # We effectively remove char from the game so this is prolly ok.
                 char.action = "Exploring"
                 char.set_flag("loc_backup", char.location)
-                if char in hero.team:
-                    hero.team.remove(char)
+                for t in hero.teams:
+                    if char in t:
+                        t.remove(char)
 
             # Remove Explorers from other teams:
             for t in self.teams:
