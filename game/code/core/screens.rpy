@@ -230,7 +230,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
     default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
 
     # Hotkeys:
-    if get_screens("mainscreen"):
+    if renpy.get_screen("mainscreen"):
         if global_flags.flag("visited_arena"):
             key "a" action Function(renpy.scene, "screens"), Jump("arena_inside")
             key "A" action Function(renpy.scene, "screens"), Jump("arena_inside")
@@ -689,7 +689,7 @@ screen notify:
     timer 4.0 action Hide("notify")
 
 # Settings:
-screen s_menu(s_menu="Settings"):
+screen s_menu(s_menu="Settings", main_menu=False):
     default tt = Tooltip("Hover cursor over options buttons to see the description.")
     zorder 10**5 + 1
     modal True
@@ -986,15 +986,13 @@ screen s_menu(s_menu="Settings"):
                             xsize 150
                             xalign .5
                             text_size 16
-                            if main_menu:
-                                if persistent.tooltips:
+                            if persistent.tooltips:
+                                if main_menu:
                                     hovered tt.action("New-style tooltips enabled.")
                                 else:
-                                    hovered tt.action("New-style tooltips disabled.")
-                            elif not persistent.tooltips:
-                                hovered tt.action("New-style tooltips disabled.")
+                                    tooltip "New-style tooltips enabled."
                             else:
-                                tooltip "New-style tooltips enabled."
+                                hovered tt.action("New-style tooltips disabled.")
 
         elif s_menu in ("Save", "Load"):
             vbox:

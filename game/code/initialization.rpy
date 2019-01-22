@@ -164,6 +164,9 @@ init -950 python:
     # object = _object # We are not using Ren'Pys object anywhere but it will throw errors if initiated this early because layout cannot be built with Pythons one.
     _rollback = False
 
+    # Override the default game_menu
+    config.game_menu_action = Show("s_menu", s_menu="Settings", main_menu=True)
+
     # Registration of extra music channels:
     renpy.music.register_channel("events", "sfx", False, file_prefix="content/sfx/sound/")
     renpy.music.register_channel("events2", "sfx", False,  file_prefix="content/sfx/sound/")
