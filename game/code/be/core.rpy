@@ -1569,96 +1569,87 @@ init -1 python: # Core classes:
         def show_target_sprite_damage_effect(self, targets):
             """Target damage graphical effects.
             """
-            type = self.target_sprite_damage_effect.get("gfx", "shake")
+            gfx = self.target_sprite_damage_effect["gfx"]
 
-            for target in [t for t in targets if not "missed_hit" in t.beeffects]:
-                at_list = []
+            if gfx:
+                for target in [t for t in targets if not "missed_hit" in t.beeffects]:
+                    at_list = []
 
-                if type == "shake":
                     what = target.besprite
-                    at_list = [damage_shake(.05, (-10, 10))]
-                elif type == "true_dark": # not used atm! will need decent high level spells for this one!
-                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_logo", size=target.besprite_size), alpha=True)
-                elif type == "true_water":
-                    what = AlphaBlend(Transform(target.besprite, alpha=.6), target.besprite, Transform("water_overlay_test", size=target.besprite_size), alpha=True)
-                elif type == "vertical_shake":
-                    what = target.besprite
-                    at_list = [vertical_damage_shake(.1, (-5, 5))]
-                elif type == "fly_away":
-                    what = target.besprite
-                    at_list = [fly_away]
-                elif type == "on_air":
-                    what = target.besprite
-                    at_list = [blowing_wind()]
-                elif type.startswith("iced"):
-                    child = Transform("content/gfx/be/frozen.webp", size=target.besprite_size)
-                    mask = target.besprite
-                    what = AlphaMask(child, mask)
-                    if type.endswith("shake"):
+                    if gfx == "shake":
                         at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("on_darkness"):
-                    size = int(target.besprite_size[0]*1.5), 60
-                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, anchor=(.5, .3), align=(.5, 1.0), alpha=.8), xysize=(target.besprite_size))
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("on_light"):
-                    size = int(target.besprite_size[0]*2.5), int(target.besprite_size[1]*2.5)
-                    what = Fixed(target.besprite, Transform("be_light_mask", size=size, align=(.5, 1.0), alpha=.6), xysize=(target.besprite_size))
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type == "on_death":
-                    what = AlphaBlend(Transform(target.besprite, alpha=.5), target.besprite, dark_death_color(*target.besprite_size), alpha=True)
-                elif type.startswith("on_dark"):
-                    child = Transform("content/gfx/be/darken.webp", size=target.besprite_size)
-                    mask = target.besprite
-                    what = AlphaMask(child, mask)
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("frozen"): # shows a big block of ice around the target sprite
-                    size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
-                    what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.webp", size=size, offset=(-30, -50)))
-                    t = self.target_sprite_damage_effect.get("duration", 1)
-                    at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=.2, t=t)]
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("burning"): # looks like more dangerous flame, should be used for high level spells
-                    child = Transform("fire_mask", size=target.besprite_size)
-                    mask = target.besprite
-                    what = AlphaMask(child, mask)
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("on_fire"):
-                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, fire_effect_color(*target.besprite_size), alpha=True)
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("on_water"):
-                    sprite = target.besprite
-                    sprite_size = target.besprite_size
-                    mask = Transform("be_water_mask", size=sprite_size)
-                    what = Fixed(xysize=sprite_size)
-                    what.add(sprite)
-                    what.add(AlphaMask(mask, sprite))
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("on_ele"):
-                    sprite = target.besprite
-                    sprite_size = target.besprite_size
-                    mask = Transform("be_electro_mask", size=sprite_size)
-                    what = Fixed(xysize=sprite_size)
-                    what.add(sprite)
-                    what.add(AlphaMask(mask, sprite))
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("poisoned"): # ideally we could use animated texture of green liquid, but it's hard to find for free...
-                        what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, poison_effect_color(*target.besprite_size), alpha=True)
-                        if type.endswith("shake"):
+                    elif gfx == "true_dark": # not used atm! will need decent high level spells for this one!
+                        what = AlphaBlend(Transform(what, alpha=.8), what, Transform("fire_logo", size=target.besprite_size), alpha=True)
+                    elif gfx == "true_water":
+                        what = AlphaBlend(Transform(what, alpha=.6), what, Transform("water_overlay_test", size=target.besprite_size), alpha=True)
+                    elif gfx == "vertical_shake":
+                        at_list = [vertical_damage_shake(.1, (-5, 5))]
+                    elif gfx == "fly_away":
+                        at_list = [fly_away]
+                    elif gfx == "on_air":
+                        at_list = [blowing_wind()]
+                    elif gfx.startswith("iced"):
+                        child = Transform("content/gfx/be/frozen.webp", size=target.besprite_size)
+                        what = AlphaMask(child, what)
+                        if gfx.endswith("shake"):
                             at_list = [damage_shake(.05, (-10, 10))]
-                elif isinstance(type, basestring) and type.startswith("being_healed"):
-                        what = AlphaBlend(Transform(target.besprite, alpha=.9, additive=.4),
-                                          target.besprite, healing_effect_color(*target.besprite_size),
-                                          alpha=True)
+                    elif gfx.startswith("on_darkness"):
+                        size = int(target.besprite_size[0]*1.5), 60
+                        what = Fixed(what, Transform("be_dark_mask", size=size, anchor=(.5, .3), align=(.5, 1.0), alpha=.8), xysize=(target.besprite_size))
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("on_light"):
+                        size = int(target.besprite_size[0]*2.5), int(target.besprite_size[1]*2.5)
+                        what = Fixed(what, Transform("be_light_mask", size=size, align=(.5, 1.0), alpha=.6), xysize=(target.besprite_size))
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx == "on_death":
+                        what = AlphaBlend(Transform(what, alpha=.5), what, dark_death_color(*target.besprite_size), alpha=True)
+                    elif gfx.startswith("on_dark"):
+                        child = Transform("content/gfx/be/darken.webp", size=target.besprite_size)
+                        what = AlphaMask(child, what)
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("frozen"): # shows a big block of ice around the target sprite
+                        size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
+                        what = Fixed(what, Transform("content/gfx/be/frozen_2.webp", size=size, offset=(-30, -50)))
+                        t = self.target_sprite_damage_effect.get("duration", 1)
+                        at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=.2, t=t)]
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("burning"): # looks like more dangerous flame, should be used for high level spells
+                        child = Transform("fire_mask", size=target.besprite_size)
+                        what = AlphaMask(child, what)
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("on_fire"):
+                        what = AlphaBlend(Transform(what, alpha=.8), what, fire_effect_color(*target.besprite_size), alpha=True)
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("on_water"):
+                        sprite_size = target.besprite_size
+                        child = Transform("be_water_mask", size=sprite_size)
+                        what = Fixed(what, AlphaMask(child, what), xysize=sprite_size)
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("on_ele"):
+                        sprite_size = target.besprite_size
+                        child = Transform("be_electro_mask", size=sprite_size)
+                        what = Fixed(what, AlphaMask(child, what), xysize=sprite_size)
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("poisoned"): # ideally we could use animated texture of green liquid, but it's hard to find for free...
+                            what = AlphaBlend(Transform(what, alpha=.8), what, poison_effect_color(*target.besprite_size), alpha=True)
+                            if gfx.endswith("shake"):
+                                at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx == "being_healed":
+                            what = AlphaBlend(Transform(what, alpha=.9, additive=.4),
+                                              what, healing_effect_color(*target.besprite_size),
+                                              alpha=True)
+                    else:
+                        be_debug("Unknown target_sprite_damage_effect-gfx '%s' defined in %s" % (gfx, self.name))
+                        continue
 
-                if "what" in locals():
                     renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
 
             if self.target_sprite_damage_effect.get("master_shake", False):
