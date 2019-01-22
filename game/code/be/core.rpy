@@ -1666,7 +1666,7 @@ init -1 python: # Core classes:
                     if target not in died:
                         renpy.hide(target.betag)
                         renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos), fade_from_to(.3, 1, .3)], zorder=target.besk["zorder"])
-            elif type in ["shake"] and self.target_death_effect["gfx"] == "shatter":
+            elif type == "shake" and self.target_death_effect["gfx"] == "shatter":
                 for target in targets:
                     renpy.hide(target.betag)
                     renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
@@ -1789,8 +1789,8 @@ init -1 python: # Core classes:
                 for t in died:
                     renpy.show(t.betag, what=t.besprite, at_list=[fade_from_to(start_val=1.0, end_val=.0, t=duration)], zorder=t.besk["zorder"])
             elif gfx == "shatter":
-                for target in died:
-                    renpy.show(target.betag, what=HitlerKaputt(target.besprite, 20), zorder=target.besk["zorder"])
+                for t in died:
+                    renpy.show(t.betag, what=HitlerKaputt(t.besprite, 20), zorder=t.besk["zorder"])
 
         def hide_target_death_effect(self, died):
             for target in died:
@@ -1882,35 +1882,36 @@ init -1 python: # Core classes:
 
                         renpy.show(target.betag, what=target.besprite, at_list=[be_dodge(xoffset, pause)], zorder=target.besk["zorder"])
 
-                elif "magic_shield" in target.beeffects:
+                # We need to find out if it's reasonable to show shields at all based on damage effects!
+                # This should ensure that we do not show the shield for major damage effects, it will not look proper.
+                elif "magic_shield" in target.beeffects and self.target_sprite_damage_effect["gfx"] != "fly_away":
                     # Get GFX:
                     for event in battle.get_all_events():
                         if isinstance(event, DefenceBuff):
                             if event.target == target:
                                 if event.activated_this_turn:
-                                    gfx = event.gfx_effect
+                                    what = event.gfx_effect
                                     break
                     else:
                         be_debug("No Effect GFX detected for magic_shield dodge_effect!")
+                        continue
 
-                    # We need to find out if it's reasonable to show shields at all based on damage effects!
-                    tsde = self.target_sprite_damage_effect.get("gfx", None)
-                    # This should ensure that we do not show the shield for major damage effects, it will not look proper.
-                    if tsde not in ["fly_away"]:
-                        # Else we just show the shield:
-                        if gfx == "default":
-                            tag = "dodge" + str(index)
-                            renpy.show(tag, what=ImageReference("resist"), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
-                        elif gfx == "gray_shield":
-                            # raise Exception("M")
-                            tag = "dodge" + str(index)
-                            renpy.show(tag, what=AlphaBlend(ImageReference("resist"), ImageReference("resist"), gray_shield(300, 300), alpha=True), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
-                        elif gfx == "air_shield":
-                            tag = "dodge" + str(index)
-                            renpy.show(tag, what=AlphaBlend(ImageReference("ranged_shield_webm"), ImageReference("ranged_shield_webm"), green_shield(350, 300), alpha=True), at_list=[Transform(size=(350, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
-                        elif gfx == "solid_shield":
-                            tag = "dodge" + str(index)
-                            renpy.show(tag, what=ImageReference("shield_2"), at_list=[Transform(size=(400, 400), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
+                    # we just show the shield:
+                    if what == "default":
+                        what, size = "resist", (300, 300)
+                    elif what == "gray_shield":
+                        what = AlphaBlend("resist", "resist", gray_shield(300, 300), alpha=True)
+                        size = (300, 300)
+                    elif what == "air_shield":
+                        what = AlphaBlend("ranged_shield_webm", "ranged_shield_webm", green_shield(350, 300), alpha=True)
+                        size = (350, 300)
+                    elif what == "solid_shield":
+                        what, size = "shield_2", (400, 400)
+                    else:
+                        be_debug("The defence_gfx '%s' is not recognized. Should be one of ('default', 'gray_shield', 'air_shield', 'solid_shield')" % what)
+                        continue
+                    tag = "dodge" + str(index)
+                    renpy.show(tag, what=what, at_list=[Transform(size=size, pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
 
         def hide_dodge_effect(self, targets):
             # gfx = self.dodge_effect.get("gfx", "dodge")
