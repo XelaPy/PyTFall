@@ -345,14 +345,16 @@ screen building_management_midframe_exploration_guild_mode:
                     sensitive temp
 
         # We'll prolly have to do two layers, one for backgrounds and other for drags...
+        $ temp = building.get_business("fg")
         draggroup:
             id "team_builder"
             for t, pos in guild_teams:
+                $ idle_t = t not in temp.exploring_teams()
                 drag:
                     drag_name t
                     xysize (310, 83)
                     draggable 0
-                    droppable 1
+                    droppable idle_t
                     pos pos
                     add gfxframes + "team_frame_1.png"
                     hbox:
@@ -364,8 +366,11 @@ screen building_management_midframe_exploration_guild_mode:
                             button:
                                 xysize (46, 46)
                                 background img
-                                hover_background im.MatrixColor(img, im.matrix.brightness(.10))
-                                action Show("fg_char_dropdown", dissolve, i, team=t, remove=True)
+                                if idle_t:
+                                    hover_background im.MatrixColor(img, im.matrix.brightness(.10))
+                                    action Show("fg_char_dropdown", dissolve, i, team=t, remove=True)
+                                else:
+                                    action NullAction()
                                 tooltip i.fullname
                     frame:
                         xysize (310, 83)
@@ -389,7 +394,7 @@ screen building_management_midframe_exploration_guild_mode:
                             margin 0, 0
                             align 1.0, 1.0
                             xysize 20, 20
-                            sensitive t
+                            sensitive t and idle_t
                             action Return(["fg_team", "clear", t])
                             tooltip "Remove all explorers from Team %s!" % t.name
 
