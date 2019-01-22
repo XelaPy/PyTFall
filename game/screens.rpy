@@ -320,9 +320,9 @@ screen main_menu():
                 spacing 4
                 textbutton _("New Game") action SensitiveIf(prereqs), Start() xalign 0.5
                 null height 4
-                textbutton _("Load Game") action SensitiveIf(prereqs), Show("s_menu", s_menu="Load"), With(dissolve)
+                textbutton _("Load Game") action SensitiveIf(prereqs), Show("s_menu", s_menu="Load", main_menu=True), With(dissolve)
 
-                textbutton _("Settings") action Show("s_menu", s_menu="Settings"), With(dissolve)
+                textbutton _("Settings") action Show("s_menu", s_menu="Settings", main_menu=True), With(dissolve)
                 hbox:
                     xalign 0.5
                     textbutton _("Credits") action Show("credits", transition=ImageDissolve("content/gfx/masks/m02.webp", 1)) xsize 85 text_size 16
