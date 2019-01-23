@@ -356,12 +356,13 @@ screen building_management_midframe_exploration_guild_mode:
                 $ idle_t = t not in temp.exploring_teams()
                 for idx, w in enumerate(t):
                     $ w_pos = (pos[0]+117+idx*61, pos[1]+16)
+                    $ w.set_flag("_drag_container", t)
                     drag:
                         dragged dragged
                         droppable 0
                         draggable idle_t
                         tooltip w.fullname
-                        drag_name (w, w_pos, t)
+                        drag_name w
                         pos w_pos
                         if idle_t:
                             clicked Show("fg_char_dropdown", dissolve, w, team=t, remove=True)
@@ -401,11 +402,12 @@ screen building_management_midframe_exploration_guild_mode:
                             tooltip "Remove all explorers from Team %s!" % t.name
 
             for w, pos in workers:
+                $ w.set_flag("_drag_container", workers)
                 drag:
                     dragged dragged
                     droppable 0
                     tooltip w.fullname
-                    drag_name (w, pos, workers)
+                    drag_name w
                     pos pos
                     clicked Show("fg_char_dropdown", dissolve, w, team=None, remove=False)
                     add w.show("portrait", resize=(70, 70), cache=1)

@@ -2079,6 +2079,7 @@ init -9 python:
 
             self.del_flag("food_poison_counter")
             self.del_flag("drunk_counter")
+            self.del_flag("_drag_container")
 
         def nd_auto_train(self, txt):
             if self.flag("train_with_witch"):

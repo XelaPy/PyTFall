@@ -394,9 +394,9 @@ init -1 python:
     def dragged(drags, drop):
         # Simple func we use to manage drag and drop in team setups and maybe more in the future.
         drag = drags[0]
-        item = drag.drag_name[0]
-        x, y = drag.drag_name[1]
-        src_container = drag.drag_name[2]
+        item = drag.drag_name
+        x, y = drag.old_position[0], drag.old_position[1]
+        src_container = item.get_flag("_drag_container")
 
         if not drop:
             drag.snap(x, y, delay=.2)
