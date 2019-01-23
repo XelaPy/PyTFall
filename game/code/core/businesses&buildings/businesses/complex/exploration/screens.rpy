@@ -368,6 +368,9 @@ screen building_management_midframe_exploration_guild_mode:
                             clicked Show("fg_char_dropdown", dissolve, w, team=t, remove=True)
 
                         add w.show("portrait", resize=(46, 46), cache=1)
+                        hovered Function(setattr, config, "mouse", mouse_drag)
+                        unhovered Function(setattr, config, "mouse", mouse_cursor)
+
                 drag:
                     drag_name t
                     xysize (310, 83)
@@ -411,6 +414,8 @@ screen building_management_midframe_exploration_guild_mode:
                     pos pos
                     clicked Show("fg_char_dropdown", dissolve, w, team=None, remove=False)
                     add w.show("portrait", resize=(70, 70), cache=1)
+                    hovered Function(setattr, config, "mouse", mouse_drag)
+                    unhovered Function(setattr, config, "mouse", mouse_cursor)
 
 screen building_management_rightframe_exploration_guild_mode:
     if False:

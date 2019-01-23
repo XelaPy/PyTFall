@@ -49,6 +49,9 @@ label building_management:
 
                 $ guild_teams = CoordsForPaging(bm_mid_frame_mode.idle_teams(), columns=2, rows=3,
                                 size=(310, 83), xspacing=3, yspacing=3, init_pos=(4, 390))
+                $ mouse_drag = {"default" :[("content/gfx/interface/cursors/hand.png", 0, 0)]}
+                $ mouse_cursor = config.mouse
+
         elif result[0] == "fg_team":
             if result[1] == "rename":
                 $ n = renpy.call_screen("pyt_input", result[2].name, "Enter Name", 8)

@@ -413,4 +413,5 @@ init -1 python:
 
         src_container.remove(item)
         drag.snap(x, y)
+        drag.unfocus()
         return True
