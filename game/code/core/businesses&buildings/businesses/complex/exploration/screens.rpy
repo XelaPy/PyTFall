@@ -138,12 +138,6 @@ screen building_management_leftframe_exploration_guild_mode:
                 textbutton "Warriors":
                     xsize 200
                     action ModFilterSet(fg_filters, "occ_filters", "Combatant")
-                textbutton "Free":
-                    xsize 200
-                    action ModFilterSet(fg_filters, "status_filters", "free")
-                textbutton "Slaves":
-                    xsize 200
-                    action ModFilterSet(fg_filters, "status_filters", "slave")
 
         # Sorting:
         frame:

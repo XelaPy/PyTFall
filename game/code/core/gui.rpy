@@ -402,12 +402,6 @@ init -1 python:
 
         team = drop.drag_name
 
-        if char.status == "slave":
-            drag.snap(x, y, delay=.4)
-            renpy.show_screen("message_screen", "Slaves are not allowed to participate in combat!")
-            renpy.restart_interaction()
-            return
-
         if len(team) == 3:
             drag.snap(x, y, delay=.2)
             return

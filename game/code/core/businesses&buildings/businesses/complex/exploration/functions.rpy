@@ -12,4 +12,4 @@ init python:
                 if fg:
                     idle_explorers.update(fg.idle_explorers())
 
-        return [w for w in building.get_workers() if w not in idle_explorers]
+        return [w for w in building.get_workers() if w.status == "free" and w not in idle_explorers]
