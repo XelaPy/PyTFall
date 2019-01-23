@@ -354,13 +354,26 @@ screen building_management_midframe_exploration_guild_mode:
 
             for t, pos in guild_teams:
                 $ idle_t = t not in temp.exploring_teams()
+                for idx, w in enumerate(t):
+                    $ w_pos = (pos[0]+117+idx*61, pos[1]+16)
+                    drag:
+                        dragged dragged
+                        droppable 0
+                        draggable idle_t
+                        tooltip w.fullname
+                        drag_name (w, w_pos, t)
+                        pos w_pos
+                        if idle_t:
+                            clicked Show("fg_char_dropdown", dissolve, w, team=t, remove=True)
+
+                        add w.show("portrait", resize=(46, 46), cache=1)
                 drag:
                     drag_name t
                     xysize (310, 83)
                     draggable 0
                     droppable idle_t
                     pos pos
-                    add gfxframes + "team_frame_1.png"
+                    add gfxframes + "team_frame_2.png"
                     frame:
                         xysize (310, 83)
                         background gfxframes + "team_frame_2.png"
@@ -386,19 +399,6 @@ screen building_management_midframe_exploration_guild_mode:
                             sensitive t and idle_t
                             action Return(["fg_team", "clear", t])
                             tooltip "Remove all explorers from Team %s!" % t.name
-                for idx, w in enumerate(t):
-                    $ w_pos = (pos[0]+117+idx*61, pos[1]+18)
-                    drag:
-                        dragged dragged
-                        droppable 0
-                        draggable idle_t
-                        tooltip w.fullname
-                        drag_name (w, w_pos, t)
-                        pos w_pos
-                        if idle_t:
-                            clicked Show("fg_char_dropdown", dissolve, w, team=t, remove=True)
-
-                        add w.show("portrait", resize=(46, 46), cache=1)
 
             for w, pos in workers:
                 drag:
