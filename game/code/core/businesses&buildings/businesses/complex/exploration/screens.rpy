@@ -259,8 +259,8 @@ screen building_management_midframe_exploration_guild_mode:
         # Backgrounds:
         frame:
             background Frame(gfxframes + "p_frame52.webp", 10, 10)
-            xysize 622, 330
-            yoffset -1
+            xysize 622, 344
+            yoffset -5
             xalign .5
             hbox:
                 xalign .5
@@ -274,9 +274,9 @@ screen building_management_midframe_exploration_guild_mode:
             # Page control buttons:
             hbox:
                 style_prefix "paging_green"
-                align .5, .99
+                align .5, .97
                 hbox:
-                    spacing 1
+                    spacing 5
                     $ temp = workers.page - 1 >= 0
                     button:
                         style_suffix "button_left2x"
@@ -288,9 +288,9 @@ screen building_management_midframe_exploration_guild_mode:
                         tooltip "<== Previous Page"
                         action Function(workers.prev_page)
                         sensitive temp
-                null width 60
+                null width 100
                 hbox:
-                    spacing 1
+                    spacing 5
                     $ temp = workers.page + 1 < workers.max_page
                     button:
                         style_suffix "button_right"
@@ -307,14 +307,14 @@ screen building_management_midframe_exploration_guild_mode:
         frame:
             background Frame(gfxframes + "p_frame52.webp", 10, 10)
             xysize 700, 349
-            ypos 321 xalign .5
+            ypos 331 xalign .5
 
         # Paging guild teams!
         hbox:
             style_prefix "paging_green"
-            xalign .5 ypos 328
+            xalign .5 ypos 608
             hbox:
-                spacing 1
+                spacing 5
                 $ temp = guild_teams.page - 1 >= 0
                 button:
                     style_suffix "button_left2x"
@@ -326,9 +326,9 @@ screen building_management_midframe_exploration_guild_mode:
                     tooltip "<== Previous Page"
                     action Function(guild_teams.prev_page)
                     sensitive temp
-            null width 60
+            null width 100
             hbox:
-                spacing 1
+                spacing 5
                 $ temp = guild_teams.page + 1 < guild_teams.max_page
                 button:
                     style_suffix "button_right"

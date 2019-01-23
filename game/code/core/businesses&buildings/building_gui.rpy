@@ -41,14 +41,14 @@ label building_management:
             if isinstance(bm_mid_frame_mode, ExplorationGuild):
                 # Looks pretty ugly... this might be worth improving upon just for the sake of esthetics.
                 $ workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3,
-                        size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
+                        size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 11))
                 $ fg_filters = CharsSortingForGui(all_chars_for_se)
                 $ fg_filters.occ_filters.add("Combatant")
                 $ fg_filters.target_container = [workers, "content"]
                 $ fg_filters.filter()
 
                 $ guild_teams = CoordsForPaging(bm_mid_frame_mode.idle_teams(), columns=2, rows=3,
-                                size=(310, 83), xspacing=3, yspacing=3, init_pos=(4, 390))
+                                size=(310, 83), xspacing=3, yspacing=3, init_pos=(4, 340))
                 $ mouse_drag = {"default" :[("content/gfx/interface/cursors/hand.png", 0, 0)]}
                 $ mouse_cursor = config.mouse
 
