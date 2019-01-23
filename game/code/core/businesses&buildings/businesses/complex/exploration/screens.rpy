@@ -342,6 +342,13 @@ screen building_management_midframe_exploration_guild_mode:
         $ temp = building.get_business("fg")
         draggroup:
             id "team_builder"
+            drag:
+                drag_name workers
+                xysize (600, 310)
+                draggable 0
+                droppable True
+                pos (0, 0)
+
             for t, pos in guild_teams:
                 $ idle_t = t not in temp.exploring_teams()
                 drag:
@@ -351,21 +358,6 @@ screen building_management_midframe_exploration_guild_mode:
                     droppable idle_t
                     pos pos
                     add gfxframes + "team_frame_1.png"
-                    hbox:
-                        yalign .5
-                        xpos 117
-                        spacing 15
-                        for i in t:
-                            $ img = i.show("portrait", resize=(46, 46), cache=1)
-                            button:
-                                xysize (46, 46)
-                                background img
-                                if idle_t:
-                                    hover_background im.MatrixColor(img, im.matrix.brightness(.10))
-                                    action Show("fg_char_dropdown", dissolve, i, team=t, remove=True)
-                                else:
-                                    action NullAction()
-                                tooltip i.fullname
                     frame:
                         xysize (310, 83)
                         background gfxframes + "team_frame_2.png"
@@ -391,13 +383,26 @@ screen building_management_midframe_exploration_guild_mode:
                             sensitive t and idle_t
                             action Return(["fg_team", "clear", t])
                             tooltip "Remove all explorers from Team %s!" % t.name
+                for idx, w in enumerate(t):
+                    $ w_pos = (pos[0]+117+idx*61, pos[1]+18)
+                    drag:
+                        dragged dragged
+                        droppable 0
+                        draggable idle_t
+                        tooltip w.fullname
+                        drag_name (w, w_pos, t)
+                        pos w_pos
+                        if idle_t:
+                            clicked Show("fg_char_dropdown", dissolve, w, team=t, remove=True)
+
+                        add w.show("portrait", resize=(46, 46), cache=1)
 
             for w, pos in workers:
                 drag:
                     dragged dragged
                     droppable 0
                     tooltip w.fullname
-                    drag_name w
+                    drag_name (w, pos, workers)
                     pos pos
                     clicked Show("fg_char_dropdown", dissolve, w, team=None, remove=False)
                     add w.show("portrait", resize=(70, 70), cache=1)

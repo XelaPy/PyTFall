@@ -384,6 +384,7 @@ init -1 python:
         def add(self, item):
             if item not in self.content:
                 self.content.append(item)
+                return True
 
         def remove(self, item):
             if item in self.content:
@@ -391,22 +392,25 @@ init -1 python:
 
 
     def dragged(drags, drop):
-        # Simple func we use to manage drag and drop in team setups and maybe moar in the future.
+        # Simple func we use to manage drag and drop in team setups and maybe more in the future.
         drag = drags[0]
-        char = drag.drag_name
-        x, y = workers.get_pos(char)
+        item = drag.drag_name[0]
+        x, y = drag.drag_name[1]
+        src_container = drag.drag_name[2]
 
         if not drop:
             drag.snap(x, y, delay=.2)
             return
 
-        team = drop.drag_name
-
-        if len(team) == 3:
+        dest_container = drop.drag_name
+        if dest_container == src_container:
             drag.snap(x, y, delay=.2)
             return
-        else:
-            team.add(char)
-            workers.remove(char)
-            drag.snap(x, y)
-            return True
+
+        if not dest_container.add(item):
+            drag.snap(x, y, delay=.4)
+            return
+
+        src_container.remove(item)
+        drag.snap(x, y)
+        return True

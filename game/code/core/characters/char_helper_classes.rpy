@@ -223,24 +223,14 @@ init -10 python:
                 notify("Impossible to join the same team twice")
 
             if len(self._members) >= self.max_size:
-                temp = []
-                t = "{} team cannot have more than {} team members!".format(self.name, self.max_size)
-                temp.append(t)
-                t = [m.name for m in self._members]
-                temp.append("Members: {}".format(", ".join(t)))
-                t = "Adding: {}".format(member.name)
-                temp.append(t)
-                temp = "\n".join(temp)
-                raise Exception(temp)
-                notify(temp)
+                notify("{} team cannot have more than {} members!".format(self.name, self.max_size))
             else:
                 if not self.free and not self.leader:
                     self._leader = member
                     if member not in self.implicit:
                         self.implicit.append(member)
-                    self._members.append(member)
-                else:
-                    self._members.append(member)
+                self._members.append(member)
+                return True
 
         def remove(self, member):
             if member in self.implicit or member not in self._members:
