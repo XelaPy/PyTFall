@@ -548,6 +548,7 @@ init -9 python:
             self.status_filters = set()
             self.action_filters = set()
             self.class_filters = set()
+            self.occ_filters = set()
             self.location_filters = set()
             self.home_filters = set()
             self.work_filters = set()

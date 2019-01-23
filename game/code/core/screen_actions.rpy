@@ -938,12 +938,12 @@ init -10 python:
     class SetFilter(SetField):
         """Set the filter for char filters and updates them.
          """
-        def __init__(self, container, value):
-            super(SetFilter, self).__init__(container, "sorting_order", value)
+        def __init__(self, object, value):
+            super(SetFilter, self).__init__(object, "sorting_order", value)
 
         def __call__(self):
-            setattr(self.container, self.name, self.value)
-            self.container.filter()
+            setattr(self.object, self.field, self.value)
+            self.object.filter()
             renpy.restart_interaction()
 
 
