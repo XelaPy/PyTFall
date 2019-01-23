@@ -53,15 +53,24 @@ label building_management:
                 $ mouse_cursor = config.mouse
 
         elif result[0] == "fg_team":
-            if result[1] == "rename":
-                $ n = renpy.call_screen("pyt_input", result[2].name, "Enter Name", 8)
-                if len(n):
-                    $ result[2].name = n
-            elif result[1] == "clear":
-                python:
-                    for i in result[2]._members[:]:
+            python:
+                if result[1] == "rename":
+                    n = renpy.call_screen("pyt_input", result[2].name, "Enter Name", 8)
+                    if len(n):
+                        result[2].name = n
+                elif result[1] == "clear":
+                    for i in result[2]:
                         workers.add(i)
-                        result[2]._members.remove(i)
+                    del result[2].members[:]
+                elif result[1] == "create":
+                    n = renpy.call_screen("pyt_input", "", "Enter Name", 8)
+                    if len(n):
+                        t = bm_mid_frame_mode.new_team(n)
+                        guild_teams.add(t)
+                elif result[1] == "dissolve":
+                    for i in result[2]:
+                        workers.add(i)
+                    guild_teams.remove(result[2])
         elif result[0] == "building":
             # if result[1] == 'buyroom':
             #     python:

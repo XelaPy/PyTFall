@@ -332,6 +332,14 @@ init -6 python: # Guild, Tracker and Log.
             self.team_to_launch_index = 0
 
         # Teams control/sorting/grouping methods:
+        def new_team(self, name):
+            team = Team(name, free=True)
+            self.teams.append(team)
+            return team
+
+        def remove_team(self, t):
+            self.teams.remove(t)
+
         def teams_to_launch(self):
             # Returns a list of teams that can be launched on an exploration run.
             # Must have at least one member and NOT already running exploration!

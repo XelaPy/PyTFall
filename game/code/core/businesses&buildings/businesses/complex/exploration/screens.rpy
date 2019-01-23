@@ -326,7 +326,15 @@ screen building_management_midframe_exploration_guild_mode:
                     tooltip "<== Previous Page"
                     action Function(guild_teams.prev_page)
                     sensitive temp
-            null width 100
+            null width 20
+            button:
+                style_group "pb"
+                align (.5, .5)
+                xsize 60
+                action Return(["fg_team", "create"])
+                text "..." style "pb_button_text"
+                tooltip "Create new team"
+            null width 20
             hbox:
                 spacing 5
                 $ temp = guild_teams.page + 1 < guild_teams.max_page
@@ -390,6 +398,19 @@ screen building_management_midframe_exploration_guild_mode:
                             action Return(["fg_team", "rename", t])
                             tooltip "Rename %s Team!" % t.name
                             text t.name align .5, .5 hover_color red text_align .5
+                        # Dissolve the team:
+                        $ img = im.Scale("content/gfx/interface/buttons/close4.png", 20, 20)
+                        button:
+                            background img
+                            hover_background im.MatrixColor(img, im.matrix.brightness(.15))
+                            insensitive_background  im.Sepia(img)
+                            padding 0, 0
+                            margin 0, 0
+                            align 1.0, 0.0
+                            xysize 20, 20
+                            sensitive idle_t
+                            action Return(["fg_team", "dissolve", t])
+                            tooltip "Dissolve"
                         # Remove all teammembers:
                         $ img = im.Scale("content/gfx/interface/buttons/shape69.png", 20, 20)
                         button:
@@ -402,7 +423,7 @@ screen building_management_midframe_exploration_guild_mode:
                             xysize 20, 20
                             sensitive t and idle_t
                             action Return(["fg_team", "clear", t])
-                            tooltip "Remove all explorers from Team %s!" % t.name
+                            tooltip "Remove all explorers!"
 
             for w, pos in workers:
                 $ w.set_flag("_drag_container", workers)
