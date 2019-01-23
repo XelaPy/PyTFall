@@ -319,12 +319,12 @@ screen building_management_midframe_exploration_guild_mode:
                 button:
                     style_suffix "button_left2x"
                     tooltip "<== First Page"
-                    action guild_teams.first_page
+                    action Function(guild_teams.first_page)
                     sensitive temp
                 button:
                     style_suffix "button_left"
                     tooltip "<== Previous Page"
-                    action guild_teams.prev_page
+                    action Function(guild_teams.prev_page)
                     sensitive temp
             null width 60
             hbox:
@@ -333,12 +333,12 @@ screen building_management_midframe_exploration_guild_mode:
                 button:
                     style_suffix "button_right"
                     tooltip "Next Page ==>"
-                    action guild_teams.next_page
+                    action Function(guild_teams.next_page)
                     sensitive temp
                 button:
                     style_suffix "button_right2x"
                     tooltip "Last Page ==>"
-                    action guild_teams.last_page
+                    action Function(guild_teams.last_page)
                     sensitive temp
 
         # We'll prolly have to do two layers, one for backgrounds and other for drags...
