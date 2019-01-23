@@ -291,8 +291,6 @@ screen pick_skill(char):
 screen battle_overlay(be):
     zorder 2
 
-    key 'K_ESCAPE' action MainMenu()
-
     # be refers to battle core instance, we access the global directly atm.
     # Everything that is displayed all the time:
     frame:

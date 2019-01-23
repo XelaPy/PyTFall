@@ -389,6 +389,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(.15))
                     action Show("s_menu", transition=dissolve)
                     tooltip "Game Preferences"
+                    keysym "K_ESCAPE"
 
             if renpy.current_screen().tag not in ["mainscreen", "dungeon"] and show_lead_away_buttons:
                 imagebutton:
@@ -512,9 +513,12 @@ screen message_screen(msg, size=(500, 300), use_return=False):
             vbox:
                 xmaximum (size[0] - 100)
                 text msg xalign .5 color lightgoldenrodyellow size 20
-            textbutton "Ok" action If(use_return, true=Return(), false=Hide("message_screen")) minimum(120, 30) xalign .5 style "yesno_button"
-    key "K_RETURN" action If(use_return, true=Return(), false=Hide("message_screen"))
-    key "K_ESCAPE" action If(use_return, true=Return(), false=Hide("message_screen"))
+            textbutton "Ok":
+                action If(use_return, true=Return(), false=Hide("message_screen"))
+                minimum(120, 30)
+                xalign .5
+                style "yesno_button"
+                keysym "K_RETURN", "K_ESCAPE"
 
 screen pyt_input(default="", text="", length=20, size=(350, 150)):
     use keymap_override
@@ -560,8 +564,7 @@ screen exit_button(size=(35, 35), align=(1.0, .0), action=Return(['control', 're
         idle img
         hover im.MatrixColor(img, im.matrix.brightness(.25))
         action action
-    key "mousedown_3" action action
-    key "K_ESCAPE" action action
+        keysym "mousedown_3"
 
 screen poly_matrix(in_file, show_exit_button=False, cursor="content/gfx/interface/icons/zoom_glass.png", xoff=20, yoff=20, hidden=[]):
     # If a tuple with coordinates is provided instead of False for show_exit_button, exit button will be placed there.
