@@ -312,7 +312,7 @@ screen building_management_midframe_exploration_guild_mode:
         # Paging guild teams!
         hbox:
             style_prefix "paging_green"
-            xalign .5 ypos 608
+            xalign .5 ypos 611
             hbox:
                 spacing 5
                 $ temp = guild_teams.page - 1 >= 0
@@ -363,7 +363,7 @@ screen building_management_midframe_exploration_guild_mode:
             for t, pos in guild_teams:
                 $ idle_t = t not in temp.exploring_teams()
                 for idx, w in enumerate(t):
-                    $ w_pos = (pos[0]+117+idx*61, pos[1]+16)
+                    $ w_pos = (pos[0]+17+idx*63, pos[1]+12)
                     $ w.set_flag("_drag_container", t)
                     drag:
                         dragged dragged
@@ -381,23 +381,21 @@ screen building_management_midframe_exploration_guild_mode:
 
                 drag:
                     drag_name t
-                    xysize (310, 83)
+                    xysize (208, 83)
                     draggable 0
                     droppable idle_t
                     pos pos
-                    add gfxframes + "team_frame_2.png"
                     frame:
-                        xysize (310, 83)
-                        background gfxframes + "team_frame_2.png"
+                        xysize (208, 83)
+                        background gfxframes + "team_frame_4.png"
                         button:
-                            background Null()
-                            padding 0, 0
+                            background Frame("content/gfx/frame/namebox4.png")
+                            padding 12, 4
                             margin 0, 0
-                            xpos 49 xanchor .5 yalign .5
-                            xysize 78, 61
+                            align .5, 1.2
                             action Return(["fg_team", "rename", t])
-                            tooltip "Rename %s Team!" % t.name
-                            text t.name align .5, .5 hover_color red text_align .5
+                            tooltip "Rename the team"
+                            text t.name align .5, .5 color orange hover_color red text_align .5
                         # Dissolve the team:
                         $ img = im.Scale("content/gfx/interface/buttons/close4.png", 20, 20)
                         button:
@@ -406,7 +404,7 @@ screen building_management_midframe_exploration_guild_mode:
                             insensitive_background  im.Sepia(img)
                             padding 0, 0
                             margin 0, 0
-                            align 1.0, 0.0
+                            align 1.0, 0.0 offset 3, -8
                             xysize 20, 20
                             sensitive idle_t
                             action Return(["fg_team", "dissolve", t])
@@ -419,11 +417,11 @@ screen building_management_midframe_exploration_guild_mode:
                             insensitive_background  im.Sepia(img)
                             padding 0, 0
                             margin 0, 0
-                            align 1.0, 1.0
+                            align 1.0, 1.0 offset 3, -10
                             xysize 20, 20
                             sensitive t and idle_t
                             action Return(["fg_team", "clear", t])
-                            tooltip "Remove all explorers!"
+                            tooltip "Remove all members!"
 
             for w, pos in workers:
                 $ w.set_flag("_drag_container", workers)

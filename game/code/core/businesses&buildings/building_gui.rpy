@@ -47,15 +47,15 @@ label building_management:
                 $ fg_filters.target_container = [workers, "content"]
                 $ fg_filters.filter()
 
-                $ guild_teams = CoordsForPaging(bm_mid_frame_mode.idle_teams(), columns=2, rows=3,
-                                size=(310, 83), xspacing=3, yspacing=3, init_pos=(4, 340))
+                $ guild_teams = CoordsForPaging(bm_mid_frame_mode.idle_teams(), columns=3, rows=3,
+                                size=(208, 83), xspacing=0, yspacing=5, init_pos=(4, 340))
                 $ mouse_drag = {"default" :[("content/gfx/interface/cursors/hand.png", 0, 0)]}
                 $ mouse_cursor = config.mouse
 
         elif result[0] == "fg_team":
             python:
                 if result[1] == "rename":
-                    n = renpy.call_screen("pyt_input", result[2].name, "Enter Name", 8)
+                    n = renpy.call_screen("pyt_input", result[2].name, "Enter Name", 20)
                     if len(n):
                         result[2].name = n
                 elif result[1] == "clear":
@@ -63,7 +63,7 @@ label building_management:
                         workers.add(i)
                     del result[2].members[:]
                 elif result[1] == "create":
-                    n = renpy.call_screen("pyt_input", "", "Enter Name", 8)
+                    n = renpy.call_screen("pyt_input", "", "Enter Name", 20)
                     if len(n):
                         t = bm_mid_frame_mode.new_team(n)
                         guild_teams.add(t)
