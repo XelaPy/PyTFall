@@ -449,7 +449,6 @@ screen building_management_midframe_exploration_guild_mode:
                     sensitive temp
 
         # We'll prolly have to do two layers, one for backgrounds and other for drags...
-        $ temp = building.get_business("fg")
         draggroup:
             id "team_builder"
             drag:
@@ -460,7 +459,7 @@ screen building_management_midframe_exploration_guild_mode:
                 pos (0, 0)
 
             for t, pos in guild_teams:
-                $ idle_t = t not in temp.exploring_teams()
+                $ idle_t = t not in bm_mid_frame_mode.exploring_teams()
                 for idx, w in enumerate(t):
                     $ w_pos = (pos[0]+17+idx*63, pos[1]+12)
                     $ w.set_flag("_drag_container", t)
@@ -773,7 +772,7 @@ screen fg_area(area):
             spacing 20
             xalign .5 ypos 550
             python:
-                temp = building.get_business("fg")
+                temp = bm_mid_frame_mode
                 teams = temp.teams_to_launch() if temp else []
                 if teams:
                     if not temp.focus_team:
