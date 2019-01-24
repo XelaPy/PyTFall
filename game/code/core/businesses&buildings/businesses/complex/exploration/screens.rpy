@@ -29,15 +29,13 @@ screen building_management_leftframe_exploration_guild_mode:
                     align .5, .5
                     xysize 220, 130
                     background Frame(img)
-                    hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.05)))
                     action NullAction()
                     frame:
                         align .5, .0
                         padding 20, 2
-                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
+                        background Frame(Transform("content/gfx/frame/frame_bg.png", alpha=.5), 5, 5)
                         text main_area.name:
                             color gold
-                            hover_color red
                             style "interactions_text"
                             size 18 outlines [(1, "#3a3a3a", 0, 0)]
                             align .5, .5
