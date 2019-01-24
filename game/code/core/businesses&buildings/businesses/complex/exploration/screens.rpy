@@ -62,9 +62,12 @@ screen building_management_leftframe_exploration_guild_mode:
                         button:
                             xysize 220, 18
                             if area.unlocked:
+                                if selected_log_area == area:
+                                    action SetVariable("selected_log_area", None)
+                                    selected True
+                                else:
+                                    action SetVariable("selected_log_area", area)
                                 $ tmp = area.name
-                                action SetVariable("selected_log_area", area), Show("fg_log", None, area)
-                                selected selected_log_area == area
                             else:
                                 $ tmp = "?????????"
                                 action NullAction()
@@ -210,13 +213,102 @@ screen building_management_leftframe_exploration_guild_mode:
 
 screen building_management_midframe_exploration_guild_mode:
     if bm_exploration_view_mode == "log":
-        vbox:
-            xsize 630
-            frame: # Image
+        if isinstance(selected_log_area, FG_Area):
+            default focused_log = None
+            $ area = selected_log_area
+
+            frame:
+                #ypos 40
                 xalign .5
-                padding 5, 5
-                background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                add im.Scale("content/gfx/bg/buildings/log.webp", 600, 390)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+                style_prefix "content"
+                xysize (630, 680)
+
+                $ fbg = "content/gfx/frame/mes11.webp"
+                frame:
+                    background Transform(Frame(fbg, 10, 10), alpha=.9)
+                    xysize (620, 90)
+                    ymargin 1
+                    ypadding 1
+                    $ temp = area.name
+                    text temp color gold style "interactions_text" size 35 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .3)
+                    hbox:
+                        align (.5, .9)
+                        # Get the correct stars:
+                        python:
+                            temp = []
+                            for i in range(area.explored//20):
+                                temp.append(ProportionalScale("content/gfx/interface/icons/stars/star2.png", 18, 18))
+                            if len(temp) != 5:
+                                if area.explored%20 >= 10:
+                                    temp.append(ProportionalScale("content/gfx/interface/icons/stars/star3.png", 18, 18))
+                            while len(temp) != 5:
+                                temp.append(ProportionalScale("content/gfx/interface/icons/stars/star1.png", 18, 18))
+                        for i in temp:
+                            add i
+
+                # Buttons with logs (Events):
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
+                    style_prefix "dropdown_gm2"
+                    ypos 100 xalign .0
+                    ysize 346
+                    padding 10, 10
+                    has vbox xsize 220 spacing 1
+                    frame:
+                        style_group "content"
+                        xalign .5
+                        padding 15, 5
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
+                        label "Events" text_size 20 text_color ivory align .5, .5
+
+                    for l in area.logs:
+                        button:
+                            xalign .5
+                            ysize 18
+                            action SetScreenVariable("focused_log", l)
+                            text str(l.name) size 12 xalign .02 yoffset 1
+                            # Resolve the suffix:
+                            if l.item:
+                                text "[l.item.type]" size 12 align (1.0, .5)
+                            else: # Suffix:
+                                text str(l.suffix) size 12 align (1.0, .5)
+
+                # Information (Story)
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6, yzoom=-1), 10, 10)
+                    ysize 346
+                    padding 10, 10
+                    ypos 100 xalign 1.0
+                    has vbox xsize 350 spacing 1
+                    frame:
+                        style_group "content"
+                        xalign .5
+                        padding 15, 5
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
+                        label "Story" text_size 20 text_color ivory align .5, .5
+
+                    frame:
+                        background Frame("content/gfx/frame/ink_box.png", 10, 10)
+                        has viewport draggable 1 mousewheel 1
+                        if focused_log:
+                            if focused_log.battle_log:
+                                text "\n".join(focused_log.battle_log) color white
+                            elif focused_log.item:
+                                $ item = focused_log.item
+                                vbox:
+                                    spacing 10 xfill 1
+                                    add ProportionalScale(item.icon, 100, 100) xalign .5
+                                    text item.desc xalign .5 color white
+        else:
+                    # selected_log_area is None
+            vbox:
+                xsize 630
+                frame: # Image
+                    xalign .5
+                    padding 5, 5
+                    background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                    add im.Scale("content/gfx/bg/buildings/log.webp", 600, 390)
     elif bm_exploration_view_mode == "explore":
         vbox:
             xsize 630
@@ -472,100 +564,7 @@ screen building_management_rightframe_exploration_guild_mode:
         text "Log" size 15
 
 # Customized screens for specific businesses:
-screen fg_log(area):
-    on "hide":
-        action SetVariable("selected_log_area", None)
 
-    # modal True
-    zorder 10
-
-    key "mousedown_3" action Hide("fg_log")
-
-    default focused_log = None
-
-    frame:
-        ypos 40
-        xalign .5
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-        style_prefix "content"
-        xysize (630, 680)
-
-        $ fbg = "content/gfx/frame/mes11.webp"
-        frame:
-            background Transform(Frame(fbg, 10, 10), alpha=.9)
-            xysize (620, 90)
-            ymargin 1
-            ypadding 1
-            $ temp = area.name
-            text temp color gold style "interactions_text" size 35 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .3)
-            hbox:
-                align (.5, .9)
-                # Get the correct stars:
-                python:
-                    temp = []
-                    for i in range(area.explored//20):
-                        temp.append(ProportionalScale("content/gfx/interface/icons/stars/star2.png", 18, 18))
-                    if len(temp) != 5:
-                        if area.explored%20 >= 10:
-                            temp.append(ProportionalScale("content/gfx/interface/icons/stars/star3.png", 18, 18))
-                    while len(temp) != 5:
-                        temp.append(ProportionalScale("content/gfx/interface/icons/stars/star1.png", 18, 18))
-                for i in temp:
-                    add i
-
-        # Buttons with logs (Events):
-        frame:
-            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-            style_prefix "dropdown_gm2"
-            ypos 100 xalign .0
-            ysize 346
-            padding 10, 10
-            has vbox xsize 220 spacing 1
-            frame:
-                style_group "content"
-                xalign .5
-                padding 15, 5
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
-                label "Events" text_size 20 text_color ivory align .5, .5
-
-            for l in area.logs:
-                button:
-                    xalign .5
-                    ysize 18
-                    action SetScreenVariable("focused_log", l)
-                    text str(l.name) size 12 xalign .02 yoffset 1
-                    # Resolve the suffix:
-                    if l.item:
-                        text "[l.item.type]" size 12 align (1.0, .5)
-                    else: # Suffix:
-                        text str(l.suffix) size 12 align (1.0, .5)
-
-        # Information (Story)
-        frame:
-            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6, yzoom=-1), 10, 10)
-            ysize 346
-            padding 10, 10
-            ypos 100 xalign 1.0
-            has vbox xsize 350 spacing 1
-            frame:
-                style_group "content"
-                xalign .5
-                padding 15, 5
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
-                label "Story" text_size 20 text_color ivory align .5, .5
-
-            frame:
-                background Frame("content/gfx/frame/ink_box.png", 10, 10)
-                has viewport draggable 1 mousewheel 1
-                if focused_log:
-                    if focused_log.battle_log:
-                        text "\n".join(focused_log.battle_log) color white
-                    elif focused_log.item:
-                        $ item = focused_log.item
-                        vbox:
-                            spacing 10 xfill 1
-                            add ProportionalScale(item.icon, 100, 100) xalign .5
-                            text item.desc xalign .5 color white
 
 screen fg_area(area):
     modal True
