@@ -63,17 +63,19 @@ screen building_management_leftframe_exploration_guild_mode:
                     for area in areas:
                         button:
                             xysize 220, 18
-                            action SetVariable("selected_log_area", area), Show("fg_log", None, area)
-                            selected selected_log_area == area
+                            if area.unlocked:
+                                $ tmp = area.name
+                                action SetVariable("selected_log_area", area), Show("fg_log", None, area)
+                                selected selected_log_area == area
+                            else:
+                                $ tmp = "?????????"
+                                action NullAction()
                             text str(area.stage):
-                                hover_color green
-                                selected_color gold
                                 size 12
                                 xalign .02
                                 yoffset 1
-                            label "[area.name]":
-                                text_color "#66CD00"
-                                text_hover_color green
+                            label "[tmp]":
+                                text_color limegreen
                                 text_selected_color gold
                                 text_size 12
                                 align 1.0, .5
