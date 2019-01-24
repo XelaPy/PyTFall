@@ -188,15 +188,22 @@ screen building_management_leftframe_exploration_guild_mode:
                             align .5, .5
                             xysize 220, 130
                             background Frame(img)
-                            hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.05)))
-                            action SetVariable("bm_mid_frame_focus", area)
+                            if bm_mid_frame_focus == area:
+                                action NullAction()
+                                $ name_bg = "content/gfx/frame/frame_bg.png"
+                                $ hcolor = gold
+                            else:
+                                hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.05)))
+                                action SetVariable("bm_mid_frame_focus", area)
+                                $ name_bg = "content/gfx/frame/ink_box.png"
+                                $ hcolor = red
                             frame:
                                 align .5, .0
                                 padding 20, 2
-                                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
+                                background Frame(Transform(name_bg, alpha=.5), 5, 5)
                                 text area.name:
                                     color gold
-                                    hover_color red
+                                    hover_color hcolor
                                     style "interactions_text"
                                     size 18 outlines [(1, "#3a3a3a", 0, 0)]
                                     align .5, .5
