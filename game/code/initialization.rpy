@@ -494,6 +494,8 @@ init:
     # Or we crash due to an engine bug (going to MMS):
     default bm_mid_frame_mode = None
     default bm_mid_frame_focus = None
+    default bm_exploration_view_mode = None
+    default selected_log_area = None
     default eq_target = None
     default the_chosen = None
     default focus = None
