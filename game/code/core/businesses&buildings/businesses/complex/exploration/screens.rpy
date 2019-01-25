@@ -16,37 +16,42 @@ screen building_management_leftframe_exploration_guild_mode:
 
             null height 5
 
-            # Main Area:
+            # Main Area with paging:
             # We assume that there is always at least one area!
             $ main_area = temp[focused_area_index]
             $ img = main_area.img
-            frame:
-                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
-                padding 2, 2
-                margin 0, 0
+            hbox:
                 xalign .5
                 button:
-                    align .5, .5
-                    xysize 220, 130
-                    background Frame(img)
-                    action NullAction()
-                    frame:
-                        align .5, .0
-                        padding 20, 2
-                        background Frame(Transform("content/gfx/frame/frame_bg.png", alpha=.5), 5, 5)
-                        text main_area.name:
-                            color gold
-                            style "interactions_text"
-                            size 18 outlines [(1, "#3a3a3a", 0, 0)]
-                            align .5, .5
-
-            # Paging for Main Area:
-            hbox:
-                style_prefix "basic"
-                xalign .5
-                textbutton "<==":
+                    style "paging_green_button_left"
+                    yalign .5
+                    tooltip "Previous Page"
                     action SetScreenVariable("focused_area_index", (focused_area_index - 1) % len(temp))
-                textbutton "==>":
+                null width 5
+                frame:
+                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
+                    padding 2, 2
+                    margin 0, 0
+                    xalign .5
+                    button:
+                        align .5, .5
+                        xysize 220, 130
+                        background Frame(img)
+                        action NullAction()
+                        frame:
+                            align .5, .0
+                            padding 20, 2
+                            background Frame(Transform("content/gfx/frame/frame_bg.png", alpha=.5), 5, 5)
+                            text main_area.name:
+                                color gold
+                                style "interactions_text"
+                                size 18 outlines [(1, "#3a3a3a", 0, 0)]
+                                align .5, .5
+                null width 5
+                button:
+                    style "paging_green_button_right"
+                    yalign .5
+                    tooltip "Next Page"
                     action SetScreenVariable("focused_area_index", (focused_area_index + 1) % len(temp))
 
             # Sub Areas:
