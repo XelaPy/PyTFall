@@ -545,20 +545,20 @@ screen building_management_rightframe_exploration_guild_mode:
     button:
         xysize (150, 40)
         yalign .5
-        action SetVariable("bm_exploration_view_mode", "team"), Hide("fg_log")
+        action SetVariable("bm_exploration_view_mode", "team")
         tooltip "You can customize your team here or hire Guild members."
         text "Team" size 15
     button:
         xysize (150, 40)
         yalign .5
-        action SetVariable("bm_exploration_view_mode", "explore"), Hide("fg_log")
+        action SetVariable("bm_exploration_view_mode", "explore")
         tooltip ("On this screen you can organize the expedition. Also, there is a "+
                  "possibility to see all available information on the various places, enemies and items drop.")
         text "Exploration" size 15
     button:
         xysize (150, 40)
         yalign .5
-        action SetVariable("bm_exploration_view_mode", "log"), Hide("fg_log")
+        action SetVariable("bm_exploration_view_mode", "log")
         tooltip "For each of your teams, recorded one last adventure, which you can see here in detail."
         text "Log" size 15
 
@@ -568,8 +568,6 @@ screen building_management_rightframe_exploration_guild_mode:
 screen fg_area(area):
     modal True
     zorder 1
-
-    key "mousedown_3" action Hide("fg_area")
 
     add Transform("content/gfx/images/bg_gradient2.webp", alpha=.5)
 
@@ -813,9 +811,10 @@ screen fg_area(area):
             align .5, .98
             button:
                 style_group "basic"
-                action Hide("fg_area")
+                action Hide("fg_area"), With(dissolve)
                 minimum (50, 30)
                 text "Back"
+                keysym "mousedown_3"
 
 screen fg_char_dropdown(char, team=None, remove=False):
     # Trying to create a drop down screen with choices of actions:
@@ -850,12 +849,12 @@ screen fg_char_dropdown(char, team=None, remove=False):
             action [SetVariable("came_to_equip_from", "building_management"), SetVariable("eqtarget", char), SetVariable("char", char), Hide("fg_char_dropdown"), Hide("pyt_fg_management"), Jump("char_equip")]
         if remove: # and team[0] != girl:
             textbutton "Remove from the Team":
-                action [Function(team.remove, char), Function(workers.add, char), Hide("fg_char_dropdown")]
+                action [Function(team.remove, char), Function(workers.add, char), Hide("fg_char_dropdown"), With(dissolve)]
 
         null height 10
 
         textbutton "Close":
-            action Hide("fg_char_dropdown")
+            action Hide("fg_char_dropdown"), With(dissolve)
             keysym "mouseup_3"
 
 screen se_debugger():

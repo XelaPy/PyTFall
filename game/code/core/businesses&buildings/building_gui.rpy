@@ -369,7 +369,7 @@ init:
                     button:
                         xysize 150, 40
                         yalign .5
-                        action Hide("fg_log"), Return(["bm_mid_frame_mode", "building"])
+                        action Return(["bm_mid_frame_mode", "building"])
                         tooltip ("Here you can invest your gold and resources for various improvements.\n"+
                                  "And see the different information (reputation, rank, fame, etc.)")
                         text "Building" size 15
@@ -954,7 +954,7 @@ init:
 
             button:
                 style_group "dropdown_gm"
-                action Hide("building_controls")
+                action Hide("building_controls"), With(dissolve)
                 minimum 50, 30
                 align .5, .97
                 text "OK"
@@ -1016,7 +1016,7 @@ init:
 
             button:
                 style_group "dropdown_gm"
-                action Hide("building_adverts")
+                action Hide("building_adverts"), With(dissolve)
                 minimum(50, 30)
                 align (.5, .97)
                 text  "OK"

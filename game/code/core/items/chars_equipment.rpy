@@ -353,7 +353,7 @@ screen equip_for(pos=()):
             for t in specializations:
                 textbutton "[t]":
                     xminimum 200
-                    action [Function(eqtarget.equip_for, t), Hide("equip_for")]
+                    action [Function(eqtarget.equip_for, t), Hide("equip_for"), With(dissolve)]
 
             if isinstance(eqtarget, Char):
                 null height 5
@@ -362,7 +362,7 @@ screen equip_for(pos=()):
             null height 5
 
             textbutton "Close":
-                action Hide("equip_for")
+                action Hide("equip_for"), With(dissolve)
                 keysym "mousedown_3"
 
 init python:
@@ -1397,7 +1397,7 @@ screen diff_item_effects(char, dummy):
     zorder 10
     textbutton "X":
         align (1.0, .0)
-        action Hide("diff_item_effects")
+        action Hide("diff_item_effects"), With(dissolve)
     frame:
         xysize (1000, 500)
         background Solid("#F00", alpha=.1)

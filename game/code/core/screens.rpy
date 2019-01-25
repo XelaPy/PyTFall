@@ -212,7 +212,7 @@ screen quest_notifications(q, type, align=None, autohide=2.5):
                 align 1.005, -.03
                 idle "content/gfx/interface/buttons/close3.png"
                 hover "content/gfx/interface/buttons/close3_h.png"
-                action Hide("quest_notifications")
+                action Hide("quest_notifications"), With(dissolve)
 
         add ProportionalScale(interfaceimages + "quest.png", 170, 120) pos (100, 0)
         frame:

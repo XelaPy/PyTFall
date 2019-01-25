@@ -944,7 +944,6 @@ screen hero_finances():
             keysym "mousedown_3"
 
 screen mc_friends_list:
-
     modal True
     frame:
         at slide(so1=(-2000, 0), t1=.7, so2=(0, 0), t2=.3, eo2=(-2000, 0))
@@ -961,7 +960,7 @@ screen mc_friends_list:
             align (1.0, .0)
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
             hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
-            action Hide("mc_friends_list")
+            action Hide("mc_friends_list"), With(dissolve)
             keysym "mousedown_3"
 
         vpgrid:
