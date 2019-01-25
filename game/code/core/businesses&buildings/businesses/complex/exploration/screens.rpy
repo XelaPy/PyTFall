@@ -132,8 +132,9 @@ screen building_management_leftframe_exploration_guild_mode:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             style_group "proper_stats"
+            xsize 310
             xalign .5
-            padding 12, 12
+            padding 10, 10
             margin 0, 0
             has vbox spacing 1
             label "Filters:" xalign .5
@@ -141,21 +142,22 @@ screen building_management_leftframe_exploration_guild_mode:
                 style_prefix "basic"
                 xalign .5
                 textbutton "Reset":
-                    xsize 200
+                    xsize 292
                     action Function(fg_filters.clear)
                 textbutton "Warriors":
-                    xsize 200
+                    xsize 292
                     action ModFilterSet(fg_filters, "occ_filters", "Combatant")
                 textbutton "Idle":
-                    xsize 200
+                    xsize 292
                     action ModFilterSet(fg_filters, "action_filters", None)
 
         # Sorting:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             style_group "proper_stats"
+            xsize 310
             xalign .5
-            padding 12, 12
+            padding 10, 10
             margin 0, 0
             has vbox spacing 1
             label "Sort:" xalign .5
@@ -163,10 +165,10 @@ screen building_management_leftframe_exploration_guild_mode:
                 style_prefix "basic"
                 xalign .5
                 textbutton "Name":
-                    xsize 200
+                    xsize 292
                     action SetFilter(fg_filters, "alphabetical")
                 textbutton "Level":
-                    xsize 200
+                    xsize 292
                     action SetFilter(fg_filters, "level")
     elif bm_exploration_view_mode == "explore":
         fixed: # making sure we can align stuff...
