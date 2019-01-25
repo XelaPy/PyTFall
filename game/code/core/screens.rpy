@@ -1229,6 +1229,18 @@ screen tutorial(level=1):
         xysize (1280, 720)
         action Hide("tutorial")
 
+screen stars(value, max_value, num_stars=5):
+    $ step = max_value / (num_stars * 2)
+    for i in range(5):
+        if (2*step) <= value:
+            add Transform("content/gfx/interface/icons/stars/star2.png", size=(18, 18))
+            $ value -= 2*step
+        elif step <= value:
+            add Transform("content/gfx/interface/icons/stars/star3.png", size=(18, 18))
+            $ value -= step
+        else:
+            add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
+
 screen digital_keyboard(line=""):
     default current_number = "0"
     modal True

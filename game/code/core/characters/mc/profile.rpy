@@ -336,16 +336,7 @@ screen hero_profile():
                                 hbox:
                                     xalign 1.0
                                     yoffset 8
-                                    $ step = skill_limit/10.0
-                                    for i in range(5):
-                                        if (2*step) <= skill_val:
-                                            add Transform("content/gfx/interface/icons/stars/star2.png", size=(18, 18))
-                                            $ skill_val -= 2*step
-                                        elif step <= skill_val:
-                                            add Transform("content/gfx/interface/icons/stars/star3.png", size=(18, 18))
-                                            $ skill_val -= step
-                                        else:
-                                            add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
+                                    use stars(skill_val, skill_limit)
                 vbox:
                     spacing 1
                     for skill in hero.stats.skills:

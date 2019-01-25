@@ -235,17 +235,7 @@ screen building_management_midframe_exploration_guild_mode:
                     hbox:
                         align (.5, .9)
                         # Get the correct stars:
-                        python:
-                            temp = []
-                            for i in range(area.explored//20):
-                                temp.append(ProportionalScale("content/gfx/interface/icons/stars/star2.png", 18, 18))
-                            if len(temp) != 5:
-                                if area.explored%20 >= 10:
-                                    temp.append(ProportionalScale("content/gfx/interface/icons/stars/star3.png", 18, 18))
-                            while len(temp) != 5:
-                                temp.append(ProportionalScale("content/gfx/interface/icons/stars/star1.png", 18, 18))
-                        for i in temp:
-                            add i
+                        use stars(area.explored, 100)
 
                 # Buttons with logs (Events):
                 frame:
@@ -339,21 +329,10 @@ screen building_management_midframe_exploration_guild_mode:
                             else:
                                 $ temp = "?????????"
                                 action NullAction()
-                            text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .01)
+                            text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .3)
                             hbox:
                                 align (.5, .9)
-                                # Get the correct stars:
-                                # python:
-                                    # temp = []
-                                    # for i in range(area.explored//20):
-                                        # temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
-                                    # if len(temp) != 5:
-                                        # if area.explored%20 >= 10:
-                                            # temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
-                                    # while len(temp) != 5:
-                                        # temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
-                                # for i in temp:
-                                    # add i
+                                use stars(area.explored, 100)
     elif bm_exploration_view_mode == "team":
         # Backgrounds:
         frame:
