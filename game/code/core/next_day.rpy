@@ -1052,11 +1052,11 @@ screen next_day():
                         if i.type == "girlndreport" and i.red_flag:
                             red_flags = True
 
-                hbox:
+                vbox:
                     spacing 5
                     yalign .5
                     add ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
-                    text "[slaves]" style "agrevue"
+                    text "[slaves]" xalign .5 style "agrevue"
 
                 frame:
                     xysize 95, 95
@@ -1083,11 +1083,11 @@ screen next_day():
                                 size 40
                                 align .5, .5
 
-                hbox:
+                vbox:
                     spacing 5
                     yalign .5
-                    text "[free]" style "agrevue"
                     add ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
+                    text "[free]" xalign .5 style "agrevue"
 
             # Data:
             python:
