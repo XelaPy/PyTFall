@@ -245,7 +245,7 @@ init -6 python: # Guild, Tracker and Log.
             # Not sure if this is required... we can add log objects and build
             # reports from them in real-time instead of replicating data we already have.
             txt = []
-            event_type = "jobreport"
+            event_type = "explorationndreport"
 
             # Build an image combo for the report:
             img = Fixed(xysize=(820, 705))

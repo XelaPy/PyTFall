@@ -257,6 +257,8 @@ label next_day_controls:
                     FilteredList = temp
                 elif result[1] == 'gndreports': # Girl Next Day Reports
                     FilteredList = [e for e in NextDayEvents if e.type == 'girlndreport']
+                elif result[1] == 'xndreports': # Exloration Next Day Reports
+                    FilteredList = [e for e in NextDayEvents if e.type == 'explorationndreport']
                 elif result[1] == 'building':
                     building = result[2]
                     order = {"buildingreport": 1, "manager_report": 2, "jobreport": 3}
@@ -1048,8 +1050,11 @@ screen next_day():
                             free = free + 1
                 python:
                     red_flags = False
+                    explorers = False
                     for i in NextDayEvents:
-                        if i.type == "girlndreport" and i.red_flag:
+                        if i.type == "explorationndreport":
+                            explorers = True
+                        elif i.type == "girlndreport" and i.red_flag:
                             red_flags = True
 
                 vbox:
@@ -1070,18 +1075,30 @@ screen next_day():
                         hover_background Frame(im.MatrixColor(img ,im.matrix.brightness(.15)), 10, 10)
                         action [Return(['filter', 'gndreports']), SetScreenVariable("show_summary", None)]
                         tooltip "Show personal girl reports!"
-                    if red_flags:
-                        button:
-                            xysize 10, 36
-                            align 1.0, 1.0
-                            background Null()
-                            action NullAction()
-                            tooltip "Red flag in Girls personal Reports!"
-                            text "!":
-                                style "proper_stats_text"
-                                color red
-                                size 40
-                                align .5, .5
+                    hbox:
+                        align 1.0, 1.0
+                        if explorers:
+                            button:
+                                xysize 30, 30
+                                yalign .5
+                                padding 0, 0
+                                margin 0, 0
+                                background Null()
+                                text "+" color yellow size 40 style "proper_stats_text" align .5, .5
+                                action [Return(['filter', 'xndreports']), SetScreenVariable("show_summary", None)]
+                                tooltip "View the reports of the explorers!"
+                        if red_flags:
+                            button:
+                                xysize 10, 36
+                                yalign .5
+                                background Null()
+                                action NullAction()
+                                tooltip "Red flag in Girls personal Reports!"
+                                text "!":
+                                    style "proper_stats_text"
+                                    color red
+                                    size 40
+                                    align .5, .5
 
                 vbox:
                     spacing 5
