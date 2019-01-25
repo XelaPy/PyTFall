@@ -21,6 +21,10 @@ label building_management:
             building = hero.buildings[index]
             char = None
 
+            # special cursor for DragAndDrop and the original value
+            mouse_drag = {"default" :[("content/gfx/interface/cursors/hand.png", 0, 0)]}
+            mouse_cursor = config.mouse
+
     scene bg scroll
 
     $ renpy.retain_after_load()
@@ -49,8 +53,6 @@ label building_management:
 
                 $ guild_teams = CoordsForPaging(bm_mid_frame_mode.idle_teams(), columns=3, rows=3,
                                 size=(208, 83), xspacing=0, yspacing=5, init_pos=(4, 340))
-                $ mouse_drag = {"default" :[("content/gfx/interface/cursors/hand.png", 0, 0)]}
-                $ mouse_cursor = config.mouse
 
         elif result[0] == "fg_team":
             python:
@@ -239,7 +241,7 @@ init:
 
         use top_stripe(True)
         if not bm_mid_frame_mode == "building":
-            key "mousedown_3" action Return(["bm_mid_frame_mode", "building"])
+            key "mousedown_3" action Function(setattr, config, "mouse", mouse_cursor), Return(["bm_mid_frame_mode", "building"])
         else:
             key "mousedown_4" action Return(["control", "right"])
             key "mousedown_5" action Return(["control", "left"])

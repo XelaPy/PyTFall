@@ -472,10 +472,10 @@ screen building_management_midframe_exploration_guild_mode:
                         pos w_pos
                         if idle_t:
                             clicked Show("fg_char_dropdown", dissolve, w, team=t, remove=True)
+                            hovered Function(setattr, config, "mouse", mouse_drag)
+                            unhovered Function(setattr, config, "mouse", mouse_cursor)
 
                         add w.show("portrait", resize=(46, 46), cache=1)
-                        hovered Function(setattr, config, "mouse", mouse_drag)
-                        unhovered Function(setattr, config, "mouse", mouse_cursor)
 
                 drag:
                     drag_name t
