@@ -480,6 +480,7 @@ init:
                                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
                                     tooltip "View details or expand {}.\n{}".format(u.name, u.desc)
                                     xalign .5
+                                    top_padding 4
                                     action Return(["bm_mid_frame_mode", u])
 
                             imagebutton:
