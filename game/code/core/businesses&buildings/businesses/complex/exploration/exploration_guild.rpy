@@ -434,33 +434,48 @@ init -6 python: # Guild, Tracker and Log.
                 temp = "\n" + temp
             tracker.log(temp)
 
-            # Set the state to traveling back if we're done:
-            if tracker.day > tracker.days:
-                tracker.state = "traveling back"
-            elif area.building_camp:
-                tracker.state = "setting_up_basecamp"
+            if tracker.state == "traveling to":
+                # The team is not there yet, keep tracking
+                while 1:
+                    result = yield process(self.travel_to(tracker))
+                    if result == "arrived" or self.env.now >= 99:
+                        break
 
-            while self.env.now < 99:
-                if tracker.state == "traveling to":
-                    yield process(self.travel_to(tracker))
-                elif tracker.state == "exploring":
-                    result = yield process(self.explore(tracker))
-                    if result == "captured char":
-                        tracker.state = "traveling back"
-                elif tracker.state == "camping":
-                    yield process(self.camping(tracker))
-                elif tracker.state == "traveling back":
-                    result = yield process(self.travel_back(tracker))
-                    if result == "back2guild":
-                        tracker.finish_exploring() # Build the ND report!
-                        self.env.exit() # We're done...
-                elif tracker.state == "setting_up_basecamp":
-                    yield process(self.setup_basecamp(tracker))
+            if self.env.now < 99:
+                if tracker.state is None:
+                    # just arrived to the location -> start exploring, but reset the total-day counter
+                    tracker.total_days = 1
+                    tracker.state = "exploring"
+
+                # Set the state to traveling back if we're done:
+                if tracker.total_days > tracker.days:
+                    tracker.state = "traveling back"
+                elif area.building_camp:
+                    # remote controlled basecamp building ???
+                    tracker.state = "setting_up_basecamp"
+
+                while 1:
+                    if tracker.state == "exploring":
+                        result = yield process(self.explore(tracker))
+                        if result == "captured char":
+                            tracker.state = "traveling back"
+                    elif tracker.state == "camping":
+                        yield process(self.camping(tracker))
+                    elif tracker.state == "traveling back":
+                        result = yield process(self.travel_back(tracker))
+                        if result == "back2guild":
+                            tracker.finish_exploring() # Build the ND report!
+                            self.env.exit() # We're done...
+                    elif tracker.state == "setting_up_basecamp":
+                        yield process(self.setup_basecamp(tracker))
+                    if self.env.now >= 99:
+                        break
 
             # if DEBUG_SE:
                 # tracker.log("Debug: The day has come to an end for {}.".format(tracker.team.name))
             self.overnight(tracker)
             tracker.day += 1
+            tracker.total_days += 1
 
         def travel_to(self, tracker):
             # Env func that handles the travel to routine.
@@ -498,7 +513,7 @@ init -6 python: # Guild, Tracker and Log.
                     else:
                         temp = temp + " The trip took less then one day!"
                     tracker.log(temp, name="Arrival")
-                    tracker.state = "exploring"
+                    tracker.state = None
                     tracker.traveled = 0 # Reset for traveling back.
                     self.env.exit("arrived")
 
