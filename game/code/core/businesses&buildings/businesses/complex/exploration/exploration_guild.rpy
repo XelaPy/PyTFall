@@ -487,7 +487,7 @@ init -6 python: # Guild, Tracker and Log.
                 tracker.traveled += 1.25
 
                 # Team arrived:
-                if tracker.traveled <= tracker.distance:
+                if tracker.traveled >= tracker.distance:
                     if DEBUG_SE:
                         msg = "{} arrived at {}.".format(team.name, area.id)
                         se_debug(msg, mode="info")
@@ -534,14 +534,14 @@ init -6 python: # Guild, Tracker and Log.
                 tracker.traveled += 1.25
 
                 # Team arrived:
-                if tracker.traveled <= tracker.distance:
+                if tracker.traveled >= tracker.distance:
                     temp = "{} returned to the guild!".format(tracker.team.name)
                     tracker.log(temp, name="Return")
                     # tracker.state = "exploring"
                     # tracker.traveled = 0 # Reset for traveling back.
                     self.env.exit("back2guild")
 
-                if self.evn.now >= 99: # We couldn't make it there before the days end...
+                if self.env.now >= 99: # We couldn't make it there before the days end...
                     temp = "{} spent the entire day traveling back to the guild from {}! ".format(tracker.team.name, tracker.area.id)
                     tracker.log(temp)
                     self.env.exit("on the way back")
@@ -847,7 +847,7 @@ init -6 python: # Guild, Tracker and Log.
                         enemies = randint(min_enemies, max_ememies)
 
                         temp = "\n{} were attacked by ".format(team.name)
-                        temp = temp + "%d %s!" % (enemies, plural(mob, enemies))
+                        temp = temp + "%d %s!" % (enemies, plural("mob", enemies))
                         log = tracker.log(temp, "Combat!", ui_log=True)
 
                         result = self.combat_mobs(tracker, mob, enemies, log)
@@ -862,9 +862,8 @@ init -6 python: # Guild, Tracker and Log.
                 # This basically means that team spent the day exploring and ready to go to rest.
                 if self.env.now >= 99:
                     if items and cash:
-                        tracker.log("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
+                        tracker.log("The team has found: %s %s and {color=[gold]}%d Gold{/color} in loot!" % (", ".join(items), plural("item", len(items)), cash))
                         tracker.found_items.extend(items)
-                        tracker.log(" and {color=[gold]}%d Gold{/color} in loot!" % cash)
                         tracker.cash.append(cash)
 
                     if cash and not items:
