@@ -589,6 +589,12 @@ screen fg_area(area):
             text "[area.capture_chars]" xalign 1.0
 
         null height 5
+        if area.travel_time:
+            button:
+                xalign .5
+                xysize 300, 30
+                text "Distance about %d days" % (round_int(area.travel_time)) xalign .0
+                action NullAction()
         button:
             xalign .5
             xysize 300, 30
