@@ -839,9 +839,12 @@ init -6 python: # Guild, Tracker and Log.
                     encounter_chance = dice(carea.risk-25)
                     if encounter_chance:
                         fought_mobs = 1
-
-                        mob = choice(tracker.mobs)
-
+                        if isinstance(tracker.mobs, list):
+                            mob = choice(tracker.mobs)
+                        elif isinstance(tracker.mobs, (set, dict)):
+                            mob = choice(tracker.mobs.keys())
+                        else:
+                            mob = tracker.mobs
                         min_enemies = max(1, len(team) - 1)
                         max_ememies = max(3, len(team) + randrange(2))
                         enemies = randint(min_enemies, max_ememies)
