@@ -863,19 +863,18 @@ screen se_debugger():
                 text area.name
                 for t in area.trackers:
                     hbox:
-                        spacing 5
-                        text "Days:"
-                        null width 10
-                        text "[t.day]" xalign .0
-                        text "[t.days]" xalign 1.0
-                    hbox:
                         xsize 500
                         spacing 5
                         text t.team.name xalign .0
                         text "[t.state]" xalign 1.0
+                    hbox:
+                        xsize 500
+                        spacing 5
+                        text "Days:" xalign .0
+                        text "[t.day]/[t.days]" xalign 1.0
                     null height 3
                 add Solid("F00", xysize=(1280, 5))
 
     textbutton "Exit":
-        align .0, .0
+        align 1.0, 1.0
         action Hide("se_debugger")

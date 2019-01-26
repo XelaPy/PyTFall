@@ -243,8 +243,8 @@ screen chars_list(source=None):
                             style_group "basic"
                             xysize (25, 25)
                             align 1.0, 1.0 offset 9, -2
-                            action ToggleSetMembership(chars_list_state.the_chosen, c)
-                            if c in chars_list_state.the_chosen:
+                            action ToggleSetMembership(the_chosen, c)
+                            if c in the_chosen:
                                 add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align .5, .5
                             else:
                                 add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align .5, .5
