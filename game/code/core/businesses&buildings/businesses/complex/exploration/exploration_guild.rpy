@@ -443,16 +443,15 @@ init -6 python: # Guild, Tracker and Log.
 
             if self.env.now < 99:
                 if tracker.state is None:
-                    # just arrived to the location -> start exploring, but reset the total-day counter
+                    # just arrived to the location -> reset the total-day counter, decide what to do
                     tracker.total_days = 1
-                    tracker.state = "exploring"
-
+                    if area.building_camp:
+                        tracker.state = "setting_up_basecamp"
+                    else:
+                        tracker.state = "exploring"
                 # Set the state to traveling back if we're done:
-                if tracker.total_days > tracker.days:
+                elif tracker.total_days > tracker.days:
                     tracker.state = "traveling back"
-                elif area.building_camp:
-                    # remote controlled basecamp building ???
-                    tracker.state = "setting_up_basecamp"
 
                 while 1:
                     if tracker.state == "exploring":
