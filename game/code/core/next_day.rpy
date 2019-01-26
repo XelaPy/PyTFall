@@ -257,11 +257,11 @@ label next_day_controls:
                     FilteredList = temp
                 elif result[1] == 'gndreports': # Girl Next Day Reports
                     FilteredList = [e for e in NextDayEvents if e.type == 'girlndreport']
-                elif result[1] == 'xndreports': # Exloration Next Day Reports
+                elif result[1] == 'xndreports': # Exploration Next Day Reports
                     FilteredList = [e for e in NextDayEvents if e.type == 'explorationndreport']
                 elif result[1] == 'building':
                     building = result[2]
-                    order = {"buildingreport": 1, "manager_report": 2, "jobreport": 3}
+                    order = {"buildingreport": 1, "manager_report": 2, "explorationndreport": 2.5, "jobreport": 3}
                     FilteredList = sorted([e for e in NextDayEvents if e.loc == building and e.type in order], key=lambda e: order[e.type])
                 elif result[1] == "fighters_guild":
                     order = {"fg_report": 1, "exploration_report": 2, "fg_job": 3}
