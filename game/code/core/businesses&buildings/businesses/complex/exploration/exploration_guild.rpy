@@ -482,7 +482,7 @@ init -6 python: # Guild, Tracker and Log.
             area = tracker.area
 
             if DEBUG_SE:
-                msg = "{} is traveling to {}.".format(team.name, area.id)
+                msg = "{} is traveling to {}.".format(team.name, area.name)
                 se_debug(msg, mode="info")
 
             # Figure out how far we can travel in steps of 5 DU:
@@ -491,7 +491,7 @@ init -6 python: # Guild, Tracker and Log.
             travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
             if not tracker.traveled:
-                temp = "{} is on route to {}!".format(tracker.team.name, tracker.area.id)
+                temp = "{} is on route to {}!".format(tracker.team.name, tracker.area.name)
                 tracker.log(temp)
 
             while 1:
@@ -503,10 +503,10 @@ init -6 python: # Guild, Tracker and Log.
                 # Team arrived:
                 if tracker.traveled >= tracker.distance:
                     if DEBUG_SE:
-                        msg = "{} arrived at {}.".format(team.name, area.id)
+                        msg = "{} arrived at {} ({}).".format(team.name, area.name, area.id)
                         se_debug(msg, mode="info")
 
-                    temp = "{} arrived at {}!".format(team.name, area.id)
+                    temp = "{} arrived at {}!".format(team.name, area.name)
                     if tracker.day > 1:
                         temp = temp + " It took {} {} to get there.".format(tracker.day, plural("day", tracker.day))
                     else:
@@ -517,7 +517,7 @@ init -6 python: # Guild, Tracker and Log.
                     self.env.exit("arrived")
 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
-                    temp = "{} spent the entire day on route to {}! ".format(team.name, area.id)
+                    temp = "{} spent the entire day on route to {}! ".format(team.name, area.name)
                     tracker.log(temp)
                     if DEBUG_SE:
                         se_debug(temp, mode="info")
@@ -556,7 +556,7 @@ init -6 python: # Guild, Tracker and Log.
                     self.env.exit("back2guild")
 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
-                    temp = "{} spent the entire day traveling back to the guild from {}! ".format(tracker.team.name, tracker.area.id)
+                    temp = "{} spent the entire day traveling back to the guild from {}! ".format(tracker.team.name, tracker.area.name)
                     tracker.log(temp)
                     self.env.exit("on the way back")
 
@@ -613,7 +613,7 @@ init -6 python: # Guild, Tracker and Log.
                         break
                 else:
                     tracker.days_in_camp = 0
-                    temp = "{} are now ready for more action in {}! ".format(team.name, area.id)
+                    temp = "{} are now ready for more action in {}! ".format(team.name, area.name)
                     tracker.log(temp)
                     tracker.state = "exploring"
                     self.env.exit("restored after camping")
