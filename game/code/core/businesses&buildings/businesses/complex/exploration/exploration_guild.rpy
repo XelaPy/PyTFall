@@ -146,7 +146,6 @@ init -6 python: # Guild, Tracker and Log.
             self.cash = list()
 
             self.day = 1 # Day since start.
-            self.total_days = 0 # Total days, travel times excluded!
             # Days team is expected to be exploring (without travel times)!
             self.days = self.area.days
             if self.days < 3:
@@ -443,15 +442,16 @@ init -6 python: # Guild, Tracker and Log.
 
             if self.env.now < 99:
                 if tracker.state is None:
-                    # just arrived to the location -> reset the total-day counter, decide what to do
-                    tracker.total_days = 1
+                    # just arrived to the location -> decide what to do
                     if area.building_camp:
                         tracker.state = "setting_up_basecamp"
                     else:
                         tracker.state = "exploring"
+                    tracker.traveled = tracker.day # number of days it took to get to the location
                 # Set the state to traveling back if we're done:
-                elif tracker.total_days > tracker.days:
+                elif tracker.day - tracker.traveled >= tracker.days:
                     tracker.state = "traveling back"
+                    tracker.traveled = 0 # Reset for traveling back.
 
                 while 1:
                     if tracker.state == "exploring":
@@ -474,7 +474,6 @@ init -6 python: # Guild, Tracker and Log.
                 # tracker.log("Debug: The day has come to an end for {}.".format(tracker.team.name))
             self.overnight(tracker)
             tracker.day += 1
-            tracker.total_days += 1
 
         def travel_to(self, tracker):
             # Env func that handles the travel to routine.
@@ -513,7 +512,6 @@ init -6 python: # Guild, Tracker and Log.
                         temp = temp + " The trip took less then one day!"
                     tracker.log(temp, name="Arrival")
                     tracker.state = None
-                    tracker.traveled = 0 # Reset for traveling back.
                     self.env.exit("arrived")
 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
