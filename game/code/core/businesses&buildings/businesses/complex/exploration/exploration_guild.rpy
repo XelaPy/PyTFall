@@ -756,6 +756,10 @@ init -6 python: # Guild, Tracker and Log.
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
 
+                # record the exploration
+                if dice(5):
+                    area.explored += 1
+
                 # Hazzard:
                 if area.hazard:
                     temp = "{color=[yellow]}Hazardous area!{/color} The team has been effected."
