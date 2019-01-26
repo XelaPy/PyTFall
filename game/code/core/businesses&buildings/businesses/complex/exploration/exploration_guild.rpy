@@ -436,10 +436,9 @@ init -6 python: # Guild, Tracker and Log.
 
             if tracker.state == "traveling to":
                 # The team is not there yet, keep tracking
-                while 1:
-                    result = yield process(self.travel_to(tracker))
-                    if result == "arrived" or self.env.now >= 99:
-                        break
+                result = yield process(self.travel_to(tracker))
+                if result == "arrived":
+                    tracker.state = None
 
             if self.env.now < 99:
                 if tracker.state is None:
@@ -461,8 +460,12 @@ init -6 python: # Guild, Tracker and Log.
                             break # We're done for today...
                         if result == "captured char":
                             tracker.state = "traveling back"
+                        elif result == "defeat":
+                            tracker.state = "camping"
                     elif tracker.state == "camping":
-                        yield process(self.camping(tracker))
+                        result = yield process(self.camping(tracker))
+                        if result == "restored":
+                            tracker.state = "exploring"
                     elif tracker.state == "traveling back":
                         result = yield process(self.travel_back(tracker))
                         if result == "back2guild":
@@ -514,7 +517,6 @@ init -6 python: # Guild, Tracker and Log.
                     else:
                         temp = temp + " The trip took less then one day!"
                     tracker.log(temp, name="Arrival")
-                    tracker.state = None
                     self.env.exit("arrived")
 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
@@ -552,8 +554,6 @@ init -6 python: # Guild, Tracker and Log.
                 if tracker.traveled >= tracker.distance:
                     temp = "{} returned to the guild!".format(tracker.team.name)
                     tracker.log(temp, name="Return")
-                    # tracker.state = "exploring"
-                    # tracker.traveled = 0 # Reset for traveling back.
                     self.env.exit("back2guild")
 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
@@ -616,8 +616,7 @@ init -6 python: # Guild, Tracker and Log.
                     tracker.days_in_camp = 0
                     temp = "{} are now ready for more action in {}! ".format(team.name, area.name)
                     tracker.log(temp)
-                    tracker.state = "exploring"
-                    self.env.exit("restored after camping")
+                    self.env.exit("restored")
 
                 if self.env.now >= 99:
                     tracker.days_in_camp += 1
@@ -633,10 +632,6 @@ init -6 python: # Guild, Tracker and Log.
                         # if member.health <= (member.get_max("health") / 100.0 * (100 - self.risk)) or member.health < 15:
                             # temp = "{color=[blue]}Your party falls back to base due to risk factors!{/color}"
                             # tracker.log(temp)
-
-            if DEBUG_SE:
-                msg = "{} finished Camping.".format(team.name)
-                se_debug(msg, mode="info")
 
         def overnight(self, tracker):
             # overnight: More effective heal. Spend the night resting.
@@ -700,7 +695,7 @@ init -6 python: # Guild, Tracker and Log.
             encountered_opfor = 0
 
             if DEBUG_SE:
-                msg = "{} is stating an exploration scenario.".format(team.name)
+                msg = "{} is starting an exploration scenario.".format(team.name)
                 se_debug(msg, mode="info")
 
             # Effectiveness (Ability):
@@ -901,11 +896,10 @@ init -6 python: # Guild, Tracker and Log.
 
                         result = self.combat_mobs(tracker, mob, enemies, log)
                         if result == "defeat":
-                            tracker.state = "camping"
                             if DEBUG_SE:
                                 msg = "{} has finished an exploration scenario. (Lost a fight)".format(team.name)
                                 se_debug(msg, mode="info")
-                            self.env.exit()
+                            self.env.exit("defeat")
                         if fought_mobs >= carea.risk/25:
                             temp = "Your team decided to go back to the camp to avoid further {color=[red]}risk{/color}."
                             tracker.log(temp)
