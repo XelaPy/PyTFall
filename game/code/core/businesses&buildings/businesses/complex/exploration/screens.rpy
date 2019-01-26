@@ -184,7 +184,7 @@ screen building_management_leftframe_exploration_guild_mode:
                 xysize 224, 500
                 xalign .5 ypos 57
                 has vbox spacing 4
-                $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
+                $ temp = [a for a in fg_areas.values() if a.main and a.unlocked]
                 if temp and not bm_mid_frame_focus:
                     $ mid_frame_focus = temp[0]
 
