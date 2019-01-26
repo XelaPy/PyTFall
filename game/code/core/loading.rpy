@@ -557,14 +557,16 @@ init -11 python:
                 in_file = content_path("".join(["db/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
-        areas = dict()
+        areas = dict() # a list() might suffice in the future
+        idx = 0
         for area in content:
             a = FG_Area()
             for attr in area:
                 setattr(a, attr, area[attr])
-            if not hasattr(a, "name"):
-                a.name = a.id
-            areas[a.id] = a
+            idx += 1
+            a.id = idx
+            areas[idx] = a
+
         return areas
 
     def load_items():
