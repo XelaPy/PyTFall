@@ -113,9 +113,9 @@ init -6 python: # Guild, Tracker and Log.
 
             # This is the general items that can be found at any exploration location,
             # Limited by price:
-            self.exploration_items = list(item.id for item in store.items.values() if
+            self.exploration_items = dict([(item.id, item.chance) for item in store.items.values() if
                                           "Exploration" in item.locations and
-                                          area.items_price_limit >= item.price)
+                                          area.items_price_limit >= item.price])
 
             # Traveling to and from + Status flags:
             # We may be setting this directly in the future.
@@ -699,17 +699,22 @@ init -6 python: # Guild, Tracker and Log.
                 if dice(d):
                     local_items.append(i)
 
+            area_items = []
+            for i, d in tracker.exploration_items.iteritems():
+                if dice(d):
+                    area_items.append(i)
+
             if DEBUG_SE:
-                msg = "Local Items: {}|Area Items: {}".format(len(local_items), len(tracker.exploration_items))
+                msg = "Local Items: {}|Area Items: {}".format(len(local_items), len(area_items))
                 se_debug(msg, mode="info")
 
-            while len(chosen_items) <= max_items and (tracker.exploration_items or local_items):
+            while len(chosen_items) < max_items and (area_items or local_items):
                 # always pick from local item list first!
-                if local_items and len(chosen_items) <= max_items:
+                if local_items:
                     chosen_items.append(choice(local_items))
 
-                if tracker.exploration_items and len(chosen_items) <= max_items:
-                    chosen_items.append(choice(tracker.exploration_items))
+                if area_items and len(chosen_items) < max_items:
+                    chosen_items.append(choice(area_items))
 
             if DEBUG_SE:
                 msg = "({}) Items were picked for choice!".format(len(chosen_items))
@@ -717,8 +722,6 @@ init -6 python: # Guild, Tracker and Log.
 
             # Max cash to be found this day:
             max_cash = tracker.cash_limit + tracker.cash_limit*.1*tracker.day
-
-            shuffle(chosen_items)
 
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
