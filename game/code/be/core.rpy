@@ -127,7 +127,7 @@ init -1 python: # Core classes:
 
                 # If the controller was killed off during the mid_turn_events:
                 if fighter not in self.corpses:
-                    if fighter.controller != "player":
+                    if fighter.controller is not None:
                         # This character is not controlled by the player so we call the (AI) controller:
                         fighter.controller()
                     else: # Controller is the player:
@@ -150,7 +150,7 @@ init -1 python: # Core classes:
                                     break
                             else: # Normal Skills:
                                 if isinstance(rv, Item):
-                                    skill = ConsumeItem("Use Item")
+                                    skill = ConsumeItem()
                                     skill.item = rv
                                 else:
                                     skill = rv
@@ -255,16 +255,17 @@ init -1 python: # Core classes:
             # Plainly sets allegiance of chars to their teams.
             # Allegiance may change during the fight (confusion skill for example once we have one).
             # I've also included part of team/char positioning logic here.
+            pos = "l"
             for team in self.teams:
-                team.position = "l" if not self.teams.index(team) else "r"
-                for char in team:
+                team.position = pos
+                size = len(team)
+                for idx, char in enumerate(team.members):
                     # Position:
-                    char.beteampos = team.position
-                    char_index = team.members.index(char)
-                    if len(team) == 3 and char_index < 2:
-                        char_index = not int(bool(char_index))
-                    char.beinx = char_index
-                    if team.position == "l":
+                    char.beteampos = pos
+                    if size == 3 and idx < 2:
+                        idx = 1 - idx
+                    char.beinx = idx
+                    if pos == "l":
                         char.row = int(char.front_row)
                     else: # Case "r"
                         char.row = 2 if char.front_row else 3
@@ -274,6 +275,8 @@ init -1 python: # Core classes:
 
                     if not self.logical:
                         char.stats.update_delayed()
+
+                pos = "r"
 
         def end_battle(self):
             """Ends the battle, trying to normalize any variables that may have been used during the battle.
@@ -482,28 +485,34 @@ init -1 python: # Core classes:
             # For now this assumes that team indexed 0 is player team.
             if self.terminate:
                 return True
-            elif self.combat_status in ("escape", "surrender"):
+            if self.combat_status in ("escape", "surrender"):
                 self.win = False
                 self.winner = self.teams[1]
                 return True
-            elif self.logical and self.logical_counter >= self.max_turn:
+            if self.logical and self.logical_counter >= self.max_turn:
                 self.winner = self.teams[1]
                 self.log("Battle went on for far too long! %s is considered the winner!" % self.winner.name)
                 return True
-            elif len(self.teams[1]) == len(self.get_fighters(state="dead", rows=(2, 3))):
+            team0 = len(self.teams[0])
+            team1 = len(self.teams[1])
+            for c in self.corpses:
+                if c.row < 2:
+                    team0 -= 1
+                else:
+                    team1 -= 1
+            if team0 == 0:
+                self.winner = self.teams[1]
+                self.win = False
+                self.log("%s is victorious!" % self.winner.name)
+                return True
+            if team1 == 0:
                 self.winner = self.teams[0]
                 self.win = True
                 self.log("%s is victorious!" % self.winner.name)
                 return True
-            elif len(self.teams[0]) == len(self.get_fighters(state="dead", rows=(0, 1))):
-                self.winner = self.teams[1]
-                self.win = False
-                self.log("%s is victorious!" % self.winner.name)
-                return True
 
         def get_all_events(self):
-            # returns a list of all events on this battle field:
-            return self.start_turn_events + self.mid_turn_events + self.end_turn_events
+            return itertools.chain(self.start_turn_events, self.mid_turn_events, self.end_turn_events)
 
 
     class BE_Event(_object):
@@ -587,54 +596,48 @@ init -1 python: # Core classes:
                      "electricity": "{image=ele_element_be_size20}", "light": "{image=light_element_be_size20}", "darkness": "{image=darkness_element_be_size20}",
                      "healing": "{image=healing_be_size20}", "poison": "{image=poison_be_size20}"}
 
-        def __init__(self, name, mp_cost=0, health_cost=0, vitality_cost=0, kind="assault",
-                           range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
-                           menuname=None, critpower=0, sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
-                           add2skills=True, desc="", pause=0, target_state="alive", menu_pos=0,
-                           attacker_action={},
-                           attacker_effects={},
-                           main_effect={},
-                           dodge_effect={},
-                           target_sprite_damage_effect={},
-                           target_damage_effect={},
-                           target_death_effect={},
-                           bg_main_effect={},
-                           event_class = None, # If a class, instance of this even will be created and placed in the queue. This invokes special checks in the effects method.
-                           **kwargs):
-            """
-            range: range of the spell, 1 is minimum.
-            damage_effect: None is default, character is dissolved with the death effect in gfx method in special cases.
-            type: type of the attack, types are:
-            *all: Everyone in the range. *This doesn't work yet
-            *all_enemies: All enemies within the range.
-            *all_allies: All allies within the range.
-            *se: Single enemy within range.
-            *sa: Single ally within range.
-            """
+
+        def __init__(self):
             # Naming/Sorting:
-            self.name = name
-            self.kind = kind
-            self.menu_pos = menu_pos # Skill level might be a better name.
-            self.tier = kwargs.get("tier", None)
-            if not menuname:
-                self.mn = self.name
-            else:
-                self.mn = menuname
+            self.name = self.mn = None
+            self.kind = "assault"
+            self.menu_pos = 0 # Skill level might be a better name.
+            self.tier = None
 
             # Logic:
-            self.range = range
-            self.source = source
-            self.type = type
-            self.critpower = critpower
-            self.piercing = piercing
-            self.true_pierce = true_pierce # Does full damage to back rows.
-            self.attributes = attributes
-            self.effect = effect
-            self.multiplier = multiplier
-            self.desc = desc
-            self.target_state = target_state
+            self.range = 1
+            self.source = None
+            self.type = "se"
+            self.critpower = 0
+            self.piercing = False
+            self.true_pierce = False # Does full damage to back rows.
+            self.attributes = []
+            self.effect = 0
+            self.multiplier = 1
+            self.desc = ""
+            self.target_state = "alive"
 
-            self.event_class = event_class
+            self.event_class = None # If a class, instance of this even will be created and placed in the queue. This invokes special checks in the effects method.):
+
+            # GFX/SFX:
+            self.attacker_action = { "gfx" : "step_forward", "sfx" : None }
+            self.attacker_effects = { "gfx" : None, "sfx" : None }
+            self.main_effect = { "gfx" : None, "sfx" : None, "start_at" : 0, "aim": {}, "duration": None }
+            self.dodge_effect = { "gfx": "dodge" }
+            self.target_sprite_damage_effect = { "gfx" : "shake", "sfx" : None, "duration": None, "initial_pause": None }
+            self.target_damage_effect = { "gfx" : "battle_bounce", "sfx" : None, "initial_pause": None }
+            self.target_death_effect = { "gfx" : "dissolve", "sfx" : None, "duration": .5, "initial_pause": None }
+            self.bg_main_effect = { "gfx" : None, "initial_pause" : None, "duration": None }
+
+            # Cost of the attack:
+            self.mp_cost = 0
+            self.health_cost = 0
+            self.vitality_cost = 0
+
+        def init(self):
+            # set default values
+            if not self.mn:
+                self.mn = self.name
 
             try:
                 self.delivery = self.DELIVERY.intersection(self.attributes).pop()
@@ -643,74 +646,30 @@ init -1 python: # Core classes:
 
             self.damage = [d for d in self.attributes if d in self.DAMAGE]
 
+            # Dicts:
             self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's course and cleared for the next use.
+            self.timestamps = {} # Container for the timed gfx effects
 
-            if add2skills:
-                battle_skills[self.name] = self
+            if self.main_effect["duration"] is None:
+                self.main_effect["duration"] = (.1 if self.delivery in ["melee", "ranged"] else .5)
 
-            # GFX/SFX + Dicts:
-            self.timestamps = {} # We keep all gfx effects here!
+            if self.target_sprite_damage_effect["duration"] is None:
+                self.target_sprite_damage_effect["duration"] = self.main_effect["duration"]
 
-            # Normalize:
-            self.attacker_action = attacker_action.copy()
-            self.attacker_action["gfx"] = self.attacker_action.get("gfx", "step_forward")
-            self.attacker_action["sfx"] = self.attacker_action.get("sfx", None)
+            if self.target_sprite_damage_effect["initial_pause"] is None:
+                self.target_sprite_damage_effect["initial_pause"] = .1 if self.delivery in ["melee", "ranged"] else .2
 
-            self.attacker_effects = attacker_effects.copy()
-            self.attacker_effects["gfx"] = attacker_effects.get("gfx", None)
-            self.attacker_effects["sfx"] = attacker_effects.get("sfx", None)
+            if self.target_damage_effect["initial_pause"] is None:
+                self.target_damage_effect["initial_pause"] = (self.main_effect["duration"] * .75) if self.delivery in ["melee", "ranged"] else .21
 
-            dp = deepcopy(main_effect)
-            self.main_effect = dp
-            self.main_effect["gfx"] = main_effect.get("gfx", None)
-            self.main_effect["sfx"] = main_effect.get("sfx", None)
-            self.main_effect["start_at"] = main_effect.get("start_at", 0)
-            self.main_effect["aim"] = dp.get("aim", {})
-            if self.delivery in ["melee", "ranged"]:
-                self.main_effect["duration"] = main_effect.get("duration", .1)
-            else:
-                self.main_effect["duration"] = main_effect.get("duration", .5)
+            if self.target_death_effect["initial_pause"] is None:
+                self.target_death_effect["initial_pause"] = (.2 if self.delivery in ["melee", "ranged"] else (self.target_sprite_damage_effect["initial_pause"] + .1))
 
-            self.dodge_effect = dodge_effect.copy()
-            self.dodge_effect["gfx"] = dodge_effect.get("gfx", "dodge")
+            if self.bg_main_effect["initial_pause"] is None:
+                self.bg_main_effect["initial_pause"] = self.main_effect["start_at"]
 
-            self.target_sprite_damage_effect = target_sprite_damage_effect.copy()
-            self.target_sprite_damage_effect["gfx"] = target_sprite_damage_effect.get("gfx", "shake")
-            self.target_sprite_damage_effect["duration"] = target_sprite_damage_effect.get("duration", self.main_effect["duration"])
-            self.target_sprite_damage_effect["sfx"] = target_sprite_damage_effect.get("sfx", None)
-            if self.delivery in ["melee", "ranged"]:
-                self.target_sprite_damage_effect["initial_pause"] = target_sprite_damage_effect.get("initial_pause", .1)
-            else:
-                self.target_sprite_damage_effect["initial_pause"] = target_sprite_damage_effect.get("initial_pause", .2)
-
-            self.target_damage_effect = target_damage_effect.copy()
-            self.target_damage_effect["gfx"] = target_damage_effect.get("gfx", "battle_bounce")
-            self.target_damage_effect["sfx"] = target_damage_effect.get("sfx", None)
-            if not self.delivery in ["melee", "ranged"]:
-                self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", .21)
-
-            self.target_death_effect = target_death_effect.copy()
-            self.target_death_effect["gfx"] = target_death_effect.get("gfx", "dissolve")
-            self.target_death_effect["duration"] = self.target_death_effect.get("duration", .5)
-            self.target_death_effect["sfx"] = target_death_effect.get("sfx", None)
-            if self.delivery in ["melee", "ranged"]:
-                self.target_death_effect["initial_pause"] = target_death_effect.get("initial_pause", .2)
-            else:
-                self.target_death_effect["initial_pause"] = target_death_effect.get("initial_pause", self.target_sprite_damage_effect["initial_pause"] + .1)
-
-            self.bg_main_effect = bg_main_effect.copy()
-            self.bg_main_effect["gfx"] = bg_main_effect.get("gfx", None)
-            if self.bg_main_effect["gfx"]:
-                self.bg_main_effect["initial_pause"] = self.bg_main_effect.get("initial_pause", self.main_effect["start_at"])
-                self.bg_main_effect["duration"] = self.bg_main_effect.get("duration", main_effect.get("duration", .4))
-
-            # Cost of the attack:
-            self.mp_cost = mp_cost
-            if not(isinstance(health_cost, int)) and health_cost > .9:
-                self.health_cost = .9
-            else:
-                self.health_cost = health_cost
-            self.vitality_cost = vitality_cost
+            if self.bg_main_effect["duration"] is None:
+                self.bg_main_effect["duration"] = self.main_effect["duration"]
 
         def __call__(self, ai=False, t=None):
             self.effects_resolver(t)
@@ -740,80 +699,98 @@ init -1 python: # Core classes:
 
             # First figure out all targets within the range:
             # We calculate this by assigning.
-            target_rows = range(char.row - self.range, char.row + 1 + self.range)
             all_targets = battle.get_fighters(self.target_state)
-            in_range = set(f for f in all_targets if f.row in target_rows)
+            left_front_row_empty = not (f for f in all_targets if f.row == 1)
+            right_front_row_empty = not (f for f in all_targets if f.row == 2)
+            range = self.range
+            if left_front_row_empty:
+                # 'move' closer because of an empty row
+                range += 1
+            elif char.row == 0 and self.range == 1:
+                # allow to reach over a teammate
+                range += 1
+            if right_front_row_empty:
+                # 'move' closer because of an empty row
+                range += 1
+            elif char.row == 3 and self.range == 1:
+                # allow to reach over a teammate
+                range += 1
 
-            if any(t for t in in_range if isinstance(t, basestring)):
-                raise Exception(in_range)
+            rows_from, rows_to = char.row - range, char.row + range
+            in_range = [f for f in all_targets if rows_from <= f.row <= rows_to]
+
+            #if DEBUG_BE:
+            #    if any(t for t in in_range if isinstance(t, basestring)):
+            #        raise Exception(in_range)
 
             # Lets handle the piercing (Or not piercing since piercing attacks include everyone in range already):
             if not self.piercing:
-                if char.row in [0, 1]:
+                if char.row < 2:
                     # Source is on left team:
                     # We need to check if there is at least one member on the opposing front row and if true, remove everyone in the back.
-                    if battle.get_fighters(rows=[2]):
+                    if not right_front_row_empty:
                         # opfor has a defender:
                         # we need to remove everyone from the back row:
                         in_range = [f for f in in_range if f.row != 3]
                 else:
-                    if battle.get_fighters(rows=[1]):
+                    if not left_front_row_empty:
                         in_range = [f for f in in_range if f.row != 0]
 
             # Now the type, we just care about friends and enemies:
-            if self.type in ["all_enemies", "se"]:
-                in_range = set([f for f in in_range if char.allegiance != f.allegiance])
-            elif self.type in ["all_allies", "sa"]:
-                in_range = set([f for f in in_range if char.allegiance == f.allegiance])
+            if self.type in ("all_enemies", "se"):
+                in_range = [f for f in in_range if char.allegiance != f.allegiance]
+            elif self.type in ("all_allies", "sa"):
+                in_range = [f for f in in_range if char.allegiance == f.allegiance]
 
             # In a perfect world, we're done, however we have to overwrite normal
             # rules if no targets are found and backrow can hit over it's own range (for example):
-            if not in_range: # <== We need to run "frenemy" code prior to this!
-                # Another step is to allow any range > 1 backrow attack and any frontrow attack hitting backrow of the opfor...
-                # and... if there is noone if front row, allow longer reach fighters in backrow even if their range normally would not allow it.
-                if char.row == 0:
-                    # Case: Fighter in backrow and there is no defender on own team:
-                    if not battle.get_fighters(rows=[1]):
-                        # but there is at least one on the opfor:
-                        if battle.get_fighters(rows=[2]):
-                            in_range = in_range.union(battle.get_fighters(rows=[2]))
-                        # else, there is are no defenders at all anywhere...
-                        else:
-                            in_range = in_range.union(battle.get_fighters(rows=[3]))
-                elif char.row == 1:
-                    if not battle.get_fighters(rows=[2]):
-                        # We add everyone in the back row for target practice :)
-                        in_range = in_range.union(battle.get_fighters(rows=[3]))
-                elif char.row == 2:
-                    if not battle.get_fighters(rows=[1]):
-                        # We add everyone in the back row for target practice :)
-                        in_range = in_range.union(battle.get_fighters(rows=[0]))
-                elif char.row == 3:
-                    if not battle.get_fighters(rows=[1]) and self.range > 1:
-                        # We add everyone in the back row for target practice :)
-                        in_range = in_range.union(battle.get_fighters(rows=[0]))
-                    # Case: Fighter in backrow and there is no defender on own team,
-                    if not battle.get_fighters(rows=[2]):
-                        # but there is at least one on the opfor:
-                        if battle.get_fighters(rows=[1]):
-                            in_range = in_range.union(battle.get_fighters(rows=[1]))
-                        # else, there is are no defenders at all anywhere...
-                        else:
-                            in_range = in_range.union(battle.get_fighters(rows=[0]))
+            #if not in_range: # <== We need to run "frenemy" code prior to this!
+            #    # Another step is to allow any range > 1 backrow attack and any frontrow attack hitting backrow of the opfor...
+            #    # and... if there is noone if front row, allow longer reach fighters in backrow even if their range normally would not allow it.
+            #    if char.row == 0:
+            #        # Case: Fighter in backrow and there is no defender on own team:
+            #        if not battle.get_fighters(rows=[1]):
+            #            # but there is at least one on the opfor:
+            #            in_range = battle.get_fighters(rows=[2])
+            #            if not in_range:
+            #                # else, there is are no defenders at all anywhere...
+            #                in_range = battle.get_fighters(rows=[3])
+            #    elif char.row == 1:
+            #        if not battle.get_fighters(rows=[2]):
+            #            # We add everyone in the back row for target practice :)
+            #            in_range = battle.get_fighters(rows=[3])
+            #    elif char.row == 2:
+            #        if not battle.get_fighters(rows=[1]):
+            #            # We add everyone in the back row for target practice :)
+            #            in_range = battle.get_fighters(rows=[0])
+            #    elif char.row == 3:
+            #        if not battle.get_fighters(rows=[1]) and self.range > 1:
+            #            # We add everyone in the back row for target practice :)
+            #            in_range = battle.get_fighters(rows=[0])
+            #        # Case: Fighter in backrow and there is no defender on own team,
+            #        if not battle.get_fighters(rows=[2]):
+            #            # but there is at least one on the opfor:
+            #            if battle.get_fighters(rows=[1]):
+            #                in_range = battle.get_fighters(rows=[1])
+            #            # else, there is are no defenders at all anywhere...
+            #            else:
+            #                in_range = battle.get_fighters(rows=[0])
 
-            # And we need to check for dead people again... better code is needed to avoid cr@p like this in the future:
-            in_range = [i for i in in_range if i in all_targets]
+            #    # And we need to check for dead people again... better code is needed to avoid cr@p like this in the future:
+            #    in_range = [i for i in in_range if i in all_targets]
 
             # @Review: Prevent AI from casting the same Buffs endlessly:
             # Note that we do not have a concrete setup for buffs yet so this
             # is coded to be safe.
-            if char.controller != "player":
-                buff_group = getattr(self, "buff_group", "no_buff_group")
-                for target in in_range[:]:
-                    for ev in store.battle.get_all_events():
-                        if getattr(ev, "group", "no_group") == buff_group:
-                            in_range.remove(target)
-                            break
+            if char.controller is not None:
+                # a character controller by an AI
+                buff_group = getattr(self, "buff_group", None)
+                if buff_group is not None:
+                    for target in in_range[:]:
+                        for ev in store.battle.get_all_events():
+                            if target == ev.target and getattr(ev, "group", "no_group") == buff_group:
+                                in_range.remove(target)
+                                break
 
             return in_range # List: So we can support indexing...
 
@@ -997,7 +974,7 @@ init -1 python: # Core classes:
             if t.row == 3:
                 if battle.get_fighters(rows=[2]) and not self.true_pierce:
                     return True
-            if t.row == 0:
+            elif t.row == 0:
                 if battle.get_fighters(rows=[1]) and not self.true_pierce:
                     return True
 
@@ -1329,7 +1306,7 @@ init -1 python: # Core classes:
             if self.attacker_effects["gfx"]:
                 renpy.start_predict(self.get_attackers_first_effect_gfx())
             if self.main_effect["gfx"]:
-                renpy.start_predict(self.main_effect["gfx"])
+                renpy.start_predict(self.get_main_gfx())
 
             # Simple effects for the magic attack:
             attacker = self.source
@@ -1346,18 +1323,18 @@ init -1 python: # Core classes:
 
             # Next is the "casting effect":
             # Here we need to start checking for overlapping time_stamps so we don't overwrite:
+            # calculate start time in any case, because we'll need it later
+            start = self.main_effect["start_at"]
             if self.attacker_effects["gfx"] or self.attacker_effects["sfx"]:
-                effects_delay = self.time_attackers_first_effect(battle, attacker, targets)
+                # We start as effects gfx is finished.
+                start += self.time_attackers_first_effect(battle, attacker, targets)
 
-            # Next is the main GFX/SFX effect! ==> We calc the start in any case because we'll need it later...
-            if "effects_delay" in locals(): # We start as effects gfx is finished.
-                start = effects_delay + self.main_effect.get("start_at", 0)
-            elif "delay" in locals(): # We start after atackers first action is finished.
-                start = delay + self.main_effect["start_at"]
-            else: # We plainly start at timestamp...
-                start = self.main_effect["start_at"]
+            #  We start after attackers first action is finished.
+            elif "delay" in locals():
+                start += delay
+            #else: # We plainly start at timestamp...
 
-            # Main Effects!:
+            # Next is the main GFX/SFX effect!:
             if self.main_effect["gfx"] or self.main_effect["sfx"]:
                 self.time_main_gfx(battle, attacker, targets, start)
 
@@ -1383,8 +1360,7 @@ init -1 python: # Core classes:
 
             # Doesn't feel conceptually correct to put this here,
             # but it's likely the safest solution atm.
-            if not battle.logical:
-                gfx_overlay.be_taunt(attacker, self)
+            gfx_overlay.be_taunt(attacker, self)
 
             time_stamps = sorted(self.timestamps.keys())
             st = time.time()
@@ -1412,12 +1388,12 @@ init -1 python: # Core classes:
             if self.attacker_effects["gfx"]:
                 renpy.stop_predict(self.get_attackers_first_effect_gfx())
             if self.main_effect["gfx"]:
-                renpy.stop_predict(self.main_effect["gfx"])
+                renpy.stop_predict(self.get_main_gfx())
 
         def time_attackers_first_action(self, battle, attacker):
             # Lets start with the very first part (attacker_action):
             self.timestamps[0] = renpy.curry(self.show_attackers_first_action)(battle, attacker)
-            delay = self.get_show_attackers_first_action_duration() + self.get_attackers_first_effect_pause(battle, attacker)
+            delay = self.get_show_attackers_first_action_initial_pause() + self.attacker_effects.get("duration", 0)
             hide_first_action = delay + self.attacker_action.get("keep_alive_delay", 0)
             self.timestamps[hide_first_action] = renpy.curry(self.hide_attackers_first_action)(battle, attacker)
             return delay
@@ -1430,7 +1406,7 @@ init -1 python: # Core classes:
             if sfx:
                 renpy.sound.play(sfx)
 
-        def get_show_attackers_first_action_duration(self):
+        def get_show_attackers_first_action_initial_pause(self):
             if self.attacker_action["gfx"] == "step_forward":
                 return .5
             else:
@@ -1441,13 +1417,13 @@ init -1 python: # Core classes:
                 battle.move(attacker, attacker.dpos, .5, pause=False)
 
         def time_attackers_first_effect(self, battle, attacker, targets):
-            start = self.get_show_attackers_first_action_duration()
+            start = self.get_show_attackers_first_action_initial_pause()
             if start in self.timestamps:
                 start = start + uniform(.001, .002)
             self.timestamps[start] = renpy.curry(self.show_attackers_first_effect)(battle, attacker, targets)
 
             if self.attacker_effects["gfx"]:
-                effects_delay = start + self.get_attackers_first_effect_pause(battle, attacker)
+                effects_delay = start + self.attacker_effects.get("duration", 0)
                 if effects_delay in self.timestamps:
                     effects_delay = effects_delay + uniform(.001, .002)
                 self.timestamps[effects_delay] = renpy.curry(self.hide_attackers_first_effect)(battle, attacker)
@@ -1457,88 +1433,37 @@ init -1 python: # Core classes:
 
         def get_attackers_first_effect_gfx(self):
             gfx = self.attacker_effects["gfx"]
-            if gfx == "orb":
-                what=Transform("cast_orb_1", zoom=1.85)
-            elif gfx == "wolf":
-                what=Transform("wolf_1_webm", zoom=.85)
-            elif gfx == "bear":
-                what=Transform("bear_1_webm", zoom=.85)
-            elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
-                what=Transform("cast_" + gfx, zoom=1.5)
-            elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
-                what=Transform("cast_" + gfx, zoom=.9)
-            elif gfx == "default_1":
-                what=Transform("cast_default_1", zoom=1.6)
-            elif gfx == "circle_1":
-                what=Transform("cast_circle_1", zoom=1.9)
-            elif gfx == "circle_2":
-                what=Transform("cast_circle_2", zoom=1.8)
-            elif gfx == "circle_3":
-                what=Transform("cast_circle_3", zoom=1.8)
-            elif gfx == "runes_1":
-                what=Transform("cast_runes_1", zoom=1.1)
-            else:
-                what=Null()
+            zoom = self.attacker_effects.get("zoom", None)
 
-            return what
+            if zoom is not None:
+                gfx = Transform(gfx, zoom=zoom)
+
+            return gfx
 
         def show_attackers_first_effect(self, battle, attacker, targets):
-            gfx, sfx = self.attacker_effects["gfx"], self.attacker_effects["sfx"]
-            what = self.get_attackers_first_effect_gfx()
-
-            if sfx == "default":
-                sfx="content/sfx/sound/be/casting_1.mp3"
-
-            if gfx == "orb":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
-            elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-75), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
-            elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
-            elif gfx == "default_1":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc"), align=(.5, .5))], zorder=attacker.besk["zorder"]-1)
-            elif gfx == "circle_1":
-                renpy.show("casting", what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-10), align=(.5, .5))], zorder=attacker.besk["zorder"]-1)
-            elif gfx == "circle_2":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
-            elif gfx == "circle_3":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center", yo=-50), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
-            elif gfx == "runes_1":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-50), align=(.5, .5))], zorder=attacker.besk["zorder"]-1)
-            elif gfx == "wolf" or gfx == "bear":
-                if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
-                    renpy.show("casting", what=what,  at_list=[Transform(xzoom=-1, pos=battle.get_cp(attacker, type="center"), align=(1.0, .5))], zorder=attacker.besk["zorder"]+1)
-                else:
-                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(.1, .5))], zorder=attacker.besk["zorder"]+1)
-            if sfx:
-                renpy.sound.play(sfx)
-
-        def get_attackers_first_effect_pause(self, battle, attacker):
             gfx = self.attacker_effects["gfx"]
-            if gfx == "orb":
-                pause = .84
-            elif gfx == "wolf":
-                pause = 1.27
-            elif gfx == "bear":
-                pause = .97
-            elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
-                pause = .84
-            elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
-                pause = 1.4
-            elif gfx == "default_1":
-                pause = 1.12
-            elif gfx == "circle_1":
-                pause = 1.05
-            elif gfx == "circle_2":
-                pause = 1.1
-            elif gfx == "circle_3":
-                pause = .96
-            elif gfx == "runes_1":
-                pause = .75
-            else:
-                pause = 0
+            if gfx:
+                what = self.get_attackers_first_effect_gfx()
 
-            return pause
+                cast = self.attacker_effects.get("cast", {})
+                point = cast.get("point", "center")
+                align = cast.get("align", (.5, .5))
+                xo = cast.get("xo", 0)
+                yo = cast.get("yo", 0)
+                zorder = 1 if cast.get("ontop", True) else -1
+
+                # Flip the attack image if required:
+                if self.attacker_effects.get("hflip", None) and battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
+                    what = Transform(what, xzoom=-1)
+                    align = (1.0 - align[0], align[1])
+
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type=point, xo=xo, yo=yo), align=align)], zorder=attacker.besk["zorder"]+zorder)
+
+            sfx = self.attacker_effects["sfx"]
+            if sfx:
+                if sfx == "default":
+                    sfx="content/sfx/sound/be/casting_1.mp3"
+                renpy.sound.play(sfx)
 
         def hide_attackers_first_effect(self, battle, attacker):
             # For now we just hide the tagged image here:
@@ -1559,6 +1484,37 @@ init -1 python: # Core classes:
 
             self.timestamps[pause] = renpy.curry(self.hide_main_gfx)(targets)
 
+        def get_main_gfx(self):
+            gfx = self.main_effect["gfx"]
+
+            # use AlphaBlend
+            blend = self.main_effect.get("blend", None)
+            if blend is not None:
+                alpha = blend.get("alpha", None)
+                if alpha is not None:
+                    gfx = Transform(gfx, alpha=alpha)
+                effect = getattr(store, blend.get("effect", None), None)
+                if effect is not None:
+                    size = blend["size"]
+                    gfx = AlphaBlend(gfx, gfx, effect(*size), alpha=True)
+
+            # Zoom if requested
+            xzoom = self.main_effect.get("xzoom", 1.0)
+            yzoom = self.main_effect.get("yzoom", 1.0)
+            zoom = self.main_effect.get("zoom", None)
+            if zoom is not None:
+                xzoom *= zoom
+                yzoom *= zoom
+            if xzoom != 1.0 or yzoom != 1.0:
+                gfx = Transform(gfx, xzoom=xzoom, yzoom=yzoom)
+
+            # Scale if requested
+            scale = self.main_effect.get("scale", None)
+            if scale is not None:
+                gfx = ProportionalScale(gfx, *scale)
+
+            return gfx
+
         def show_main_gfx(self, battle, attacker, targets):
             # Shows the MAIN part of the attack and handles appropriate sfx.
             gfx = self.main_effect["gfx"]
@@ -1575,9 +1531,7 @@ init -1 python: # Core classes:
 
             # GFX:
             if gfx:
-                # Flip the attack image if required:
-                if self.main_effect.get("hflip", None):
-                    gfx = Transform(gfx, xzoom=-1) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else gfx
+                what = self.get_main_gfx()
 
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
@@ -1585,9 +1539,13 @@ init -1 python: # Core classes:
                 xo = aim.get("xo", 0)
                 yo = aim.get("yo", 0)
 
+                # Flip the attack image if required:
+                if self.main_effect.get("hflip", None) and battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
+                    what = Transform(what, xzoom=-1)
+
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
-                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
+                    renpy.show(gfxtag, what=what, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
 
         def hide_main_gfx(self, targets):
             for i in xrange(len(targets)):
@@ -1611,96 +1569,87 @@ init -1 python: # Core classes:
         def show_target_sprite_damage_effect(self, targets):
             """Target damage graphical effects.
             """
-            type = self.target_sprite_damage_effect.get("gfx", "shake")
+            gfx = self.target_sprite_damage_effect["gfx"]
 
-            for target in [t for t in targets if not "missed_hit" in t.beeffects]:
-                at_list = []
+            if gfx:
+                for target in [t for t in targets if not "missed_hit" in t.beeffects]:
+                    at_list = []
 
-                if type == "shake":
                     what = target.besprite
-                    at_list = [damage_shake(.05, (-10, 10))]
-                elif type == "true_dark": # not used atm! will need decent high level spells for this one!
-                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_logo", size=target.besprite_size), alpha=True)
-                elif type == "true_water":
-                    what = AlphaBlend(Transform(target.besprite, alpha=.6), target.besprite, Transform("water_overlay_test", size=target.besprite_size), alpha=True)
-                elif type == "vertical_shake":
-                    what = target.besprite
-                    at_list = [vertical_damage_shake(.1, (-5, 5))]
-                elif type == "fly_away":
-                    what = target.besprite
-                    at_list = [fly_away]
-                elif type == "on_air":
-                    what = target.besprite
-                    at_list = [blowing_wind()]
-                elif type.startswith("iced"):
-                    child = Transform("content/gfx/be/frozen.webp", size=target.besprite_size)
-                    mask = target.besprite
-                    what = AlphaMask(child, mask)
-                    if type.endswith("shake"):
+                    if gfx == "shake":
                         at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("on_darkness"):
-                    size = int(target.besprite_size[0]*1.5), 60
-                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, anchor=(.5, .3), align=(.5, 1.0), alpha=.8), xysize=(target.besprite_size))
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("on_light"):
-                    size = int(target.besprite_size[0]*2.5), int(target.besprite_size[1]*2.5)
-                    what = Fixed(target.besprite, Transform("be_light_mask", size=size, align=(.5, 1.0), alpha=.6), xysize=(target.besprite_size))
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type == "on_death":
-                    what = AlphaBlend(Transform(target.besprite, alpha=.5), target.besprite, dark_death_color(*target.besprite_size), alpha=True)
-                elif type.startswith("on_dark"):
-                    child = Transform("content/gfx/be/darken.webp", size=target.besprite_size)
-                    mask = target.besprite
-                    what = AlphaMask(child, mask)
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("frozen"): # shows a big block of ice around the target sprite
-                    size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
-                    what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.webp", size=size, offset=(-30, -50)))
-                    t = self.target_sprite_damage_effect.get("duration", 1)
-                    at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=.2, t=t)]
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("burning"): # looks like more dangerous flame, should be used for high level spells
-                    child = Transform("fire_mask", size=target.besprite_size)
-                    mask = target.besprite
-                    what = AlphaMask(child, mask)
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("on_fire"):
-                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, fire_effect_color(*target.besprite_size), alpha=True)
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("on_water"):
-                    sprite = target.besprite
-                    sprite_size = target.besprite_size
-                    mask = Transform("be_water_mask", size=sprite_size)
-                    what = Fixed(xysize=sprite_size)
-                    what.add(sprite)
-                    what.add(AlphaMask(mask, sprite))
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("on_ele"):
-                    sprite = target.besprite
-                    sprite_size = target.besprite_size
-                    mask = Transform("be_electro_mask", size=sprite_size)
-                    what = Fixed(xysize=sprite_size)
-                    what.add(sprite)
-                    what.add(AlphaMask(mask, sprite))
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(.05, (-10, 10))]
-                elif type.startswith("poisoned"): # ideally we could use animated texture of green liquid, but it's hard to find for free...
-                        what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, poison_effect_color(*target.besprite_size), alpha=True)
-                        if type.endswith("shake"):
+                    elif gfx == "true_dark": # not used atm! will need decent high level spells for this one!
+                        what = AlphaBlend(Transform(what, alpha=.8), what, Transform("fire_logo", size=target.besprite_size), alpha=True)
+                    elif gfx == "true_water":
+                        what = AlphaBlend(Transform(what, alpha=.6), what, Transform("water_overlay_test", size=target.besprite_size), alpha=True)
+                    elif gfx == "vertical_shake":
+                        at_list = [vertical_damage_shake(.1, (-5, 5))]
+                    elif gfx == "fly_away":
+                        at_list = [fly_away]
+                    elif gfx == "on_air":
+                        at_list = [blowing_wind()]
+                    elif gfx.startswith("iced"):
+                        child = Transform("content/gfx/be/frozen.webp", size=target.besprite_size)
+                        what = AlphaMask(child, what)
+                        if gfx.endswith("shake"):
                             at_list = [damage_shake(.05, (-10, 10))]
-                elif isinstance(type, basestring) and type.startswith("being_healed"):
-                        what = AlphaBlend(Transform(target.besprite, alpha=.9, additive=.4),
-                                          target.besprite, healing_effect_color(*target.besprite_size),
-                                          alpha=True)
+                    elif gfx.startswith("on_darkness"):
+                        size = int(target.besprite_size[0]*1.5), 60
+                        what = Fixed(what, Transform("be_dark_mask", size=size, anchor=(.5, .3), align=(.5, 1.0), alpha=.8), xysize=(target.besprite_size))
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("on_light"):
+                        size = int(target.besprite_size[0]*2.5), int(target.besprite_size[1]*2.5)
+                        what = Fixed(what, Transform("be_light_mask", size=size, align=(.5, 1.0), alpha=.6), xysize=(target.besprite_size))
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx == "on_death":
+                        what = AlphaBlend(Transform(what, alpha=.5), what, dark_death_color(*target.besprite_size), alpha=True)
+                    elif gfx.startswith("on_dark"):
+                        child = Transform("content/gfx/be/darken.webp", size=target.besprite_size)
+                        what = AlphaMask(child, what)
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("frozen"): # shows a big block of ice around the target sprite
+                        size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
+                        what = Fixed(what, Transform("content/gfx/be/frozen_2.webp", size=size, offset=(-30, -50)))
+                        t = self.target_sprite_damage_effect.get("duration", 1)
+                        at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=.2, t=t)]
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("burning"): # looks like more dangerous flame, should be used for high level spells
+                        child = Transform("fire_mask", size=target.besprite_size)
+                        what = AlphaMask(child, what)
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("on_fire"):
+                        what = AlphaBlend(Transform(what, alpha=.8), what, fire_effect_color(*target.besprite_size), alpha=True)
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("on_water"):
+                        sprite_size = target.besprite_size
+                        child = Transform("be_water_mask", size=sprite_size)
+                        what = Fixed(what, AlphaMask(child, what), xysize=sprite_size)
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("on_ele"):
+                        sprite_size = target.besprite_size
+                        child = Transform("be_electro_mask", size=sprite_size)
+                        what = Fixed(what, AlphaMask(child, what), xysize=sprite_size)
+                        if gfx.endswith("shake"):
+                            at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx.startswith("poisoned"): # ideally we could use animated texture of green liquid, but it's hard to find for free...
+                            what = AlphaBlend(Transform(what, alpha=.8), what, poison_effect_color(*target.besprite_size), alpha=True)
+                            if gfx.endswith("shake"):
+                                at_list = [damage_shake(.05, (-10, 10))]
+                    elif gfx == "being_healed":
+                            what = AlphaBlend(Transform(what, alpha=.9, additive=.4),
+                                              what, healing_effect_color(*target.besprite_size),
+                                              alpha=True)
+                    else:
+                        be_debug("Unknown target_sprite_damage_effect-gfx '%s' defined in %s" % (gfx, self.name))
+                        continue
 
-                if "what" in locals():
                     renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
 
             if self.target_sprite_damage_effect.get("master_shake", False):
@@ -1717,7 +1666,7 @@ init -1 python: # Core classes:
                     if target not in died:
                         renpy.hide(target.betag)
                         renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos), fade_from_to(.3, 1, .3)], zorder=target.besk["zorder"])
-            elif type in ["shake"] and self.target_death_effect["gfx"] == "shatter":
+            elif type == "shake" and self.target_death_effect["gfx"] == "shatter":
                 for target in targets:
                     renpy.hide(target.betag)
                     renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
@@ -1731,8 +1680,7 @@ init -1 python: # Core classes:
             # Used to be .2 but it is a better idea to show
             # it after the attack gfx effects are finished
             # if no value was specified directly.
-            default =  self.main_effect["duration"] * .75
-            damage_effect_start = start + self.target_damage_effect.get("initial_pause", default)
+            damage_effect_start = start + self.target_damage_effect["initial_pause"]
 
             if damage_effect_start in self.timestamps:
                 damage_effect_start = damage_effect_start + uniform(.001, .002)
@@ -1841,8 +1789,8 @@ init -1 python: # Core classes:
                 for t in died:
                     renpy.show(t.betag, what=t.besprite, at_list=[fade_from_to(start_val=1.0, end_val=.0, t=duration)], zorder=t.besk["zorder"])
             elif gfx == "shatter":
-                for target in died:
-                    renpy.show(target.betag, what=HitlerKaputt(target.besprite, 20), zorder=target.besk["zorder"])
+                for t in died:
+                    renpy.show(t.betag, what=HitlerKaputt(t.besprite, 20), zorder=t.besk["zorder"])
 
         def hide_target_death_effect(self, died):
             for target in died:
@@ -1868,9 +1816,9 @@ init -1 python: # Core classes:
             if sfx:
                 renpy.sound.play(sfx)
 
-            if gfx in ["mirage"]:
+            if gfx == "mirage":
                 battle.bg.change(gfx)
-            if gfx in ["black"]:
+            elif gfx == "black":
                 renpy.with_statement(None)
                 renpy.show("bg", what=Solid("#000000"))
                 renpy.with_statement(dissolve)
@@ -1878,9 +1826,9 @@ init -1 python: # Core classes:
 
         def hide_bg_main_effect(self):
             gfx = self.bg_main_effect["gfx"]
-            if gfx in ["mirage"]:
+            if gfx == "mirage":
                 battle.bg.change("default")
-            if gfx in ["black"]:
+            elif gfx == "black":
                 renpy.with_statement(None)
                 renpy.show("bg", what=battle.bg)
                 renpy.with_statement(dissolve)
@@ -1934,35 +1882,36 @@ init -1 python: # Core classes:
 
                         renpy.show(target.betag, what=target.besprite, at_list=[be_dodge(xoffset, pause)], zorder=target.besk["zorder"])
 
-                elif "magic_shield" in target.beeffects:
+                # We need to find out if it's reasonable to show shields at all based on damage effects!
+                # This should ensure that we do not show the shield for major damage effects, it will not look proper.
+                elif "magic_shield" in target.beeffects and self.target_sprite_damage_effect["gfx"] != "fly_away":
                     # Get GFX:
                     for event in battle.get_all_events():
                         if isinstance(event, DefenceBuff):
                             if event.target == target:
                                 if event.activated_this_turn:
-                                    gfx = event.gfx_effect
+                                    what = event.gfx_effect
                                     break
                     else:
                         be_debug("No Effect GFX detected for magic_shield dodge_effect!")
+                        continue
 
-                    # We need to find out if it's reasonable to show shields at all based on damage effects!
-                    tsde = self.target_sprite_damage_effect.get("gfx", None)
-                    # This should ensure that we do not show the shield for major damage effects, it will not look proper.
-                    if tsde not in ["fly_away"]:
-                        # Else we just show the shield:
-                        if gfx == "default":
-                            tag = "dodge" + str(index)
-                            renpy.show(tag, what=ImageReference("resist"), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
-                        elif gfx == "gray_shield":
-                            # raise Exception("M")
-                            tag = "dodge" + str(index)
-                            renpy.show(tag, what=AlphaBlend(ImageReference("resist"), ImageReference("resist"), gray_shield(300, 300), alpha=True), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
-                        elif gfx == "air_shield":
-                            tag = "dodge" + str(index)
-                            renpy.show(tag, what=AlphaBlend(ImageReference("ranged_shield_webm"), ImageReference("ranged_shield_webm"), green_shield(350, 300), alpha=True), at_list=[Transform(size=(350, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
-                        elif gfx == "solid_shield":
-                            tag = "dodge" + str(index)
-                            renpy.show(tag, what=ImageReference("shield_2"), at_list=[Transform(size=(400, 400), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
+                    # we just show the shield:
+                    if what == "default":
+                        what, size = "resist", (300, 300)
+                    elif what == "gray_shield":
+                        what = AlphaBlend("resist", "resist", gray_shield(300, 300), alpha=True)
+                        size = (300, 300)
+                    elif what == "air_shield":
+                        what = AlphaBlend("ranged_shield_webm", "ranged_shield_webm", green_shield(350, 300), alpha=True)
+                        size = (350, 300)
+                    elif what == "solid_shield":
+                        what, size = "shield_2", (400, 400)
+                    else:
+                        be_debug("The defence_gfx '%s' is not recognized. Should be one of ('default', 'gray_shield', 'air_shield', 'solid_shield')" % what)
+                        continue
+                    tag = "dodge" + str(index)
+                    renpy.show(tag, what=what, at_list=[Transform(size=size, pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
 
         def hide_dodge_effect(self, targets):
             # gfx = self.dodge_effect.get("gfx", "dodge")

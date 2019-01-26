@@ -261,7 +261,7 @@ init python:
             self.effect = effect
             self.type = "poison"
             self.group = "poison" # Or we collide with Buffs
-            self.icon = ProportionalScale("content/gfx/be/poison1.webp", 30, 30)
+            self.icon = "content/gfx/be/poison1.webp"
 
         def check_conditions(self):
             if battle.controller == self.target:
@@ -326,7 +326,7 @@ init python:
 
             self.counter = randint(5, 8) # Active for 5-8 turns
 
-            self.icon = icon or ProportionalScale("content/gfx/be/fists.webp", 30, 30)
+            self.icon = icon or "content/gfx/be/fists.webp"
             self.gfx_effect = gfx_effect
             self.activated_this_turn = False # Flag used to pass to gfx methods that this buff was triggered.
             self.group = group # No two buffs from the same group can be applied twice.
@@ -369,8 +369,8 @@ init python:
         """
         Base class for multi attack skills, which basically show the same displayable and play sounds (conditioned),
         """
-        def __init__(self, name, **kwargs):
-            super(MultiAttack, self).__init__(name, **kwargs)
+        def __init__(self):
+            super(MultiAttack, self).__init__()
 
         def show_main_gfx(self, battle, attacker, targets):
             # Shows the MAIN part of the attack and handles appropriate sfx.
@@ -408,8 +408,8 @@ init python:
         """
         Simplest attack, usually simple magic.
         """
-        def __init__(self, name, **kwargs):
-            super(ArealSkill, self).__init__(name, **kwargs)
+        def __init__(self):
+            super(ArealSkill, self).__init__()
 
         def show_main_gfx(self, battle, attacker, targets):
             # Shows the MAIN part of the attack and handles appropriate sfx.
@@ -455,10 +455,10 @@ init python:
         Point to Point magical strikes without any added effects. This is one step simpler than the ArrowsSkill attack.
         Used to attacks like FireBall.
         """
-        def __init__(self, name, projectile_effects={}, **kwargs):
-            super(P2P_Skill, self).__init__(name, **kwargs)
+        def __init__(self):
+            super(P2P_Skill, self).__init__()
 
-            self.projectile_effects = deepcopy(projectile_effects)
+            self.projectile_effects = None
 
         def show_main_gfx(self, battle, attacker, targets):
             # We simply want to add projectile effect here:
@@ -523,8 +523,8 @@ init python:
         """
         Used to attacks like FireBall.
         """
-        def __init__(self, name, **kwargs):
-            super(P2P_ArealSkill, self).__init__(name, **kwargs)
+        def __init__(self):
+            super(P2P_ArealSkill, self).__init__()
 
         def show_main_gfx(self, battle, attacker, targets):
             # We simply want to add projectile effect here:
@@ -575,10 +575,10 @@ init python:
         """This is the class I am going to comment out really well because this spell was not originally created by me
         and yet I had to rewrite it completely for new BE.
         """
-        def __init__(self, name, firing_effects={}, **kwargs):
-            super(ArrowsSkill, self).__init__(name, **kwargs)
+        def __init__(self):
+            super(ArrowsSkill, self).__init__()
 
-            self.firing_effects = deepcopy(firing_effects)
+            self.firing_effects = None
 
         def show_main_gfx(self, battle, attacker, targets):
             firing_gfx = self.firing_effects["gfx"]
@@ -659,13 +659,13 @@ init python:
 
         As a rule, it expects to recieve left and right targeting option we normally get from team positions for Areal Attacks.
         """
-        def __init__(self, name, **kwargs):
-            super(ATL_ArealSkill, self).__init__(name, **kwargs)
+        def __init__(self):
+            super(ATL_ArealSkill, self).__init__()
 
         def show_main_gfx(self, battle, attacker, targets):
             # Shows the MAIN part of the attack and handles appropriate sfx.
             sfx = self.main_effect["sfx"]
-            gfx = self.main_effect["atl"]
+            gfx = getattr(store, self.main_effect["atl"])
             loop_sfx = self.main_effect.get("loop_sfx", False)
 
             # SFX:
@@ -685,8 +685,8 @@ init python:
     class FullScreenCenteredArealSkill(ArealSkill):
         """Simple overwrite, negates offsets and shows the attack over the whole screen aligning it to truecenter.
         """
-        def __init__(self, name, **kwargs):
-            super(FullScreenCenteredArealSkill, self).__init__(name, **kwargs)
+        def __init__(self):
+            super(FullScreenCenteredArealSkill, self).__init__()
 
         def show_main_gfx(self, battle, attacker, targets):
             # Shows the MAIN part of the attack and handles appropriate sfx.
@@ -709,8 +709,8 @@ init python:
 
 
     class BasicHealingSpell(BE_Action):
-        def __init__(self, name, **kwargs):
-            super(BasicHealingSpell, self).__init__(name, **kwargs)
+        def __init__(self):
+            super(BasicHealingSpell, self).__init__()
 
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):
@@ -743,16 +743,15 @@ init python:
 
 
     class BasicPoisonSpell(BE_Action):
-        def __init__(self, *args, **kwargs):
-            super(BasicPoisonSpell, self).__init__(*args, **kwargs)
+        def __init__(self):
+            super(BasicPoisonSpell, self).__init__()
             self.event_class = PoisonEvent
-            self.buff_group = kwargs.get("buff_group", self.__class__)
-            self.event_duration = kwargs.get("event_duration", 3)
-
+            self.buff_group = self.__class__
+            self.event_duration = 3
 
     class ReviveSpell(BE_Action):
-        def __init__(self, name, **kwargs):
-            super(ReviveSpell, self).__init__(name, **kwargs)
+        def __init__(self):
+            super(ReviveSpell, self).__init__()
 
         def check_conditions(self, source=None):
             if source:
@@ -814,15 +813,15 @@ init python:
 
 
     class DefenceBuffSpell(BE_Action):
-        def __init__(self, *args, **kwargs):
-            super(DefenceBuffSpell, self).__init__(*args, **kwargs)
+        def __init__(self):
+            super(DefenceBuffSpell, self).__init__()
             self.event_class = DefenceBuff
 
-            self.defence_bonus = kwargs.get("defence_bonus", {}) # This is the direct def bonus.
-            self.defence_multiplier = kwargs.get("defence_multiplier", {}) # This is the def multiplier.
-            self.buff_icon = kwargs.get("buff_icon", None)
-            self.buff_group = kwargs.get("buff_group", self.__class__)
-            self.defence_gfx = kwargs.get("defence_gfx", "default")
+            self.defence_bonus = {} # This is the direct def bonus.
+            self.defence_multiplier = {} # This is the def multiplier.
+            self.buff_icon = None
+            self.buff_group = self.__class__
+            self.defence_gfx = "default"
 
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):
@@ -860,8 +859,8 @@ init python:
 
 
     class ConsumeItem(BE_Action):
-        def __init__(self, *args, **kwargs):
-            super(ConsumeItem, self).__init__(*args, **kwargs)
+        def __init__(self):
+            super(ConsumeItem, self).__init__()
             self.item = None # item to use...
 
             self.type = "sa"
@@ -873,6 +872,8 @@ init python:
             self.target_sprite_damage_effect["gfx"] = "being_healed"
             self.main_effect["gfx"] = None
             self.main_effect["sfx"] = "content/sfx/sound/be/heal2.mp3"
+
+            super(ConsumeItem, self).init()
 
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):

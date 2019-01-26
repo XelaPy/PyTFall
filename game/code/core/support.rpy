@@ -329,9 +329,6 @@ init -9 python:
         # Most of this class is obsolete at this point of development
         # Note: We should cut it to it's bare minimum and kill it later :)
         def __init__(self):
-            self.clientCastes = ['None', 'Peasant', 'Merchant', 'Nomad', 'Wealthy Merchant', 'Clerk', 'Noble', 'Royal']
-            self.battlestats = ['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck", "charisma"]
-
             # Dict for music locations ( :0 )
             self.world_music = dict()
 
@@ -551,6 +548,7 @@ init -9 python:
             self.status_filters = set()
             self.action_filters = set()
             self.class_filters = set()
+            self.occ_filters = set()
             self.location_filters = set()
             self.home_filters = set()
             self.work_filters = set()

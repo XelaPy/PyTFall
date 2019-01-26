@@ -22,14 +22,27 @@ label city_beach_cafe:
         $ result = ui.interact()
 
         if result[0] == 'jump':
-            $ gm.start_gm(result[1])
-        
+            $ girl = result[1]
+            $ tags = girl.get_tags_from_cache(last_label)
+            if not tags:
+                $ img_tags = (["girlmeets", "beach"], ["girlmeets", "swimsuit", "simple bg"], ["girlmeets", "swimsuit", "no bg"], ["girlmeets", "swimsuit", "outdoors"])
+                $ result = get_simple_act(girl, img_tags)
+                if not result:
+                    $ img_tags = (["girlmeets", "simple bg"], ["girlmeets", "no bg"])
+                    $ result = get_simple_act(girl, img_tags)
+                    if not result:
+                        # giveup
+                        $ result = ("girlmeets", "swimsuit")
+                $ tags.extend(result)
+
+            $ gm.start_gm(girl, img=girl.show(*tags, type="reduce", label_cache=True, resize=(300, 400), gm_mode=True))
+
         if result[0] == 'control':
             if result[1] == 'return':
                 hide screen city_beach_cafe
                 jump city_beach_cafe_main
-                
-                
+
+
 screen city_beach_cafe:
 
     use top_stripe(True)
@@ -48,9 +61,7 @@ screen city_beach_cafe:
     
         add "content/gfx/images/bg_gradient.webp" yalign .45
     
-        $ j = 0
-        for entry in gm.display_girls():
+        for j, entry in enumerate(gm.display_girls()):
             hbox:
                 align (coords[j])
-                $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor"], type="reduce", label_cache=True, resize=(300, 400), gm_mode=True), return_value=['jump', entry]) 
+                use rg_lightbutton(return_value=['jump', entry])

@@ -1,5 +1,6 @@
 label swimming_pool:
-    $ gm.enter_location(has_tags=["swimsuit", "sfw"], has_no_tags=["beach", "sleeping"], curious_priority=False)
+    $ gm.enter_location(has_tags=["girlmeets", "swimsuit"], has_no_tags=["beach", "sleeping"], curious_priority=False)
+    $ coords = [[.2, .45], [.42, .6], [.7, .5]]
     if not "swimming_pool" in ilists.world_music:
         $ ilists.world_music["swimming_pool"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("swimming_pool")]
     if not global_flags.has_flag("keep_playing_music"):
@@ -31,7 +32,20 @@ label swimming_pool:
         $ result = ui.interact()
 
         if result[0] == 'jump':
-            $ gm.start_gm(result[1])
+            $ girl = result[1]
+            $ tags = girl.get_tags_from_cache(last_label)
+            if not tags:
+                $ img_tags = (["girlmeets", "pool"], ["girlmeets", "swimsuit", "simple bg"], ["girlmeets", "swimsuit", "no bg"])
+                $ result = get_simple_act(girl, img_tags)
+                if not result:
+                    $ img_tags = (["girlmeets", "simple bg"], ["girlmeets", "no bg"])
+                    $ result = get_simple_act(girl, img_tags)
+                    if not result:
+                        # giveup
+                        $ result = ("girlmeets", "swimsuit")
+                $ tags.extend(result)
+
+            $ gm.start_gm(girl, img=girl.show(*tags, type="reduce", label_cache=True, resize=(300, 400), gm_mode=True))
 
         if result[0] == 'control':
             if result[1] == 'return':
@@ -62,12 +76,10 @@ screen swimming_pool():
 
         add "content/gfx/images/bg_gradient.webp" yalign .45
 
-        hbox:
-            align(.5, .3)
-            spacing 70
-
-            for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show("sfw", "swimsuit", "pool", exclude=["beach"], type="reduce", label_cache=True, resize=(300, 400), gm_mode=True), return_value=['jump', entry])
+        for j, entry in enumerate(gm.display_girls()):
+            hbox:
+                align (coords[j])
+                use rg_lightbutton(return_value=['jump', entry])
 
 screen swimmong_pool_swim():
     style_prefix "dropdown_gm"

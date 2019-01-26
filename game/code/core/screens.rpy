@@ -212,7 +212,7 @@ screen quest_notifications(q, type, align=None, autohide=2.5):
                 align 1.005, -.03
                 idle "content/gfx/interface/buttons/close3.png"
                 hover "content/gfx/interface/buttons/close3_h.png"
-                action Hide("quest_notifications")
+                action Hide("quest_notifications"), With(dissolve)
 
         add ProportionalScale(interfaceimages + "quest.png", 170, 120) pos (100, 0)
         frame:
@@ -230,7 +230,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
     default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
 
     # Hotkeys:
-    if get_screens("mainscreen"):
+    if renpy.get_screen("mainscreen"):
         if global_flags.flag("visited_arena"):
             key "a" action Function(renpy.scene, "screens"), Jump("arena_inside")
             key "A" action Function(renpy.scene, "screens"), Jump("arena_inside")
@@ -389,6 +389,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(.15))
                     action Show("s_menu", transition=dissolve)
                     tooltip "Game Preferences"
+                    keysym "K_ESCAPE"
 
             if renpy.current_screen().tag not in ["mainscreen", "dungeon"] and show_lead_away_buttons:
                 imagebutton:
@@ -512,9 +513,12 @@ screen message_screen(msg, size=(500, 300), use_return=False):
             vbox:
                 xmaximum (size[0] - 100)
                 text msg xalign .5 color lightgoldenrodyellow size 20
-            textbutton "Ok" action If(use_return, true=Return(), false=Hide("message_screen")) minimum(120, 30) xalign .5 style "yesno_button"
-    key "K_RETURN" action If(use_return, true=Return(), false=Hide("message_screen"))
-    key "K_ESCAPE" action If(use_return, true=Return(), false=Hide("message_screen"))
+            textbutton "Ok":
+                action If(use_return, true=Return(), false=Hide("message_screen"))
+                minimum(120, 30)
+                xalign .5
+                style "yesno_button"
+                keysym "K_RETURN", "K_ESCAPE"
 
 screen pyt_input(default="", text="", length=20, size=(350, 150)):
     use keymap_override
@@ -549,8 +553,8 @@ screen pyt_input(default="", text="", length=20, size=(350, 150)):
                 text "OK"  style "TisaOTM" size 15 color goldenrod align (.5, .5)
                 xalign .5
                 action Return(renpy.get_widget("pyt_input", "text_input").content)
-
-    key "input_enter" action Return(renpy.get_widget("pyt_input", "text_input").content)
+                keysym "input_enter"
+    key "K_ESCAPE" action Return(default)
     key "mousedown_3" action Return (default)
 
 screen exit_button(size=(35, 35), align=(1.0, .0), action=Return(['control', 'return'])):
@@ -560,8 +564,7 @@ screen exit_button(size=(35, 35), align=(1.0, .0), action=Return(['control', 're
         idle img
         hover im.MatrixColor(img, im.matrix.brightness(.25))
         action action
-    key "mousedown_3" action action
-    key "K_ESCAPE" action action
+        keysym "mousedown_3"
 
 screen poly_matrix(in_file, show_exit_button=False, cursor="content/gfx/interface/icons/zoom_glass.png", xoff=20, yoff=20, hidden=[]):
     # If a tuple with coordinates is provided instead of False for show_exit_button, exit button will be placed there.
@@ -689,12 +692,13 @@ screen notify:
     timer 4.0 action Hide("notify")
 
 # Settings:
-screen s_menu(s_menu="Settings"):
+screen s_menu(s_menu="Settings", main_menu=False):
     default tt = Tooltip("Hover cursor over options buttons to see the description.")
     zorder 10**5 + 1
     modal True
 
     key "mousedown_3" action Hide("s_menu"), With(dissolve)
+    key "K_ESCAPE" action Hide("s_menu"), With(dissolve)
 
     # default s_menu = "Settings"
 
@@ -986,15 +990,13 @@ screen s_menu(s_menu="Settings"):
                             xsize 150
                             xalign .5
                             text_size 16
-                            if main_menu:
-                                if persistent.tooltips:
+                            if persistent.tooltips:
+                                if main_menu:
                                     hovered tt.action("New-style tooltips enabled.")
                                 else:
-                                    hovered tt.action("New-style tooltips disabled.")
-                            elif not persistent.tooltips:
-                                hovered tt.action("New-style tooltips disabled.")
+                                    tooltip "New-style tooltips enabled."
                             else:
-                                tooltip "New-style tooltips enabled."
+                                hovered tt.action("New-style tooltips disabled.")
 
         elif s_menu in ("Save", "Load"):
             vbox:
@@ -1226,6 +1228,18 @@ screen tutorial(level=1):
         background None
         xysize (1280, 720)
         action Hide("tutorial")
+
+screen stars(value, max_value, num_stars=5):
+    $ step = max_value / (num_stars * 2)
+    for i in range(5):
+        if (2*step) <= value:
+            add Transform("content/gfx/interface/icons/stars/star2.png", size=(18, 18))
+            $ value -= 2*step
+        elif step <= value:
+            add Transform("content/gfx/interface/icons/stars/star3.png", size=(18, 18))
+            $ value -= step
+        else:
+            add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
 
 screen digital_keyboard(line=""):
     default current_number = "0"

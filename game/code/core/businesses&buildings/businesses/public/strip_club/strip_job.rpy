@@ -257,9 +257,9 @@ init -5 python:
 
             # Award EXP:
             if effectiveness >= 90:
-                log.logws("exp", exp_reward(worker, log.loc.tier))
+                log.logws("exp", exp_reward(worker, building.tier))
             else:
-                log.logws("exp", exp_reward(worker, log.loc.tier, final_mod=.5))
+                log.logws("exp", exp_reward(worker, building.tier, final_mod=.5))
 
             log.append("\n")
             if skill >= 170:
@@ -295,37 +295,31 @@ init -5 python:
                     log.append("\n")
 
             # Take care of stats mods
-            if "Exhibitionist" in worker.traits:
-                stripmod = 1 if dice(35) else 0
-            else:
-                stripmod = 1 if dice(25) else 0
-            dancemod = 1 if dice(15) else 0
-            agilemod = 1 if dice(9) else 0
-            charismamod = 1 if dice(20) else 0
-
-            log.logws("agility", agilemod)
-            log.logws("charisma", charismamod)
-            log.logws("dancing", dancemod)
-            log.logws("strip", stripmod)
+            if dice(9):
+                log.logws("agility", 1)
+                learned = True
+            if dice(20):
+                log.logws("charisma", 1)
+                learned = True
+            if dice(15):
+                log.logws("dancing", 1)
+                learned = True
+            if dice(35 if "Exhibitionist" in worker.traits else 25):
+                log.logws("strip", 1)
+                learned = True
 
             log.logws('vitality', round_int(len_clients*-.5))
 
-            if stripmod + agilemod + dancemod + charismamod > 0:
+            if "learned" in locals():
                 log.append("\n%s feels like she learned something! \n"%worker.name)
                 log.logws("joy", 1)
 
-            available = list()
-            kwargs = dict(exclude=["sad", "angry", "in pain"], resize=ND_IMAGE_SIZE,
-                          type="first_default", add_mood=False)
-            if worker.has_image("stripping", "stage", exclude=["sad", "angry", "in pain"]):
-                available.append("stage")
-            if worker.has_image("stripping", "simple bg", exclude=["sad", "angry", "in pain"]):
-                available.append("simple bg")
-            if worker.has_image("stripping", "no bg", exclude=["sad", "angry", "in pain"]):
-                available.append("no bg")
-            if available:
-                log.img = worker.show("stripping", choice(available), **kwargs)
-            elif worker.has_image("stripping", "indoors"):
-                log.img = worker.show("stripping", "indoors", **kwargs)
+            excluded = ["sad", "angry", "in pain"]
+            kwargs = dict(exclude=excluded, resize=ND_IMAGE_SIZE, type="reduce", add_mood=False)
+            tags = (["stripping", "stage"], ["stripping", "simple bg"], ["stripping", "no bg"])
+
+            result = get_simple_act(worker, tags, excluded)
+            if result:
+                log.img = worker.show(*result, **kwargs)
             else:
-                log.img = worker.show("stripping", **kwargs)
+                log.img = worker.show("stripping", "indoors", **kwargs)

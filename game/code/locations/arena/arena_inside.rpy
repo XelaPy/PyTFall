@@ -449,7 +449,7 @@ init: # Main Screens:
                 vbar value YScrollValue("vp_matches")
             button:
                 style_group "basic"
-                action Hide("arena_matches")
+                action Hide("arena_matches"), With(dissolve)
                 minimum(50, 30)
                 align (.5, .9995)
                 text  "Close"
@@ -522,7 +522,7 @@ init: # Main Screens:
 
             button:
                 style_group "basic"
-                action Hide("arena_lineups")
+                action Hide("arena_lineups"), With(dissolve)
                 minimum(50, 30)
                 align (.5, .9995)
                 text  "Close"
@@ -585,7 +585,7 @@ init: # Main Screens:
 
             button:
                 style_group "basic"
-                action Hide("arena_rep_ladder")
+                action Hide("arena_rep_ladder"), With(dissolve)
                 minimum(50, 30)
                 align (.5, .9995)
                 text  "Close"
@@ -656,7 +656,7 @@ init: # Main Screens:
 
             button:
                 style_group "basic"
-                action Hide("arena_dogfights")
+                action Hide("arena_dogfights"), With(dissolve)
                 minimum(50, 30)
                 align (.5, .9995)
                 text  "Close"
@@ -1088,7 +1088,7 @@ init: # Main Screens:
 
             button:
                 style_group "basic"
-                action Hide("arena_report")
+                action Hide("arena_report"), With(dissolve)
                 minimum (50, 30)
                 align (.5, .9)
                 text  "Close"
@@ -1244,7 +1244,7 @@ init: # ChainFights vs Mobs:
 
             # Opposing Sprites:
             add hero.show("battle_sprite", resize=(200, 200)) at slide(so1=(-600, 0), t1=.7, eo2=(-1300, 0), t2=.7) align .35, .5
-            add pytfall.arena.cf_mob.show("battle_sprite", resize=(200, 200)) at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7) align .65, .5
+            add pytfall.arena.cf_mob.leader.show("battle_sprite", resize=(200, 200)) at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7) align .65, .5
 
             # Title Text and Boss name if appropriate:
             if pytfall.arena.cf_count == 5:

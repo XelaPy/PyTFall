@@ -340,14 +340,14 @@ init -12 python:
         def inactive_process(self):
             temp = "{} is currently inactive, no actions will be conducted here!".format(self.name)
             self.log(temp)
-            yield self.env.timeout(100)
+            #yield self.env.timeout(100)
 
         # SimPy:
         def business_control(self):
             """SimPy business controller.
             """
-            while 1:
-                yield self.env.timeout(100)
+            while (1):
+                break #yield self.env.timeout(100)
 
         # Business MainUpgrade related:
         def add_upgrade(self, upgrade, pay=False):
@@ -479,17 +479,17 @@ init -12 python:
                 client.du_without_service = 0
 
                 while 1:
-                    simpy_debug("Entering PublicBusiness({}).client_control iteration at {}".format(self.name, self.env.now))
+                    simpy_debug("Entering PublicBusiness(%s).client_control iteration at %s", self.name, self.env.now)
 
                     if client in self.clients_waiting:
-                        simpy_debug("Client {color=[beige]}%s{/color} will wait to be served." % client.name)
+                        simpy_debug("Client %s will wait to be served.", client.name)
                         yield self.env.timeout(1)
                         du_spent_here += 1
                         client.du_without_service += 1
                     else:
                         client.du_without_service = 0
 
-                        simpy_debug("Client {color=[beige]}%s{/color} is about to be served." % client.name)
+                        simpy_debug("Client %s is about to be served.", client.name)
                         yield self.env.timeout(3)
                         du_spent_here += 3
                         self.clients_being_served.remove(client)
@@ -536,10 +536,10 @@ init -12 python:
                 self.clients_waiting.discard(client)
                 client.del_flag("jobs_busy")
 
-                simpy_debug("Exiting PublicBusiness({}).client_control iteration at {}".format(self.name, self.env.now))
+                simpy_debug("Exiting PublicBusiness(%s).client_control iteration at %s", self.name, self.env.now)
 
         def add_worker(self):
-            simpy_debug("Entering PublicBusiness({}).add_worker at {}".format(self.name, self.env.now))
+            simpy_debug("Entering PublicBusiness(%s).add_worker at %s", self.name, self.env.now)
             # Get all candidates:
             ws = self.get_workers(self.job)
             if ws:
@@ -551,18 +551,17 @@ init -12 python:
                 temp = "{color=[red]}"
                 temp += "Could not find an available {} worker".format(self.job)
                 self.log(temp)
-            simpy_debug("Exiting PublicBusiness({}).add_worker at {}".format(self.name, self.env.now))
+            simpy_debug("Exiting PublicBusiness(%s).add_worker at %s", self.name, self.env.now)
 
         def business_control(self):
             """This runs the club as a SimPy process from start to the end.
             """
-            counter = 0
+            #counter = 0
             building = self.building
-            tier = building.tier
+            #tier = building.tier
 
             while 1:
-                simpy_debug("Entering PublicBusiness({}).business_control iteration at {}".format(self.name, self.env.now))
-                every_5_du = not self.env.now % 5
+                simpy_debug("Entering PublicBusiness(%s).business_control iteration at %s", self.name, self.env.now)
 
                 if self.send_in_worker: # Sends in workers when needed!
                     new_workers_required = max(1, len(self.clients_waiting)/5)
@@ -576,8 +575,6 @@ init -12 python:
                     for i in range(new_workers_required):
                         self.add_worker()
                     self.send_in_worker = False
-
-                yield self.env.timeout(1)
 
                 # Could be flipped to a job Brawl event?:
                 # if False:
@@ -596,7 +593,8 @@ init -12 python:
                 #         self.env.process(u.intercept(interrupted=True))
                 # =====================================>>>
 
-                if every_5_du:
+                # Every 5 DU
+                if not self.env.now % 5:
                     if DSNBR:
                         temp = "Debug: {} capacity is currently in use.".format(
                                 set_font_color(self.res.count, "red"))
@@ -611,7 +609,8 @@ init -12 python:
                     if not self.all_workers and not self.active_workers:
                         break
 
-                simpy_debug("Exiting PublicBusiness({}).business_control iteration at {}".format(self.name, self.env.now))
+                simpy_debug("Exiting PublicBusiness(%s).business_control iteration at %s", self.name, self.env.now)
+                yield self.env.timeout(1)
 
             # We remove the business from nd if there are no more strippers to entertain:
             temp = "There are no workers available in the {} so it is shutting down!".format(self.name)
@@ -652,7 +651,7 @@ init -12 python:
             clients_served = [] # client served during the shift (all of them, for the report)
 
             while worker.jobpoints > 0 and du_working > 0:
-                simpy_debug("Entering PublicBusiness({}).worker_control iteration at {}".format(self.name, self.env.now))
+                simpy_debug("Entering PublicBusiness(%s).worker_control iteration at %s", self.name, self.env.now)
 
                 # Add clients to serve:
                 for c in self.clients_waiting.copy():
@@ -671,7 +670,7 @@ init -12 python:
 
                 worker.jobpoints -= len(worker.serving_clients)*2 # 2 jobpoints per client?
 
-                simpy_debug("Exiting PublicBusiness({}).worker_control iteration at {}".format(self.name, self.env.now))
+                simpy_debug("Exiting PublicBusiness(%s).worker_control iteration at %s", self.name, self.env.now)
 
             if clients_served:
                 if DSNBR:
@@ -704,7 +703,7 @@ init -12 python:
             temp = set_font_color(temp, "cadetblue")
             self.log(temp, True)
 
-            simpy_debug("Leaving PublicBusiness({}).worker_control at {}".format(self.name, self.env.now))
+            simpy_debug("Leaving PublicBusiness(%s).worker_control at %s", self.name, self.env.now)
 
         def pre_nd(self):
             # Whatever we need to do at start of Next Day calculations.

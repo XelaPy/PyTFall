@@ -49,12 +49,9 @@ init -5 python:
     def manager_process(env, building):
         manager = building.manager
         effectiveness = building.manager_effectiveness
-        init_jp = manager.jobpoints
 
-        job = simple_jobs["Manager"]
-        building.mlog = log = NDEvent(job=job, char=manager, loc=building)
-        temp = "{} is overseeing the building!".format(manager.name)
-        log.append(temp)
+        log = building.mlog
+        log.append("{} is overseeing the building!".format(manager.name))
         log.append("")
 
         # Special bonus to JobPoints (aka pep talk) :D
@@ -63,14 +60,13 @@ init -5 python:
 
         cheered_up_workers = set()
 
-        while 1:
-            yield env.timeout(1)
-
+        while (1):
+            yield env.timeout(5)
+            simpy_debug("Entering manager_process at %s", env.now)
             # Special direct bonus to tired/sad characters
             c0 = building.cheering_up
-            c1 = env.now <= 100
-            c2 = not env.now % 5
-            if c0 and c1 and c2 and all([
+            #c1 = not env.now % 5
+            if c0 and all([
                     manager.jobpoints > 10,
                     dice(effectiveness-50)]):
                 workers = [w for w in building.available_workers if
@@ -83,15 +79,18 @@ init -5 python:
                     worker = choice(workers)
                     cheered_up_workers.add(worker)
 
-                    if check_stat_perc(w, "joy", .5):
-                        handle = "tired"
-                    else:
-                        handle = "sad"
                     temp0 = "\n{} noticed that {} looks a bit {}.".format(manager.nickname,
                                                     worker.nickname, handle)
 
                     give_joy = check_stat_perc(worker, "joy", .5)
                     give_vit = check_stat_perc(worker, "vitality", .3)
+                    if give_joy:
+                        handle = "sad"
+                    else:
+                        handle = "tired"
+                    temp0 = "\n{} noticed that {} looks a bit {}.".format(manager.nickname,
+                                                    worker.nickname, handle)
+
                     if give_joy and give_vit:
                         bonus_str = "(+10% Joy, +15% Vitality)"
                         mod_by_max(worker, "joy", .1)
@@ -111,29 +110,8 @@ init -5 python:
 
                     manager.jobpoints -= 10
 
-            if env.now == 110:
-                break
+            simpy_debug("Exiting manager_process at %s", env.now)
 
-        points_used = init_jp-manager.jobpoints
-
-        # Handle stats:
-        if points_used > 100:
-            log.logws("management", randint(1, 2))
-            log.logws("intelligence", randrange(2))
-            log.logws("refinement", 1)
-            log.logws("character", 1)
-
-        if points_used > 0:
-            ap_used = (points_used)/100.0
-            log.logws("exp", exp_reward(manager, building.tier, ap_used=ap_used))
-
-        # finalize the log:
-        log.img = manager.show("profile", resize=ND_IMAGE_SIZE, add_mood=True)
-        log.type = "manager_report"
-        log.after_job()
-        NextDayEvents.append(log)
-
-        building.mlog = None
 
     def mp_init_jp_bonus(manager, building, effectiveness, log):
         # Special bonus to JobPoints (aka pep talk) :D

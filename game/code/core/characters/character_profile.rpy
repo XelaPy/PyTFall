@@ -589,16 +589,7 @@ screen char_profile():
                                     hbox:
                                         xalign 1.0
                                         yoffset 8
-                                        $ step = skill_limit/10.0
-                                        for i in range(5):
-                                            if (2*step) <= skill_val:
-                                                add Transform("content/gfx/interface/icons/stars/star2.png", size=(18, 18))
-                                                $ skill_val -= 2*step
-                                            elif step <= skill_val:
-                                                add Transform("content/gfx/interface/icons/stars/star3.png", size=(18, 18))
-                                                $ skill_val -= step
-                                            else:
-                                                add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
+                                        use stars(skill_val, skill_limit)
                     vbox:
                         spacing 1
                         for skill in char.stats.skills:
@@ -801,7 +792,7 @@ screen char_profile():
 
 screen char_control():
     modal True
-    zorder 1
+    #zorder 1
 
     default cb_checked = im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)
     default cd_unchecked = im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)
@@ -1009,7 +1000,7 @@ screen char_control():
 
         button:
             style_group "basic"
-            action Hide("char_control")
+            action Hide("char_control"), With(dissolve)
             minimum(50, 30)
             align (.5, .95)
             text  "OK"
@@ -1034,39 +1025,3 @@ screen aeq_button(char):
             add cb_checked align (1.0, .5)
         else:
             add cd_unchecked align (1.0, .5)
-
-screen confirm_girl_sale():
-    modal True
-    zorder 1
-
-    frame:
-        align(.5, .5)
-        minimum(300, 200)
-        maximum(300, 200)
-        xfill True
-        yfill True
-
-        if char.status == "slave":
-            text("{size=-5}Are you sure you want to sell [char.name] for %d Gold?"%(int(char.fin.get_price()*.8))) align(.5, .1)
-
-            hbox:
-                align(.5, .85)
-                spacing 40
-                textbutton "No":
-                    action Hide("confirm_girl_sale")
-                textbutton "Yes":
-                    action Return(['control', 'sell'])
-
-        else:
-            text("{size=-5}Are you sure you want to fire the %s?"%char.name) align(.5, .1)
-
-            hbox:
-                align(.5, .85)
-                spacing 40
-                textbutton "No":
-                    action Hide("confirm_girl_sale")
-                textbutton "Yes":
-                    action Return(['control', 'fire'])
-
-    key "K_RETURN" action Return(['control', 'fire'])
-    key "K_ESCAPE" action Hide("confirm_girl_sale")

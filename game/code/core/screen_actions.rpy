@@ -97,7 +97,7 @@ init -9 python:
             else:
                 return bool(statement)
 
-        elif hasattr(statement, "__call__"):
+        elif callable(statement):
             return bool(statement())
 
         elif isinstance(statement, basestring):
@@ -156,7 +156,7 @@ init -9 python:
                     else:
                         a = getattr(a[0], a[1])(*a[2:])
 
-                if not nocall and hasattr(a, "__call__"):
+                if not nocall and callable(a):
                     a = a()
 
                 if op == None:
@@ -249,7 +249,7 @@ init -9 python:
             if isinstance(self.prop, tuple) and len(self.prop) == 1:
                 return self.prop[0]
 
-            elif hasattr(self.prop, "__call__"):
+            elif callable(self.prop):
                 return self.prop()
 
             else:
@@ -260,7 +260,7 @@ init -9 python:
             if isinstance(self.value, tuple) and len(self.value) == 1:
                 return self.value[0]
 
-            elif hasattr(self.value, "__call__"):
+            elif callable(self.value):
                 return self.value()
 
             else:
@@ -678,7 +678,7 @@ init -9 python:
             """
             if not name:
                 name = "Work"
-            self.add(index, WorldAction(name, Return(["control", returned]), condition=condition, null_button="Work", null_condition=Iff(S((hero, "AP")), "==", 0)))
+            self.add(index, WorldAction(name, Return(["control", returned]), condition=condition, null_button="Work", null_condition=Iff(S((hero, "AP")), "==", False)))
 
 
     class WorldAction(_object):
@@ -938,12 +938,12 @@ init -10 python:
     class SetFilter(SetField):
         """Set the filter for char filters and updates them.
          """
-        def __init__(self, container, value):
-            super(SetFilter, self).__init__(container, "sorting_order", value)
+        def __init__(self, object, value):
+            super(SetFilter, self).__init__(object, "sorting_order", value)
 
         def __call__(self):
-            setattr(self.container, self.name, self.value)
-            self.container.filter()
+            setattr(self.object, self.field, self.value)
+            self.object.filter()
             renpy.restart_interaction()
 
 

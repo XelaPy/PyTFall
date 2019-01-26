@@ -309,21 +309,22 @@ label interactions_breakup:
     jump girl_interactions 
 
 ##### j3
+init python:
+    def char_value(c):
+        n = 0
+        value = 0
+        for i in c.traits.basetraits:
+            for s in i.base_stats:
+                value += getattr(c, s)
+                n += 1
+        return (value / n) if n else 0
+
 label interactions_hire:
     if char.flag("quest_cannot_be_hired") == True:
         call interactions_refuses_to_be_hired from _call_interactions_refuses_to_be_hired
         jump girl_interactions
 
     python:
-        def char_value(c):
-            n = 0
-            value = 0 
-            for i in c.traits.basetraits:
-                for s in i.base_stats:
-                    value += getattr(c, s)
-                    n += 1
-            return (value / n) if n else 0
-
         herovalue = max(1, char_value(hero))
         charvalue = char_value(char)
 

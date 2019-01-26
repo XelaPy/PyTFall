@@ -39,7 +39,7 @@ init -5 python:
             workers = strict_workers.copy() # cleaners on active duty
 
             while 1:
-                simpy_debug("Entering Cleaners.business_control iteration at {}".format(self.env.now))
+                simpy_debug("Entering Cleaners.business_control iteration at %s", self.env.now)
 
                 dirt = building.dirt
                 if DSNBR and not self.env.now % 5:
@@ -69,7 +69,7 @@ init -5 python:
                     if not make_nd_report_at:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env and wlen:
+                        if wlen:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
                                             set_font_color(wlen, wlen_color), building.name)
                             self.log(temp)
@@ -89,7 +89,9 @@ init -5 python:
                     else:
                         for w in workers.copy():
                             value = w.flag(power_flag_name)
-                            building.clean(value)
+
+                            building.dirt += value
+                            simpy_debug("%s: Cleaning value: %s, remaining dirt: %s", self.env.now, value, building.dirt)
 
                             dirt_cleaned += value
                             cleaners.add(w)
@@ -124,11 +126,11 @@ init -5 python:
                         workers -= extra
                         building.available_workers[0:0] = list(extra)
 
-                simpy_debug("Exiting Cleaners.business_control iteration at {}".format(self.env.now))
+                simpy_debug("Exiting Cleaners.business_control iteration at %s", self.env.now)
                 yield self.env.timeout(1)
 
         def write_nd_report(self, strict_workers, all_workers, dirt_cleaned):
-            simpy_debug("Entering Cleaners.write_nd_report at {}".format(self.env.now))
+            simpy_debug("Entering Cleaners.write_nd_report at %s", self.env.now)
 
             job, loc = self.job, self.building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
@@ -208,4 +210,4 @@ init -5 python:
             log.after_job()
             NextDayEvents.append(log)
 
-            simpy_debug("Exiting Cleaners.write_nd_report at {}".format(self.env.now))
+            simpy_debug("Exiting Cleaners.write_nd_report at %s", self.env.now)

@@ -43,7 +43,7 @@ init -5 python:
             workers = strict_workers.copy() # workers on active duty
 
             while 1:
-                simpy_debug("Entering WarriorQuarters.business_control at {}".format(self.env.now))
+                simpy_debug("Entering WarriorQuarters.business_control at %s", self.env.now)
 
                 threat = building.threat
                 if DSNBR and not self.env.now % 5:
@@ -77,7 +77,7 @@ init -5 python:
                     if not make_nd_report_at:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env and wlen:
+                        if wlen:
                             temp = "{}: {} Workers have started to guard {}!".format(self.env.now,
                                       set_font_color(wlen, "red"), building.name)
                             self.log(temp)
@@ -145,7 +145,7 @@ init -5 python:
                         workers -= extra
                         building.available_workers[0:0] = list(extra)
 
-                simpy_debug("Exiting WarriorQuarters.business_control at {}".format(self.env.now))
+                simpy_debug("Exiting WarriorQuarters.business_control at %s", self.env.now)
                 if not EnforcedOrder_active and threat >= 500 and not had_brawl_event:
                     self.intercept(workers, power_flag_name)
                     had_brawl_event = True
@@ -154,7 +154,7 @@ init -5 python:
                     yield self.env.timeout(1)
 
         def write_nd_report(self, strict_workers, all_workers, threat_cleared, **kwargs):
-            simpy_debug("Entering WarriorQuarters.write_nd_report at {}".format(self.env.now))
+            simpy_debug("Entering WarriorQuarters.write_nd_report at %s", self.env.now)
 
             job, loc = self.job, self.building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
@@ -265,7 +265,7 @@ init -5 python:
             log.after_job()
             NextDayEvents.append(log)
 
-            simpy_debug("Exiting WarriorQuarters.write_nd_report at {}".format(self.env.now))
+            simpy_debug("Exiting WarriorQuarters.write_nd_report at %s", self.env.now)
 
         def intercept(self, workers, power_flag_name, interrupted=False):
             """This intercepts a bunch of aggressive clients and
@@ -279,7 +279,7 @@ init -5 python:
 
             We will also make it a separate report for the time being.
             """
-            simpy_debug("Entering WarriorQuarters.intercept at {}".format(self.env.now))
+            simpy_debug("Entering WarriorQuarters.intercept at %s", self.env.now)
 
             building = self.building
             job = simple_jobs["Guarding"]
@@ -346,8 +346,9 @@ init -5 python:
 
             battle.start_battle()
 
-            for i in defenders:
-                i.controller = "player"
+            # Reset the controllers:
+            defence_team.reset_controller()
+            enemy_team.reset_controller()
 
             # We also should restore the list if there was interruption:
             # if "active_workers_backup" in locals():
@@ -385,4 +386,4 @@ init -5 python:
                 building.dirt += 60*enemies
                 # self.env.exit(False)
 
-            simpy_debug("Exiting WarriorQuarters.intercept at {}".format(self.env.now))
+            simpy_debug("Exiting WarriorQuarters.intercept at %s", self.env.now)

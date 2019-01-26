@@ -99,8 +99,9 @@ init -11 python:
         tl.end("logical combat: BATTLE")
         be_debug("\n\n")
 
-        for fighter in chained():
-            fighter.controller = "player"
+        # Reset the controllers:
+        off_team.reset_controller()
+        def_team.reset_controller()
 
         return battle
 
@@ -142,12 +143,12 @@ init -11 python:
                     member.controller = BE_AI(member)
                     your_team.add(member)
                 elif member.status == "free":
-                    member.controller = "player"
+                    member.controller = None # no AI -> controlled by the player
                     your_team.add(member)
 
         # Controllers:
         for member in enemy_team:
-            member.controller = BE_AI(member)
+            member.controller = Complex_BE_AI(member)
 
         global battle
         battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5),

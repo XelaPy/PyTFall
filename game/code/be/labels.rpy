@@ -89,22 +89,24 @@ label test_be_logical:
     python:
         # Prepear the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = build_mob(id="Goblin Shaman", level=120)
-        mob.front_row = True
-        mob.apply_trait("Fire")
-        mob.controller = Complex_BE_AI(mob)
         if len(enemy_team) != 3:
+            mob = build_mob(id="Goblin Shaman", level=120)
+            mob.controller = BE_AI(mob)
+            mob.front_row = True
+            mob.apply_trait("Fire")
             enemy_team.add(mob)
-        mob = build_mob(id="Goblin Archer", level=100)
-        mob.front_row = False
-        mob.attack_skills.append("Sword Slash")
         if len(enemy_team) != 3:
+            mob = build_mob(id="Goblin Archer", level=100)
+            mob.controller = BE_AI(mob)
+            mob.front_row = False
+            mob.attack_skills.append("Sword Slash")
             enemy_team.add(mob)
-        mob = build_mob(id="Goblin Archer", level=100)
-        mob.front_row = False
-        mob.attack_skills.append("Bow Shot")
-        mob.apply_trait("Air")
         if len(enemy_team) != 3:
+            mob = build_mob(id="Goblin Archer", level=100)
+            mob.controller = BE_AI(mob)
+            mob.front_row = False
+            mob.attack_skills.append("Bow Shot")
+            mob.apply_trait("Air")
             enemy_team.add(mob)
 
         hero.controller = BE_AI(hero)
@@ -130,7 +132,7 @@ label test_be_logical:
             hero.team.add(n)
         n.AP = 6
         # ImageReference("chainfights")
-        battle = BE_Core(logical=1)
+        battle = BE_Core(logical=True)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
 
@@ -139,9 +141,8 @@ label test_be_logical:
         tl.end("Logical BE Scenario without Setup!")
 
         # Reset Controller:
-        hero.controller = "player"
-        n.controller = "player"
-        h.controller = "player"
+        hero.controller = None
+        enemy_team.reset_controller()
 
     $ tl.end("Logical BE Scenario with Setup!")
 

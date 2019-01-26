@@ -16,39 +16,42 @@ screen building_management_leftframe_exploration_guild_mode:
 
             null height 5
 
-            # Main Area:
+            # Main Area with paging:
             # We assume that there is always at least one area!
             $ main_area = temp[focused_area_index]
             $ img = main_area.img
-            frame:
-                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
-                padding 2, 2
-                margin 0, 0
+            hbox:
                 xalign .5
                 button:
-                    align .5, .5
-                    xysize 220, 130
-                    background Frame(img)
-                    hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.05)))
-                    action NullAction()
-                    frame:
-                        align .5, .0
-                        padding 20, 2
-                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
-                        text main_area.name:
-                            color gold
-                            hover_color red
-                            style "interactions_text"
-                            size 18 outlines [(1, "#3a3a3a", 0, 0)]
-                            align .5, .5
-
-            # Paging for Main Area:
-            hbox:
-                style_prefix "basic"
-                xalign .5
-                textbutton "<==":
+                    style "paging_green_button_left"
+                    yalign .5
+                    tooltip "Previous Page"
                     action SetScreenVariable("focused_area_index", (focused_area_index - 1) % len(temp))
-                textbutton "==>":
+                null width 5
+                frame:
+                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
+                    padding 2, 2
+                    margin 0, 0
+                    xalign .5
+                    button:
+                        align .5, .5
+                        xysize 220, 130
+                        background Frame(img)
+                        action NullAction()
+                        frame:
+                            align .5, .0
+                            padding 20, 2
+                            background Frame(Transform("content/gfx/frame/frame_bg.png", alpha=.5), 5, 5)
+                            text main_area.name:
+                                color gold
+                                style "interactions_text"
+                                size 18 outlines [(1, "#3a3a3a", 0, 0)]
+                                align .5, .5
+                null width 5
+                button:
+                    style "paging_green_button_right"
+                    yalign .5
+                    tooltip "Next Page"
                     action SetScreenVariable("focused_area_index", (focused_area_index + 1) % len(temp))
 
             # Sub Areas:
@@ -63,17 +66,22 @@ screen building_management_leftframe_exploration_guild_mode:
                     for area in areas:
                         button:
                             xysize 220, 18
-                            action SetVariable("selected_log_area", area), Show("fg_log", None, area)
-                            selected selected_log_area == area
+                            if area.unlocked:
+                                if selected_log_area == area:
+                                    action SetVariable("selected_log_area", None)
+                                    selected True
+                                else:
+                                    action SetVariable("selected_log_area", area)
+                                $ tmp = area.name
+                            else:
+                                $ tmp = "?????????"
+                                action NullAction()
                             text str(area.stage):
-                                hover_color green
-                                selected_color gold
                                 size 12
                                 xalign .02
                                 yoffset 1
-                            label "[area.name]":
-                                text_color "#66CD00"
-                                text_hover_color green
+                            label "[tmp]":
+                                text_color limegreen
                                 text_selected_color gold
                                 text_size 12
                                 align 1.0, .5
@@ -124,8 +132,9 @@ screen building_management_leftframe_exploration_guild_mode:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             style_group "proper_stats"
+            xsize 310
             xalign .5
-            padding 12, 12
+            padding 10, 10
             margin 0, 0
             has vbox spacing 1
             label "Filters:" xalign .5
@@ -133,24 +142,22 @@ screen building_management_leftframe_exploration_guild_mode:
                 style_prefix "basic"
                 xalign .5
                 textbutton "Reset":
-                    xsize 200
+                    xsize 292
                     action Function(fg_filters.clear)
                 textbutton "Warriors":
-                    xsize 200
+                    xsize 292
                     action ModFilterSet(fg_filters, "occ_filters", "Combatant")
-                textbutton "Free":
-                    xsize 200
-                    action ModFilterSet(fg_filters, "status_filters", "free")
-                textbutton "Slaves":
-                    xsize 200
-                    action ModFilterSet(fg_filters, "status_filters", "slave")
+                textbutton "Idle":
+                    xsize 292
+                    action ModFilterSet(fg_filters, "action_filters", None)
 
         # Sorting:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             style_group "proper_stats"
+            xsize 310
             xalign .5
-            padding 12, 12
+            padding 10, 10
             margin 0, 0
             has vbox spacing 1
             label "Sort:" xalign .5
@@ -158,10 +165,10 @@ screen building_management_leftframe_exploration_guild_mode:
                 style_prefix "basic"
                 xalign .5
                 textbutton "Name":
-                    xsize 200
+                    xsize 292
                     action SetFilter(fg_filters, "alphabetical")
                 textbutton "Level":
-                    xsize 200
+                    xsize 292
                     action SetFilter(fg_filters, "level")
     elif bm_exploration_view_mode == "explore":
         fixed: # making sure we can align stuff...
@@ -191,28 +198,114 @@ screen building_management_leftframe_exploration_guild_mode:
                             align .5, .5
                             xysize 220, 130
                             background Frame(img)
-                            hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.05)))
-                            action SetVariable("bm_mid_frame_focus", area)
+                            if bm_mid_frame_focus == area:
+                                action NullAction()
+                                $ name_bg = "content/gfx/frame/frame_bg.png"
+                                $ hcolor = gold
+                            else:
+                                hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.05)))
+                                action SetVariable("bm_mid_frame_focus", area)
+                                $ name_bg = "content/gfx/frame/ink_box.png"
+                                $ hcolor = red
                             frame:
                                 align .5, .0
                                 padding 20, 2
-                                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
+                                background Frame(Transform(name_bg, alpha=.5), 5, 5)
                                 text area.name:
                                     color gold
-                                    hover_color red
+                                    hover_color hcolor
                                     style "interactions_text"
                                     size 18 outlines [(1, "#3a3a3a", 0, 0)]
                                     align .5, .5
 
 screen building_management_midframe_exploration_guild_mode:
     if bm_exploration_view_mode == "log":
-        vbox:
-            xsize 630
-            frame: # Image
+        if isinstance(selected_log_area, FG_Area):
+            default focused_log = None
+            $ area = selected_log_area
+
+            frame:
+                #ypos 40
                 xalign .5
-                padding 5, 5
-                background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                add im.Scale("content/gfx/bg/buildings/log.webp", 600, 390)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+                style_prefix "content"
+                xysize (630, 680)
+
+                $ fbg = "content/gfx/frame/mes11.webp"
+                frame:
+                    background Transform(Frame(fbg, 10, 10), alpha=.9)
+                    xysize (620, 90)
+                    ymargin 1
+                    ypadding 1
+                    $ temp = area.name
+                    text temp color gold style "interactions_text" size 35 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .3)
+                    hbox:
+                        align (.5, .9)
+                        # Get the correct stars:
+                        use stars(area.explored, 100)
+
+                # Buttons with logs (Events):
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
+                    style_prefix "dropdown_gm2"
+                    ypos 100 xalign .0
+                    ysize 346
+                    padding 10, 10
+                    has vbox xsize 220 spacing 1
+                    frame:
+                        style_group "content"
+                        xalign .5
+                        padding 15, 5
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
+                        label "Events" text_size 20 text_color ivory align .5, .5
+
+                    for l in area.logs:
+                        button:
+                            xalign .5
+                            ysize 18
+                            action SetScreenVariable("focused_log", l)
+                            text str(l.name) size 12 xalign .02 yoffset 1
+                            # Resolve the suffix:
+                            if l.item:
+                                text "[l.item.type]" size 12 align (1.0, .5)
+                            else: # Suffix:
+                                text str(l.suffix) size 12 align (1.0, .5)
+
+                # Information (Story)
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6, yzoom=-1), 10, 10)
+                    ysize 346
+                    padding 10, 10
+                    ypos 100 xalign 1.0
+                    has vbox xsize 350 spacing 1
+                    frame:
+                        style_group "content"
+                        xalign .5
+                        padding 15, 5
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
+                        label "Story" text_size 20 text_color ivory align .5, .5
+
+                    frame:
+                        background Frame("content/gfx/frame/ink_box.png", 10, 10)
+                        has viewport draggable 1 mousewheel 1
+                        if focused_log:
+                            if focused_log.battle_log:
+                                text "\n".join(focused_log.battle_log) color white
+                            elif focused_log.item:
+                                $ item = focused_log.item
+                                vbox:
+                                    spacing 10 xfill 1
+                                    add ProportionalScale(item.icon, 100, 100) xalign .5
+                                    text item.desc xalign .5 color white
+        else:
+                    # selected_log_area is None
+            vbox:
+                xsize 630
+                frame: # Image
+                    xalign .5
+                    padding 5, 5
+                    background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                    add im.Scale("content/gfx/bg/buildings/log.webp", 600, 390)
     elif bm_exploration_view_mode == "explore":
         vbox:
             xsize 630
@@ -243,27 +336,16 @@ screen building_management_midframe_exploration_guild_mode:
                             else:
                                 $ temp = "?????????"
                                 action NullAction()
-                            text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .01)
+                            text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .3)
                             hbox:
                                 align (.5, .9)
-                                # Get the correct stars:
-                                # python:
-                                    # temp = []
-                                    # for i in range(area.explored//20):
-                                        # temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
-                                    # if len(temp) != 5:
-                                        # if area.explored%20 >= 10:
-                                            # temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
-                                    # while len(temp) != 5:
-                                        # temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
-                                # for i in temp:
-                                    # add i
+                                use stars(area.explored, 100)
     elif bm_exploration_view_mode == "team":
         # Backgrounds:
         frame:
             background Frame(gfxframes + "p_frame52.webp", 10, 10)
-            xysize 622, 330
-            yoffset -1
+            xysize 622, 344
+            yoffset -5
             xalign .5
             hbox:
                 xalign .5
@@ -277,9 +359,9 @@ screen building_management_midframe_exploration_guild_mode:
             # Page control buttons:
             hbox:
                 style_prefix "paging_green"
-                align .5, .99
+                align .5, .97
                 hbox:
-                    spacing 1
+                    spacing 5
                     $ temp = workers.page - 1 >= 0
                     button:
                         style_suffix "button_left2x"
@@ -291,9 +373,9 @@ screen building_management_midframe_exploration_guild_mode:
                         tooltip "<== Previous Page"
                         action Function(workers.prev_page)
                         sensitive temp
-                null width 60
+                null width 100
                 hbox:
-                    spacing 1
+                    spacing 5
                     $ temp = workers.page + 1 < workers.max_page
                     button:
                         style_suffix "button_right"
@@ -310,75 +392,107 @@ screen building_management_midframe_exploration_guild_mode:
         frame:
             background Frame(gfxframes + "p_frame52.webp", 10, 10)
             xysize 700, 349
-            ypos 321 xalign .5
+            ypos 331 xalign .5
 
         # Paging guild teams!
         hbox:
             style_prefix "paging_green"
-            xalign .5 ypos 328
+            xalign .5 ypos 611
             hbox:
-                spacing 1
+                spacing 5
                 $ temp = guild_teams.page - 1 >= 0
                 button:
                     style_suffix "button_left2x"
                     tooltip "<== First Page"
-                    action guild_teams.first_page
+                    action Function(guild_teams.first_page)
                     sensitive temp
                 button:
                     style_suffix "button_left"
                     tooltip "<== Previous Page"
-                    action guild_teams.prev_page
+                    action Function(guild_teams.prev_page)
                     sensitive temp
-            null width 60
+            null width 20
+            button:
+                style_group "pb"
+                align (.5, .5)
+                xsize 60
+                action Return(["fg_team", "create"])
+                text "..." style "pb_button_text"
+                tooltip "Create new team"
+            null width 20
             hbox:
-                spacing 1
+                spacing 5
                 $ temp = guild_teams.page + 1 < guild_teams.max_page
                 button:
                     style_suffix "button_right"
                     tooltip "Next Page ==>"
-                    action guild_teams.next_page
+                    action Function(guild_teams.next_page)
                     sensitive temp
                 button:
                     style_suffix "button_right2x"
                     tooltip "Last Page ==>"
-                    action guild_teams.last_page
+                    action Function(guild_teams.last_page)
                     sensitive temp
 
         # We'll prolly have to do two layers, one for backgrounds and other for drags...
         draggroup:
             id "team_builder"
+            drag:
+                drag_name workers
+                xysize (600, 310)
+                draggable 0
+                droppable True
+                pos (0, 0)
+
             for t, pos in guild_teams:
+                $ idle_t = t not in bm_mid_frame_mode.exploring_teams()
+                for idx, w in enumerate(t):
+                    $ w_pos = (pos[0]+17+idx*63, pos[1]+12)
+                    $ w.set_flag("_drag_container", t)
+                    drag:
+                        dragged dragged
+                        droppable 0
+                        draggable idle_t
+                        tooltip w.fullname
+                        drag_name w
+                        pos w_pos
+                        if idle_t:
+                            clicked Show("fg_char_dropdown", dissolve, w, team=t, remove=True)
+                            hovered Function(setattr, config, "mouse", mouse_drag)
+                            unhovered Function(setattr, config, "mouse", mouse_cursor)
+
+                        add w.show("portrait", resize=(46, 46), cache=1)
+
                 drag:
                     drag_name t
-                    xysize (310, 83)
+                    xysize (208, 83)
                     draggable 0
-                    droppable 1
+                    droppable idle_t
                     pos pos
-                    add gfxframes + "team_frame_1.png"
-                    hbox:
-                        yalign .5
-                        xpos 117
-                        spacing 15
-                        for i in t:
-                            $ img = i.show("portrait", resize=(46, 46), cache=1)
-                            button:
-                                xysize (46, 46)
-                                background img
-                                hover_background im.MatrixColor(img, im.matrix.brightness(.10))
-                                action Show("fg_char_dropdown", dissolve, i, team=t, remove=True)
-                                tooltip i.fullname
                     frame:
-                        xysize (310, 83)
-                        background gfxframes + "team_frame_2.png"
+                        xysize (208, 83)
+                        background gfxframes + "team_frame_4.png"
                         button:
-                            background Null()
+                            background Frame("content/gfx/frame/namebox4.png")
+                            padding 12, 4
+                            margin 0, 0
+                            align .5, 1.2
+                            action Return(["fg_team", "rename", t])
+                            tooltip "Rename the team"
+                            text t.name align .5, .5 color orange hover_color red text_align .5
+                        # Dissolve the team:
+                        $ img = im.Scale("content/gfx/interface/buttons/close4.png", 20, 20)
+                        button:
+                            background img
+                            hover_background im.MatrixColor(img, im.matrix.brightness(.15))
+                            insensitive_background  im.Sepia(img)
                             padding 0, 0
                             margin 0, 0
-                            xpos 49 xanchor .5 yalign .5
-                            xysize 78, 61
-                            action Return(["fg_team", "rename", t])
-                            tooltip "Rename %s Team!" % t.name
-                            text t.name align .5, .5 hover_color red text_align .5
+                            align 1.0, 0.0 offset 3, -8
+                            xysize 20, 20
+                            sensitive idle_t
+                            action Return(["fg_team", "dissolve", t])
+                            tooltip "Dissolve"
                         # Remove all teammembers:
                         $ img = im.Scale("content/gfx/interface/buttons/shape69.png", 20, 20)
                         button:
@@ -387,13 +501,14 @@ screen building_management_midframe_exploration_guild_mode:
                             insensitive_background  im.Sepia(img)
                             padding 0, 0
                             margin 0, 0
-                            align 1.0, 1.0
+                            align 1.0, 1.0 offset 3, -10
                             xysize 20, 20
-                            sensitive t
+                            sensitive t and idle_t
                             action Return(["fg_team", "clear", t])
-                            tooltip "Remove all explorers from Team %s!" % t.name
+                            tooltip "Remove all members!"
 
             for w, pos in workers:
+                $ w.set_flag("_drag_container", workers)
                 drag:
                     dragged dragged
                     droppable 0
@@ -402,6 +517,8 @@ screen building_management_midframe_exploration_guild_mode:
                     pos pos
                     clicked Show("fg_char_dropdown", dissolve, w, team=None, remove=False)
                     add w.show("portrait", resize=(70, 70), cache=1)
+                    hovered Function(setattr, config, "mouse", mouse_drag)
+                    unhovered Function(setattr, config, "mouse", mouse_cursor)
 
 screen building_management_rightframe_exploration_guild_mode:
     if False:
@@ -414,124 +531,31 @@ screen building_management_rightframe_exploration_guild_mode:
     button:
         xysize (150, 40)
         yalign .5
-        action SetVariable("bm_exploration_view_mode", "team"), Hide("fg_log")
+        action SetVariable("bm_exploration_view_mode", "team")
         tooltip "You can customize your team here or hire Guild members."
         text "Team" size 15
     button:
         xysize (150, 40)
         yalign .5
-        action SetVariable("bm_exploration_view_mode", "explore"), Hide("fg_log")
+        action SetVariable("bm_exploration_view_mode", "explore")
         tooltip ("On this screen you can organize the expedition. Also, there is a "+
                  "possibility to see all available information on the various places, enemies and items drop.")
         text "Exploration" size 15
     button:
         xysize (150, 40)
         yalign .5
-        action SetVariable("bm_exploration_view_mode", "log"), Hide("fg_log")
+        action SetVariable("bm_exploration_view_mode", "log")
         tooltip "For each of your teams, recorded one last adventure, which you can see here in detail."
         text "Log" size 15
 
 # Customized screens for specific businesses:
-screen fg_log(area):
-    on "hide":
-        action SetVariable("selected_log_area", None)
 
-    # modal True
-    zorder 10
-
-    key "mousedown_3" action Hide("fg_log")
-
-    default focused_log = None
-
-    frame:
-        ypos 40
-        xalign .5
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-        style_prefix "content"
-        xysize (630, 680)
-
-        $ fbg = "content/gfx/frame/mes11.webp"
-        frame:
-            background Transform(Frame(fbg, 10, 10), alpha=.9)
-            xysize (620, 90)
-            ymargin 1
-            ypadding 1
-            $ temp = area.name
-            text temp color gold style "interactions_text" size 35 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .3)
-            hbox:
-                align (.5, .9)
-                # Get the correct stars:
-                python:
-                    temp = []
-                    for i in range(area.explored//20):
-                        temp.append(ProportionalScale("content/gfx/interface/icons/stars/star2.png", 18, 18))
-                    if len(temp) != 5:
-                        if area.explored%20 >= 10:
-                            temp.append(ProportionalScale("content/gfx/interface/icons/stars/star3.png", 18, 18))
-                    while len(temp) != 5:
-                        temp.append(ProportionalScale("content/gfx/interface/icons/stars/star1.png", 18, 18))
-                for i in temp:
-                    add i
-
-        # Buttons with logs (Events):
-        frame:
-            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-            style_prefix "dropdown_gm2"
-            ypos 100 xalign .0
-            ysize 346
-            padding 10, 10
-            has vbox xsize 220 spacing 1
-            frame:
-                style_group "content"
-                xalign .5
-                padding 15, 5
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
-                label "Events" text_size 20 text_color ivory align .5, .5
-
-            for l in area.logs:
-                button:
-                    xalign .5
-                    ysize 18
-                    action SetScreenVariable("focused_log", l)
-                    text str(l.name) size 12 xalign .02 yoffset 1
-                    # Resolve the suffix:
-                    if l.item:
-                        text "[l.item.type]" size 12 align (1.0, .5)
-                    else: # Suffix:
-                        text str(l.suffix) size 12 align (1.0, .5)
-
-        # Information (Story)
-        frame:
-            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6, yzoom=-1), 10, 10)
-            ysize 346
-            padding 10, 10
-            ypos 100 xalign 1.0
-            has vbox xsize 350 spacing 1
-            frame:
-                style_group "content"
-                xalign .5
-                padding 15, 5
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
-                label "Story" text_size 20 text_color ivory align .5, .5
-
-            frame:
-                background Frame("content/gfx/frame/ink_box.png", 10, 10)
-                has viewport draggable 1 mousewheel 1
-                if focused_log:
-                    if focused_log.battle_log:
-                        text "\n".join(focused_log.battle_log) color white
-                    elif focused_log.item:
-                        $ item = focused_log.item
-                        vbox:
-                            spacing 10 xfill 1
-                            add ProportionalScale(item.icon, 100, 100) xalign .5
-                            text item.desc xalign .5 color white
 
 screen fg_area(area):
     modal True
     zorder 1
 
-    key "mousedown_3" action Hide("fg_area")
+    add Transform("content/gfx/images/bg_gradient2.webp", alpha=.5)
 
     style_prefix "basic"
 
@@ -567,6 +591,12 @@ screen fg_area(area):
             text "[area.capture_chars]" xalign 1.0
 
         null height 5
+        if area.travel_time:
+            button:
+                xalign .5
+                xysize 300, 30
+                text "Distance about %d days" % (round_int(area.travel_time)) xalign .0
+                action NullAction()
         button:
             xalign .5
             xysize 300, 30
@@ -732,7 +762,7 @@ screen fg_area(area):
             spacing 20
             xalign .5 ypos 550
             python:
-                temp = building.get_business("fg")
+                temp = bm_mid_frame_mode
                 teams = temp.teams_to_launch() if temp else []
                 if teams:
                     if not temp.focus_team:
@@ -773,9 +803,10 @@ screen fg_area(area):
             align .5, .98
             button:
                 style_group "basic"
-                action Hide("fg_area")
+                action Hide("fg_area"), With(dissolve)
                 minimum (50, 30)
                 text "Back"
+                keysym "mousedown_3"
 
 screen fg_char_dropdown(char, team=None, remove=False):
     # Trying to create a drop down screen with choices of actions:
@@ -810,12 +841,12 @@ screen fg_char_dropdown(char, team=None, remove=False):
             action [SetVariable("came_to_equip_from", "building_management"), SetVariable("eqtarget", char), SetVariable("char", char), Hide("fg_char_dropdown"), Hide("pyt_fg_management"), Jump("char_equip")]
         if remove: # and team[0] != girl:
             textbutton "Remove from the Team":
-                action [Function(team.remove, char), Function(workers.add, char), Hide("fg_char_dropdown")]
+                action [Function(team.remove, char), Function(workers.add, char), Hide("fg_char_dropdown"), With(dissolve)]
 
         null height 10
 
         textbutton "Close":
-            action Hide("fg_char_dropdown")
+            action Hide("fg_char_dropdown"), With(dissolve)
             keysym "mouseup_3"
 
 screen se_debugger():

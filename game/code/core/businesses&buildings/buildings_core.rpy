@@ -409,18 +409,13 @@ init -10 python:
 
             dirt_string = ""
             for key in self.DIRT_STATES:
-                if dirt >= self.DIRT_STATES[key][0] and dirt <= self.DIRT_STATES[key][1]:
+                if self.DIRT_STATES[key][0] <= dirt <= self.DIRT_STATES[key][1]:
                     dirt_string = key
 
             if not dirt_string:
                 raise Exception, "No valid string for dirt percentage of %s was found!" % self.id
 
             return round_int(dirt), dirt_string
-
-        def clean(self, value):
-            self.dirt += value
-            if self.env:
-                simpy_debug("{}: Clean Function: value: {}, self.dirt: {}".format(self.env.now, value, self.dirt))
 
         def nd_log_stats(self):
             # Get a list of stats, usually all 4.
@@ -899,7 +894,7 @@ init -10 python:
             elif self.rep <= 600: caste += 3
             elif self.rep <= 800: caste += 4
             else:                 caste += 5
-            caste = ilists.clientCastes[caste]
+            caste = CLIENT_CASTES[caste]
 
             # create random customer
             min_tier = float(max(self.tier-2, .1))
@@ -989,9 +984,10 @@ init -10 python:
                 for up in self._businesses:
                     up.pre_nd()
 
-                self.env.process(self.building_manager(end=101))
                 # We run till 110 DU and should attempt to stop all businesses at 100.
-                self.env.run(until=111)
+                proc = self.env.process(self.building_manager(end=111))
+
+                self.env.run(until=proc)
                 self.log("{}".format(set_font_color("Ending the workday.", "green")))
 
                 # Building Stats:
@@ -1017,13 +1013,15 @@ init -10 python:
             self.post_nd_reset()
             tl.end("{}.run_nd (SimPy/Clients, etc.)".format(self.name))
 
-        def building_manager(self, end=100):
+        def building_manager(self, end):
             """This is the main process that manages everything that is happening in the building!
             """
             env = self.env
 
             # Run the manager process:
             if self.manager:
+                init_jp = self.manager.jobpoints
+                building.mlog = NDEvent(job=simple_jobs["Manager"], char=self.manager, loc=self)
                 env.process(manager_process(env, self))
 
             for u in self.nd_ups:
@@ -1037,7 +1035,7 @@ init -10 python:
                     u.is_running = True
 
             if self.expects_clients and self.total_clients:
-                env.process(self.clients_dispatcher(end=end))
+                env.process(self.clients_dispatcher(end=end-10))
 
             for u in self._upgrades:
                 if isinstance(u, Garden):
@@ -1046,16 +1044,18 @@ init -10 python:
             else:
                 has_garden = False
 
-            while 1:
+            while (1):
                 temp = "\n{color=[green]}%d =========>>>{/color}" % (env.now)
                 self.log(temp)
                 yield env.timeout(1)
-                simpy_debug("{} DU Executing =====================>>>".format(env.now))
+                simpy_debug("%s DU Executing =====================>>>", env.now)
 
                 # Delete the line if nothing happened on this turn:
                 if self.nd_events_report[-1] == temp:
                     del self.nd_events_report[-1]
 
+                if env.now >= end:
+                    break
                 if not env.now % 25:
                     self.dirt += 5 # 5 dirt each 25 turns even if nothing is happening.
                     self.threat += self.threat_mod
@@ -1064,7 +1064,32 @@ init -10 python:
                         for w in self.all_workers:
                             w.joy += 1
 
-        def clients_dispatcher(self, end=100):
+            # post-process of the manager
+            if self.manager:
+                log = self.mlog
+                manager = self.manager
+                points_used = init_jp - manager.jobpoints
+
+                # Handle stats:
+                if points_used > 0:
+                    if points_used > 100:
+                        log.logws("management", randint(1, 2))
+                        log.logws("intelligence", randrange(2))
+                        log.logws("refinement", 1)
+                        log.logws("character", 1)
+ 
+                    ap_used = (points_used)/100.0
+                    log.logws("exp", exp_reward(manager, self.tier, ap_used=ap_used))
+
+                # finalize the log:
+                log.img = manager.show("profile", resize=ND_IMAGE_SIZE, add_mood=True)
+                log.type = "manager_report"
+                log.after_job()
+
+                NextDayEvents.append(log)
+                self.mlog = None
+
+        def clients_dispatcher(self, end):
             """This method provides stream of clients to the building following it's own algorithm.
 
             We want 50% of all clients to come in the 'rush hour' (turn 50 - 80).
@@ -1084,7 +1109,11 @@ init -10 python:
             normal_step = self.total_clients*.5/60
             rush_hour_step = self.total_clients*.5/30
 
-            while expected > 0 and self.clients:
+            while (1):
+                simpy_debug("Entering PublicBusiness(%s).client_dispatcher iteration at %s", self.name, self.env.now)
+
+                if self.env.now >= end:
+                    break
                 if 50 <= self.env.now <= 80:
                     running += rush_hour_step
                 else:
@@ -1095,13 +1124,18 @@ init -10 python:
                     running -= add_clients
 
                     for i in range(add_clients):
+                        if expected == 0 or not self.clients:
+                            expected = 0
+                            break
                         expected -= 1
-                        if self.clients:
-                            client = self.clients.pop()
-                            self.env.process(self.client_manager(client, has_garden=has_garden))
+                        client = self.clients.pop()
+                        self.env.process(self.client_manager(client, has_garden=has_garden))
+                    if expected == 0:
+                        break
 
                 if DSNBR:
                     devlog.info("Client Distribution running: {}".format(running))
+                simpy_debug("Exiting PublicBusiness(%s).client_dispatcher iteration at %s", self.name, self.env.now)
                 yield self.env.timeout(1)
 
         def client_manager(self, client, has_garden=False):

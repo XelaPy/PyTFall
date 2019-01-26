@@ -8,7 +8,6 @@ label building_management:
             bm_exploration_view_mode = "explore"
             selected_log_area = None
 
-    python:
         # Some Global Vars we use to pass data between screens:
         if hero.buildings:
             try:
@@ -19,24 +18,12 @@ label building_management:
             if index >= len(hero.buildings):
                 index = 0
 
-            # Looks pretty ugly... this might be worth improving upon just for the sake of esthetics.
             building = hero.buildings[index]
             char = None
-            try:
-                workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3,
-                            size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
-                fg_filters = CharsSortingForGui(all_chars_for_se)
-                fg_filters.status_filters.add("free")
-                fg_filters.occ_filters.add("Combatant")
-                fg_filters.target_container = [workers, "content"]
-                fg_filters.filter()
 
-                temp = building.get_business("fg")
-                guild_teams = CoordsForPaging(temp.idle_teams(), columns=2, rows=3,
-                                              size=(310, 83), xspacing=3, yspacing=3,
-                                              init_pos=(4, 390))
-            except:
-                pass
+            # special cursor for DragAndDrop and the original value
+            mouse_drag = {"default" :[("content/gfx/interface/cursors/hand.png", 0, 0)]}
+            mouse_cursor = config.mouse
 
     scene bg scroll
 
@@ -49,28 +36,44 @@ label building_management:
 
     $ global_flags.set_flag("keep_playing_music")
 
-label building_management_loop:
-
-    $ last_label = "building_management" # We need this so we can come back here from screens that depends on this variable.
-
     while 1:
-        if hero.buildings:
-            $ building = hero.buildings[index]
-
         $ result = ui.interact()
         if not result or not isinstance(result, (list, tuple)):
-            jump building_management_loop
+            pass
+        elif result[0] == "bm_mid_frame_mode":
+            $ bm_mid_frame_mode = result[1]
+            if isinstance(bm_mid_frame_mode, ExplorationGuild):
+                # Looks pretty ugly... this might be worth improving upon just for the sake of esthetics.
+                $ workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3,
+                        size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 11))
+                $ fg_filters = CharsSortingForGui(all_chars_for_se)
+                $ fg_filters.occ_filters.add("Combatant")
+                $ fg_filters.target_container = [workers, "content"]
+                $ fg_filters.filter()
 
-        if result[0] == "fg_team":
-            if result[1] == "rename":
-                $ n = renpy.call_screen("pyt_input", result[2].name, "Enter Name", 8)
-                if len(n):
-                    $ result[2].name = n
-            elif result[1] == "clear":
-                python:
-                    for i in result[2]._members[:]:
+                $ guild_teams = CoordsForPaging(bm_mid_frame_mode.idle_teams(), columns=3, rows=3,
+                                size=(208, 83), xspacing=0, yspacing=5, init_pos=(4, 340))
+
+        elif result[0] == "fg_team":
+            python:
+                if result[1] == "rename":
+                    n = renpy.call_screen("pyt_input", result[2].name, "Enter Name", 20)
+                    if len(n):
+                        result[2].name = n
+                elif result[1] == "clear":
+                    for i in result[2]:
                         workers.add(i)
-                        result[2]._members.remove(i)
+                    del result[2].members[:]
+                elif result[1] == "create":
+                    n = renpy.call_screen("pyt_input", "", "Enter Name", 20)
+                    if len(n):
+                        t = bm_mid_frame_mode.new_team(n)
+                        guild_teams.add(t)
+                elif result[1] == "dissolve":
+                    for i in result[2]:
+                        workers.add(i)
+                    bm_mid_frame_mode.remove_team(result[2])
+                    guild_teams.remove(result[2])
         elif result[0] == "building":
             # if result[1] == 'buyroom':
             #     python:
@@ -167,18 +170,26 @@ label building_management_loop:
                             i.dirt = 0
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
+                elif result[1] == "toggle_clean":
+                    building.auto_clean = 90 if building.auto_clean == 100 else 100
                 elif result[1] == "rename_building":
                     building.name = renpy.call_screen("pyt_input", default=building.name, text="Enter Building name:")
                 elif result[1] == "retrieve_jail":
                     pytfall.ra.retrieve_jail = not pytfall.ra.retrieve_jail
         elif result[0] == 'control':
-            if result[1] == 'left':
-                $ index = (index - 1) % len(hero.buildings)
-            elif result[1] == 'right':
-                $ index = (index + 1) % len(hero.buildings)
-
             if result[1] == 'return':
                 jump building_management_end
+
+            if result[1] == 'left':
+                $ index -= 1
+                if index < 0:
+                    $ index = len(hero.buildings) - 1
+            else: # if result[1] == 'right':
+                $ index += 1
+                if index >= len(hero.buildings):
+                    $ index = 0
+
+            $ building = hero.buildings[index]
 
 label building_management_end:
     hide screen building_management
@@ -230,7 +241,7 @@ init:
 
         use top_stripe(True)
         if not bm_mid_frame_mode == "building":
-            key "mousedown_3" action SetVariable("bm_mid_frame_mode", "building")
+            key "mousedown_3" action Function(setattr, config, "mouse", mouse_cursor), Return(["bm_mid_frame_mode", "building"])
         else:
             key "mousedown_4" action Return(["control", "right"])
             key "mousedown_5" action Return(["control", "left"])
@@ -360,7 +371,7 @@ init:
                     button:
                         xysize 150, 40
                         yalign .5
-                        action SetVariable("bm_mid_frame_mode", "building"), Hide("fg_log")
+                        action Return(["bm_mid_frame_mode", "building"])
                         tooltip ("Here you can invest your gold and resources for various improvements.\n"+
                                  "And see the different information (reputation, rank, fame, etc.)")
                         text "Building" size 15
@@ -469,7 +480,8 @@ init:
                                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
                                     tooltip "View details or expand {}.\n{}".format(u.name, u.desc)
                                     xalign .5
-                                    action SetVariable("bm_mid_frame_mode", u)
+                                    top_padding 4
+                                    action Return(["bm_mid_frame_mode", u])
 
                             imagebutton:
                                 align 1.0, 0 offset 2, -2
@@ -659,7 +671,7 @@ init:
                                 style_prefix "wood"
                                 align .5, .5
                                 xysize 135, 40
-                                action SetVariable("bm_mid_frame_mode", building)
+                                action Return(["bm_mid_frame_mode", building])
                                 tooltip 'Open a new business or upgrade this building!'
                                 text "Expand"
                     button:
@@ -680,7 +692,7 @@ init:
                 #         button:
                 #             align .5, .5
                 #             xysize (135, 40)
-                #             action SetVariable("bm_mid_frame_mode", building)
+                #             action Return(["bm_mid_frame_mode", building])
                 #             tooltip 'Open a new business or upgrade this building!'
                 #             text "Expand"
 
@@ -827,7 +839,7 @@ init:
                 #     background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=.8)
                 #     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
                 #     align .5, .95
-                #     action SetVariable("bm_mid_frame_mode", "building")
+                #     action Return(["bm_mid_frame_mode", "building"])
 
     screen building_controls():
         modal True
@@ -874,12 +886,9 @@ init:
                                 value FieldValue(building, "auto_clean", 99, style='scrollbar', offset=0, step=1)
                                 thumb 'content/gfx/interface/icons/move15.png'
                                 tooltip "Cleaners are called if dirt is more than %d%%" % building.auto_clean 
-                        python:
-                            def toggleClean(building):
-                                building.auto_clean = 90 if building.auto_clean == 100 else 100 
                         button:
                             xalign 1.0
-                            action Function(toggleClean, building)
+                            action Return(['maintenance', "toggle_clean"])
                             selected building.auto_clean != 100
                             tooltip "Toggle automatic hiring of cleaners"
                             text "Auto"
@@ -948,7 +957,7 @@ init:
 
             button:
                 style_group "dropdown_gm"
-                action Hide("building_controls")
+                action Hide("building_controls"), With(dissolve)
                 minimum 50, 30
                 align .5, .97
                 text "OK"
@@ -1010,7 +1019,7 @@ init:
 
             button:
                 style_group "dropdown_gm"
-                action Hide("building_adverts")
+                action Hide("building_adverts"), With(dissolve)
                 minimum(50, 30)
                 align (.5, .97)
                 text  "OK"

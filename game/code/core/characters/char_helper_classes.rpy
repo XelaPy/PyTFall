@@ -223,24 +223,14 @@ init -10 python:
                 notify("Impossible to join the same team twice")
 
             if len(self._members) >= self.max_size:
-                temp = []
-                t = "{} team cannot have more than {} team members!".format(self.name, self.max_size)
-                temp.append(t)
-                t = [m.name for m in self._members]
-                temp.append("Members: {}".format(", ".join(t)))
-                t = "Adding: {}".format(member.name)
-                temp.append(t)
-                temp = "\n".join(temp)
-                raise Exception(temp)
-                notify(temp)
+                notify("{} team cannot have more than {} members!".format(self.name, self.max_size))
             else:
                 if not self.free and not self.leader:
                     self._leader = member
                     if member not in self.implicit:
                         self.implicit.append(member)
-                    self._members.append(member)
-                else:
-                    self._members.append(member)
+                self._members.append(member)
+                return True
 
         def remove(self, member):
             if member in self.implicit or member not in self._members:
@@ -279,7 +269,7 @@ init -10 python:
         def reset_controller(self):
             # Resets combat controller
             for m in self.members:
-                m.controller = "player"
+                m.controller = None
 
 
     class JobsLogger(_object):
@@ -612,7 +602,7 @@ init -10 python:
 
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
-                    if key in char.SKILLS:
+                    if key in STATIC_CHAR.SKILLS:
                         sm = stats.skills_multipliers[key] # skillz muplties
                         m = trait.mod_skills[key] # mod
                         sm[0] += m[0]
@@ -701,7 +691,7 @@ init -10 python:
 
             if hasattr(trait, "mod_skills"):
                 for key in trait.mod_skills:
-                    if key in char.SKILLS:
+                    if key in STATIC_CHAR.SKILLS:
                         sm = stats.skills_multipliers[key] # skillz muplties
                         m = trait.mod_skills[key] # mod
                         sm[0] -= m[0]
@@ -1038,7 +1028,7 @@ init -10 python:
             for log in [self.game_main_income_log, self.game_main_expense_log,
                         self.game_logical_income_log, self.game_logical_expense_log]:
                 for day, info in log.items():
-                    if day > 0 and day < cut_off_day:
+                    if 0 < day < cut_off_day:
                         log[-1] = add_dicts([log.get(-1, {}), info])
                         del log[day]
 
@@ -1079,9 +1069,9 @@ init -10 python:
 
             # [action_value, training_value]
             self.skills = dict()
-            for s in self.instance.SKILLS:
+            for s in STATIC_CHAR.SKILLS:
                 self.skills[s] = list([0, 0])
-            # {k: [0, 0] for k in self.instance.SKILLS}
+            # {k: [0, 0] for k in STATIC_CHAR.SKILLS}
             # [actions_multi, training_multi, value_multi]
             # self.skills_multipliers = {k: [1, 1, 1] for k in self.skills}
             self.skills_multipliers = dict()

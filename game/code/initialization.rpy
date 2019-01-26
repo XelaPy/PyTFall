@@ -164,6 +164,9 @@ init -950 python:
     # object = _object # We are not using Ren'Pys object anywhere but it will throw errors if initiated this early because layout cannot be built with Pythons one.
     _rollback = False
 
+    # Override the default game_menu
+    config.game_menu_action = Show("s_menu", s_menu="Settings", main_menu=True)
+
     # Registration of extra music channels:
     renpy.music.register_channel("events", "sfx", False, file_prefix="content/sfx/sound/")
     renpy.music.register_channel("events2", "sfx", False,  file_prefix="content/sfx/sound/")
@@ -438,6 +441,7 @@ init -1 python: # Constants:
     # for f in renpy.list_files():
         # if check_image_extension(f):
             # renpy.image(f, At(f, slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)))
+    CLIENT_CASTES = ['None', 'Peasant', 'Merchant', 'Nomad', 'Wealthy Merchant', 'Clerk', 'Noble', 'Royal']
     EQUIP_SLOTS = ['body', 'head', 'feet', 'wrist', 'amulet',
                    'cape', 'weapon', 'misc', 'ring', 'smallweapon']
     SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand",
@@ -469,8 +473,8 @@ init python: # Locking random seed of internal renpys random
         return rv
 
 init:
-    default SKILLS_MAX = {k: 5000 for k in PytCharacter.SKILLS}
-    default SKILLS_THRESHOLD = {k: 2000 for k in PytCharacter.SKILLS} # Must be exceeded before skills becomes harder to gain.
+    default SKILLS_MAX = {k: 5000 for k in STATIC_CHAR.SKILLS}
+    default SKILLS_THRESHOLD = {k: 2000 for k in STATIC_CHAR.SKILLS} # Must be exceeded before skills becomes harder to gain.
     $ DAILY_EXP_CORE = 100 # 1 lvl per 10 days give or take. This is a simple way to rebalance.
     default just_view_next_day = False
     default char = None
@@ -490,6 +494,8 @@ init:
     # Or we crash due to an engine bug (going to MMS):
     default bm_mid_frame_mode = None
     default bm_mid_frame_focus = None
+    default bm_exploration_view_mode = None
+    default selected_log_area = None
     default eq_target = None
     default the_chosen = None
     default focus = None

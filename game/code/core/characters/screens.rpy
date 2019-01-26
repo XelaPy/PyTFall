@@ -28,7 +28,7 @@ screen set_action_dropdown(char, pos=()):
                 tooltip "Change the training course to a different one."
             textbutton "Stop Course":
                 action [Function(stop_course, char),
-                        Hide("set_action_dropdown")]
+                        Hide("set_action_dropdown"), With(Dissolve(0.1))]
                 tooltip "Call your girl back from the Academy to do something useful in one of your businesses."
         elif isinstance(char.workplace, UpgradableBuilding):
             $ jobs = char.workplace.get_valid_jobs(char)
@@ -37,15 +37,15 @@ screen set_action_dropdown(char, pos=()):
             for i in jobs:
                 textbutton "[i.id]":
                     action [SetField(char, "action", i),
-                            Hide("set_action_dropdown")]
+                            Hide("set_action_dropdown"), With(Dissolve(0.1))]
                     tooltip i.desc
             textbutton "None":
                 action [SetField(char, "action", None),
-                        Hide("set_action_dropdown")]
+                        Hide("set_action_dropdown"), With(Dissolve(0.1))]
                 tooltip "In case you are in a great need of a slacker..."
 
         textbutton "Close":
-            action [Hide("set_action_dropdown")]
+            action [Hide("set_action_dropdown"), With(Dissolve(0.1))]
             keysym "mousedown_3", "K_ESCAPE"
 
 screen set_workplace_dropdown(char, pos=()):
@@ -80,7 +80,7 @@ screen set_workplace_dropdown(char, pos=()):
             else:
                 $ actions.append(SetField(char, "action", None))
                 $ actions.append(SetField(char, "workplace", building))
-            $ actions.append(Hide("set_workplace_dropdown"))
+            $ actions.extend([Hide("set_workplace_dropdown"), With(Dissolve(0.1))])
             textbutton "[building.name]":
                 selected char.workplace == building
                 action actions
@@ -88,9 +88,9 @@ screen set_workplace_dropdown(char, pos=()):
             selected char.workplace is None
             action [SetField(char, "action", None),
                     SetField(char, "workplace", None),
-                    Hide("set_workplace_dropdown")]
+                    Hide("set_workplace_dropdown"), With(Dissolve(0.1))]
         textbutton "Close":
-            action Hide("set_workplace_dropdown")
+            action Hide("set_workplace_dropdown"), With(Dissolve(0.1))
             keysym "mousedown_3", "K_ESCAPE"
 
 screen set_home_dropdown(char, pos=()):
@@ -118,10 +118,10 @@ screen set_home_dropdown(char, pos=()):
         for loc in habitable_locations:
             textbutton "[loc]":
                 selected char.home == loc
-                action SetField(char, "home", loc), Hide("set_home_dropdown")
+                action SetField(char, "home", loc), Hide("set_home_dropdown"), With(Dissolve(0.1))
                 tooltip loc.desc
         textbutton "Close":
-            action Hide("set_home_dropdown")
+            action Hide("set_home_dropdown"), With(Dissolve(0.1))
             keysym "mousedown_3", "K_ESCAPE"
 
 screen char_rename(char=None):
@@ -180,7 +180,7 @@ screen char_rename(char=None):
                 xalign .5
                 yalign .5
                 text "Back" size 16 color goldenrod
-                action Hide("char_rename")
+                action Hide("char_rename"), With(dissolve)
                 keysym "mousedown_3", "K_ESCAPE"
                 padding (10, 10)
 
@@ -398,7 +398,7 @@ screen finances(obj, mode="logical"):
             align .5, 1.0
             button:
                 minimum (100, 30)
-                action Hide('finances')
+                action Hide('finances'), With(dissolve)
                 text "OK"
                 keysym ("K_RETURN", "K_ESCAPE", "mousedown_3")
             if isinstance(focused, Char):
@@ -606,7 +606,7 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                 xysize 22, 22
                 idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
                 hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
-                action Hide("show_trait_info")
+                action Hide("show_trait_info"), With(dissolve)
                 keysym "mousedown_3"
     else:
         $ traits = elements_calculator(trait)
@@ -669,5 +669,5 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                 xysize 22, 22
                 idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
                 hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
-                action Hide("show_trait_info")
+                action Hide("show_trait_info"), With(dissolve)
                 keysym "mousedown_3"

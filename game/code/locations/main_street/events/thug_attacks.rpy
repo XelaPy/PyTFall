@@ -37,33 +37,17 @@ label city_events_thugs_robbery:
                 t "Oho, you have guts, I like it. Let's see what you can do against my boys!"
                 python:
                     back = interactions_pick_background_for_fight("city")
-                    your_team = Team(name="Your Team")
-                    for member in hero.team:
-                        your_team.add(member)
-                    for member in your_team:
-                        if member <> hero:
-                            if member.status == "slave":
-                                member.controller = BE_AI(member)
                     enemy_team = Team(name="Enemy Team", max_size=3)
                     for i in xrange(3):
                         mob = build_mob("Thug", level=45)
                         enemy_team.add(mob)
-                    battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="random", end_sfx=dissolve, quotes=True)
-                    battle.teams.append(your_team)
-                    battle.teams.append(enemy_team)
-                    battle.start_battle()
-                    your_team.reset_controller()
-                    if battle.winner != your_team:
-                        for member in your_team:
-                            if member in battle.corpses:
-                                member.health = 1
-                        renpy.jump("city_events_thugs_robbery_lost")
-                    else:
+                    result = run_default_be(enemy_team, slaves=True, background=back)
+                    if result is True:
                         for member in your_team:
                             member.exp += exp_reward(member, enemy_team)
-                            if member in battle.corpses:
-                                member.health = 1
                         renpy.jump("city_events_thugs_robbery_win")
+                    else:
+                        renpy.jump("city_events_thugs_robbery_lost")
 
 label city_events_thugs_robbery_win:
     show bg street_alley
@@ -95,42 +79,21 @@ label city_events_thugs_robbery_attack:
     $ renpy.scene(layer="screens")
     python:
         back = interactions_pick_background_for_fight(scr)
-        your_team = Team(name="Your Team")
-        for member in hero.team:
-            your_team.add(member)
-        for member in your_team:
-            if member <> hero:
-                if member.status == "slave":
-                    member.controller = BE_AI(member)
         enemy_team = Team(name="Enemy Team", max_size=3)
-        if hero.level < 20:
-            lvl = hero.level
-        else:
-            lvl = 25
+        lvl = min(hero.level, 25)
         for i in xrange(3):
             mob = build_mob("Thug", level=lvl)
             enemy_team.add(mob)
-        battle = BE_Core(Image(back), start_sfx=get_random_image_dissolve(1.5), music="random", end_sfx=dissolve, quotes=True)
-        battle.teams.append(your_team)
-        battle.teams.append(enemy_team)
-        battle.start_battle()
-        your_team.reset_controller()
-        if battle.winner != your_team:
-            for member in your_team:
-                if member in battle.corpses:
-                    member.health = 1
-            g = randint (200, 400)
-            if hero.gold < g:
-                hero.take_money(hero.gold, reason="Robbery")
-            else:
-                hero.take_money(g, reason="Robbery")
-            renpy.jump("city_events_thugs_robbery_attack_lost")
-        else:
+        result = run_default_be(enemy_team, slaves=True, background=back)
+
+        if result is True:
             for member in your_team:
                 member.exp += exp_reward(member, enemy_team)
-                if member in battle.corpses:
-                    member.health = 1
             renpy.jump("city_events_thugs_robbery_attack_win")
+        else:
+            g = min(hero.gold, randint (200, 400))
+            hero.take_money(g, reason="Robbery")
+            renpy.jump("city_events_thugs_robbery_attack_lost")
 
 label city_events_thugs_robbery_attack_lost:
     scene expression "bg " + scr

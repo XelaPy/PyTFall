@@ -595,7 +595,7 @@ screen slave_shopping(source, tt_text, buy_button, buy_tt):
                                 tooltip u"{=proper_stats_text}%s\n{size=-5}{=proper_stats_value_text}%s"%(c.name, c.desc)
                 bar value XScrollValue("sm_vp_glist")
 
-    use top_stripe(show_return_button=True, return_button_action=Hide("slave_shopping"), show_lead_away_buttons=False)
+    use top_stripe(show_return_button=True, return_button_action=[Hide("slave_shopping"), With(dissolve)], show_lead_away_buttons=False)
 
 screen se_captured_retrieval(pos=(900, 300)):
     # Not Used atm.
@@ -617,7 +617,7 @@ screen se_captured_retrieval(pos=(900, 300)):
                 action jail.sell_captured, renpy.restart_interaction, Hide("se_captured_retrieval")
             if global_flags.flag("blue_cg"):
                 textbutton "Train with Blue!":
-                    action Function(jail.retrieve_captured, direction="Blue"), Hide("se_captured_retrieval")
+                    action Function(jail.retrieve_captured, direction="Blue"), Hide("se_captured_retrieval"), With(dissolve)
             textbutton "Close":
-                action Hide("se_captured_retrieval")
+                action Hide("se_captured_retrieval"), With(dissolve)
                 keysym "mousedown_3"

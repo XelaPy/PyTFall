@@ -39,7 +39,7 @@ screen pytfallopedia():
             if pyp.sub_focused:
                 action Hide(pyp.sub_screen), Show(pyp.main_screen), SetField(pyp, "sub_focused", None), SetScreenVariable("show_sub", False)
             elif pyp.main_focused:
-                action Hide(pyp.main_screen), SetField(pyp, "main_focused", None)
+                action Hide(pyp.main_screen), With(dissolve), SetField(pyp, "main_focused", None)
             sensitive pyp.sub_focused or pyp.main_focused
             tooltip "Back"
             keysym "mousedown_2"

@@ -98,14 +98,18 @@ screen chars_list(source=None):
             for c in charz_list:
                 $ char_profile_img = c.show('portrait', resize=(98, 98), cache=True)
                 $ img = "content/gfx/frame/ink_box.png"
+                $ available = c.is_available and c in hero.chars
                 button:
                     ymargin 0
                     idle_background Frame(Transform(img, alpha=.4), 10 ,10)
                     hover_background Frame(Transform(img, alpha=.9), 10 ,10)
                     xysize (470, 115)
-                    action Return(['choice', c])
                     alternate Return(['control', 'return']) # keep in sync with mousedown_3
-                    tooltip "Show {}'s Profile!".format(c.name)
+                    if available:
+                        action Return(['choice', c])
+                        tooltip "Show {}'s Profile!".format(c.name)
+                    else:
+                        action NullAction()
 
                     # Image:
                     frame:
@@ -130,12 +134,97 @@ screen chars_list(source=None):
                                 text_color ivory
 
                         vbox:
+                            yalign .98
+                            xpos 10
+                            # Prof-Classes
+                            python:
+                                classes = list(c.traits.basetraits)
+                                if len(classes) == 1:
+                                    classes = classes[0].id
+                                else:
+                                    classes.sort()
+                                    classes = ", ".join(t.id for t in classes)
+                            text "Classes: [classes]" color ivory size 18
+
+                            if available:
+                                null height 2
+                                $ circle_green = im.Scale("content/gfx/interface/icons/move15.png", 16, 16)
+                                $ icon_flag = c.get_flag("last_chars_list_geet_icon", "work")
+                                hbox:
+                                    if icon_flag == "home":
+                                        imagebutton:
+                                            yalign 0.5
+                                            xoffset -2
+                                            idle circle_green
+                                            hover im.MatrixColor(circle_green, im.matrix.brightness(.15))
+                                            action [Function(c.set_flag, "last_chars_list_geet_icon", "work")]
+                                            tooltip "Switch to set Work!"
+                                        button:
+                                            style_group "ddlist"
+                                            if c.status == "slave":
+                                                action Return(["dropdown", "home", c])
+                                                tooltip "Choose a place for %s to live at!" % c.nickname
+                                            else: # Can't set home for free cs, they decide it on their own.
+                                                action NullAction()
+                                                tooltip "%s is free and decides on where to live at!" % c.nickname
+                                            text "{size=18}Home:{/size} [c.home]":
+                                                if len(str(c.home)) > 18:
+                                                    size 15
+                                                    yalign 0.5
+                                                else:
+                                                    size 18
+                                    else: # if icon_flag == "work":
+                                        imagebutton:
+                                            yalign 0.5
+                                            xoffset -2
+                                            idle circle_green
+                                            hover im.MatrixColor(circle_green, im.matrix.brightness(.15))
+                                            action [Function(c.set_flag, "last_chars_list_geet_icon", "home")]
+                                            tooltip "Switch to set Home!"
+                                        button:
+                                            style_group "ddlist"
+                                            action Return(["dropdown", "workplace", c])
+                                            tooltip "Choose a place for %s to work at!" % c.nickname
+                                            text "{size=18}Work:{/size} [c.workplace]":
+                                                if len(str(c.workplace)) > 18:
+                                                    size 15
+                                                    yalign 0.5
+                                                else:
+                                                    size 18
+                                hbox:
+                                    imagebutton:
+                                        yalign 0.5
+                                        xoffset -2
+                                        idle circle_green
+                                        action NullAction()
+                                    button:
+                                        style_group "ddlist"
+                                        action Return(["dropdown", "action", c])
+                                        tooltip "Choose a task for %s to do!" % c.nickname
+                                        text "{size=18}Action:{/size} [c.action]":
+                                            if c.action is not None and len(str(c.action)) > 18:
+                                                size 15
+                                                yalign 0.5
+                                            else:
+                                                size 18
+
+                        vbox:
                             align (.96, .035)
-                            spacing 5
-                            if c.status == "slave":
-                                add ProportionalScale("content/gfx/interface/icons/slave.png", 40, 40)
-                            else:
-                                add ProportionalScale("content/gfx/interface/icons/free.png", 40, 40)
+                            python:
+                                if available:
+                                    if c.status == "slave":
+                                        status_img = "content/gfx/interface/icons/slave.png"
+                                    else:
+                                        status_img = "content/gfx/interface/icons/free.png"
+                                elif c.action == "Exploring":
+                                    status_img = "content/gfx/interface/icons/exploring.png"
+                                elif c in pytfall.ra:
+                                    status_img = "content/gfx/interface/images/MC/reflexes.png"
+                                elif not c.alive:
+                                    status_img = "content/gfx/interface/icons/gravestone.png"
+                                else:
+                                    status_img = "content/gfx/interface/icons/question.png"
+                            add ProportionalScale(status_img, 40, 40)
 
                         vbox:
                             align 1.0, .6 xoffset 5
@@ -147,89 +236,19 @@ screen chars_list(source=None):
                                 xsize 60
                                 text "Tier:" xalign .0 color ivory
                                 text "[c.tier]" xalign .1 color ivory
-                            # text "AP: [c.AP]" size 17 color ivory
-                            # text "Tier: [c.tier]" size 17 color ivory
-
-                        vbox:
-                            yalign .98
-                            xpos 10
-                            # Prof-Classes
-                            python:
-                                if len(c.traits.basetraits) == 1:
-                                    classes = list(c.traits.basetraits)[0].id
-                                elif len(c.traits.basetraits) == 2:
-                                    classes = list(c.traits.basetraits)
-                                    classes.sort()
-                                    classes = ", ".join([str(t) for t in classes])
-                                else:
-                                    raise Exception("Character without prof basetraits detected! line: 211, chars_lists screen")
-                            text "Classes: [classes]" color ivory size 18
-
-                            null height 2
-                            if c not in pytfall.ra:
-                                if not c.flag("last_chars_list_geet_icon"):
-                                    $ c.set_flag("last_chars_list_geet_icon", "work")
-                                if c.status == "free" and c.flag("last_chars_list_geet_icon") != "work":
-                                    $ c.set_flag("last_chars_list_geet_icon", "work")
-
-                                if c.flag("last_chars_list_geet_icon") == "home":
-                                    button:
-                                        style_group "ddlist"
-                                        if c.status == "slave":
-                                            action Return(["dropdown", "home", c])
-                                            tooltip "Choose a place for %s to live at (RMB to set Work)!" % c.nickname
-                                        else: # Can't set home for free cs, they decide it on their own.
-                                            action NullAction()
-                                            tooltip "%s is free and decides on where to live at!" % c.nickname
-                                        alternate [Function(c.set_flag, "last_chars_list_geet_icon", "work"),
-                                                   Return(["dropdown", "workplace", c])]
-                                        text "{image=button_circle_green}Home: [c.home]":
-                                            if len(str(c.home)) > 18:
-                                                size 15
-                                            else:
-                                                size 18
-                                elif c.flag("last_chars_list_geet_icon") == "work":
-                                    $ tt_hint = "Choose a place for %s to work at" % c.nickname
-                                    if c.status == "slave":
-                                        $ tt_hint += " (RMB to set Home)!"
-                                    else:
-                                        $ tt_hint += "!"
-                                    button:
-                                        style_group "ddlist"
-                                        action Return(["dropdown", "workplace", c])
-                                        if c.status == "slave":
-                                            alternate [Function(c.set_flag, "last_chars_list_geet_icon", "home"),
-                                                       Return(["dropdown", "home", c])]
-                                        tooltip tt_hint
-                                        text "{image=button_circle_green}Work: [c.workplace]":
-                                            if len(str(c.workplace)) > 18:
-                                                size 15
-                                            else:
-                                                size 18
-                                button:
-                                    style_group "ddlist"
-                                    action Return(["dropdown", "action", c])
-                                    tooltip "Choose a task for %s to do!" % c.nickname
-                                    text "{image=button_circle_green}Action: [c.action]":
-                                        if c.action is not None and len(str(c.action)) > 18:
-                                            size 15
-                                        else:
-                                            size 18
-                            else:
-                                text "{size=15}Location: Unknown"
-                                text "{size=15}Action: Hiding"
 
                     # Add to Group Button:
-                    button:
-                        style_group "basic"
-                        xysize (25, 25)
-                        align 1.0, 1.0 offset 9, -2
-                        action ToggleSetMembership(the_chosen, c)
-                        if c in the_chosen:
-                            add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align .5, .5
-                        else:
-                            add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align .5, .5
-                        tooltip 'Select the character'
+                    if available:
+                        button:
+                            style_group "basic"
+                            xysize (25, 25)
+                            align 1.0, 1.0 offset 9, -2
+                            action ToggleSetMembership(chars_list_state.the_chosen, c)
+                            if c in chars_list_state.the_chosen:
+                                add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align .5, .5
+                            else:
+                                add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align .5, .5
+                            tooltip 'Select the character'
 
     # Filters:
     frame:

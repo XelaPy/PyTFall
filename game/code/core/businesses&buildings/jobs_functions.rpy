@@ -89,7 +89,7 @@ init -10 python:
                 temp = "Manager paid some extra attention to the client. +20% to payout!"
             log.append(temp)
             earned *= 1.2
-            # mlog might be None at this point building.mlog.append("\n"+temp)
+            building.mlog.append("\n"+temp)
 
         earned = round_int(earned)
         if earned:

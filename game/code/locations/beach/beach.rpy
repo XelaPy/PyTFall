@@ -35,7 +35,20 @@ label city_beach:
         $ result = ui.interact()
 
         if result[0] == 'jump':
-            $ gm.start_gm(result[1])
+            $ girl = result[1]
+            $ tags = girl.get_tags_from_cache(last_label)
+            if not tags:
+                $ img_tags = (["girlmeets", "beach"], ["girlmeets", "swimsuit", "simple bg"], ["girlmeets", "swimsuit", "no bg"])
+                $ result = get_simple_act(girl, img_tags)
+                if not result:
+                    $ img_tags = (["girlmeets", "simple bg"], ["girlmeets", "no bg"])
+                    $ result = get_simple_act(girl, img_tags)
+                    if not result:
+                        # giveup
+                        $ result = ("girlmeets", "swimsuit")
+                $ tags.extend(result)
+
+            $ gm.start_gm(girl, img=girl.show(*tags, type="reduce", label_cache=True, resize=(300, 400), gm_mode=True))
 
         if result[0] == 'control':
             if result[1] == 'return':
@@ -83,16 +96,10 @@ screen city_beach():
         key "mousedown_3" action ToggleField(gm, "show_girls")
 
         add "content/gfx/images/bg_gradient.webp" yalign .45
-        $ j = 0
-        for entry in gm.display_girls():
+        for j, entry in enumerate(gm.display_girls()):
             hbox:
                 align (coords[j])
-                $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach",
-                            exclude=["urban", "wildness", "suburb", "nature", "winter",
-                                     "night", "formal", "indoor", "indoors"],
-                            type="reduce", label_cache=True, resize=(300, 400), gm_mode=True),
-                            return_value=['jump', entry])
+                use rg_lightbutton(return_value=['jump', entry])
 
 screen city_beach_swim():
     style_prefix "dropdown_gm"
@@ -217,7 +224,6 @@ label city_beach_monsters_fight:
         for i in range(randint(2, 3)):
             mob = build_mob(id="Skyfish", level=randint(5, 15))
             mob.front_row = True
-            mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
         back = interactions_pick_background_for_fight("beach")
         result = run_default_be(enemy_team, background=back, give_up="escape",
