@@ -228,7 +228,7 @@ init -6 python: # Guild, Tracker and Log.
             for i in self.found_items:
                 item = items[i]
                 hero.add_item(item)
-
+            area.cash_earned += sum(self.cash)
             area.chars_captured += len(self.captured_chars)
 
             main_area = fg_areas[area.area]
