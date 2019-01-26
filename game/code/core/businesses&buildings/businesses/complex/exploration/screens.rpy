@@ -866,7 +866,7 @@ screen se_debugger():
                         xsize 500
                         spacing 5
                         text t.team.name xalign .0
-                        text t.state xalign 1.0
+                        text str(t.state) xalign 1.0
                     hbox:
                         xsize 500
                         spacing 5
