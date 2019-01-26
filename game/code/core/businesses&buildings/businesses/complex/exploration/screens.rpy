@@ -107,6 +107,15 @@ screen building_management_leftframe_exploration_guild_mode:
                     text "[total]":
                         style_suffix "value_text"
                         color ivory
+                frame:
+                    xoffset 4
+                    xysize 270, 27
+                    xpadding 7
+                    text "Gold Found:":
+                        color ivory
+                    text "[main_area.cash_earned]":
+                        style_suffix "value_text"
+                        color ivory
                 $ total = sum(main_area.mobs_defeated.values())
                 frame:
                     xoffset 4
@@ -117,7 +126,6 @@ screen building_management_leftframe_exploration_guild_mode:
                     text "[total]":
                         style_suffix "value_text"
                         color ivory
-                $ total = sum(main_area.mobs_defeated.values())
                 frame:
                     xoffset 4
                     xysize 270, 27

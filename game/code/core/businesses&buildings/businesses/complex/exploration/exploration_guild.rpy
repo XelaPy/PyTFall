@@ -221,19 +221,25 @@ init -6 python: # Guild, Tracker and Log.
             area.logs.extend([l for l in self.logs if l.ui_log])
             area.trackers.remove(self)
 
-            # Update data and settle rewards:
-            area.mobs_defeated = add_dicts(area.mobs_defeated, self.mobs_defeated)
-            found_items = collections.Counter(self.found_items)
-            area.found_items = add_dicts(area.found_items, found_items)
+            # Settle rewards and update data:
             for i in self.found_items:
                 item = items[i]
                 hero.add_item(item)
-            area.cash_earned += sum(self.cash)
-            area.chars_captured += len(self.captured_chars)
+
+            found_items = collections.Counter(self.found_items)
+            cash_earned = sum(self.cash)
+            chars_captured = len(self.captured_chars)
+
+            area.mobs_defeated = add_dicts(area.mobs_defeated, self.mobs_defeated)
+            area.found_items = add_dicts(area.found_items, found_items)
+            area.cash_earned += cash_earned
+            area.chars_captured += chars_captured
 
             main_area = fg_areas[area.area]
-            main_area.mobs_defeated = add_dicts(area.mobs_defeated, main_area.mobs_defeated)
-            main_area.found_items = add_dicts(area.found_items, main_area.found_items)
+            main_area.mobs_defeated = add_dicts(main_area.mobs_defeated, self.mobs_defeated)
+            main_area.found_items = add_dicts(main_area.found_items, found_items)
+            main_area.cash_earned += cash_earned
+            main_area.chars_captured += chars_captured
 
             # Restore Chars and Remove from guild:
             self.guild.explorers.remove(self)
