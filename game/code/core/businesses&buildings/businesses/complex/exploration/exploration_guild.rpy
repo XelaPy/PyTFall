@@ -456,6 +456,8 @@ init -6 python: # Guild, Tracker and Log.
                 while 1:
                     if tracker.state == "exploring":
                         result = yield process(self.explore(tracker))
+                        if result == "back2camp":
+                            break # We're done for today...
                         if result == "captured char":
                             tracker.state = "traveling back"
                     elif tracker.state == "camping":
@@ -849,17 +851,19 @@ init -6 python: # Guild, Tracker and Log.
 
                                 self.env.exit("captured char")
 
-                if not fought_mobs and tracker.mobs:
-                    # Never fight anyone with risk lower than 25..
-                    encounter_chance = dice(carea.risk-25)
+                if tracker.mobs:
+                    # The expected number of encounters per day is increased by one after every 25 point of risk,
+                    # but never fight anyone with risk lower than 25..
+                    encounter_chance = dice((carea.risk-25) / 5.0) # 100 * ((risk-25)/25.0) / (day_length / iteration_DU)
                     if encounter_chance:
-                        fought_mobs = 1
+                        fought_mobs += 1
                         if isinstance(tracker.mobs, list):
                             mob = choice(tracker.mobs)
                         elif isinstance(tracker.mobs, (set, dict)):
                             mob = choice(tracker.mobs.keys())
                         else:
                             mob = tracker.mobs
+
                         min_enemies = max(1, len(team) - 1)
                         max_ememies = max(3, len(team) + randrange(2))
                         enemies = randint(min_enemies, max_ememies)
@@ -875,6 +879,13 @@ init -6 python: # Guild, Tracker and Log.
                                 msg = "{} has finished an exploration scenario. (Lost a fight)".format(team.name)
                                 se_debug(msg, mode="info")
                             self.env.exit()
+                        if fought_mobs >= carea.risk/25:
+                            temp = "Your team decided to go back to the camp to avoid further {color=[red]}risk{/color}."
+                            tracker.log(temp)
+                            if DEBUG_SE:
+                                msg = "{} has finished an exploration scenario. (Fought too much)".format(team.name)
+                                se_debug(msg, mode="info")
+                            self.env.exit("back2camp")
 
 
                 # This basically means that team spent the day exploring and ready to go to rest.
