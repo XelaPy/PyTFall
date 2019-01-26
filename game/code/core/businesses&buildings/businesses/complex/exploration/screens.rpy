@@ -56,7 +56,7 @@ screen building_management_leftframe_exploration_guild_mode:
 
             # Sub Areas:
             null height 5
-            $ areas = sorted([a for a in fg_areas.values() if a.area == main_area.name], key=attrgetter("stage"))
+            $ areas = sorted([a for a in fg_areas.values() if a.area == main_area.id], key=attrgetter("stage"))
             fixed:
                 xalign .5
                 xysize 310, 190
@@ -320,7 +320,7 @@ screen building_management_midframe_exploration_guild_mode:
                 spacing 2
                 xalign .5
                 if isinstance(bm_mid_frame_focus, FG_Area):
-                    $ temp = sorted([a for a in fg_areas.values() if a.area == bm_mid_frame_focus.name], key=attrgetter("stage"))
+                    $ temp = sorted([a for a in fg_areas.values() if a.area == bm_mid_frame_focus.id], key=attrgetter("stage"))
                     for area in temp:
                         $ fbg = "content/gfx/frame/mes12.jpg"
                         $ hfbg = im.MatrixColor("content/gfx/frame/mes11.webp", im.matrix.brightness(.10))
