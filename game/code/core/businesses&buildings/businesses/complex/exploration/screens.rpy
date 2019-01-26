@@ -740,7 +740,7 @@ screen fg_area(area):
                     ypos 50
                     xalign .5
                     has vbox spacing 3
-                    for i in area.found_items:
+                    for i, n in area.found_items.items():
                         $ i = items[i]
                         fixed:
                             xysize 300, 65
@@ -757,8 +757,9 @@ screen fg_area(area):
                                 xsize 35
                                 xpadding 4
                                 xpos 233
-                                #$ temp = m["min_lvl"]
-                                #text ("Lvl\n[temp]+") align (.5, .5) style "TisaOTM" size 18
+                                if n >= 100:
+                                    $ n = "99+"
+                                text "[n]" align (.5, .5) style "TisaOTM" size 18
                             frame:
                                 background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=.75), 10, 10)
                                 padding 3, 3
