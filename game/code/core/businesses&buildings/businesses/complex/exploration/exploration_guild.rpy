@@ -144,6 +144,7 @@ init -6 python: # Guild, Tracker and Log.
             self.found_items = list()
             self.captured_chars = list()
             self.cash = list()
+            self.daily_items = None
 
             self.day = 1 # Day since start.
             # Days team is expected to be exploring (without travel times)!
@@ -647,6 +648,29 @@ init -6 python: # Guild, Tracker and Log.
                 msg = "{} is overnighting. State: {}".format(team.name, tracker.state)
                 se_debug(msg, mode="info")
 
+            if tracker.daily_items is not None:
+                # This basically means that team spent some time on exploring -> create a summary
+                items = tracker.daily_items
+                cash = tracker.daily_cash
+                if items and cash:
+                    tracker.log("The team has found: %s %s and {color=[gold]}%d Gold{/color} in loot!" % (", ".join(items), plural("item", len(items)), cash))
+                    tracker.found_items.extend(items)
+                    tracker.cash.append(cash)
+                elif cash and not items:
+                    tracker.log("The team has found: {color=[gold]}%d Gold{/color} in loot." % cash)
+                    tracker.cash.append(cash)
+                elif items and not cash:
+                    tracker.log("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
+                    tracker.found_items.extend(items)
+                elif not items and not cash:
+                    tracker.log("Your team has not found anything of interest...")
+
+                tracker.daily_items = None
+
+                if DEBUG_SE:
+                    msg = "{} has finished an exploration scenario. (Day Ended)".format(team.name)
+                    se_debug(msg, mode="info")
+
             if tracker.state == "exploring":
                 temp = "{} are done with exploring for the day and will now rest and recover! ".format(team.name)
                 tracker.log(temp)
@@ -664,8 +688,11 @@ init -6 python: # Guild, Tracker and Log.
 
             Idea is to keep as much of this logic as possible and adapt it to work with SimPy...
             """
-            items = list()
-            cash = 0
+            if tracker.daily_items is None:
+                tracker.daily_items = list()
+                tracker.daily_cash = 0
+
+            items = tracker.daily_items
             area = tracker.obj_area
             carea = tracker.area
             team = tracker.team
@@ -778,7 +805,7 @@ init -6 python: # Guild, Tracker and Log.
                     if dice(tracker.risk):
                         give = round_int(max_cash/5.0)
                         max_cash -= give
-                        cash += give
+                        tracker.daily_cash += give
 
                         temp = "{color=[gold]}Found %d Gold!{/color}" % give
                         tracker.log(temp)
@@ -887,30 +914,8 @@ init -6 python: # Guild, Tracker and Log.
                                 se_debug(msg, mode="info")
                             self.env.exit("back2camp")
 
-
-                # This basically means that team spent the day exploring and ready to go to rest.
                 if self.env.now >= 99:
-                    if items and cash:
-                        tracker.log("The team has found: %s %s and {color=[gold]}%d Gold{/color} in loot!" % (", ".join(items), plural("item", len(items)), cash))
-                        tracker.found_items.extend(items)
-                        tracker.cash.append(cash)
-
-                    if cash and not items:
-                        tracker.log("The team has found: {color=[gold]}%d Gold{/color} in loot." % cash)
-                        tracker.cash.append(cash)
-
-                    if items and not cash:
-                        tracker.log("The team has found: %s %s" % (", ".join(items), plural("item", len(items))))
-                        tracker.found_items.extend(items)
-
-                    if not items and not cash:
-                        tracker.log("Your team has not found anything of interest...")
-
-                    if DEBUG_SE:
-                        msg = "{} has finished an exploration scenario. (Day Ended)".format(team.name)
-                        se_debug(msg, mode="info")
                     self.env.exit()
-
                 # self.stats["agility"] += randrange(2)
                 # self.stats["exp"] += randint(5, int(max(15, self.risk/4)))
 
