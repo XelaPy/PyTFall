@@ -106,8 +106,7 @@ label start:
         tiered_magic_skills = dict()
         for s in battle_skills.values():
             tiered_magic_skills.setdefault(s.tier, []).append(s)
-
-    $ tl.end("Loading: Battle Skills")
+        tl.end("Loading: Battle Skills")
 
     $ hero = Player()
 
@@ -523,6 +522,8 @@ label after_load:
     #         if c not in chars.itervalues():
     #             remove_from_gameworld(c)
     python hide:
+        pytfall.maps = OnScreenMap()
+
         for s in store.battle_skills.values():
             if "initial_pause" not in s.target_damage_effect.keys():
                 s.target_damage_effect["initial_pause"] = s.main_effect["duration"] * .75

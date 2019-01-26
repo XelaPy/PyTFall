@@ -2,43 +2,53 @@
     "pytfall": [
         {
             "id": "city_parkgates",
-            "name": "Park"
+            "name": "Park",
+            "pos": [676, 178]
         },
         {
             "id": "main_street",
-            "name": "Main Street"
+            "name": "Main Street",
+            "pos": [605, 240]
         },
         {
             "id": "mages_tower",
-            "name": "Mages Tower"
+            "name": "Mages Tower",
+            "pos": [545, 110]
         },
         {
             "id": "city_beach",
-            "name": "Beach"
+            "name": "Beach",
+            "pos": [760, 600]
         },
         {
             "id": "arena_outside",
-            "name": "Arena"
+            "name": "Arena",
+            "pos": [703, 412]
         },
         {
             "id": "slave_market",
-            "name": "Slave Market"
+            "name": "Slave Market",
+            "pos": [878, 374]
         },
         {
             "id": "forest_entrance",
-            "name": "Forest Entrance"
+            "name": "Dark Forest",
+            "pos": [65, 472]
         },
         {
             "id": "tavern_town",
-            "name": "Tavern"
+            "name": "Tavern",
+            "pos": [435, 259]
         },
         {
             "id": "academy_town",
-            "name": "Academy"
+            "name": "Academy",
+            "pos": [756, 280]
         },
         {
             "id": "graveyard_town",
-            "name": "Graveyard"
+            "name": "Graveyard",
+            "pos": [388, 95]
         },
         {
             "id": "hiddenvillage_entrance",
@@ -48,7 +58,8 @@
         },
         {
             "id": "city_jail",
-            "name": "City Jail"
+            "name": "City Jail",
+            "pos": [529, 438]
         }
     ],
     "pytfall_fe": [

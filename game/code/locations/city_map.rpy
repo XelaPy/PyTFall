@@ -57,29 +57,22 @@ screen city_screen():
         if not key.get("hidden", False):
             # Resolve images + Add Appearing where appropriate:
             $ idle_img = "".join([pytfall.map_pattern, key["id"], ".webp"])
-            $ hover_img = "".join([pytfall.map_pattern, key["id"], "_hover.webp"])
-            $ pos = 0, 0
             if "appearing" in key and key["appearing"]:
                 $ hover_img = im.MatrixColor(idle_img, im.matrix.brightness(.08))
+                $ idle_img = Transform(idle_img, alpha=.01)
+            else:
+                $ hover_img = "".join([pytfall.map_pattern, key["id"], "_hover.webp"])
+            if "pos" in key:
                 $ pos = key["pos"]
-
+            else:
+                $ pos = 0, 0
             button:
                 style 'image_button'
                 pos pos
-                if not("appearing" in key and key["appearing"]):
-                    idle_background idle_img
-                    hover_background hover_img
-                    selected_background hover_img
-                else:
-                    idle_background Transform(idle_img, alpha=.01)
-                    hover_background hover_img
-                    selected_background hover_img
+                idle_background idle_img
+                hover_background hover_img
                 focus_mask True
-                selected key["id"] == selected
-                if key["name"].lower() == "forest entrance":
-                    tooltip "Dark Forest"
-                else:
-                    tooltip key["name"]
+                tooltip key["name"]
                 action Return(['location', key["id"]])
 
     add "content/gfx/frame/h2.webp"
