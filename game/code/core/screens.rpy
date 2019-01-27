@@ -1097,19 +1097,19 @@ screen s_menu(s_menu="Settings", main_menu=False):
             text "Return" size 18 align (.5, .5) # style "mmenu_button_text"
         button:
             yalign .5
-            action SelectedIf(s_menu == "Settings"), Hide("s_menu"), Show("s_menu", s_menu="Settings"), With(dissolve) # SetScreenVariable("s_menu", "Settings")
+            action SelectedIf(s_menu == "Settings"), Hide("s_menu"), Show("s_menu", s_menu="Settings", main_menu=main_menu), With(dissolve) # SetScreenVariable("s_menu", "Settings")
             text "Settings" size 18 align (.5, .5) # style "mmenu_button_text"
         button:
             yalign .5
-            action SelectedIf(s_menu == "Game"), Hide("s_menu"), Show("s_menu", s_menu="Game"), With(dissolve)
+            action SelectedIf(s_menu == "Game"), Hide("s_menu"), Show("s_menu", s_menu="Game", main_menu=main_menu), With(dissolve)
             text "Game" size 18 align (.5, .5)
         button:
             yalign .5
-            action SensitiveIf(not main_menu), SelectedIf(s_menu == "Save"), Hide("s_menu"), Show("s_menu", s_menu="Save"), With(dissolve)#, SetScreenVariable("s_menu", "Save")
+            action SensitiveIf(not main_menu), SelectedIf(s_menu == "Save"), Hide("s_menu"), Show("s_menu", s_menu="Save", main_menu=main_menu), With(dissolve)#, SetScreenVariable("s_menu", "Save")
             text "Save" size 18 align (.5, .5) # style "mmenu_button_text"
         button:
             yalign .5
-            action SelectedIf(s_menu == "Load"), Hide("s_menu"), Show("s_menu", s_menu="Load"), With(dissolve)#, SetScreenVariable("s_menu", "Load")
+            action SelectedIf(s_menu == "Load"), Hide("s_menu"), Show("s_menu", s_menu="Load", main_menu=main_menu), With(dissolve)#, SetScreenVariable("s_menu", "Load")
             text "Load" size 18 align (.5, .5) # style "mmenu_button_text"
         button:
             yalign .5
