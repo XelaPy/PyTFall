@@ -1,12 +1,12 @@
 [
     {
-        "name": "Cursed Forest",
+        "id": "Cursed Forest",
         "main": true,
         "unlocked": true,
         "img": "content/gfx/bg/locations/night_forest.webp"
     },
     {
-        "name": "Forest Entrance",
+        "id": "Forest Entrance",
         "stage": 1,
         "items": {
             "Worn Clothes": 34,
@@ -81,7 +81,7 @@
         "img": "content/gfx/bg/locations/night_forest.webp"
     },
     {
-        "name": "Cursed Forest lvl-1",
+        "id": "Cursed Forest lvl-1",
         "stage": 2,
         "area": "Cursed Forest",
         "unlocked": false,

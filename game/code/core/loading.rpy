@@ -557,25 +557,15 @@ init -11 python:
                 in_file = content_path("".join(["db/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
-        areas = dict() # a list() might suffice in the future
-        named_areas = dict()
-        idx = 0
+        areas = dict()
         for area in content:
             a = FG_Area()
             for attr in area:
                 setattr(a, attr, area[attr])
-            idx += 1
-            a.id = idx
-            areas[idx] = a
-            named_areas[a.name] = a
+            if not hasattr(a, "name"):
+                a.name = a.id
+            areas[a.id] = a
 
-        # post process to link ids instead of names
-        for area in areas.values():
-            if area.area:
-                if area.area in named_areas:
-                    area.area = named_areas[area.area].id
-                else:
-                    devlog.warning("Unknown area (%s) referenced in map %s." % (area.area, area.name))
         return areas
 
     def load_items():
