@@ -23,25 +23,24 @@ label mainscreen:
     # Prediction Helpers:
     # TODO lt: Stop predictions when we've moved to far away from the images!
     python hide:
-        main_img_predict = ["".join([pytfall.map_pattern, key, ".webp"]) for key in list(i["id"] for i in pytfall.maps("pytfall"))]
-        main_img_predict.extend(["".join([pytfall.map_pattern, key, "_hover.webp"])  for key in list(i["id"] for i in pytfall.maps("pytfall"))])
-        main_img_predict.extend("".join(["content/gfx/interface/buttons/locations/", key, ".webp"]) for key in ["main_street",
-                               "arena_outside", "slave_market", "city_jail", "tavern_town",
-                               "city_parkgates", "academy_town", "mages_tower",
-                               "graveyard_town", "city_beach", "forest_entrance", "hiddenvillage_entrance"])
-        main_img_predict.append("bg gallery")
-        main_img_predict.append("content/gfx/images/m_1.webp")
-        main_img_predict.append("content/gfx/frame/h2.webp")
-        main_img_predict.append("content/gfx/interface/buttons/compass.png")
-        main_img_predict.append("content/gfx/images/m_2.webp")
-        main_img_predict.append("content/gfx/frame/p_frame.png")
-        main_img_predict.append("content/gfx/interface/buttons/sl_idle.png")
-        main_img_predict.append("content/gfx/frame/rank_frame.png")
-        main_img_predict.append("content/gfx/interface/icons/gold.png")
-        main_img_predict.append("content/gfx/interface/images/work.png")
-        main_img_predict.append("content/gfx/images/fishy.png")
-        main_img_predict.append("content/gfx/interface/buttons/IT2.png")
-        main_img_predict.append("content/gfx/interface/icons/exp.webp")
+        main_img_predict = [item for sl in (("".join([pytfall.map_pattern, key, ".webp"]),
+                            "".join([pytfall.map_pattern, key, "_hover.webp"]),
+                            "".join(["content/gfx/interface/buttons/locations/", key, ".png"]))
+                              for key in (i["id"] for i in pytfall.maps("pytfall")))
+                            for item in sl]
+        main_img_predict.extend(("bg gallery",
+                                 "content/gfx/frame/h2.webp",
+                                 "content/gfx/frame/p_frame.png",
+                                 "content/gfx/frame/rank_frame.png",
+                                 "content/gfx/images/m_1.webp",
+                                 "content/gfx/images/m_2.webp",
+                                 "content/gfx/images/fishy.png",
+                                 "content/gfx/interface/buttons/compass.png",
+                                 "content/gfx/interface/buttons/IT2.png",
+                                 "content/gfx/interface/buttons/sl_idle.png",
+                                 "content/gfx/interface/icons/exp.webp",
+                                 "content/gfx/interface/icons/gold.png",
+                                 "content/gfx/interface/images/work.webp"))
         # for i in store.items.values():
         #     main_img_predict.append(i.icon)
         renpy.start_predict(*main_img_predict)
