@@ -385,9 +385,11 @@ init python:
 
             # GFX:
             if gfx:
+                what = self.get_main_gfx()
+
                 # Flip the attack image if required:
-                if self.main_effect.get("hflip", None):
-                    gfx = Transform(gfx, xzoom=-1) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else gfx
+                if self.main_effect.get("hflip", None) and battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
+                    what = Transform(what, xzoom=-1)
 
                 # Posional properties:
                 aim = self.main_effect["aim"]
@@ -397,11 +399,11 @@ init python:
                 yo = aim.get("yo", 0)
 
                 # Create a UDD:
-                gfx = ChainedAttack(gfx, sfx, chain_sfx=True, times=times, delay=interval, sd_duration=sd_duration, alpha_fade=alpha_fade, webm_size=webm_size)
+                what = ChainedAttack(what, sfx, chain_sfx=True, times=times, delay=interval, sd_duration=sd_duration, alpha_fade=alpha_fade, webm_size=webm_size)
 
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
-                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
+                    renpy.show(gfxtag, what=what, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
 
 
     class ArealSkill(BE_Action):
@@ -427,9 +429,10 @@ init python:
 
             # GFX:
             if gfx:
+                what = self.get_main_gfx()
                 # Flip the attack image if required:
-                if self.main_effect.get("hflip", False):
-                    gfx = Transform(gfx, xzoom=-1) if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0] else gfx
+                if self.main_effect.get("hflip", False) and battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
+                    what = Transform(what, xzoom=-1)
 
                 target = targets[0]
                 teampos = target.beteampos
@@ -444,7 +447,7 @@ init python:
                     teampos = BDP["perfect_middle_right"]
                 else:
                     teampos = BDP["perfect_middle_left"]
-                renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo, override=teampos), anchor=anchor)], zorder=1000)
+                renpy.show(gfxtag, what=what, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo, override=teampos), anchor=anchor)], zorder=1000)
 
         def hide_main_gfx(self, targets):
             renpy.hide("areal")
@@ -496,6 +499,8 @@ init python:
 
             # GFX:
             if gfx:
+                what = self.get_main_gfx()
+
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
                 anchor = aim.get("anchor", (.5, .5))
@@ -505,11 +510,11 @@ init python:
                 c0 = self.main_effect.get("hflip", False)
                 c1 = battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]
                 if c0 and c1:
-                    gfx = Transform(gfx, xzoom=-1)
+                    what = Transform(what, xzoom=-1)
 
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
-                    renpy.show(gfxtag, what=gfx,
+                    renpy.show(gfxtag, what=what,
                         at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)],
                         zorder=target.besk["zorder"]+51)
 
@@ -559,13 +564,15 @@ init python:
 
             # GFX:
             if gfx:
+                what = self.get_main_gfx()
+
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
                 anchor = aim.get("anchor", (.5, .5))
                 xo = aim.get("xo", 0)
                 yo = aim.get("yo", 0)
 
-                renpy.show("projectile", what=gfx, at_list=[Transform(pos=aimpos, anchor=anchor)], zorder=target.besk["zorder"]+1001)
+                renpy.show("projectile", what=what, at_list=[Transform(pos=aimpos, anchor=anchor)], zorder=target.besk["zorder"]+1001)
 
         def hide_main_gfx(self, targets):
             renpy.hide("projectile")
@@ -635,6 +642,8 @@ init python:
 
             # GFX:
             if gfx:
+                what = self.get_main_gfx()
+
                 # pause = self.main_effect["duration"]
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
@@ -644,7 +653,7 @@ init python:
 
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
-                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+52)
+                    renpy.show(gfxtag, what=what, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+52)
 
         def hide_main_gfx(self, targets):
             renpy.hide("casting")
