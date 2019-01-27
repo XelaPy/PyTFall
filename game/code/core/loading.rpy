@@ -108,7 +108,7 @@ init -11 python:
                                 raise Exception("No id was specified in %s JSON Datafile!" % str(in_file))
 
                             folder = id = gd["id"]
-                            _path = os.sep.join([dir, packfolder, folder]) 
+                            _path = os.sep.join([dir, packfolder, folder])
                             if os.path.isdir(_path):
                                 # We load the new tags!:
                                 load_tags_folder(folder, _path)
@@ -638,11 +638,11 @@ init -11 python:
             for key, value in skill.iteritems():
                 if key in fx_maps:
                     getattr(s, key).update(value)
-                elif key == "_COMMENT":
-                    pass
                 elif key == "_DEBUG_BE":
                     if not DEBUG_BE:
                         break
+                elif key.startswith("_COMMENT"):
+                    pass
                 else:
                     setattr(s, key, value)
             else:
