@@ -92,7 +92,9 @@ init -11 python:
 
     def hs():
         # Hides the current renpy screen.
-        renpy.hide_screen(renpy.current_screen().tag)
+        scr = renpy.current_screen()
+        if scr is not None:
+            renpy.hide_screen(scr.tag)
 
     def digital_screen_logic(string, value):
         # logic for digital input screen
