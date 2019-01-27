@@ -8,10 +8,6 @@
 ## appropriate.
 
 python early:
-    # These control the name and version of the game, that are reported
-    # with tracebacks and other debugging logs.
-    config.name = "PyTFall"
-    config.version = "0.70 Official Beta Release"
     #########################################
     ## This is the name of the directory where the game's data is
     ## stored. (It needs to be set early, before any other init code
@@ -22,7 +18,16 @@ python early:
     config.screen_width = 1280
     config.screen_height = 720
 
+    # These control the name and version of the game, that are reported
+    # with tracebacks and other debugging logs.
+    config.name = "PyTFall"
+    config.version = '0.72 "and take their sh!t..."'
+
 define config.quicksave_slots = 6
+define config.window_icon = "content/gfx/interface/icons/win_icon.png"
+define config.adjust_view_size = None
+define config.image_cache_size_mb = 1000
+# define config.debug_image_cache = True
 
 init -999 python:
     def show_panic_screen_func():
@@ -35,19 +40,13 @@ init -999 python:
     config.keymap['panic_screen'] = ['q', 'Q', 'й', 'Й']
     config.underlay.append(renpy.Keymap(panic_screen=show_panic_screen_func))
 
-define config.window_icon = "content/gfx/interface/icons/win_icon.png"
-
-define config.adjust_view_size = None
-
-# Imagecache:
-# define config.debug_image_cache = True
-define config.image_cache_size_mb = 1000
-
 init -5 python hide:
     config.console_history_size = 50
     ## This controls the title of the window, when Ren'Py is
     ## running in a window.
     config.window_title = "%s %s" % (config.name, config.version)
+    if DEBUG:
+        config.window_title += " @{}".format(renpy.version())
 
     # ----------------------------- Moved from initialization.rpy -------------------------------------->>>
     config.quit_action = Quit()

@@ -70,13 +70,17 @@ init -950 python:
     # enable logging via the 'logging' module
     if DEBUG_LOG:
         logging.basicConfig(level=logging.DEBUG, format='%(levelname)-8s %(name)-15s %(message)s')
-        devlog = logging.getLogger(" ".join([config.name, config.version]))
+        # devlog = logging.getLogger(" ".join([config.name, config.version]))
+        devlog = logging.getLogger()
         devlogfile = logging.FileHandler(os.path.join(gamedir, "devlog.txt"))
         devlogfile.setLevel(logging.DEBUG)
         devlog.addHandler(devlogfile)
         devlog.critical("\n--- launch game ---")
-        fm = logging.Formatter('%(levelname)-8s %(name)-15s %(message)s')
+        # fm = logging.Formatter('%(levelname)-8s %(name)-15s %(message)s')
+        fm = logging.Formatter('%(levelname)-8s %(message)s')
         devlogfile.setFormatter(fm)
+        devlog.info("Engine Version: %s" % str(renpy.version()))
+        devlog.info("Game Version: %s" % str(config.version))
         del fm
         devlog.info("game directory: %s" % str(gamedir)) # Added str() call to avoid cp850 encoding
 
