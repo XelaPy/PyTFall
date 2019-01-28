@@ -3,7 +3,7 @@ screen building_management_leftframe_exploration_guild_mode:
 
         default focused_area_index = 0
 
-        $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
+        $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked], key=attrgetter("name"))
         vbox:
             xsize 320 spacing 1
             # Maps sign:
