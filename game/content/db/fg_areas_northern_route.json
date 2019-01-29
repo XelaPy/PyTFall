@@ -12,7 +12,7 @@
         "area": "Northern Route",
         "desc": "Outskirts of the Northern Forest, commonly visited by hunters and woodsmen, rich in both game and wolves preying on it.",
         "unlocked": true,
-        "travel_time": 2,
+        "travel_time": 0.1,
         "mobs": ["Bear", "Black Wolf", "Wolf"],
         "unlocks": {
             "Deep Northern Forest": 99

@@ -151,7 +151,11 @@ init -6 python: # Guild, Tracker and Log.
             self.days = self.area.days
             if self.days < 3:
                 self.days = 3
-            self.days_in_camp = 0 # Simple counter for the amount of days team is spending at camp. This is set back to 0 when team recovers inside of the camping method.
+            self.days_traveled = 0 # Days team spent traveling to/from the location.
+            self.days_explored = 0 # Days team spent exploring the location (includes camping and etc.)
+            # Simple counter for the amount of days team is spending at camp.
+            # This is set back to 0 when team recovers inside of the camping method.
+            self.days_in_camp = 0
 
             self.unlocks = dict()
             for key in self.area.unlocks:
