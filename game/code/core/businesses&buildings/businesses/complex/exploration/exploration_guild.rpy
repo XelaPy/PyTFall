@@ -443,12 +443,13 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # Log the day:
-            temp = "{color=[green]}Day: %d{/color} | {color=[green]}%s{/color} is exploring %s!\n" % (tracker.day, tracker.team.name, tracker.area.name)
+            temp = "{color=[green]}Day: %d{/color} | {color=[green]}%s{/color} are exploring %s!\n" % (tracker.day, tracker.team.name, tracker.area.name)
             if tracker.day != 1:
                 temp = "\n" + temp
             tracker.log(temp)
 
             while 1:
+                # Additional .state control:
                 if tracker.state is None:
                     # just arrived to the location -> decide what to do
                     if area.building_camp:
@@ -457,10 +458,11 @@ init -6 python: # Guild, Tracker and Log.
                         tracker.state = "exploring"
                     tracker.traveled = tracker.day # number of days it took to get to the location
                 # Set the state to traveling back if we're done:
-                elif tracker.day - tracker.traveled >= tracker.days:
+                elif tracker.days_explored >= tracker.days: # TODO Move the block one block down?
                     tracker.state = "traveling back"
-                    tracker.traveled = 0 # Reset for traveling back.
+                    # tracker.traveled = 0 # Reset for traveling back.
 
+                # Day counter:
                 temp = global_day not in tracker.days_explored_tracker
                 if temp and tracker.state in ("exploring", "camping"):
                     tracker.days_explored_tracker.add(global_day)
@@ -471,6 +473,8 @@ init -6 python: # Guild, Tracker and Log.
                     result = yield process(self.travel_to(tracker))
                     if result == "arrived":
                         tracker.state = None
+                        # And reset the distance counter:
+                        tracker.traveled = 0
                 elif tracker.state == "exploring":
                     result = yield process(self.explore(tracker))
                     if result == "back2camp":
@@ -509,7 +513,7 @@ init -6 python: # Guild, Tracker and Log.
             tracker.days_traveled += 1
 
             if DEBUG_SE:
-                msg = "{} is traveling to {}.".format(team.name, area.name)
+                msg = "{} are traveling to {}.".format(team.name, area.name)
                 se_debug(msg, mode="info")
 
             # Figure out how far we can travel in steps of 5 DU:
@@ -553,7 +557,7 @@ init -6 python: # Guild, Tracker and Log.
             team = tracker.team
 
             if DEBUG_SE:
-                msg = "{} is traveling back.".format(team.name)
+                msg = "{} are traveling back.".format(team.name)
                 se_debug(msg, mode="info")
 
             # Figure out how far we can travel in 5 du:
@@ -563,7 +567,7 @@ init -6 python: # Guild, Tracker and Log.
             travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
             if not tracker.traveled:
-                temp = "{} is traveling back home!".format(tracker.team.name)
+                temp = "{} are traveling back home!".format(tracker.team.name)
                 tracker.log(temp)
 
             while 1:
