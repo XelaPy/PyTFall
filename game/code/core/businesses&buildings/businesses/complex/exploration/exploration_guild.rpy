@@ -443,7 +443,7 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # Log the day:
-            temp = "{color=[green]}Day: %d{/color} | {color=[green]}%s{/color} are exploring %s!\n" % (tracker.day, tracker.team.name, tracker.area.name)
+            temp = "{color=[green]}Day: %d{/color} | {color=[green]}%s{/color} are on exploration run of %s!\n" % (tracker.day, tracker.team.name, tracker.area.name)
             if tracker.day != 1:
                 temp = "\n" + temp
             tracker.log(temp)
