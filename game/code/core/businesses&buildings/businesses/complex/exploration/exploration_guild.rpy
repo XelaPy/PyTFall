@@ -456,7 +456,6 @@ init -6 python: # Guild, Tracker and Log.
                         tracker.state = "setting_up_basecamp"
                     else:
                         tracker.state = "exploring"
-                    tracker.traveled = tracker.day # number of days it took to get to the location
                 # Set the state to traveling back if we're done:
                 elif tracker.days_explored >= tracker.days: # TODO Move the block one block down?
                     tracker.state = "traveling back"
