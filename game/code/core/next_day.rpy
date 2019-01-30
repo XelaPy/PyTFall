@@ -59,7 +59,7 @@ init python:
 
                 # Events:
                 if cat:
-                    for event in NextDayEvents:
+                    for event in NEXT_DAY_EVENTS:
                         if isinstance(setup, UpgradableBuilding):
                             if event.loc != setup:
                                 continue
@@ -102,9 +102,9 @@ label next_day:
     # Sort data for summary reports:
     $ ndactive, ndresting, ndevents = sort_for_nd_summary()
     # Setting index and picture
-    $ FilteredList = NextDayEvents * 1
-    if FilteredList:
-        $ event = FilteredList[0]
+    $ FILTERED_EVENTS = NEXT_DAY_EVENTS * 1
+    if FILTERED_EVENTS:
+        $ event = FILTERED_EVENTS[0]
         $ gimg = event.get_displayable()
 
     hide screen next_day_calculations
@@ -137,8 +137,8 @@ label next_day_calculations:
     $ tl.start("Next Day")
     python:
         nd_debug("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.chars), len(chars)))
-        FilteredList = list()
-        NextDayEvents = list()
+        FILTERED_EVENTS = list()
+        NEXT_DAY_EVENTS = list()
 
     # Restore (AutoEquip for HP/Vit/MP) before the jobs:
     python hide:
@@ -243,49 +243,49 @@ label next_day_controls:
 
             if result[0] == 'filter':
                 if result[1] == 'all':
-                    FilteredList = NextDayEvents * 1
+                    FILTERED_EVENTS = NEXT_DAY_EVENTS * 1
                 elif result[1] == 'red_flags':
-                    FilteredList = [e for e in NextDayEvents if e.red_flag]
+                    FILTERED_EVENTS = [e for e in NEXT_DAY_EVENTS if e.red_flag]
                 elif result[1] == 'mc':
-                    FilteredList = [e for e in NextDayEvents if e.type == 'mcndreport']
+                    FILTERED_EVENTS = [e for e in NEXT_DAY_EVENTS if e.type == 'mcndreport']
                 elif result[1] == 'school':
                     order = {"school_nd_report": 1, "course_nd_report": 2}
-                    temp = [e for e in NextDayEvents if e.type in order]
+                    temp = [e for e in NEXT_DAY_EVENTS if e.type in order]
                     # temp.sort(key=itemgetter(1))
-                    # FilteredList = temp
+                    # FILTERED_EVENTS = temp
                     temp.sort(key=lambda e: order[e.type])
-                    FilteredList = temp
+                    FILTERED_EVENTS = temp
                 elif result[1] == 'gndreports': # Girl Next Day Reports
-                    FilteredList = [e for e in NextDayEvents if e.type == 'girlndreport']
+                    FILTERED_EVENTS = [e for e in NEXT_DAY_EVENTS if e.type == 'girlndreport']
                 elif result[1] == 'xndreports': # Exploration Next Day Reports
-                    FilteredList = [e for e in NextDayEvents if e.type == 'explorationndreport']
+                    FILTERED_EVENTS = [e for e in NEXT_DAY_EVENTS if e.type == 'explorationndreport']
                 elif result[1] == 'building':
                     building = result[2]
                     order = {"buildingreport": 1, "manager_report": 2, "explorationndreport": 2.5, "jobreport": 3}
-                    FilteredList = sorted([e for e in NextDayEvents if e.loc == building and e.type in order], key=lambda e: order[e.type])
+                    FILTERED_EVENTS = sorted([e for e in NEXT_DAY_EVENTS if e.loc == building and e.type in order], key=lambda e: order[e.type])
                 elif result[1] == "fighters_guild":
                     order = {"fg_report": 1, "exploration_report": 2, "fg_job": 3}
-                    FilteredList = sorted([e for e in NextDayEvents if e.type in order], key=lambda e: order[e.type])
+                    FILTERED_EVENTS = sorted([e for e in NEXT_DAY_EVENTS if e.type in order], key=lambda e: order[e.type])
                 else:
                     nd_debug("unhandled event:"+result[1], "warn")
 
-                if FilteredList:
-                    event = FilteredList[0]
+                if FILTERED_EVENTS:
+                    event = FILTERED_EVENTS[0]
                     gimg = event.get_displayable()
                     index = 0
                 else:
-                    nd_debug("all NextDayEvents were filtered for: "+result[0]+", "+result[1], "warn")
+                    nd_debug("all NEXT_DAY_EVENTS were filtered for: "+result[0]+", "+result[1], "warn")
                     # if result[1] == 'gndreports':
                     # Preventing Index Exception on empty filter
-                    FilteredList = NextDayEvents
+                    FILTERED_EVENTS = NEXT_DAY_EVENTS
 
         if result[0] == "control":
             if result[1] in ("left", "right"):
                 if result[1] == "left":
-                    $ index = (index-1) % len(FilteredList)
+                    $ index = (index-1) % len(FILTERED_EVENTS)
                 elif result[1] == 'right':
-                    $ index = (index+1) % len(FilteredList)
-                $ event = FilteredList[index]
+                    $ index = (index+1) % len(FILTERED_EVENTS)
+                $ event = FILTERED_EVENTS[index]
                 $ gimg = event.get_displayable()
             elif result[1] == "next_day_local":
                 # Special Logic required:
@@ -930,7 +930,7 @@ screen next_day():
                 # MC (extra info) -------------------------------------------->>>
                 # Preparing info:
                 python:
-                    for i in NextDayEvents:
+                    for i in NEXT_DAY_EVENTS:
                         if i.type == "mcndreport":
                             report = i
 
@@ -961,7 +961,7 @@ screen next_day():
                 # View all red flagged events:
                 python:
                     red_flags = False
-                    for i in NextDayEvents:
+                    for i in NEXT_DAY_EVENTS:
                         if i.red_flag:
                             red_flags = True
                             break
@@ -983,7 +983,7 @@ screen next_day():
                 # School:
                 # Preparing info:
                 python:
-                    for school_report in NextDayEvents:
+                    for school_report in NEXT_DAY_EVENTS:
                         if school_report.type == "school_nd_report":
                             break
 
@@ -1046,7 +1046,7 @@ screen next_day():
                 python:
                     red_flags = False
                     explorers = False
-                    for i in NextDayEvents:
+                    for i in NEXT_DAY_EVENTS:
                         if i.type == "explorationndreport":
                             explorers = True
                         elif i.type == "girlndreport" and i.red_flag:
@@ -1316,7 +1316,7 @@ screen next_day():
                         align (.5, .5)
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 5, 5)
                         xysize (90, 40)
-                        text(u'Act: %d/%d'%(FilteredList.index(event)+1, len(FilteredList))) align (.5, .5) size 16 style "proper_stats_text" text_align .5
+                        text(u'Act: %d/%d'%(FILTERED_EVENTS.index(event)+1, len(FILTERED_EVENTS))) align (.5, .5) size 16 style "proper_stats_text" text_align .5
                     button:
                         xysize (120, 40)
                         style "right_wood_button"

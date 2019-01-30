@@ -208,6 +208,6 @@ init -5 python:
             simpy_debug("Cleaners.write_nd_report marker 4")
 
             log.after_job()
-            NextDayEvents.append(log)
+            NEXT_DAY_EVENTS.append(log)
 
             simpy_debug("Exiting Cleaners.write_nd_report at %s", self.env.now)

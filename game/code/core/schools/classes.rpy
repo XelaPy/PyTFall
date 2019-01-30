@@ -241,7 +241,7 @@ init python:
                               resize=ND_IMAGE_SIZE, type=mode, add_mood=False)
                 evt.img = char.show(*tags, **kwargs)
 
-                NextDayEvents.append(evt)
+                NEXT_DAY_EVENTS.append(evt)
             elif type == "failed_to_pay":
                 evt = NDEvent()
                 evt.type = "course_nd_report"
@@ -251,7 +251,7 @@ init python:
                 evt.char = char
                 evt.img = char.show("profile", "sad", resize=ND_IMAGE_SIZE)
                 evt.txt = txt
-                NextDayEvents.append(evt)
+                NEXT_DAY_EVENTS.append(evt)
 
 
     class School(BaseBuilding):
@@ -348,7 +348,7 @@ init python:
             txt = "\n".join(txt)
 
             evt = NDEvent(type=type, txt=txt, img=img)
-            NextDayEvents.append(evt)
+            NEXT_DAY_EVENTS.append(evt)
 
 
     def stop_course(char):

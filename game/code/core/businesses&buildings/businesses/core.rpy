@@ -690,7 +690,7 @@ init -12 python:
 
                 # Create the job report and settle!
                 log.after_job()
-                NextDayEvents.append(log)
+                NEXT_DAY_EVENTS.append(log)
             else:
                 temp = "There were no clients for {} to serve".format(worker.name)
                 self.log(temp, True)

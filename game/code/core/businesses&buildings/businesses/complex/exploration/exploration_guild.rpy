@@ -282,7 +282,7 @@ init -6 python: # Guild, Tracker and Log.
                           locmod={},
                           green_flag=self.flag_green,
                           red_flag=self.flag_red)
-            NextDayEvents.append(evt)
+            NEXT_DAY_EVENTS.append(evt)
 
 
     class ExplorationLog(Action):

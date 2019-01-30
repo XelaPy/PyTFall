@@ -269,7 +269,7 @@ init -9 python:
             evt.char = char
             evt.img = img
             evt.txt = txt
-            NextDayEvents.append(evt)
+            NEXT_DAY_EVENTS.append(evt)
 
             self.nd_events_report = list()
             self.logged_clients = False

@@ -20,7 +20,7 @@ init -5 python:
             self.rest(char, loc, log)
             self.after_rest(char, log)
             log.after_job()
-            NextDayEvents.append(log)
+            NEXT_DAY_EVENTS.append(log)
 
         def rest(self, worker, loc, log):
             """Rests the worker.

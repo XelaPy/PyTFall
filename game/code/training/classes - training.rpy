@@ -561,7 +561,7 @@ init -9 python:
                 ev.char = None
                 ev.img = im.Scale("content/gfx/bg/locations/dungeoncell.webp", int(config.screen_width*.6), int(config.screen_height*.8))
                 ev.txt = "\n".join(txt)
-                NextDayEvents.append(ev)
+                NEXT_DAY_EVENTS.append(ev)
 
         def next_index(self):
             """

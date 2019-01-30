@@ -1086,7 +1086,7 @@ init -10 python:
                 log.type = "manager_report"
                 log.after_job()
 
-                NextDayEvents.append(log)
+                NEXT_DAY_EVENTS.append(log)
                 self.mlog = None
 
         def clients_dispatcher(self, end):

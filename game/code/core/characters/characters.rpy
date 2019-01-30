@@ -2151,7 +2151,7 @@ init -9 python:
             evt.char = self
             evt.img = img
             evt.txt = txt
-            NextDayEvents.append(evt)
+            NEXT_DAY_EVENTS.append(evt)
 
 
     class Mob(PytCharacter):

@@ -92,7 +92,7 @@ init -5 python:
 
             # Log everything:
             log.after_job()
-            NextDayEvents.append(log)
+            NEXT_DAY_EVENTS.append(log)
 
             # We return the char to the nd list:
             building.available_workers.insert(0, worker)
