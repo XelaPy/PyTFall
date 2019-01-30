@@ -74,7 +74,7 @@
 
             self.earned = 0
 
-        def load_image(self):
+        def get_displayable(self):
             """
             Returns a renpy image showing the event.
 

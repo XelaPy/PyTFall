@@ -460,7 +460,6 @@ init -6 python: # Guild, Tracker and Log.
                 # Set the state to traveling back if we're done:
                 elif tracker.days_explored >= tracker.days: # TODO Move the block one block down?
                     tracker.state = "traveling back"
-                    # tracker.traveled = 0 # Reset for traveling back.
 
                 # Day counter:
                 temp = global_day not in tracker.days_explored_tracker

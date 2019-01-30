@@ -105,7 +105,7 @@ label next_day:
     $ FilteredList = NextDayEvents * 1
     if FilteredList:
         $ event = FilteredList[0]
-        $ gimg = event.load_image()
+        $ gimg = event.get_displayable()
 
     hide screen next_day_calculations
 
@@ -271,7 +271,7 @@ label next_day_controls:
 
                 if FilteredList:
                     event = FilteredList[0]
-                    gimg = event.load_image()
+                    gimg = event.get_displayable()
                     index = 0
                 else:
                     nd_debug("all NextDayEvents were filtered for: "+result[0]+", "+result[1], "warn")
@@ -279,19 +279,14 @@ label next_day_controls:
                     # Preventing Index Exception on empty filter
                     FilteredList = NextDayEvents
 
-        if result[0] == 'control':
-            if result[1] == 'left':
-                python:
-                    index = FilteredList.index(event)
-                    if index > 0:
-                        event = FilteredList[index-1]
-                        gimg = event.load_image()
-            elif result[1] == 'right':
-                python:
-                    index = FilteredList.index(event)
-                    if index < len(FilteredList)-1:
-                        event = FilteredList[index+1]
-                        gimg = event.load_image()
+        if result[0] == "control":
+            if result[1] in ("left", "right"):
+                if result[1] == "left":
+                    $ index = (index-1) % len(FilteredList)
+                elif result[1] == 'right':
+                    $ index = (index+1) % len(FilteredList)
+                $ event = FilteredList[index]
+                $ gimg = event.get_displayable()
             elif result[1] == "next_day_local":
                 # Special Logic required:
                 hide screen next_day
