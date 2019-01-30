@@ -129,6 +129,12 @@ init -948: # Transforms:
             simple_zoom_from_to_with_linear(1.05, .98, 2.2)
         repeat
 
+    transform my_scroll():
+        subpixel True
+        xpan -180
+        linear 60.0 xpan 180
+        repeat
+
     transform arena_stats_slide:
         move_from_to_offset_with_ease(start_offset=(0, 0), end_offset=(0, -200), t=8.0)
 

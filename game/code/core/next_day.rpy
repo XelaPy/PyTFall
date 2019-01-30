@@ -1128,14 +1128,42 @@ screen next_day():
             pos 0, 0
             xysize 839, 720
             background Frame("content/gfx/frame/p_frame7.webp", 10, 10)
-            padding 0, 0
-            margin 0, 0
+            padding 0, 0 margin 0, 0
             frame:
                 align .5, .5
-                padding 5, 5
-                margin 0, 0
+                padding 5, 5 margin 0, 0
                 background Frame("content/gfx/frame/MC_bg3.png", 10 , 10)
-                add gimg align .5, .5
+                if not isinstance(gimg, list):
+                    add gimg align .5, .5
+                else:
+                    # Custom setup, index0 is BG, rest are the workers.
+                    $ bg = gimg[0]
+                    $ worker_imgs = gimg[1:]
+
+                    add bg align .5, .5
+                    viewport:
+                        xysize 820, 204
+                        align .5, .9
+                        has fixed xsize 820
+                        if len(worker_imgs) <= 3:
+                            hbox:
+                                spacing 14
+                                xalign .5
+                                for wimg in worker_imgs:
+                                    frame:
+                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
+                                        padding 2, 2
+                                        add wimg
+                        else:
+                            frame:
+                                background Frame(Solid("#00000011"))
+                                at my_scroll()
+                                has hbox spacing 14
+                                for wimg in worker_imgs:
+                                    frame:
+                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
+                                        padding 2, 2
+                                        add wimg
 
         # Stat Frames:
         $ show_stat_frame = event.charmod or event.team_charmod or event.locmod

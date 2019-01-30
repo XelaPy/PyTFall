@@ -106,36 +106,42 @@ init -10 python:
         Dimensions of the whole displayable are: 820x705, default image size is 90x90.
         xmax is used to determine the max size of the viewport/fixed returned from here
         """
+        # Updated into a list to be resolved in the screen:
+        images = []
+        for w in workers:
+            img = w.show(*show_args, **show_kwargs)
+            images.append(img)
+        return images
         # See if we can get a required image size:
-        lenw = len(workers)
-        size = show_kwargs.get("resize", (90, 90))
-        xpos_offset = size[0] + 15
-        xsize = xpos_offset * lenw
-        ysize = size[1]
-
-        if xsize < xmax:
-            d = Fixed(xysize=(xsize, ysize))
-            xpos = 0
-            for i in workers:
-                _ = i.show(*show_args, **show_kwargs)
-                d.add(Transform(_, xpos=xpos))
-                xpos = xpos + xpos_offset
-            return d
-        else:
-            d = Fixed(xysize=(xsize, ysize))
-            xpos = 0
-            for i in workers:
-                _ = i.show(*show_args, **show_kwargs)
-                d.add(Transform(_, xpos=xpos))
-                xpos = xpos + xpos_offset
-
-            c = Fixed(xysize=(xsize*2, ysize))
-            atd = At(d, mm_clouds(xsize, 0, 25))
-            atd2 = At(d, mm_clouds(0, -xsize, 25))
-            c.add(atd)
-            c.add(atd2)
-            vp = Viewport(child=c, xysize=(xmax, ysize))
-            return vp
+        # lenw = len(workers)
+        # size = show_kwargs.get("resize", (90, 90))
+        # xpos_offset = size[0] + 15
+        # xsize = xpos_offset * lenw
+        # ysize = size[1]
+        #
+        # if xsize < xmax:
+        #     d = Fixed(xysize=(xsize, ysize))
+        #     xpos = 0
+        #     for i in workers:
+        #         _ = i.show(*show_args, **show_kwargs)
+        #         d.add(Transform(_, xpos=xpos))
+        #         xpos = xpos + xpos_offset
+        #     return d
+        # else:
+        #     d = Fixed(xysize=(xsize, ysize))
+        #     xpos = 0
+        #     for i in workers:
+        #         _ = i.show(*show_args, **show_kwargs)
+        #         d.add(Transform(_, xpos=xpos))
+        #         xpos = xpos + xpos_offset
+        #
+        #     c = Fixed(xysize=(xsize*2, ysize))
+        #     atd = At(d, mm_clouds(xsize, 0, 25))
+        #     atd2 = At(d, mm_clouds(0, -xsize, 25))
+        #     c.add(atd)
+        #     c.add(atd2)
+        #     vp = Viewport(child=c, xysize=(xmax, ysize))
+        #     return vp
 
     def can_do_work(c, check_ap=True, log=None):
         """Checks whether the character is injured/tired/has AP and sets her/him to auto rest.

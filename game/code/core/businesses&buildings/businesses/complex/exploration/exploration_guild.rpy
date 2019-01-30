@@ -258,22 +258,22 @@ init -6 python: # Guild, Tracker and Log.
             # Not sure if this is required... we can add log objects and build
             # reports from them in real-time instead of replicating data we already have.
             txt = []
+            images = []
             event_type = "explorationndreport"
 
             # Build an image combo for the report:
-            img = Fixed(xysize=(820, 705))
-            img.add(Transform(area.img, size=(820, 705)))
-            vp = vp_or_fixed(self.team, ["fighting"],
-                             {"exclude": ["sex"],
-                             "resize": (150, 150)}, xmax=820)
-            img.add(Transform(vp, align=(.5, .9)))
+            bg = pscale(area.img, *ND_IMAGE_SIZE)
+            images.append(bg)
+            imgs = vp_or_fixed(self.team, ["fighting"],
+                              {"exclude": ["sex"], "resize": (1000, 200)})
+            images.extend(imgs)
 
             # We need to create major report for nd to keep track of progress:
             for log in [l for l in self.logs if l.nd_log]:
                 txt.append("\n".join(log.txt))
 
             evt = NDEvent(type=event_type,
-                          img=img,
+                          img=images,
                           txt=txt,
                           char=self.team[0],
                           team=self.team,

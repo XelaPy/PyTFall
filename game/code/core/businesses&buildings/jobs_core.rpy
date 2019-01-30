@@ -86,9 +86,13 @@
 
             d = self.img
             # Try to analyze self.img in order to figure out what it represents:
-            if isinstance(d, renpy.display.core.Displayable):
+            if isinstance(d, list):
+                # This is a case where we build the displayable in the screen itself.
+                # Usually a team.
                 return d
-            if isinstance(d, basestring):
+            elif isinstance(d, renpy.display.core.Displayable):
+                return d
+            elif isinstance(d, basestring):
                 if not d:
                     raise Exception("Basestring Supplied as img {}: Ev.type: {}, Ev.loc.name: {}".format(
                                 d,
@@ -98,7 +102,8 @@
                     return ProportionalScale(d, width, height)
                 else:
                     return self.char.show(self.img, resize=size, cache=True)
-            nd_debug("Unknown Image Type: {} Provided to Event (Next Day Events class)".format(self.img), "warning")
+            else:
+                nd_debug("Unknown Image Type: {} Provided to Event (Next Day Events class)".format(self.img), "warning")
             return ProportionalScale("content/gfx/interface/images/no_image.png", width, height)
 
         # Data logging and application:

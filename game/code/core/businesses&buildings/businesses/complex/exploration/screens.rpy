@@ -557,8 +557,6 @@ screen building_management_rightframe_exploration_guild_mode:
         text "Log" size 15
 
 # Customized screens for specific businesses:
-
-
 screen fg_area(area):
     modal True
     zorder 1

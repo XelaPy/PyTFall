@@ -146,12 +146,14 @@ init -5 python:
             temp = "{} Workers cleaned the building today.".format(set_font_color(wlen, "red"))
             log.append(temp)
 
-            log.img = Fixed(xysize=ND_IMAGE_SIZE)
-            log.img.add(Transform(loc.img, size=ND_IMAGE_SIZE))
-            vp = vp_or_fixed(all_workers, ["maid", "cleaning"],
-                             {"exclude": ["sex"], "resize": (150, 150),
-                             "type": "any"})
-            log.img.add(Transform(vp, align=(.5, .9)))
+            # Images:
+            images = []
+            bg = pscale(loc.img, *ND_IMAGE_SIZE)
+            images.append(bg)
+            imgs = vp_or_fixed(self.team, ["maid", "cleaning"],
+                              {"exclude": ["sex"], "resize": (1000, 200), "type": "any"})
+            images.extend(imgs)
+            log.img = images
 
             log.team = all_workers
 
