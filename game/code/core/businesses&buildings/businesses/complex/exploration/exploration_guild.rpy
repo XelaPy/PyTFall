@@ -443,7 +443,9 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # Log the day:
-            temp = "{color=[green]}Day: %d{/color} | {color=[green]}%s{/color} are on exploration run of %s!\n" % (tracker.day, tracker.team.name, tracker.area.name)
+            temp = ("{color=[green]}Day: %d{/color} | "+
+                    "{color=[green]}%s{/color} are on exploration run of %s!"+
+                    "\n") % (tracker.day, tracker.team.name, tracker.area.name)
             if tracker.day != 1:
                 temp = "\n" + temp
             tracker.log(temp)
@@ -520,7 +522,7 @@ init -6 python: # Guild, Tracker and Log.
             travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
             if not tracker.traveled:
-                temp = "{} is on route to {}!".format(tracker.team.name, tracker.area.name)
+                temp = "{} are on route to {}!".format(tracker.team.name, tracker.area.name)
                 tracker.log(temp)
 
             while 1:
@@ -586,28 +588,42 @@ init -6 python: # Guild, Tracker and Log.
                     self.env.exit("on the way back")
 
         def camping(self, tracker):
-            """Camping will allow restoration of health/mp/agility and so on. Might be forced on low health.
+            """Camping will allow restoration of health/mp/agility and so on.
+            Might be forced on low health.
             """
             team = tracker.team
             area = tracker.area
-            auto_equip_counter = 0 # We don't want to run over autoequip on every iteration, two times is enough.
+            # We don't want to run over autoequip on every iteration, two times is enough.
+            auto_equip_counter = 0
 
             if DEBUG_SE:
                 msg = "{} is Camping. State: {}".format(team.name, tracker.state)
                 se_debug(msg, mode="info")
 
+            if area.camp:
+                camp = True
+                multiplier = 2
+            else:
+                camp = False
+                multiplier = 1
+
             if not tracker.days_in_camp:
-                temp = "{} setup a camp to get some rest and recover!".format(team.name)
-                tracker.log(temp)
+                if not camp:
+                    temp = "{} setup a tent to get some rest and recover!".format(team.name)
+                    tracker.log(temp)
+                else:
+                    temp = "{} retreated to camp to recover!".format(team.name)
+                    temp += " Their downtime will be twice as effective as resting in a tent!"
+                    tracker.log(temp)
 
             while 1:
                 yield self.env.timeout(5) # We camp...
 
                 # Base stats:
                 for c in team:
-                    c.health += randint(8, 12)
-                    c.mp += randint(8, 12)
-                    c.vitality += randint(20, 50)
+                    c.health += randint(8, 12)*multiplier
+                    c.mp += randint(8, 12)*multiplier
+                    c.vitality += randint(20, 50)*multiplier
 
                 # Apply items:
                 if auto_equip_counter < 2:
