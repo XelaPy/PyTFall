@@ -9,7 +9,7 @@ init -9 python: # FG Area
             self.tier = .2 # Difficulty
             self.days = 3
             self.max_days = 15
-            self.risk = 50
+            self.risk = 45
             self._explored = 0
 
             self.main = False
@@ -189,8 +189,7 @@ init -6 python: # Guild, Tracker and Log.
 
         @property
         def risk(self):
-            # TODO se: Remove 50 after testing and interface adjustments.
-            return self.area.risk or 50
+            return self.area.risk
 
         @property
         def cash_limit(self):
