@@ -1092,6 +1092,53 @@ init -6 python: # Guild, Tracker and Log.
                 msg = "Team {} finished setting up basecamp.".format(team.name)
                 se_debug(msg, mode="info")
 
+        def death(self, tracker, dead=(), type='combat'):
+            """Handles death in the SE.
+               Based mostly of risk factor.
+               Death can occur with risk of 50+
+            """
+            risk = tracker.risk
+
+            if risk <= 50:
+                # We terminate the exploration but prevent death!
+                if len(dead) == 1:
+                    temp = "A fighter of "
+                else:
+                    temp = "Fighters of "
+                temp = "{} {} were badly injured in combat and are near death!".format(temp, tracker.team.name)
+                temp = set_font_color(temp, "orange")
+                temp += " The team is retreating back to the Guild."
+                tracker.log(temp)
+
+                tracker.state = "traveling back"
+            elif risk <= 90:
+                temp = "{} were badly injured in combat!".format(tracker.team.name)
+                temp = set_font_color(temp, "orange")
+                temp += " The team is retreating back to the Guild."
+                tracker.log(temp)
+                for fighter in dead:
+                    if dice(risk):
+                        temp = "{} died..."
+                        temp = set_font_color(temp, "red")
+                        tracker.log(temp)
+                        pass # TODO properly kill the fighter!
+                    else:
+                        temp = "{} is near death..."
+                        temp = set_font_color(temp, "orange")
+                        tracker.log(temp)
+
+                tracker.state = "traveling back"
+            else: # risk 90+
+                temp = "{} were badly injured in combat!".format(tracker.team.name)
+                temp = set_font_color(temp, "orange")
+                temp += " But the stakes are high and risk is high so the team keeps on exploring..."
+                tracker.log(temp)
+                for fighter in dead:
+                    # Just kill off the fighters here.
+                    temp = "{} died..."
+                    temp = set_font_color(temp, "red")
+                    tracker.log(temp)
+
         # AP:
         def convert_AP(self, tracker):
             # Convert teams AP to Job points:
