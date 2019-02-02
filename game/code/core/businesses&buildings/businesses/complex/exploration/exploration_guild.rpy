@@ -789,10 +789,6 @@ init -6 python: # Guild, Tracker and Log.
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
 
-                # record the exploration
-                if dice(5):
-                    area.explored += 1
-
                 # Hazzard:
                 if area.hazard:
                     temp = "{color=[yellow]}Hazardous area!{/color} The team has been effected."
@@ -950,6 +946,13 @@ init -6 python: # Guild, Tracker and Log.
                                 msg = "{} has finished an exploration scenario. (Fought too much)".format(team.name)
                                 se_debug(msg, mode="info")
                             self.env.exit("back2camp")
+
+                # record the exploration
+                # the idea is to allow +3% per day per worker if the team has
+                # ability required.
+                c0 = not self.env.now % 30
+                if c0 and dice(tracker.ability-30):
+                    area.explored += 1*len(team)
 
                 if self.env.now >= 99:
                     self.env.exit()
