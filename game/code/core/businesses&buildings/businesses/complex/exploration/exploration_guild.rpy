@@ -213,7 +213,7 @@ init -6 python: # Guild, Tracker and Log.
             self.logs.append(obj)
             return obj
 
-        def finish_exploring(self):
+        def finish_exploring(self, type="back_to_guild"):
             """
             Build one major report for next day!
             Log all the crap to Area and Main Area!
@@ -222,6 +222,9 @@ init -6 python: # Guild, Tracker and Log.
             global fg_areas
             global items
             area = self.obj_area
+
+            if type == "full_death":
+                pass # TODO continue implementation
 
             # Main and Sub Area Stuff:
             area.logs.extend([l for l in self.logs if l.ui_log])
@@ -482,6 +485,9 @@ init -6 python: # Guild, Tracker and Log.
                         tracker.state = "traveling back"
                     elif result == "defeat":
                         tracker.state = "camping"
+                    elif result == "full_death":
+                        tracker.finish_exploring()
+                        self.env.exit("full_death")
                 elif tracker.state == "camping":
                     result = yield process(self.camping(tracker))
                     if result == "restored":
@@ -933,7 +939,13 @@ init -6 python: # Guild, Tracker and Log.
                         temp = temp + "%d %s!" % (enemies, plural("mob", enemies))
                         log = tracker.log(temp, "Combat!", ui_log=True)
 
-                        result = self.combat_mobs(tracker, mob, enemies, log)
+                        result, battle = self.combat_mobs(tracker, mob, enemies, log)
+                        dead = set(team).intersection(battle.corpses)
+                        if dead:
+                            self.death(tracker, dead=dead, type='combat')
+                            if _result == "full_death":
+                                self.env.exit(_result)
+
                         if result == "defeat":
                             if DEBUG_SE:
                                 msg = "{} has finished an exploration scenario. (Lost a fight)".format(team.name)
@@ -1007,14 +1019,6 @@ init -6 python: # Guild, Tracker and Log.
 
             tracker.points -= 100*len(team)
 
-            # No death below risk 40:
-            if tracker.risk > 40 and dice(tracker.risk):
-                for member in team:
-                    if member in battle.corpses:
-                        tracker.flag_red = True
-                        tracker.died.append(member)
-                        team.remove(member)
-
             for mob in opfor:
                 if mob in battle.corpses:
                     tracker.mobs_defeated[mob.id] += 1
@@ -1029,9 +1033,6 @@ init -6 python: # Guild, Tracker and Log.
                     member.agility += randrange(3)
                     member.magic += randrange(3)
                     member.exp += exp_reward(member, opfor)
-
-                # Death needs to be handled based off risk factor: TODO:
-                # self.txt.append("\n{color=[red]}%s has died during this skirmish!{/color}\n" % member.name)
                 temp = "{color=[lawngreen]}Your team won!!{/color}\n"
                 log.add(temp)
 
@@ -1039,7 +1040,7 @@ init -6 python: # Guild, Tracker and Log.
                     msg = "{} finished a battle scenario. Result: victory".format(team.name)
                     se_debug(msg, mode="info")
 
-                return "victory"
+                return ("victory", battle)
             else: # Defeat here...
                 log.suffix = "{color=[red]}Defeat{/color}"
                 temp = "{color=[red]}Your team got their asses kicked!!{/color}\n"
@@ -1049,7 +1050,7 @@ init -6 python: # Guild, Tracker and Log.
                     msg = "{} finished a battle scenario. Result: defeat".format(team.name)
                     se_debug(msg, mode="info")
 
-                return "defeat"
+                return ("defeat", battle)
 
         def setup_basecamp(self, tracker):
             # New type of shit, trying to get teams to coop here...
@@ -1098,6 +1099,8 @@ init -6 python: # Guild, Tracker and Log.
                Death can occur with risk of 50+
             """
             risk = tracker.risk
+            team = tracker.team
+            tracker.flag_red = True
 
             if risk <= 50:
                 # We terminate the exploration but prevent death!
@@ -1118,10 +1121,18 @@ init -6 python: # Guild, Tracker and Log.
                 tracker.log(temp)
                 for fighter in dead:
                     if dice(risk):
-                        temp = "{} died..."
-                        temp = set_font_color(temp, "red")
-                        tracker.log(temp)
-                        pass # TODO properly kill the fighter!
+                        result = kill_char(fighter)
+                        if result:
+                            temp = "{} died..."
+                            temp = set_font_color(temp, "red")
+                            tracker.log(temp)
+
+                            tracker.died.append(fighter)
+                            team.remove(fighter)
+                        else:
+                            temp = "{} cannot die!"
+                            temp = set_font_color(temp, "gray")
+                            tracker.log(temp)
                     else:
                         temp = "{} is near death..."
                         temp = set_font_color(temp, "orange")
@@ -1134,10 +1145,22 @@ init -6 python: # Guild, Tracker and Log.
                 temp += " But the stakes are high and risk is high so the team keeps on exploring..."
                 tracker.log(temp)
                 for fighter in dead:
-                    # Just kill off the fighters here.
-                    temp = "{} died..."
-                    temp = set_font_color(temp, "red")
-                    tracker.log(temp)
+                    result = kill_char(fighter)
+                    if result:
+                        temp = "{} died..."
+                        temp = set_font_color(temp, "red")
+                        tracker.log(temp)
+
+                        tracker.died.append(fighter)
+                        team.remove(fighter)
+                    else:
+                        temp = "{} cannot die!"
+                        temp = set_font_color(temp, "gray")
+                        tracker.log(temp)
+
+            if not len(team):
+                # everyone died...
+                return "full_death"
 
         # AP:
         def convert_AP(self, tracker):

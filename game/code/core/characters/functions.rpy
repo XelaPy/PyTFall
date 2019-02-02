@@ -189,7 +189,7 @@ init -11 python:
         # This happens automatically if char.health goes 0 or below.
         if "Undead" in char.traits:
             char.health = 1
-            return
+            return False
         atfer_life = locations["After Life"]
         char.home = atfer_life
         set_location(char, atfer_life)
@@ -199,6 +199,8 @@ init -11 python:
         if char in hero.chars:
             hero.remove_char(char)
         gm.remove_girl(char)
+
+        return True
 
     def take_team_ap(value):
         """
@@ -462,7 +464,7 @@ init -11 python:
                     elif ms in rg.magic_skills:
                         char_debug(str("Magic skill: %s added twice for random girl: %s!" (skill, id)))
                     else:
-                        rg.magic_skills.append(ms) 
+                        rg.magic_skills.append(ms)
 
         # Rest of the expected data:
         for i in ("gold", "desc", "height", "full_race"):
