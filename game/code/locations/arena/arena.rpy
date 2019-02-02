@@ -1145,7 +1145,7 @@ init -9 python:
                 for stat in ("attack", "defence", "agility", "magic"):
                     fighter.mod_stat(stat, randint(1, 2))
                 fighter.arena_rep += int(rep)
-                exp = round_int(50 * (float(loser.get_level()) / winner.get_level()))
+                exp = round_int(50 * (float(loser.get_level()) / max(1, winner.get_level())))
                 fighter.mod_stat("exp", exp)
 
             rep = rep / 10.0
@@ -1202,7 +1202,7 @@ init -9 python:
             max_gold = (enemy_team.get_level()+hero.team.get_level())*5
             blood = start_health - finish_health
             # Awards:
-            money = round_int(max_gold*(float(loser.get_level())/winner.get_level()))
+            money = round_int(max_gold*(float(loser.get_level())/max(1, winner.get_level())))
             if blood > 0:
                 money += blood
 
@@ -1299,7 +1299,7 @@ init -9 python:
                     continue
 
                 statdict = dict()
-                statdict["gold"] = int(max(200, 250*(float(enemy_team.get_level()) / loser.get_level())))
+                statdict["gold"] = int(max(200, 250*(float(loser.get_level()) / max(1, winner.get_level()))))
                 if dice(enemy_team.get_level()):
                     statdict["fame"] = randint(0, 2)
                     statdict["reputation"] = randint(0, 2)
