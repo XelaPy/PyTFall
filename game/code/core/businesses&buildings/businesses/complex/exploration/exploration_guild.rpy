@@ -458,7 +458,7 @@ init -6 python: # Guild, Tracker and Log.
                     else:
                         tracker.state = "exploring"
                 # Set the state to traveling back if we're done:
-                elif tracker.days_explored >= tracker.days: # TODO Move the block one block down?
+                elif tracker.days_explored >= tracker.days:
                     tracker.state = "traveling back"
 
                 # Day counter:
@@ -750,7 +750,7 @@ init -6 python: # Guild, Tracker and Log.
             # Let's run the expensive item calculations once and just give
             # Items as we explore. This just figures what items to give.
             # Get the max number of items that can be found in one day:
-            max_items = int(round((tracker.ability+tracker.risk)*.01+(tracker.day*.2)))
+            max_items = int(round((tracker.ability+tracker.risk)*.01+(tracker.day*.2))/3.0)*len(team)
             if DEBUG_SE:
                 msg = "Max Items ({}) to be found on Day: {}!".format(max_items, tracker.day)
                 se_debug(msg, mode="info")
@@ -956,18 +956,6 @@ init -6 python: # Guild, Tracker and Log.
                 # self.stats["agility"] += randrange(2)
                 # self.stats["exp"] += randint(5, int(max(15, self.risk/4)))
 
-                # TODO: This should be a part of camping method.
-                # inv = list(g.inventory for g in self.team)
-                # for g in self.team:
-                    # l = list()
-                    # if g.health < 75:
-                        # l.extend(g.auto_equip(["health"], source=inv))
-                    # if g.vitality < 100:
-                        # l.extend(g.auto_equip(["vitality"], source=inv))
-                    # if g.mp < 30:
-                        # l.extend(g.auto_equip(["mp"], source=inv))
-                    # if l:
-                        # self.txt.append("\n%s used: {color=[blue]}%s %s{/color} to recover!\n" % (g.nickname, ", ".join(l), plural("item", len(l))))
 
                 # if not stop:
                     # for member in self.team:
@@ -1070,8 +1058,8 @@ init -6 python: # Guild, Tracker and Log.
                 msg = "Team {} is setting up basecamp.".format(team.name)
                 se_debug(msg, mode="info")
 
-            # TODO: Make sure this is adapted to building skill(s) once we have it!
-            build_power = max(1, tracker.ability/20)
+            # TODO (se): Make sure this is adapted to building skill(s) once we have it!
+            build_power = max(1, tracker.ability/60.0)*len(team)
 
             if len(teams) > 1:
                 temp = "Teams: {} are setting up basecamp!".format(", ".join([t.name for t in teams]))
