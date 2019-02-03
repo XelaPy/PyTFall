@@ -138,7 +138,8 @@ init -6 python: # Guild, Tracker and Log.
             self.ability = 0 # How well the team can perform any given exploration task.
             self.travel_points = 0 # travel point we use during traveling to offset JP correctly.
 
-            self.state = "traveling to" # Instead of a bunch of properties, we'll use just the state as string and set it accordingly.
+            # Instead of a bunch of properties, we'll use just the state as string and set it accordingly.
+            self.state = "traveling to"
             # Use dicts instead of sets as we want counters:
             self.mobs_defeated = defaultdict(int)
             self.found_items = list()
@@ -223,6 +224,7 @@ init -6 python: # Guild, Tracker and Log.
             global items
             area = self.obj_area
 
+            # Handle the no one returned to base case...
             if self.state == "full_death":
                 self.guild.explorers.remove(self)
                 area.trackers.remove(self)
@@ -246,6 +248,8 @@ init -6 python: # Guild, Tracker and Log.
                               green_flag=self.flag_green,
                               red_flag=self.flag_red)
                 NEXT_DAY_EVENTS.append(evt)
+
+                return
 
 
             # Main and Sub Area Stuff:
@@ -503,7 +507,9 @@ init -6 python: # Guild, Tracker and Log.
                     result = yield process(self.explore(tracker))
                     if result == "back2camp":
                         break # We're done for today...
-                    if result == "captured char":
+                    elif result.startswith(["captured", "got"]):
+                        # We found something special or captured a char.
+                        self.update_loot(tracker)
                         tracker.state = "traveling back"
                     elif result == "defeat":
                         tracker.state = "camping"
@@ -710,6 +716,26 @@ init -6 python: # Guild, Tracker and Log.
                 msg = "{} is overnighting. State: {}".format(team.name, tracker.state)
                 se_debug(msg, mode="info")
 
+                self.update_loot(tracker)
+
+                if DEBUG_SE:
+                    msg = "{} has finished an exploration scenario. (Day Ended)".format(team.name)
+                    se_debug(msg, mode="info")
+
+            if tracker.state == "exploring":
+                temp = "{} are done with exploring for the day and will now rest and recover! ".format(team.name)
+                tracker.log(temp)
+            elif tracker.state == "camping":
+                temp = "{} cozied up in their camp for the night! ".format(team.name)
+                tracker.log(temp)
+
+            for c in team:
+                c.health += round_int(c.get_max("health")*.1)
+                c.mp += round_int(c.get_max("mp")*.1)
+                c.vitality += round_int(c.get_max("vitality")*.1)
+
+        def update_loot(self, tracker):
+            # Updates items and gold and logs in the same!
             if tracker.daily_items is not None:
                 # This basically means that team spent some time on exploring -> create a summary
                 items = tracker.daily_items
@@ -728,22 +754,6 @@ init -6 python: # Guild, Tracker and Log.
                     tracker.log("Your team has not found anything of interest...")
 
                 tracker.daily_items = None
-
-                if DEBUG_SE:
-                    msg = "{} has finished an exploration scenario. (Day Ended)".format(team.name)
-                    se_debug(msg, mode="info")
-
-            if tracker.state == "exploring":
-                temp = "{} are done with exploring for the day and will now rest and recover! ".format(team.name)
-                tracker.log(temp)
-            elif tracker.state == "camping":
-                temp = "{} cozied up in their camp for the night! ".format(team.name)
-                tracker.log(temp)
-
-            for c in team:
-                c.health += round_int(c.get_max("health")*.1)
-                c.mp += round_int(c.get_max("mp")*.1)
-                c.vitality += round_int(c.get_max("vitality")*.1)
 
         def explore(self, tracker):
             """SimPy process that handles the exploration itself.
@@ -846,12 +856,24 @@ init -6 python: # Guild, Tracker and Log.
                     if dice(chance):
                         if special_items:
                             item = special_items.pop()
-                            temp = "Found a special item %s!" % item
-                            temp = set_font_color(temp, "orange")
-                            tracker.log(temp, "Item", ui_log=True, item=store.items[item])
+
                             if DEBUG_SE:
                                 msg = "{} Found a special item {}!".format(team.name, item)
                                 se_debug(msg, mode="info")
+
+                            temp = "Found a special item %s!" % item
+                            temp = set_font_color(temp, "orange")
+                            tracker.log(temp, "Item", ui_log=True, item=store.items[item])
+
+                            # And delete special item from area so it can't be discovered again or by another team:
+                            del(area.special_items[item])
+
+                            if DEBUG_SE:
+                                msg = "{} has finished an exploration scenario. (Captured a special item {})".format(team.name, item)
+                                se_debug(msg, mode="info")
+
+                            self.env.exit("got special item")
+
                         else:
                             item = chosen_items.pop()
                             temp = "Found an item %s!" % item
