@@ -845,13 +845,21 @@ init -6 python: # Guild, Tracker and Log.
 
                 # Hazzard:
                 if area.hazard:
+                    dead = []
                     temp = "{color=[yellow]}Hazardous area!{/color} The team has been effected."
                     tracker.log(temp)
+
                     for char in team:
                         for stat, value in area.hazard:
                             # value, because we calculated effects on daily base in the past...
                             var = max(1, round_int(value*.05))
-                            char.mod_stat(stat, -var)
+                            if stat == "health" and char.health-val <= 0:
+                                dead.append(char)
+                            else:
+                                char.mod_stat(stat, -var)
+
+                    if dead:
+                        self.death(tracker, dead=dead, kind='hazard')
 
                 # Items:
                 # Handle the special items (must be done here so it doesn't collide with other teams)
@@ -1153,7 +1161,7 @@ init -6 python: # Guild, Tracker and Log.
                 msg = "Team {} finished setting up basecamp.".format(team.name)
                 se_debug(msg, mode="info")
 
-        def death(self, tracker, dead=(), type='combat'):
+        def death(self, tracker, dead=(), kind='combat'):
             """Handles death in the SE.
                Based mostly of risk factor.
                Death can occur with risk of 50+
@@ -1168,14 +1176,20 @@ init -6 python: # Guild, Tracker and Log.
                     temp = "A fighter of "
                 else:
                     temp = "Fighters of "
-                temp = "{} {} were badly injured in combat and are near death!".format(temp, tracker.team.name)
+                if kind == 'combat':
+                    temp = "{} {} were badly injured in combat and are near death!".format(temp, tracker.team.name)
+                elif kind == 'hazard':
+                    temp = "{} {} were badly injured by hazards and are near death!".format(temp, tracker.team.name)
                 temp = set_font_color(temp, "orange")
                 temp += " The team is retreating back to the Guild."
                 tracker.log(temp)
 
                 tracker.state = "traveling back"
             elif risk <= 90:
-                temp = "{} were badly injured in combat!".format(tracker.team.name)
+                if kind == 'combat':
+                    temp = "{} were badly injured in combat!".format(tracker.team.name)
+                elif kind == 'hazard':
+                    temp = "{} were badly injured by hazard!".format(tracker.team.name)
                 temp = set_font_color(temp, "orange")
                 temp += " The team is retreating back to the Guild."
                 tracker.log(temp)
@@ -1200,7 +1214,10 @@ init -6 python: # Guild, Tracker and Log.
 
                 tracker.state = "traveling back"
             else: # risk 90+
-                temp = "{} were badly injured in combat!".format(tracker.team.name)
+                if kind == 'combat':
+                    temp = "{} were badly injured in combat!".format(tracker.team.name)
+                elif kind == 'hazard':
+                    temp = "{} were badly injured by hazard!".format(tracker.team.name)
                 temp = set_font_color(temp, "orange")
                 temp += " But the stakes are high and risk is high so the team keeps on exploring..."
                 tracker.log(temp)
