@@ -213,7 +213,7 @@ init -6 python: # Guild, Tracker and Log.
             self.logs.append(obj)
             return obj
 
-        def finish_exploring(self, type="back_to_guild"):
+        def finish_exploring(self):
             """
             Build one major report for next day!
             Log all the crap to Area and Main Area!
@@ -223,8 +223,30 @@ init -6 python: # Guild, Tracker and Log.
             global items
             area = self.obj_area
 
-            if type == "full_death":
-                pass # TODO continue implementation
+            if self.state == "full_death":
+                self.guild.explorers.remove(self)
+                area.trackers.remove(self)
+
+                temp = "No one from {} returned back to the guild... we may as well assume the worse.".format(team.name)
+                temp = set_font_color(temp, "red")
+                txt = [temp]
+                event_type = "explorationndreport"
+
+                # Build an image combo for the report:
+                img = pscale(area.img, *ND_IMAGE_SIZE)
+
+                evt = NDEvent(type=event_type,
+                              img=img,
+                              txt=txt,
+                              char=None,
+                              team=None,
+                              charmod={},
+                              loc=self.guild.building,
+                              locmod={},
+                              green_flag=self.flag_green,
+                              red_flag=self.flag_red)
+                NEXT_DAY_EVENTS.append(evt)
+
 
             # Main and Sub Area Stuff:
             area.logs.extend([l for l in self.logs if l.ui_log])
