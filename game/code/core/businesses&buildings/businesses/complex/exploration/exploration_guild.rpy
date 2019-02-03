@@ -859,7 +859,9 @@ init -6 python: # Guild, Tracker and Log.
                                 char.mod_stat(stat, -var)
 
                     if dead:
-                        self.death(tracker, dead=dead, kind='hazard')
+                        _result = self.death(tracker, dead=dead, kind='hazard')
+                        if _result == "full_death":
+                            self.env.exit(_result)
 
                 # Items:
                 # Handle the special items (must be done here so it doesn't collide with other teams)
