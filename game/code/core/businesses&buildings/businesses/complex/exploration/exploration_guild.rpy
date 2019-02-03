@@ -524,7 +524,7 @@ init -6 python: # Guild, Tracker and Log.
                     result = yield process(self.explore(tracker))
                     if result == "back2camp":
                         break # We're done for today...
-                    elif result.startswith(["captured", "got"]):
+                    elif str(result).startswith(("captured", "got")):
                         # We found something special or captured a char.
                         self.update_loot(tracker)
                         tracker.state = "traveling back"
@@ -1002,7 +1002,7 @@ init -6 python: # Guild, Tracker and Log.
                         result, battle = self.combat_mobs(tracker, mob, enemies, log)
                         dead = set(team).intersection(battle.corpses)
                         if dead:
-                            self.death(tracker, dead=dead, type='combat')
+                            _result = self.death(tracker, dead=dead, type='combat')
                             if _result == "full_death":
                                 self.env.exit(_result)
 
