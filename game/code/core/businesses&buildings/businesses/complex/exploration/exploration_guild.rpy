@@ -457,6 +457,23 @@ init -6 python: # Guild, Tracker and Log.
 
         def exploration_controller(self, tracker):
             # Controls the exploration by setting up proper simpy processes.
+
+            # handle full death:
+            if tracker.state == "full_death":
+                temp = ("{color=[green]}Day: %d{/color} | "+
+                        "{color=[green]}%s{/color} are still dead..."+
+                        "\n") % (tracker.day, tracker.team.name)
+                tracker.log(temp)
+
+                yield self.env.timeout(50)
+
+                # Add a couple of days on top so we don't 'jump to conclusions'
+                if tracker.days_explored >= tracker.days+5:
+                    tracker.finish_exploring()
+                else:
+                    tracker.days_explored += 1
+                self.env.exit("full_death")
+
             # Prep aliases:
             process = self.env.process
             area = tracker.obj_area
@@ -514,7 +531,6 @@ init -6 python: # Guild, Tracker and Log.
                     elif result == "defeat":
                         tracker.state = "camping"
                     elif result == "full_death":
-                        tracker.finish_exploring()
                         self.env.exit("full_death")
                 elif tracker.state == "camping":
                     result = yield process(self.camping(tracker))
