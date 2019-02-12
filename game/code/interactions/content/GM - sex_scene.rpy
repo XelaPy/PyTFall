@@ -28,7 +28,7 @@ init python:
         """
 
         # prepare excludeds
-        excluded = ["in pain", "scared", "sad", "rape", "sex", "forced", "group"]
+        excluded = ["in pain", "scared", "sad", "rape", "forced", "group"]
 
         # prepare for location
         loc_tag = location
@@ -47,6 +47,8 @@ init python:
             excluded.extend(["beach", "urban"])
 
         if act == "stripping":
+            excluded.append("sex")
+
             # try to find a stripping image
             if char.has_image("stripping", loc_tag, exclude=excluded):
                 gm.set_img("stripping", loc_tag, *optional_included, exclude=excluded, type="reduce")
@@ -75,6 +77,8 @@ init python:
                             gm.set_img("nude", loc_tag, *optional_included, exclude=excluded, type="reduce")
 
         elif act == "masturbation":
+            excluded.extend(["normalsex", "bdsm", "after sex"])
+
             if char.has_image("masturbation", loc_tag, exclude=excluded):
                 gm.set_img("masturbation", loc_tag, *optional_included, exclude=excluded, type="reduce")
             else:
