@@ -1071,7 +1071,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs_3
 
     elif current_action == "vag":
-        $ get_single_sex_picture(char, act="bc vaginal", location=sex_scene_location, hidden_partner=True)
+        $ get_single_sex_picture(char, act="2c vaginal", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
 
         $ skill_for_checking = char.get_skill("vaginal") + char.get_skill("sex")
