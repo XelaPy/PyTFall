@@ -1313,7 +1313,8 @@ init -10 python:
                 self.level += num_lvl
 
                 # Bonuses from traits:
-                self.apply_trait_statsmod(trait, self.level-num_lvl, self.level)
+                for trait in char.traits:
+                    self.apply_trait_statsmod(trait, self.level-num_lvl, self.level)
 
                 self.stats["health"] = self.get_max("health")
                 self.stats["mp"] = self.get_max("mp")
