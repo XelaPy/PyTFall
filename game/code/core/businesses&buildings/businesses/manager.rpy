@@ -79,9 +79,6 @@ init -5 python:
                     worker = choice(workers)
                     cheered_up_workers.add(worker)
 
-                    temp0 = "\n{} noticed that {} looks a bit {}.".format(manager.nickname,
-                                                    worker.nickname, handle)
-
                     give_joy = check_stat_perc(worker, "joy", .5)
                     give_vit = check_stat_perc(worker, "vitality", .3)
                     if give_joy:
