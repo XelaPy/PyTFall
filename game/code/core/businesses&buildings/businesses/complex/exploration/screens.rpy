@@ -140,7 +140,7 @@ screen building_management_leftframe_exploration_guild_mode:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             style_group "proper_stats"
-            xsize 310
+            xsize 314
             xalign .5
             padding 10, 10
             margin 0, 0
@@ -163,7 +163,7 @@ screen building_management_leftframe_exploration_guild_mode:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             style_group "proper_stats"
-            xsize 310
+            xsize 314
             xalign .5
             padding 10, 10
             margin 0, 0
@@ -178,6 +178,37 @@ screen building_management_leftframe_exploration_guild_mode:
                 textbutton "Level":
                     xsize 292
                     action SetFilter(fg_filters, "level")
+
+        # Exploration teams status:
+        frame:
+            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
+            style_group "proper_stats"
+            xsize 314
+            xalign .5
+            padding 10, 10
+            margin 0, 0
+            has vbox
+            label "Teams Exploring:" xalign .5
+            viewport:
+                xysize 310, 350
+                scrollbars "vertical"
+                mousewheel True
+                vbox:
+                    spacing 5
+                    for aname, area in fg_areas.items():
+                        if area.trackers:
+                            frame:
+                                background Frame(Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
+                                xsize 280
+                                padding 3, 2
+                                margin 0, 0
+                                has vbox
+                                text "[aname]:"
+                                for tracker in area.trackers:
+                                    hbox:
+                                        xsize 274
+                                        text "[tracker.team.name]"
+                                        text "[tracker.days_explored]/[tracker.days]" xalign 1.0
     elif bm_exploration_view_mode == "explore":
         fixed: # making sure we can align stuff...
             xysize 320, 665
