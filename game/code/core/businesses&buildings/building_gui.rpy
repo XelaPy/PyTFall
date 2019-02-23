@@ -5,7 +5,7 @@ label building_management:
             reset_building_management = False
             bm_mid_frame_mode = "building"
             bm_mid_frame_focus = None
-            bm_exploration_view_mode = "explore"
+            bm_exploration_view_mode = "team"
             selected_log_area = None
 
         # Some Global Vars we use to pass data between screens:
@@ -885,7 +885,7 @@ init:
                             else:
                                 value FieldValue(building, "auto_clean", 99, style='scrollbar', offset=0, step=1)
                                 thumb 'content/gfx/interface/icons/move15.png'
-                                tooltip "Cleaners are called if dirt is more than %d%%" % building.auto_clean 
+                                tooltip "Cleaners are called if dirt is more than %d%%" % building.auto_clean
                         button:
                             xalign 1.0
                             action Return(['maintenance', "toggle_clean"])
