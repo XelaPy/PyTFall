@@ -358,6 +358,10 @@ init -6 python: # Guild, Tracker and Log.
         IMG = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.webp"
         DESC = "Travel to exotic places, meet new monsters and people... and take their shit!"
 
+        EXP_CAP_IN_SLOTS = 3
+        EXP_CAP_EX_SLOTS = 0
+        EXP_CAP_COST = 5000
+
         def __init__(self, **kwargs):
             super(ExplorationGuild, self).__init__(**kwargs)
 
