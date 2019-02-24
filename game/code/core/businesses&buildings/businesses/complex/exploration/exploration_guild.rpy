@@ -796,7 +796,7 @@ init -6 python: # Guild, Tracker and Log.
             # Effectiveness (Ability):
             abilities = list()
             # Difficulty is tier of the area explored + 1/10 of the same value / 100 * risk.
-            difficulty = area.tier+(area.tier*.001*area.risk)
+            difficulty = area.tier+(area.tier*.001*carea.risk)
             for char in team:
                 # Set their exploration capabilities as temp flag
                 a = tracker.effectiveness(char, difficulty, log=None, return_ratio=False)
@@ -865,6 +865,9 @@ init -6 python: # Guild, Tracker and Log.
                         if _result == "full_death":
                             self.env.exit(_result)
 
+                    if self.assess_exploration_risk(tracker):
+                        self.env.exit("back2camp")
+
                 # Items:
                 # Handle the special items (must be done here so it doesn't collide with other teams)
                 special_items = []
@@ -925,8 +928,7 @@ init -6 python: # Guild, Tracker and Log.
                             msg = "{} Found {} Gold!".format(team.name, give)
                             se_debug(msg, mode="info")
 
-                #  =================================================>>>
-                # Copied area must be used for checks here as it preserves state.
+                # Chars Capture:
                 if carea.capture_chars and not self.env.now % 10:
                     # Special Chars:
                     if area.special_chars:
@@ -990,6 +992,7 @@ init -6 python: # Guild, Tracker and Log.
 
                                 self.env.exit("captured char")
 
+                # Mobs Combat:
                 if tracker.mobs:
                     # The expected number of encounters per day is increased by one after every 25 point of risk,
                     # but never fight anyone with risk lower than 25..
@@ -1031,6 +1034,9 @@ init -6 python: # Guild, Tracker and Log.
                                 se_debug(msg, mode="info")
                             self.env.exit("back2camp")
 
+                        if self.assess_exploration_risk(tracker):
+                            self.env.exit("back2camp")
+
                 # record the exploration
                 # the idea is to allow +3% per day per worker if the team has
                 # ability required.
@@ -1043,12 +1049,19 @@ init -6 python: # Guild, Tracker and Log.
                 # self.stats["agility"] += randrange(2)
                 # self.stats["exp"] += randint(5, int(max(15, self.risk/4)))
 
+        def assess_exploration_risk(self, tracker):
+            """Evals the risk to health.
+            Returns True if the team has to fall back to camp.
+            """
+            team = tracker.team
+            carea = tracker.area
 
-                # if not stop:
-                    # for member in self.team:
-                        # if member.health <= (member.get_max("health") / 100.0 * (100 - self.risk)) or member.health < 15:
-                            # temp = "{color=[blue]}Your party falls back to base due to risk factors!{/color}"
-                            # tracker.log(temp)
+            for member in team:
+                if (member.health <= (member.get_max("health") / 100.0 * (100 - carea.risk))) or member.health < 15:
+                    temp = "{color=[blue]}The team falls back to base due to risk factors!{/color}"
+                    tracker.log(temp)
+                    return True
+            return False
 
         def combat_mobs(self, tracker, mob, opfor_team_size, log):
             # log is the Exploration Log object we add be reports to!
