@@ -72,6 +72,7 @@ label building_management:
                 elif result[1] == "dissolve":
                     for i in result[2]:
                         workers.add(i)
+                    bm_mid_frame_mode.reduce_capacity()
                     bm_mid_frame_mode.remove_team(result[2])
                     guild_teams.remove(result[2])
         elif result[0] == "building":

@@ -530,7 +530,7 @@ screen building_management_midframe_exploration_guild_mode:
                             margin 0, 0
                             align 1.0, 0.0 offset 3, -8
                             xysize 20, 20
-                            sensitive idle_t
+                            sensitive idle_t and bm_mid_frame_mode.can_reduce_capacity()
                             action Return(["fg_team", "dissolve", t])
                             tooltip "Dissolve"
                         # Remove all teammembers:
