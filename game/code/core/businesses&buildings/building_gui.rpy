@@ -53,7 +53,6 @@ label building_management:
 
                 $ guild_teams = CoordsForPaging(bm_mid_frame_mode.idle_teams(), columns=3, rows=3,
                                 size=(208, 83), xspacing=0, yspacing=5, init_pos=(4, 340))
-
         elif result[0] == "fg_team":
             python:
                 if result[1] == "rename":
@@ -75,15 +74,6 @@ label building_management:
                     bm_mid_frame_mode.remove_team(result[2])
                     guild_teams.remove(result[2])
         elif result[0] == "building":
-            # if result[1] == 'buyroom':
-            #     python:
-            #         if building.rooms < building.maxrooms:
-            #             if hero.take_money(building.get_room_price(), reason="Building"):
-            #                 building.modrooms(1)
-            #             else:
-            #                 renpy.call_screen('message_screen', "Not enough funds to buy new room!")
-            #         else:
-            #             renpy.call_screen('message_screen', "No more rooms can be added to this building!")
             if result[1] == 'items_transfer':
                 python:
                     it_members = list(building.get_all_chars())
