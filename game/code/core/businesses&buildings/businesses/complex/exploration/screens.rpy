@@ -456,6 +456,7 @@ screen building_management_midframe_exploration_guild_mode:
                 align (.5, .5)
                 xsize 60
                 action Return(["fg_team", "create"])
+                sensitive bm_mid_frame_mode.can_extend_capacity()
                 text "..." style "pb_button_text"
                 tooltip "Create new team"
             null width 20

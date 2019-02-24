@@ -66,6 +66,7 @@ label building_management:
                 elif result[1] == "create":
                     n = renpy.call_screen("pyt_input", "", "Enter Name", 20)
                     if len(n):
+                        bm_mid_frame_mode.expand_capacity()
                         t = bm_mid_frame_mode.new_team(n)
                         guild_teams.add(t)
                 elif result[1] == "dissolve":
