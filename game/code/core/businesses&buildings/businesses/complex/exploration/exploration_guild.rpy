@@ -52,6 +52,12 @@ init -9 python: # FG Area
             self.trackers = set()
 
         @property
+        def distance_from_city(self):
+            # 5 KM is minimum.
+            distance = round_int(self.travel_time*25)
+            return distance or 5
+
+        @property
         def camp_build_status(self):
             return "%d%%" % (100.0*self.camp_build_points_current/self.camp_build_points_required)
 
@@ -122,11 +128,7 @@ init -6 python: # Guild, Tracker and Log.
             # Distance in KM as units. 25 is what we expect the
             # team to be able to travel in a day.
             # This may be offset through traits and stats/skills.
-            self.distance = area.travel_time * 25
-            # We assume that it's never right outside of the
-            # freaking city walls, so we do this:
-            if not self.distance:
-                self.distance = randint(4, 10)
+            self.distance = area.distance_from_city
 
             self.traveled = 0 # Distance traveled in "KM"...
             self.arrived = False # Set to True upon arrival to the location.

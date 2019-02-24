@@ -628,12 +628,6 @@ screen fg_area(area):
             text "[area.capture_chars]" xalign 1.0
 
         null height 5
-        if area.travel_time:
-            button:
-                xalign .5
-                xysize 300, 30
-                text "Distance about %d days" % (round_int(area.travel_time)) xalign .0
-                action NullAction()
         button:
             xalign .5
             xysize 300, 30
@@ -689,6 +683,84 @@ screen fg_area(area):
                 idle 'content/gfx/interface/buttons/next.png'
                 hover (im.MatrixColor('content/gfx/interface/buttons/next.png', im.matrix.brightness(.15)))
                 action SetField(area, "risk", min(100, area.risk+1))
+
+        # Exploration teams status:
+        null height 5
+        frame:
+            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
+            style_group "proper_stats"
+            xsize 314
+            xalign .5
+            padding 10, 10
+            margin 0, 0
+            has vbox
+            frame:
+                background Frame(Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
+                xsize 280
+                padding 3, 2
+                margin 0, 0
+                hbox:
+                    xsize 274
+                    text "Explored:"
+                    text "[area.explored]%" xalign 1.0
+            frame:
+                background Frame(Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
+                xsize 280
+                padding 3, 2
+                margin 0, 0
+                hbox:
+                    xsize 274
+                    text "Distance from city:"
+                    text "[area.distance_from_city] km" xalign 1.0
+            frame:
+                background Frame(Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
+                xsize 280
+                padding 3, 2
+                margin 0, 0
+                hbox:
+                    xsize 274
+                    text "Difficulty:"
+                    text "[area.tier]/10" xalign 1.0
+            frame:
+                background Frame(Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
+                xsize 280
+                padding 3, 2
+                margin 0, 0
+                hbox:
+                    xsize 274
+                    text "Hazards:"
+                    if not area.explored:
+                        text "Unknown" xalign 1.0
+                    else:
+                        if area.hazards:
+                            text "Yes" xalign 1.0
+                        else:
+                            text "No" xalign 1.0
+            null height 10
+            label "Teams Exploring:" xalign .5
+            viewport:
+                xysize 310, 350
+                scrollbars "vertical"
+                mousewheel True
+                if area.trackers:
+                    frame:
+                        background Frame(Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
+                        xsize 280
+                        padding 3, 2
+                        margin 0, 0
+                        has vbox
+                        for tracker in area.trackers:
+                            hbox:
+                                xsize 274
+                                text "[tracker.team.name]"
+                                text "[tracker.days_explored]/[tracker.days]" xalign 1.0
+                else:
+                    frame:
+                        background Frame(Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
+                        xsize 280
+                        padding 3, 2
+                        margin 0, 0
+                        text "No teams on exploration runs."
 
     # Mid-Frame:
     frame:
