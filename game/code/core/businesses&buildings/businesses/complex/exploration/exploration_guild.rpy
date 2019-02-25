@@ -1069,8 +1069,6 @@ init -6 python: # Guild, Tracker and Log.
 
                 if self.env.now >= 99:
                     self.env.exit()
-                # self.stats["agility"] += randrange(2)
-                # self.stats["exp"] += randint(5, int(max(15, self.risk/4)))
 
         def assess_exploration_risk(self, tracker):
             """Evals the risk to health.
@@ -1136,6 +1134,7 @@ init -6 python: # Guild, Tracker and Log.
                 for member in team:
                     if member in battle.corpses:
                         continue
+                    # TODO WRITE A NEW FUNC TO AWARD STATS/SKILLS BESED OFF DIFFICULTY
                     member.attack += randrange(3)
                     member.defence + randrange(3)
                     member.agility += randrange(3)
