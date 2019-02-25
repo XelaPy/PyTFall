@@ -12,6 +12,9 @@ init -9 python: # FG Area
             self.risk = 45
             self._explored = 0
 
+            # Controls the rate of exploration:
+            self.exploration_multiplier = 1.0
+
             self.main = False
             self.area = None
 
@@ -1052,7 +1055,7 @@ init -6 python: # Guild, Tracker and Log.
                 # the idea is to allow +3% per day per worker if the team has
                 # ability required.
                 if not self.env.now % 30:
-                    area.explored += round_int(tracker.ability*.03)
+                    area.explored += round_int(tracker.ability*.03*area.exploration_multiplier)
 
                 if self.env.now >= 99:
                     self.env.exit()
