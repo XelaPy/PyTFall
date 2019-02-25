@@ -6,814 +6,225 @@
         "img": "content/gfx/bg/locations/fg_areas_northern.webp"
     },
     {
+        "id": "Burial Grounds",
+        "main": true,
+        "unlocked": false,
+        "img": "content/gfx/bg/locations/fg_areas_burial_1.webp"
+    },
+    {
+        "id": "Northern Mountains",
+        "main": true,
+        "unlocked": false,
+        "img": "content/gfx/bg/locations/fg_areas_high_pass.webp"
+    },
+    {
+        "id": "Frozen Caverns",
+        "main": true,
+        "unlocked": false,
+        "img": "content/gfx/bg/locations/fg_areas_frozen_1.webp"
+    },
+    {
         "id": "Northern Forest",
         "stage": 1,
-        "tier": 0.5,
+        "tier": 0.25,
         "area": "Northern Route",
         "desc": "Outskirts of the Northern Forest, commonly visited by hunters and woodsmen, rich in both game and wolves preying on it.",
         "unlocked": true,
         "travel_time": 0.1,
-        "mobs": ["Bear", "Black Wolf", "Wolf"],
+        "exploration_multiplier": 1.0,
+        "mobs": ["Wadding", "Goblin", "Wolf"],
         "unlocks": {
-            "Deep Northern Forest": 99
+            "Deep Northern Forest": 50
         },
-        "cash_limit": 70,
+        "cash_limit": 50,
         "items_price_limit": 100,
         "chars": {},
-        "rchars": {"any": [30, 10]},
         "items": {
-            "Worn Clothes": 34,
-            "Wooden Club": 34,
-            "Mallet": 7,
-            "Pitchfork": 10,
-            "Woodcutting Axe": 20,
-            "Linen Capelet": 20,
-            "Short Bow": 10,
-            "Leather Cape": 10,
-            "Dagger": 15,
-            "Wild Flowers": 30,
-            "Bauble Necklace": 25,
-            "Slippers": 25,
-            "Peasant Gown": 15,
-            "Huntsman Hat": 10,
-            "Scarf": 7
-        },
-        "img": "content/gfx/bg/locations/fg_areas_northern.webp"
+            "Wood": 50
+        }
     },
     {
         "id": "Deep Northern Forest",
         "stage": 2,
         "area": "Northern Route",
-        "desc": "A vast cold forest that must be travelled through to reach the mountain peaks.",
+        "tier": 0.5,
+        "desc": "A vast cold forest that must be traveled through to reach the mountain peaks.",
         "unlocked": false,
-        "travel_time": 0,
-        "mobs": {
-            "Werewolf": [
-                3,
-                [
-                    1,
-                    0.1,
-                    2
-                ],
-                [
-                    1,
-                    1,
-                    1
-                ]
-            ],
-            "Bear": [
-                5,
-                [
-                    1,
-                    0.1,
-                    3
-                ],
-                [
-                    1,
-                    1,
-                    1
-                ]
-            ],
-            "Black Wolf": [
-                15,
-                [
-                    1,
-                    0.2,
-                    3
-                ],
-                [
-                    2,
-                    3,
-                    3
-                ]
-            ],
-            "Wolf": [
-                20,
-                [
-                    1,
-                    0.2,
-                    3
-                ],
-                [
-                    3,
-                    3,
-                    3
-                ]
-            ]
+        "travel_time": 0.15,
+        "exploration_multiplier": 1.2,
+        "mobs": ["Bats", "Bear", "Wolf"],
+        "items": {
+            "Good Luck Charm": 25
         },
+        "cash_limit": 100,
+        "items_price_limit": 150,
         "unlocks": {
-            "Mountain Pass": 99,
-            "Burial Grounds - lv 1": 99,
+            "Mountain Pass": 25,
+            "Burial Grounds": 50,
             "Hearth of the Forest": 99
-        },
-        "cash_limit": 80,
-        "items_limit": 0,
-        "items": {
-            "Short Sword": 9,
-            "Leather Armor": 9,
-            "Silver Necklace": 9,
-            "Leather Boots": 9,
-            "Fur Slippers": 10,
-            "Good Luck Charm": 8,
-            "Leather Gloves": 9,
-            "Linen Cape": 8,
-            "Casual Clothes": 15,
-            "Worn Clothes": 5,
-            "Wooden Club": 5,
-            "Mallet": 10,
-            "Pitchfork": 8,
-            "Woodcutting Axe": 30,
-            "Linen Capelet": 25,
-            "Short Bow": 25,
-            "Leather Cape": 25,
-            "Dagger": 25,
-            "Wild Flowers": 20,
-            "Bauble Necklace": 10,
-            "Slippers": 10,
-            "Peasant Gown": 8,
-            "Huntsman Hat": 25,
-            "Scarf": 7
-        },
-        "img": "content/gfx/bg/locations/fg_areas_northern_deep.webp"
-    },
-    {
-        "id": "Burial Grounds - lv 1",
-        "stage": 3,
-        "area": "Northern Route",
-        "desc": "Ancient, long overgrown burial site, where a dark magic linger in the ground and endlessly reanimates the skeletal guards that keep their endless watch over the place for a long forgotten reason.",
-        "unlocked": false,
-        "travel_time": 1,
-        "mobs": {
-            "Phantasm": [
-                3,
-                [
-                    1,
-                    0.1,
-                    2
-                ],
-                [
-                    1,
-                    1,
-                    1
-                ]
-            ],
-            "Skeleton Warrior": [
-                20,
-                [
-                    1,
-                    0.2,
-                    3
-                ],
-                [
-                    2,
-                    2,
-                    2
-                ]
-            ],
-            "Skeleton": [
-                40,
-                [
-                    1,
-                    0.2,
-                    3
-                ],
-                [
-                    2,
-                    3,
-                    3
-                ]
-            ],
-            "Black Wolf": [
-                15,
-                [
-                    1,
-                    0.2,
-                    3
-                ],
-                [
-                    2,
-                    3,
-                    3
-                ]
-            ]
-        },
-        "unlocks": {
-            "Burial Grounds - lv 2": 99
-        },
-        "cash_limit": 95,
-        "items_limit": 0,
-        "items": {
-            "Mallet": 6,
-            "Pitchfork": 2,
-            "Woodcutting Axe": 5,
-            "Linen Capelet": 5,
-            "Short Bow": 10,
-            "Leather Cape": 2,
-            "Dagger": 24,
-            "Wild Flowers": 4,
-            "Bauble Necklace": 4,
-            "Slippers": 3,
-            "Huntsman Hat": 5,
-            "Scarf": 5,
-            "Short Sword": 25,
-            "Leather Armor": 30,
-            "Silver Necklace": 30,
-            "Leather Boots": 30,
-            "Fur Slippers": 6,
-            "Good Luck Charm": 3,
-            "Leather Gloves": 30,
-            "Linen Cape": 30,
-            "Casual Clothes": 10,
-            "Tanned Leather Boots": 5,
-            "Tanned Leather Gloves": 5,
-            "Obsidian Choker": 2.2,
-            "Rogue Cape": 4.4,
-            "Running Boots": 2.2,
-            "Bullwhip": 4,
-            "Ornate Gladius": 2.2,
-            "Claws": 6,
-            "Spiked Collar": 6,
-            "Long Sword": 5,
-            "Minor Reflector": 3,
-            "Slave Shackles": 6,
-            "Bone Knife": 15,
-            "Darksome Trophy": 10
-        },
-        "img": "content/gfx/bg/locations/fg_areas_burial_1.webp"
-    },
-    {
-        "id": "Burial Grounds - lv 2",
-        "stage": 4,
-        "area": "Northern Route",
-        "desc": "Inner area of the overgown burial site, where barely any sunlight reach through the trees and where the dark presense feel the strongest.",
-        "unlocked": false,
-        "travel_time": 1,
-        "mobs": {
-            "Dark Mage": [
-                5,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    1,
-                    1
-                ]
-            ],
-            "Phantasm": [
-                10,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    2,
-                    2
-                ]
-            ],
-            "Skeleton Warrior": [
-                50,
-                [
-                    1,
-                    0.3,
-                    4
-                ],
-                [
-                    2,
-                    3,
-                    3
-                ]
-            ],
-            "Skeleton": [
-                20,
-                [
-                    1,
-                    0.2,
-                    3
-                ],
-                [
-                    3,
-                    3,
-                    3
-                ]
-            ]
-        },
-        "hazard": {
-            "health": 0,
-            "mp": 5,
-            "vitality": 0
-        },
-        "unlocks": {},
-        "cash_limit": 120,
-        "items_limit": 0,
-        "items": {
-            "Woodcutting Axe": 5,
-            "Short Bow": 5,
-            "Leather Cape": 5,
-            "Dagger": 5,
-            "Huntsman Hat": 2,
-            "Scarf": 2,
-            "Short Sword": 22,
-            "Leather Armor": 22,
-            "Silver Necklace": 20,
-            "Leather Boots": 22,
-            "Leather Gloves": 22,
-            "Linen Cape": 22,
-            "Tanned Leather Boots": 26,
-            "Tanned Leather Gloves": 26,
-            "Obsidian Choker": 22,
-            "Rogue Cape": 8,
-            "Running Boots": 6,
-            "Bullwhip": 10,
-            "Ornate Gladius": 10,
-            "Claws": 20,
-            "Spiked Collar": 22,
-            "Long Sword": 24,
-            "Minor Reflector": 7,
-            "Slave Shackles": 8,
-            "Bone Knife": 20,
-            "Darksome Trophy": 20
-        },
-        "img": "content/gfx/bg/locations/fg_areas_burial_2.webp"
-    },
-    {
-        "id": "Hearth of the Forest",
-        "stage": 5,
-        "area": "Northern Route",
-        "desc": "Mystic, vital place within the forest, watched by the druids. A rumor says, that they guard a magic steam withing the forest, which water makes the spirits of the trees came to life and animals inteligent.",
-        "unlocked": false,
-        "travel_time": 1,
-        "mobs": {
-            "Druid": [
-                5,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    1,
-                    2
-                ]
-            ],
-            "Bear": [
-                5,
-                [
-                    1.5,
-                    0.2,
-                    4
-                ],
-                [
-                    1,
-                    1,
-                    1
-                ]
-            ],
-            "Feonix": [
-                15,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    2,
-                    2
-                ]
-            ],
-            "Dryad": [
-                15,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    2,
-                    2
-                ]
-            ],
-            "Link Wolf": [
-                40,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    2,
-                    3,
-                    3
-                ]
-            ]
-        },
-        "unlocks": {},
-        "cash_limit": 130,
-        "items_limit": 0,
-        "items": {
-            "Forest Brooch": 40,
-            "Linen Dress": 30,
-            "Arcane Club": 15,
-            "Balanced Claws": 30,
-            "Water of Life": 10,
-            "Ocarina": 10,
-            "Organic Lingerie": 6,
-            "Glass Cane": 30,
-            "Bestial Ring": 20,
-            "Pet Collar": 20,
-            "Rainbow Ring": 20,
-            "Health Charm": 40,
-            "Cold Medicine": 30,
-            "Exotic Bouquet": 15,
-            "Viny-patterned Corset": 10,
-            "Tanned Leather Boots": 30,
-            "Tanned Leather Gloves": 30,
-            "Claws": 35,
-            "Minor Reflector": 20
-        },
-        "img": "content/gfx/bg/locations/fg_areas_northern_heart.webp"
+        }
     },
     {
         "id": "Mountain Pass",
-        "stage": 6,
+        "stage": 3,
         "area": "Northern Route",
-        "desc": "A cold, unfriendly passage through the lower mountains. Occasional piles of stones and bones shows that this route is not inhabbited and visiters welcomed.",
+        "tier": 0.75,
+        "desc": "A cold, unfriendly passage through the lower mountains. Occasional piles of stones and bones shows that this route is not inhabited.",
         "unlocked": false,
-        "travel_time": 1,
-        "mobs": {
-            "Werewolf": [
-                5,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    1,
-                    2
-                ]
-            ],
-            "Polar Bear": [
-                5,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    1,
-                    1
-                ]
-            ],
-            "Tundra Wolf": [
-                25,
-                [
-                    1,
-                    0.2,
-                    3
-                ],
-                [
-                    3,
-                    3,
-                    3
-                ]
-            ],
-            "Wikkawak": [
-                20,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    2,
-                    3
-                ]
-            ]
-        },
+        "travel_time": 0.2,
+        "mobs": ["Werewolf", "Polar Bear", "Tundra Wolf"],
         "hazard": {
             "health": 0,
             "mp": 0,
             "vitality": 5
         },
         "unlocks": {
-            "High Pass": 99,
-            "Frozen Passage - Entrance": 99
+            "Northern Mountains": 50
         },
-        "cash_limit": 90,
+        "cash_limit": 200,
         "items_limit": 0,
         "items": {
-            "War Axe": 40,
-            "Fur Coat": 40,
-            "Leather Kilt": 20,
-            "Tanned Leather Boots": 20,
-            "Tanned Leather Gloves": 20
+        }
+    },
+    {
+        "id": "Burial Grounds Entrance",
+        "stage": 1,
+        "tier": 1.0,
+        "area": "Burial Grounds",
+        "desc": "Ancient, long overgrown burial site, where a dark magic linger in the ground and endlessly reanimates the skeletal guards that keep their endless watch over the place for a long forgotten reason.",
+        "unlocked": true,
+        "travel_time": 1.5,
+        "mobs": ["Phantasm", "Skeleton", "Black Wolf"],
+   
+        "unlocks": {
+            "Inner Burial Grounds": 99
         },
-        "img": "content/gfx/bg/locations/fg_areas_mountain_pass.webp"
+        "cash_limit": 400,
+        "items_limit": 500,
+        "items": {}
+    },
+    {
+        "id": "Inner Burial Grounds",
+        "stage": 2,
+        "tier": 1.2,
+        "area": "Burial Grounds",
+        "desc": "Inner area of the overgrown burial site, where barely any sunlight reach through the trees and where the dark presence feel the strongest.",
+        "unlocked": false,
+        "travel_time": 2,
+        "mobs": ["Dark Mage", "Phantasm", "Skeleton Warrior", "Skeleton"],
+        "hazard": {
+            "health": 0,
+            "mp": 5,
+            "vitality": 0
+        },
+        "unlocks": {},
+        "cash_limit": 750,
+        "items_limit": 800,
+        "items": {}
+    },
+    {
+        "id": "Hearth of the Forest",
+        "stage": 5,
+        "tier": 2.0,
+        "area": "Northern Route",
+        "desc": "Mystic, vital place within the forest, watched by the druids. A rumor says, that they guard a magic steam withing the forest, which water makes the spirits of the trees came to life and animals intelligent.",
+        "unlocked": false,
+        "travel_time": 2.5,
+        "mobs": ["Druid", "Bear", "Feonix", "Dryad", "Link Wolf"], 
+        "unlocks": {},
+        "cash_limit": 900,
+        "items_limit": 1200,
+        "items": {}
     },
     {
         "id": "High Pass",
         "stage": 7,
-        "area": "Northern Route",
+        "tier": 1.1,
+        "area": "Northern Mountains",
         "desc": "Only alternative to the underground passage to reach the secrets beyond the mountains is to climb over the peaks. No safe way is known as the air is deadly cold and the mountains unforgiving.",
-        "unlocked": false,
-        "travel_time": 2,
-        "mobs": {
-            "Yeti": [
-                7,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    1,
-                    2
-                ]
-            ],
-            "Frost Giant": [
-                7,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    1,
-                    1
-                ]
-            ]
-        },
+        "unlocked": true,
+        "travel_time": 3,
+        "mobs": ["Yeti", "Frost Giant"],
         "hazard": {
             "health": 3,
             "mp": 0,
             "vitality": 11
         },
-        "unlocks": {},
-        "cash_limit": 30,
-        "items_limit": 0,
+        "unlocks": {"Frozen Caverns": 60},
+        "cash_limit": 2000,
+        "items_limit": 1500,
         "items": {
-            "Great Axe": 8,
-            "Frost Fairy": 2,
-            "Frozen Flower": 6,
-            "War Axe": 10,
-            "Fur Coat": 8,
-            "Leather Kilt": 4
-        },
-        "img": "content/gfx/bg/locations/fg_areas_high_pass.webp"
+            "Frost Fairy": 15,
+            "Fur Coat": 20
+        }
     },
     {
-        "id": "Frozen Passage - Entrance",
+        "id": "Frozen Passage Entrance",
         "stage": 8,
-        "area": "Northern Route",
-        "desc": "Entrance to the frozen passage that is rummoned to lead to the other side of the mountains.",
-        "unlocked": false,
+        "tier": 1.5,
+        "area": "Frozen Caverns",
+        "desc": "Entrance to the frozen passage that is rumored to lead to the other side of the mountains.",
+        "unlocked": true,
         "travel_time": 2,
-        "mobs": {
-            "Yeti": [
-                5,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    1,
-                    1
-                ]
-            ],
-            "Wikkawak": [
-                30,
-                [
-                    1.5,
-                    0.2,
-                    3
-                ],
-                [
-                    2,
-                    3,
-                    3
-                ]
-            ],
-            "Tundra Wolf": [
-                5,
-                [
-                    1.2,
-                    0.2,
-                    3
-                ],
-                [
-                    3,
-                    3,
-                    3
-                ]
-            ]
-        },
+        "mobs": ["Yeti", "Wikkawak", "Tundra Wolf"],
         "hazard": {
             "health": 1,
             "mp": 0,
             "vitality": 6
         },
         "unlocks": {
-            "Frozen Passage - lv 1": 99
+            "Frozen Passage": 99
         },
-        "cash_limit": 110,
-        "items_limit": 0,
-        "items": {
-            "Tanned Leather Boots": 16,
-            "Tanned Leather Gloves": 16,
-            "Obsidian Choker": 4,
-            "Rogue Cape": 2,
-            "Running Boots": 2,
-            "Claws": 4,
-            "Spiked Collar": 10,
-            "Long Sword": 4,
-            "Minor Reflector": 4,
-            "Slave Shackles": 6,
-            "Frost Fairy": 2,
-            "Frozen Flower": 2,
-            "War Axe": 20,
-            "Fur Coat": 12,
-            "Leather Kilt": 12
-        },
-        "img": "content/gfx/bg/locations/fg_areas_frozen_entry.webp"
+        "cash_limit": 2200,
+        "items_limit": 2000,
+        "items": {}
     },
     {
-        "id": "Frozen Passage - lv 1",
+        "id": "Frozen Passage",
         "stage": 9,
-        "area": "Northern Route",
+        "tier": 1.8,
+        "area": "Frozen Caverns",
         "desc": "An unnaturally cold complex of caverns bellow the mountains.",
         "unlocked": false,
         "travel_time": 2,
-        "mobs": {
-            "Ice Maiden": [
-                2,
-                [
-                    1,
-                    0.2,
-                    3
-                ],
-                [
-                    1,
-                    1,
-                    1
-                ]
-            ],
-            "Frozen Heart": [
-                5,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    1,
-                    2
-                ]
-            ],
-            "Wikkawak": [
-                15,
-                [
-                    1.5,
-                    0.2,
-                    3.5
-                ],
-                [
-                    2,
-                    2,
-                    3
-                ]
-            ],
-            "Ice Golem": [
-                20,
-                [
-                    1,
-                    0.2,
-                    2
-                ],
-                [
-                    1,
-                    2,
-                    2
-                ]
-            ]
-        },
+        "mobs": ["Ice Maiden", "Frozen Heart", "Wikkawak", "Ice Golem"],
         "hazard": {
             "health": 1,
             "mp": 0,
             "vitality": 2
         },
         "unlocks": {
-            "Frozen Passage - lv 2": 99
+            "Deep Frozen Passage": 99
         },
         "cash_limit": 120,
         "items_limit": 0,
         "items": {
-            "Tanned Leather Boots": 2,
-            "Tanned Leather Gloves": 2,
-            "Obsidian Choker": 2,
-            "Minor Reflector": 4,
-            "Gloves of Concentration": 4,
-            "Concentration Orb": 8,
-            "Wand of Concentration": 8,
-            "Mana Charm": 14,
-            "Crystal Wand": 10,
-            "Icicle Staff": 10,
-            "Icy Sword": 4,
-            "Ice Daggers": 4,
-            "Crystal Shard": 10,
-            "Frost Fairy": 1,
-            "Frozen Flower": 1,
-            "War Axe": 6,
-            "Fur Coat": 2,
-            "Leather Kilt": 2
-        },
-        "img": "content/gfx/bg/locations/fg_areas_frozen_2.webp"
+        }
     },
     {
-        "id": "Frozen Passage - lv 2",
+        "id": "Deep Frozen Passage",
         "stage": 10,
-        "area": "Northern Route",
+        "tier": 2.5,
+        "area": "Frozen Caverns",
         "desc": "An unnaturally cold complex of caverns bellow the mountains.",
         "unlocked": false,
-        "travel_time": 2,
-        "mobs": {
-            "Ice Maiden": [
-                5,
-                [
-                    1.5,
-                    0.2,
-                    4
-                ],
-                [
-                    1,
-                    1,
-                    1
-                ]
-            ],
-            "Frozen Heart": [
-                10,
-                [
-                    1,
-                    0.2,
-                    3
-                ],
-                [
-                    1,
-                    2,
-                    3
-                ]
-            ],
-            "Ice Golem": [
-                30,
-                [
-                    1,
-                    0.2,
-                    4
-                ],
-                [
-                    2,
-                    3,
-                    3
-                ]
-            ]
-        },
+        "travel_time": 3.5,
+        "mobs": ["Ice Maiden", "Frozen Heart", "Ice Golem"],
         "hazard": {
             "health": 2,
             "mp": 0,
             "vitality": 4
         },
         "unlocks": {},
-        "cash_limit": 120,
-        "items_limit": 0,
+        "cash_limit": 2500,
+        "items_limit": 2300,
         "items": {
-            "Gloves of Concentration": 15,
-            "Liquid Magic": 2,
-            "Concentration Orb": 14,
-            "Wand of Concentration": 14,
-            "Mana Charm": 18,
-            "Ice Shoes": 4,
-            "Crystal Wand": 18,
-            "Icicle Staff": 18,
-            "Icy Sword": 18,
-            "Ice Daggers": 18,
+             "Crystal Wand": 20,
+            "Icicle Staff": 20,
+            "Icy Sword": 20,
+            "Ice Daggers": 20,
             "Snow-knit Gown": 4,
             "Crystal Shard": 20
-        },
-        "img": "content/gfx/bg/locations/fg_areas_frozen_1.webp"
+        }
     }
 ]
