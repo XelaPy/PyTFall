@@ -818,9 +818,10 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # Let's run the expensive item calculations once and just give
-            # Items as we explore. This just figures what items to give.
+            # items as we explore.
             # Get the max number of items that can be found in one day:
-            max_items = int(round((tracker.ability+tracker.risk)*.01+(tracker.day*.2))/3.0)*len(team)
+            max_items = tracker.ability + tracker.risk*2
+            max_items = round_int(max_items*.01 + tracker.day*.2)
             if DEBUG_SE:
                 msg = "Max Items ({}) to be found on Day: {}!".format(max_items, tracker.day)
                 se_debug(msg, mode="info")
@@ -1052,10 +1053,10 @@ init -6 python: # Guild, Tracker and Log.
                             self.env.exit("back2camp")
 
                 # record the exploration
-                # at default multiplier, exploration
-                # ability required.
+                # risk and multiplier added now
+                # +/- 10 points per day for a competent team.
                 if not self.env.now % 25:
-                    ability_points = tracker.ability*.03
+                    ability_points = tracker.ability*.025
                     risk_mod = carea.risk*.01
                     explored = ability_points*risk_mod*area.exploration_multiplier
                     area.explored += explored
