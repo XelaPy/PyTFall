@@ -71,7 +71,7 @@ init -9 python: # FG Area
 
         @property
         def explored(self):
-            return self._explored
+            return round_int(self._explored)
 
         @explored.setter
         def explored(self, value):
@@ -1052,10 +1052,13 @@ init -6 python: # Guild, Tracker and Log.
                             self.env.exit("back2camp")
 
                 # record the exploration
-                # the idea is to allow +3% per day per worker if the team has
+                # at default multiplier, exploration
                 # ability required.
-                if not self.env.now % 30:
-                    area.explored += round_int(tracker.ability*.03*area.exploration_multiplier)
+                if not self.env.now % 25:
+                    ability_points = tracker.ability*.03
+                    risk_mod = carea.risk*.01
+                    explored = ability_points*risk_mod*area.exploration_multiplier
+                    area.explored += explored
 
                 if self.env.now >= 99:
                     self.env.exit()
