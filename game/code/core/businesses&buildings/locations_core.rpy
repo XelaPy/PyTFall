@@ -71,6 +71,9 @@ init -20 python:
             else:
                 return str(self.id)
 
+        def can_be_sold(self):
+            return True
+
         # def add(self, actor):
         #     self.actors.add(actor)
         #

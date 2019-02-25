@@ -285,6 +285,7 @@ init:
                     xysize (135, 40)
                     action Return(["building", "sell"])
                     tooltip 'Get rid of this building'
+                    sensitive building.can_be_sold()
                     text "Sell"
 
         # Slots for New Style Upgradable Buildings:
@@ -371,6 +372,7 @@ init:
                         use building_management_rightframe_exploration_guild_mode
 
     screen building_management_leftframe_building_mode:
+        # Stats:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             style_prefix "proper_stats"
@@ -433,6 +435,7 @@ init:
                     text "%s/%s" % (building.rep, building.maxrep) xalign .98 style_suffix "value_text" yoffset 4
 
         null height 5
+        # Extensions:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             xysize (317, 480)
@@ -482,6 +485,7 @@ init:
                                 action Show("yesno_prompt",
                                      message="Are you sure you wish to close this %s for %d Gold?" % (u.name, u.get_price()),
                                      yes_action=[Function(building.close_business, u, pay=True), Hide("yesno_prompt")], no_action=Hide("yesno_prompt"))
+                                sensitive u.can_be_sold()
                                 tooltip "Close the business"
 
         # frame:

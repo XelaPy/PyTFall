@@ -588,27 +588,12 @@ init -10 python:
 
             return jobs
 
-        # Building of Upgrades:
-        # This should be part of the main BUILDING!!! (So it's this one :) )
-        # This will not be in use until we allow BUILDING the Buildings :D
-        # def check_resources(self, upgrade):
-        #     # checks if the player has enough resources to build an upgrade:
-        #     return True
-        #
-        # def check_space(self, upgrade):
-        #     # Checks if the main building has enough space to add this upgrade:
-        #     return True
-        #
-        # def start_construction(self, upgrade):
-        #     # Take the metarials (if we got here, it is assumed that player has enough of everything)
-        #     for r in upgrade.MATERIALS:
-        #         pass
-        #
-        #     # Cash...
-        #     hero.take_money(upgrade.cost, "Building Upgrades")
-        #
-        #     # adds the upgrade to in construction buildings:
-        #     self.in_construction_upgrades.append(upgrade)
+        # Extensions:
+        def can_be_sold(self):
+            for ex in self.all_extensions():
+                if not ex.can_be_sold():
+                    return False
+            return True
 
         def get_extension_cost(self, extension, **ec_kwargs):
             # We figure out what it would take to add this extension (building or business)
@@ -1077,7 +1062,7 @@ init -10 python:
                         log.logws("intelligence", randrange(2))
                         log.logws("refinement", 1)
                         log.logws("character", 1)
- 
+
                     ap_used = (points_used)/100.0
                     log.logws("exp", exp_reward(manager, self.tier, ap_used=ap_used))
 

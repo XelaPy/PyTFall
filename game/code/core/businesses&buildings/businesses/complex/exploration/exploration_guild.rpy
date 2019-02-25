@@ -12,6 +12,9 @@ init -9 python: # FG Area
             self.risk = 45
             self._explored = 0
 
+            # Controls the rate of exploration:
+            self.exploration_multiplier = 1.0
+
             self.main = False
             self.area = None
 
@@ -68,7 +71,7 @@ init -9 python: # FG Area
 
         @property
         def explored(self):
-            return self._explored
+            return round_int(self._explored)
 
         @explored.setter
         def explored(self, value):
@@ -377,6 +380,12 @@ init -6 python: # Guild, Tracker and Log.
             self.workable = True
             self.focus_team = None
             self.team_to_launch_index = 0
+
+        def can_be_sold(self):
+            if self.explorers:
+                return False
+            else:
+                return True
 
         # Teams control/sorting/grouping methods:
         def new_team(self, name):
@@ -798,6 +807,10 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # Effectiveness (Ability):
+            # New concept is as follows:
+            # 300 effectiveness or 100 ability is needed to do this job right.
+            # This will remove the need to mess with the size of the team
+            # when calculating the results during the exploration.
             abilities = list()
             # Difficulty is tier of the area explored + 1/10 of the same value / 100 * risk.
             difficulty = area.tier+(area.tier*.001*carea.risk)
@@ -805,12 +818,16 @@ init -6 python: # Guild, Tracker and Log.
                 # Set their exploration capabilities as temp flag
                 a = tracker.effectiveness(char, difficulty, log=None, return_ratio=False)
                 abilities.append(a)
-            tracker.ability = get_mean(abilities)
+            tracker.ability = sum(abilities)/3.0
+            if DEBUG_SE:
+                msg = "@ {} ability!".format(tracker.ability)
+                se_debug(msg, mode="info")
 
             # Let's run the expensive item calculations once and just give
-            # Items as we explore. This just figures what items to give.
+            # items as we explore.
             # Get the max number of items that can be found in one day:
-            max_items = int(round((tracker.ability+tracker.risk)*.01+(tracker.day*.2))/3.0)*len(team)
+            max_items = tracker.ability + tracker.risk*2
+            max_items = round_int(max_items*.01 + tracker.day*.2)
             if DEBUG_SE:
                 msg = "Max Items ({}) to be found on Day: {}!".format(max_items, tracker.day)
                 se_debug(msg, mode="info")
@@ -1010,8 +1027,8 @@ init -6 python: # Guild, Tracker and Log.
                         else:
                             mob = tracker.mobs
 
-                        min_enemies = max(1, len(team) - 1)
-                        max_ememies = max(3, len(team) + randrange(2))
+                        min_enemies = 2 # max(1, len(team) - 1)
+                        max_ememies = 4 # max(3, len(team) + randrange(2))
                         enemies = randint(min_enemies, max_ememies)
 
                         temp = "\n{} were attacked by ".format(team.name)
@@ -1042,11 +1059,13 @@ init -6 python: # Guild, Tracker and Log.
                             self.env.exit("back2camp")
 
                 # record the exploration
-                # the idea is to allow +3% per day per worker if the team has
-                # ability required.
-                c0 = not self.env.now % 30
-                if c0 and dice(tracker.ability-30):
-                    area.explored += 1*len(team)
+                # risk and multiplier added now
+                # +/- 10 points per day for a competent team.
+                if not self.env.now % 25:
+                    ability_points = tracker.ability*.025
+                    risk_mod = carea.risk*.01
+                    explored = ability_points*risk_mod*area.exploration_multiplier
+                    area.explored += explored
 
                 if self.env.now >= 99:
                     self.env.exit()
@@ -1152,7 +1171,7 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # TODO (se): Make sure this is adapted to building skill(s) once we have it!
-            build_power = max(1, tracker.ability/60.0)*len(team)
+            build_power = max(1, tracker.ability*.03)
 
             if len(teams) > 1:
                 temp = "Teams: {} are setting up basecamp!".format(", ".join([t.name for t in teams]))
