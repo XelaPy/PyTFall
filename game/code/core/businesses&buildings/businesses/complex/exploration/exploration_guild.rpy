@@ -1165,7 +1165,7 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # TODO (se): Make sure this is adapted to building skill(s) once we have it!
-            build_power = max(1, tracker.ability/60.0)*len(team)
+            build_power = max(1, tracker.ability*.03)
 
             if len(teams) > 1:
                 temp = "Teams: {} are setting up basecamp!".format(", ".join([t.name for t in teams]))
