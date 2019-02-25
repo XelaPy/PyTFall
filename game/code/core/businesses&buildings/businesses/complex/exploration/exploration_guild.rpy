@@ -798,6 +798,10 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # Effectiveness (Ability):
+            # New concept is as follows:
+            # 300 Ability is needed to do this job right.
+            # This will remove the need to mess with the size of the team
+            # when calculating the results during the exploration.
             abilities = list()
             # Difficulty is tier of the area explored + 1/10 of the same value / 100 * risk.
             difficulty = area.tier+(area.tier*.001*carea.risk)
@@ -805,7 +809,10 @@ init -6 python: # Guild, Tracker and Log.
                 # Set their exploration capabilities as temp flag
                 a = tracker.effectiveness(char, difficulty, log=None, return_ratio=False)
                 abilities.append(a)
-            tracker.ability = get_mean(abilities)
+            tracker.ability = sum(abilities)/3.0
+            if DEBUG_SE:
+                msg = "@ {} ability!".format(tracker.ability)
+                se_debug(msg, mode="info")
 
             # Let's run the expensive item calculations once and just give
             # Items as we explore. This just figures what items to give.
