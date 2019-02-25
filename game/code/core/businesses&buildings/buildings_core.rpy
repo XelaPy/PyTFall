@@ -609,6 +609,11 @@ init -10 python:
         #
         #     # adds the upgrade to in construction buildings:
         #     self.in_construction_upgrades.append(upgrade)
+        def can_be_sold(self):
+            for ex in self.all_extensions():
+                if not ex.can_be_sold():
+                    return False
+            return True
 
         def get_extension_cost(self, extension, **ec_kwargs):
             # We figure out what it would take to add this extension (building or business)
@@ -1077,7 +1082,7 @@ init -10 python:
                         log.logws("intelligence", randrange(2))
                         log.logws("refinement", 1)
                         log.logws("character", 1)
- 
+
                     ap_used = (points_used)/100.0
                     log.logws("exp", exp_reward(manager, self.tier, ap_used=ap_used))
 

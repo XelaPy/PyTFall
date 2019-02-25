@@ -48,6 +48,9 @@ init -12 python:
             building = self.building
             return self._exp_cap_cost * (building.tier or 1)
 
+        def can_be_sold(self):
+            return True
+
         def can_extend_capacity(self):
             building = self.building
 
@@ -81,7 +84,7 @@ init -12 python:
                 return False
             # these two should never happen, but check anyways...
             if self.in_slots < self.exp_cap_in_slots:
-                return False  
+                return False
             if self.ex_slots < self.exp_cap_ex_slots:
                 return False
             return True

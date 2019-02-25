@@ -381,6 +381,12 @@ init -6 python: # Guild, Tracker and Log.
             self.focus_team = None
             self.team_to_launch_index = 0
 
+        def can_be_sold(self):
+            if self.explorers:
+                return False
+            else:
+                return True
+
         # Teams control/sorting/grouping methods:
         def new_team(self, name):
             team = Team(name, free=True)
