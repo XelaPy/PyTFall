@@ -799,7 +799,7 @@ init -6 python: # Guild, Tracker and Log.
 
             # Effectiveness (Ability):
             # New concept is as follows:
-            # 300 Ability is needed to do this job right.
+            # 300 effectiveness or 100 ability is needed to do this job right.
             # This will remove the need to mess with the size of the team
             # when calculating the results during the exploration.
             abilities = list()
@@ -1051,9 +1051,8 @@ init -6 python: # Guild, Tracker and Log.
                 # record the exploration
                 # the idea is to allow +3% per day per worker if the team has
                 # ability required.
-                c0 = not self.env.now % 30
-                if c0 and dice(tracker.ability-30):
-                    area.explored += 1*len(team)
+                if not self.env.now % 30:
+                    area.explored += round_int(tracker.ability*.03)
 
                 if self.env.now >= 99:
                     self.env.exit()
