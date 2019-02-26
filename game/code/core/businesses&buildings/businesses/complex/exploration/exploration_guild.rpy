@@ -191,7 +191,7 @@ init -6 python: # Guild, Tracker and Log.
             self.init_stats = dict()
             for char in self.team:
                 self.init_stats[char] = char.stats.stats.copy()
-                self.init_stat["exploration"] = char.explorationskill
+                self.init_stats[char]["exploration"] = char.explorationskill
 
             if not DEBUG:
                 renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
@@ -317,12 +317,31 @@ init -6 python: # Guild, Tracker and Log.
             for log in [l for l in self.logs if l.nd_log]:
                 txt.append("\n".join(log.txt))
 
+            team_charmod = {}
+            for char, data in self.init_stats.items():
+                if char in self.team: # Don't do this for dead explorers
+                    if char not in team_charmod:
+                        team_charmod[char] = {}
+                        target = team_charmod[char]
+
+                    for s, value in data.items():
+                        if s in ("health", "mp", "vitality"):
+                            continue
+
+                        if s == "exploration":
+                            temp = char.explorationskill - value
+                            if temp:
+                                target[s] = temp
+                        else:
+                            temp = char.stats.stats[s] - value
+                            if temp:
+                                target[s] = temp
+
             evt = NDEvent(type=event_type,
                           img=images,
                           txt=txt,
-                          char=self.team[0],
                           team=self.team,
-                          charmod={},
+                          team_charmod=team_charmod,
                           loc=self.guild.building,
                           locmod={},
                           green_flag=self.flag_green,
