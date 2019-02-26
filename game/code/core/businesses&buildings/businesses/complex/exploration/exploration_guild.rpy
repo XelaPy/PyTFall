@@ -55,6 +55,17 @@ init -9 python: # FG Area
             self.trackers = set()
 
         @property
+        def img(self):
+            try:
+                return self._img
+            except: # Return from main:
+                return store.fg_areas[self.area]._img
+
+        @img.setter
+        def img(self, value):
+            self._img = value
+
+        @property
         def distance_from_city(self):
             # 5 KM is minimum.
             distance = round_int(self.travel_time*25)
@@ -178,8 +189,9 @@ init -6 python: # Guild, Tracker and Log.
             # And we got to make copies of chars stat dicts so we can show
             # changes in ND after the exploration run is complete!
             self.init_stats = dict()
-            for i in self.team:
-                self.init_stats[i] = i.stats.stats.copy()
+            for char in self.team:
+                self.init_stats[char] = char.stats.stats.copy()
+                self.init_stat["exploration"] = char.explorationskill
 
             if not DEBUG:
                 renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
@@ -1067,8 +1079,9 @@ init -6 python: # Guild, Tracker and Log.
                     explored = ability_points*risk_mod*area.exploration_multiplier
                     area.explored += explored
 
-                    if dice(50):
-                        ss_reward(member, opfor, {"exploration": 1}, apply=True)
+                    for member in team:
+                        if dice(50):
+                            ss_reward(member, area.tier, {"exploration": 1}, apply=True)
 
                 if self.env.now >= 99:
                     self.env.exit()
