@@ -24,7 +24,7 @@
         "area": "Northern Route",
         "desc": "Outskirts of the Northern Forest, commonly visited by hunters and woodsmen, rich in both game and wolves preying on it.",
         "unlocked": true,
-        "travel_time": 0.25,
+        "travel_time": 5,
         "exploration_multiplier": 0.5,
         "mobs": ["Bear", "Goblin", "Wolf"],
         "unlocks": {
@@ -45,7 +45,7 @@
         "tier": 0.5,
         "desc": "A vast cold forest that must be traveled through to reach the mountain peaks.",
         "unlocked": false,
-        "travel_time": 0.5,
+        "travel_time": 10,
         "exploration_multiplier": 1.0,
         "mobs": ["Undead Rat", "Thug", "Wolf"],
         "cash_limit": 30,
@@ -66,7 +66,7 @@
         "tier": 0.75,
         "desc": "A cold, unfriendly passage through the lower mountains. Occasional piles of stones and bones shows that this route is not inhabited.",
         "unlocked": false,
-        "travel_time": 2,
+        "travel_time": 15,
         "exploration_multiplier": 0.75,
         "mobs": ["Bats", "Goblin", "Goblin Archer", "Goblin Shaman"],
         "hazard": {
@@ -91,7 +91,7 @@
         "desc": "Ancient, long overgrown burial site, where a dark magic linger in the ground and endlessly reanimates the skeletal guards that keep their endless watch over the place for a long forgotten reason.",
         "unlocked": true,
         "exploration_multiplier": 1.25,
-        "travel_time": 3,
+        "travel_time": 15,
         "mobs": ["Undead Rat", "Skeleton", "Will-o-wisp"],
    
         "unlocks": {
@@ -109,7 +109,7 @@
         "exploration_multiplier": 1.5,
         "desc": "Inner area of the overgrown burial site, where barely any sunlight reach through the trees and where the dark presence feel the strongest.",
         "unlocked": false,
-        "travel_time": 5,
+        "travel_time": 20,
         "mobs": ["Spectre", "Phantasm", "Skeleton Warrior"],
         "hazard": {
             "health": 0,
@@ -129,7 +129,7 @@
         "desc": "A small underground tomb filled with old bones and acrid dust. They say something deep inside it prevents the dead ones from resting in piece.",
         "unlocked": false,
         "exploration_multiplier": 0.7,
-        "travel_time": 8,
+        "travel_time": 22,
         "mobs": ["Vampire Bats", "Lesser Vampire", "Undead Werecat"],
         "hazard": {
             "health": 0,
@@ -149,7 +149,7 @@
         "desc": "Mystic, vital place within the forest, watched by the druids. A rumor says, that they guard a magic steam withing the forest, which water makes the spirits of the trees came to life and animals intelligent.",
         "unlocked": false,
         "exploration_multiplier": 2.0,
-        "travel_time": 5,
+        "travel_time": 25,
         "mobs": ["Druid", "Black Wolf", "Dryad", "Link Wolf"], 
         "unlocks": {},
         "cash_limit": 200,
@@ -163,7 +163,7 @@
         "area": "Northern Route",
         "desc": "Only alternative to the underground passage to reach the secrets beyond the mountains is to climb over the peaks. No safe way is known as the air is deadly cold and the mountains unforgiving.",
         "unlocked": false,
-        "travel_time": 5,
+        "travel_time": 25,
         "exploration_multiplier": 0.8,
         "mobs": ["Yeti", "Wadding", "Cannon Turtle"],
         "hazard": {
@@ -186,7 +186,7 @@
         "desc": "Entrance to the frozen passage that is rumored to lead to the other side of the mountains.",
         "unlocked": true,
         "exploration_multiplier": 0.4,
-        "travel_time": 8,
+        "travel_time": 30,
         "mobs": ["Yeti", "Polar Bear", "Tundra Wolf", "Wadding"],
         "hazard": {
             "health": 5,
@@ -208,7 +208,7 @@
         "area": "Frozen Caverns",
         "desc": "An unnaturally cold complex of caverns bellow the mountains.",
         "unlocked": false,
-        "travel_time": 9,
+        "travel_time": 32,
         "mobs": ["Frozen Heart", "Frost Giant", "Ice Golem"],
         "hazard": {
             "health": 1,
@@ -231,7 +231,7 @@
         "area": "Frozen Caverns",
         "desc": "An unnaturally cold complex of caverns bellow the mountains attracting creatures from the Ice dimension.",
         "unlocked": false,
-        "travel_time": 11,
+        "travel_time": 35,
         "mobs": ["Ice Maiden", "Winter Queen", "Ice Golem"],
         "hazard": {
             "health": 10,
