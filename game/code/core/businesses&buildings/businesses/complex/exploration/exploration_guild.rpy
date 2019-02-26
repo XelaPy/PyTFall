@@ -341,7 +341,7 @@ init -6 python: # Guild, Tracker and Log.
                           img=images,
                           txt=txt,
                           team=self.team,
-                          team_charmod=team_charmod,
+                          charmod=team_charmod,
                           loc=self.guild.building,
                           locmod={},
                           green_flag=self.flag_green,

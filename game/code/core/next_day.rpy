@@ -1184,9 +1184,9 @@ screen next_day():
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.7), 10, 10)
                         label (u"Stat Changes:") text_size 18 text_color ivory align (.5, .5)
 
-                    if event.team:
-                        pass # Preventing crash before system is adjusted to team jobs again.
-                    elif event.team_charmod:
+                    # if event.team:
+                    #     pass # Preventing crash before system is adjusted to team jobs again.
+                    if event.team_charmod:
                         viewport:
                             xalign .5
                             ypos 45
