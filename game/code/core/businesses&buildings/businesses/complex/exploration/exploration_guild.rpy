@@ -345,6 +345,10 @@ init -6 python: # Guild, Tracker and Log.
                 hero.add_money(cash_earned, "Exploration Guild")
                 building.fin.log_logical_income(cash_earned, "Exploration Guild")
 
+            if self.found_items:
+                for item in self.found_items:
+                    hero.add_item(item)
+
             evt = NDEvent(type=event_type,
                           img=images,
                           txt=txt,
