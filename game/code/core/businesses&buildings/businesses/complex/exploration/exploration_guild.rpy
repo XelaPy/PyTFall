@@ -1069,7 +1069,7 @@ init -6 python: # Guild, Tracker and Log.
                         result, battle = self.combat_mobs(tracker, mob, enemies, log)
                         dead = set(team).intersection(battle.corpses)
                         if dead:
-                            _result = self.death(tracker, dead=dead, type='combat')
+                            _result = self.death(tracker, dead=dead, kind='combat')
                             if _result == "full_death":
                                 self.env.exit(_result)
 
