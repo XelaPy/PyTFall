@@ -240,6 +240,7 @@ init -6 python: # Guild, Tracker and Log.
             global fg_areas
             global items
             area = self.obj_area
+            building = self.guild.building
 
             # Handle the no one returned to base case...
             if self.state == "full_death":
@@ -317,6 +318,7 @@ init -6 python: # Guild, Tracker and Log.
             for log in [l for l in self.logs if l.nd_log]:
                 txt.append("\n".join(log.txt))
 
+            # Team stats for ND:
             team_charmod = {}
             for char, data in self.init_stats.items():
                 if char in self.team: # Don't do this for dead explorers
@@ -336,6 +338,12 @@ init -6 python: # Guild, Tracker and Log.
                             temp = char.stats.stats[s] - value
                             if temp:
                                 target[s] = temp
+
+            # handle the loot of all kinds:
+            # Cash first:
+            if cash_earned:
+                hero.add_money(cash_earned, "Exploration Guild")
+                building.fin.log_logical_income(cash_earned, "Exploration Guild")
 
             evt = NDEvent(type=event_type,
                           img=images,
