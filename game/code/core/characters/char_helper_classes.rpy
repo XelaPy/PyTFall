@@ -157,7 +157,7 @@ init -10 python:
 
         def update_tier_info(self, kind=None):
             while self.recalculate_tier():
-                continue 
+                continue
             self.calc_expected_wage(kind=kind)
 
         # We need "reverse" calculation for when leveling up characters
@@ -1067,7 +1067,7 @@ init -10 python:
                 self.max[stat] = values[2]
                 self.lvl_max[stat] = values[3]
 
-            # [action_value, training_value]
+            # [action_value, TRAINING_value]
             self.skills = dict()
             for s in STATIC_CHAR.SKILLS:
                 self.skills[s] = list([0, 0])
@@ -1578,7 +1578,7 @@ init -10 python:
 
                 if weights is None:
                     continue # Loop did not finish -> skip
- 
+
                 # Skills:
                 for skill, effect in item.mod_skills.iteritems():
                     temp = sum(effect)

@@ -1067,6 +1067,9 @@ init -6 python: # Guild, Tracker and Log.
                     explored = ability_points*risk_mod*area.exploration_multiplier
                     area.explored += explored
 
+                    if dice(50):
+                        ss_reward(member, opfor, {"exploration": 1}, apply=True)
+
                 if self.env.now >= 99:
                     self.env.exit()
 
@@ -1134,11 +1137,11 @@ init -6 python: # Guild, Tracker and Log.
                 for member in team:
                     if member in battle.corpses:
                         continue
-                    # TODO WRITE A NEW FUNC TO AWARD STATS/SKILLS BESED OFF DIFFICULTY
-                    member.attack += randrange(3)
-                    member.defence + randrange(3)
-                    member.agility += randrange(3)
-                    member.magic += randrange(3)
+                    temp = {"attack": randrange(3),
+                            "agility": randrange(3),
+                            "defence": randrange(3),
+                            "magic": randrange(3)}
+                    ss_reward(member, opfor, temp, apply=True)
                     member.exp += exp_reward(member, opfor)
                 temp = "{color=[lawngreen]}Your team won!!{/color}\n"
                 log.add(temp)

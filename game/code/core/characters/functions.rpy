@@ -1171,7 +1171,6 @@ init -11 python:
 
         return rv
 
-
     # def get_act(character, tags):
     #    # copypaste from jobs without the self part, allows to randomly select one of existing tags sets
     #    acts = list()
