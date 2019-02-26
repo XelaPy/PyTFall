@@ -27,7 +27,7 @@
         "area": "Northern Route",
         "desc": "Outskirts of the Northern Forest, commonly visited by hunters and woodsmen, rich in both game and wolves preying on it.",
         "unlocked": true,
-        "travel_time": 5,
+        "travel_time": 0.1,
         "exploration_multiplier": 0.5,
         "mobs": ["Bear", "Goblin", "Wolf"],
         "unlocks": {
@@ -48,7 +48,7 @@
         "tier": 0.5,
         "desc": "A vast cold forest that must be traveled through to reach the mountain peaks.",
         "unlocked": false,
-        "travel_time": 0.1,
+        "travel_time": 10,
         "exploration_multiplier": 1.0,
         "mobs": ["Undead Rat", "Thug", "Wolf"],
         "cash_limit": 30,
