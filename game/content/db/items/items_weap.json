@@ -933,7 +933,7 @@
     "max": {"attack": 70},
     "mod": {"character": 20, "attack": 70, "agility": -5, "defence": -5},
     "delivery_multiplier": {"melee": 0.06},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "tier": 2,
     "pref_class":["Warrior"]
     },

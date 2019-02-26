@@ -567,7 +567,7 @@
     "type": "amulet",
     "max": {"defence": 25},
     "mod": {"defence": 25},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "tier": 3,
     "addtraits": ["Ice Focus"],
     "pref_class":["Mage"]
