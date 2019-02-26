@@ -392,7 +392,7 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "addtraits": ["Ice Resistance"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
@@ -410,7 +410,7 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "addtraits": ["Darkness Resistance"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
