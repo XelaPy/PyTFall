@@ -3,18 +3,21 @@
         "id": "Northern Route",
         "main": true,
         "unlocked": true,
+        "stage": 1,
         "img": "content/gfx/bg/locations/fg_areas_northern.webp"
     },
     {
         "id": "Burial Grounds",
         "main": true,
         "unlocked": false,
+        "stage": 2,
         "img": "content/gfx/bg/locations/fg_areas_burial_1.webp"
     },
     {
         "id": "Frozen Caverns",
         "main": true,
         "unlocked": false,
+        "stage": 3,
         "img": "content/gfx/bg/locations/fg_areas_frozen_1.webp"
     },
     {
