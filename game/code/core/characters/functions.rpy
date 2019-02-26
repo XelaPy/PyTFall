@@ -163,8 +163,6 @@ init -11 python:
             if not "attack" in elements[i].keys():
                 elements[i]["attack"] = 0
 
-
-
         if text:
             for i in elements:
                 if elements[i]["attack"] >= 0:
@@ -1083,7 +1081,7 @@ init -11 python:
             raise Exception("Invalid difficulty type {} provided to exp_reward function.")
 
         # Difficulty modifier:
-        # Completed task oh higher difficulty:
+        # Completed task of higher difficulty:
         if difficulty >= char_tier:
             diff = difficulty - char_tier
             diff = min(2, diff)
@@ -1109,22 +1107,88 @@ init -11 python:
         """
         pass
 
-    #def get_act(character, tags): # copypaste from jobs without the self part, allows to randomly select one of existing tags sets
-    #        acts = list()
-    #        for t in tags:
-    #            if isinstance(t, tuple):
-    #                if character.has_image(*t):
-    #                    acts.append(t)
-    #            elif isinstance(t, dict):
-    #                if character.has_image(*t.get("tags", []), exclude=t.get("exclude", [])) and dice(t.get("dice", 100)):
-    #                    acts.append(t)
+    def ss_reward(char, difficulty, stats_skills,
+                  ap_adjust=True, ap_used=1,
+                  char_tier_override=False,
+                  final_mod=None,
+                  apply=False):
+        """Adjusts stats or skills to be given to an actor.
+        Doesn't actually award them unless apply is True.
 
-    #        if acts:
-    #            act = choice(acts)
-    #        else:
-    #            act = None
+        char: Target actor.
+        difficulty: Ranged 1 to 10. (will be normalized otherwise).
+            This can be a number, Team or Char.
+        ss: a dict with stat or skill as a key and number as values.
 
-    #        return act
+        # NA!: AP Adjusting is not available for stats/skills yet.
+        ap_adjust: Makes sure that chars with loads of AP don't snowball.
+        ap_used: AP used for the action, can be a float!
+
+        char_tier_override: If not False, should be a number between 1 - 10.
+            It will be used to match difficulty against.
+        final_mod: We multiply the result with it. Could be useful when failing
+            a task, give at least some value.
+
+        Returns the adjusted stats/skills dict.
+        """
+        rv = {}
+
+        # Now let's see about the difficulty:
+        char_tier = char_tier_override or char.tier
+        if isinstance(difficulty, Team):
+            difficulty = difficulty.get_level()/20.0
+        elif isinstance(difficulty, PytCharacter):
+            difficulty = difficulty.tier
+        elif isinstance(difficulty, (float, int)):
+            difficulty = max(0, min(10, difficulty))
+        else:
+            raise Exception("Invalid difficulty type {} provided to exp_reward function.")
+
+        # Difficulty modifier:
+        # Completed task of higher difficulty:
+        if difficulty >= char_tier:
+            diff = difficulty - char_tier
+            diff = min(2, diff)
+            mod = 1+diff/2.0 # max bonus mod possible is 2x the EXP.
+        else: # Difficulty was lower:
+            diff = char_tier - difficulty
+            diff = min(2, diff)
+            if diff > 2:
+                diff = 2
+            mod = 1-diff/2.0
+
+        for s, value in stats_skills.items():
+            value = round_int(value*mod)
+            if value:
+                rv[s] = value
+                if apply:
+                    if char.stats.is_stat(s):
+                        char.mod_stat(s, value)
+                    elif char.stats.is_skill(s):
+                        char.mod_skill(s, value)
+                    elif s in STATIC_CHAR.FULLSKILLS:
+                        char.stats.mod_full_skill(s, value)
+
+        return rv
+
+
+    # def get_act(character, tags):
+    #    # copypaste from jobs without the self part, allows to randomly select one of existing tags sets
+    #    acts = list()
+    #    for t in tags:
+    #        if isinstance(t, tuple):
+    #            if character.has_image(*t):
+    #                acts.append(t)
+    #        elif isinstance(t, dict):
+    #            if character.has_image(*t.get("tags", []), exclude=t.get("exclude", [])) and dice(t.get("dice", 100)):
+    #                acts.append(t)
+    #
+    #    if acts:
+    #        act = choice(acts)
+    #    else:
+    #        act = None
+    #
+    #    return act
 
     # copypaste of get_act from jobs without the self part, allows to randomly select one of existing tags sets
     #  unlike the function from jobs it supports only one set of excluded tags

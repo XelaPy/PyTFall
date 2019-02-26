@@ -16,8 +16,8 @@ init -9 python:
         STATUS = {"slave", "free"}
 
         MOOD_TAGS = {"angry", "confident", "defiant", "ecstatic", "happy",
-                         "indifferent", "provocative", "sad", "scared", "shy",
-                         "tired", "uncertain"}
+                     "indifferent", "provocative", "sad", "scared", "shy",
+                     "tired", "uncertain"}
         UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS = ["zoom_fast", "zoom_slow", "test_case"]
 
     ###### Character Classes ######
@@ -745,7 +745,7 @@ init -9 python:
             for entry in self.tags_cache:
                 if entry[0] == label:
                     return entry[1]
-            
+
             entry = [label, []]
             self.tags_cache.append(entry)
             return entry[1]
