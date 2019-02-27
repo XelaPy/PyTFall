@@ -163,6 +163,7 @@ screen mainscreen():
         default gazette_map = (
         ("arena", "Today at the Arena!"),
         ("shops", "Shopkeepers in PyTFall reporting:"),
+        ("jail", "Jailbird Chronic:")
         ("other", "Also:")
         )
 
