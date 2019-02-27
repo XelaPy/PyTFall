@@ -11,6 +11,7 @@ init -9 python: # FG Area
             self.max_days = 15
             self.risk = 45
             self._explored = 0
+            self.last_explored = 0 # we check this to reduce exploration in ND
 
             # Controls the rate of exploration:
             self.exploration_multiplier = 1.0
@@ -526,6 +527,8 @@ init -6 python: # Guild, Tracker and Log.
 
         def exploration_controller(self, tracker):
             # Controls the exploration by setting up proper simpy processes.
+
+            tracker.obj_area.last_explored = store.day
 
             # handle full death:
             if tracker.state == "full_death":

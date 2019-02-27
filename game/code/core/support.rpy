@@ -274,6 +274,12 @@ init -9 python:
 
             tl.end("MC's Chars .next_day")
 
+            # Fog of war over fg areas:
+            cutoff_day = store.day - 10
+            for area in store.fg_areas.values():
+                if area.last_explored <= cutoff_day:
+                    area.explored -= 1
+
             # Restoring world girls:
             self.restore_all_chars()
             if not day % 14:
