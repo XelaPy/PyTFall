@@ -71,13 +71,6 @@ init -1 python:
 
             return slaves
 
-        @property
-        def girlfin(self):
-            """
-            The property to return the proper financial data for the girl.
-            """
-            return self.focused.fin
-
         def populate_chars_list(self):
             """
             Populates the list of girls that are available.

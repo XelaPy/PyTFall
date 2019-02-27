@@ -397,13 +397,6 @@ init -9 python:
             return self.girl.fin.get_upkeep()
 
         @property
-        def girlfin(self):
-            """
-            The property to return the proper financial data for the girl.
-            """
-            return self
-
-        @property
         def chars_list(self):
             """
             The list to use for the slavemarket interface.

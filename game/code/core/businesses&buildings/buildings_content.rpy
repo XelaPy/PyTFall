@@ -69,13 +69,6 @@ init -9 python:
             """
             return self.focused.fin.get_upkeep()
 
-        @property
-        def girlfin(self):
-            """
-            The property to return the proper financial data for the girl.
-            """
-            return self
-
         def next_index(self):
             """
             Sets the next index for the slavemarket.
