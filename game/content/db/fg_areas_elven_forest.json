@@ -1,0 +1,75 @@
+    [{
+        "id": "Elven Forest",
+        "main": true,
+        "unlocked": false,
+        "stage": 4,
+        "img": "content/gfx/bg/locations/forest_1.webp"
+    },
+    {
+        "id": "Sacred Grove",
+        "desc": "A beautiful almost perfect forest maintained by fairies and dryads. Completely safe for forest dwellers, deadly for others.",
+        "stage": 1,
+        "tier": 2,
+        "travel_time": 1.2,
+        "area": "Elven Forest",
+        "unlocked": true,
+        "rchars": {"Rena_Elsword": [50, 15]},
+        "mobs": ["Griffin", "Boros", "Bats", "Link Wolf", "Dryad"],
+        "unlocks": {"Elven Village": 80, "Fairy Forest": 50},
+        "cash_limit": 100,
+        "items_limit": 900
+    },
+    {
+        "id": "Fairy Forest",
+        "desc": "A magical part of forest where fairies reside. Special trees here actively absorb magic energy to feed the fairies.",
+        "stage": 2,
+        "tier": 2.6,
+        "travel_time": 1.5,
+        "area": "Elven Forest",
+        "unlocked": true,
+        "rchars": {"Rena_Elsword": [50, 15]},
+        "mobs": ["Forest Fairy", "Wild Dryad"],
+        "unlocks": {},
+        "cash_limit": 100,
+        "items_limit": 900,
+        "hazard": {
+            "health": 0,
+            "mp": 50,
+            "vitality": 0
+        },
+        "items": {
+            "Maid Fairy": 30,
+            "Nymph Fairy": 20, 
+            "Frost Fairy": 5
+        }
+    },
+    {
+        "id": "Elven Village",
+        "desc": "A small elven village built in the branches of trees. Elves used to be friendly towards humans, but frequent visits of slave hunters changed it.",
+        "stage": 3,
+        "tier": 3.5,
+        "travel_time": 2,
+        "area": "Elven Forest",
+        "unlocked": true,
+        "rchars": {"Ranger_Elf": [50, 10], "Noble_Elf": [90, 5]},
+        "mobs": ["Feonix", "Wild Dryad", "Flytrap", "Poison Ivy", "Gazer"],
+        "unlocks": {},
+        "cash_limit": 200,
+        "items_limit": 1500,
+        "items": {
+            "Elven Armor": 5,
+            "Elven Ranger Armor": 5, 
+            "Elven Sage Armor": 5,
+            "Elven Cape": 5,
+            "Elven Boots": 5,
+            "Elven Ranger Boots": 5,
+            "Elven Sage Boots": 5,
+            "Elven Vail": 5,
+            "Elven Rapier": 5,
+            "Elven Bow": 5,
+            "Elven Gloves": 5,
+            "Elven Ranger Armbands": 5,
+            "Elven Sage Armbands": 5
+        }
+    }
+    ]

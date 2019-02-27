@@ -56,7 +56,7 @@
         "unlocks": {
             "Mountain Pass": 25,
             "Burial Grounds": 50,
-            "Hearth of the Forest": 99
+            "Hearth of the Forest": 80
         },
         "items": {
             "Wood": 100
@@ -153,11 +153,11 @@
         "unlocked": false,
         "exploration_multiplier": 2.0,
         "travel_time": 2,
-        "mobs": ["Druid", "Black Wolf", "Dryad", "Link Wolf"],
-        "unlocks": {},
+        "mobs": ["Druid", "Black Wolf", "Wild Dryad", "Link Wolf"],
+        "unlocks": {"Elven Forest": 95},
         "cash_limit": 200,
         "items_limit": 800,
-        "items": {"Watermelon of Knowledge": 25, "Candied Nuts of Knowledge": 60}
+        "items": {"Watermelon of Knowledge": 25, "Candied Nuts of Knowledge": 60, "Frost Fairy": 20}
     },
     {
         "id": "High Pass",
