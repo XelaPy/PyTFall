@@ -52,7 +52,7 @@ label city_jail:
                 if hero.AP > 0 and hero.take_money(price, reason="Slave Purchase"):
                     play sound "content/sfx/sound/world/purchase_1.ogg"
 
-                    $ jail.remove_prisoner()
+                    $ jail.remove_prisoner(char)
 
                     $ hero.AP -= 1
                     $ hero.add_char(char)
@@ -60,6 +60,8 @@ label city_jail:
                     $ char.home = locations["Streets"]
 
                     $ jail.set_focus()
+
+                    call screen message_screen("You've retrieved {} from jail!".format(char.name))
                 else:
                     call screen message_screen("You don't have enough money for this purchase!")
 
