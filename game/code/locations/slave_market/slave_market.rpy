@@ -151,8 +151,6 @@ label slavel_market_controls:
                 if not renpy.get_screen("slave_shopping"):
                     $ loop = False
 
-        $ renpy.hide("_tag")
-
     $ renpy.music.stop(channel="world")
     hide screen slavemarket
     jump city
