@@ -1,5 +1,20 @@
 # Library of functions
 init -11 python:
+    def obfuscate_string(string, mod=.8):
+        rv = []
+
+        for i in string:
+            # Do not obfuscate spaces:
+            if i == " ":
+                rv.append(i)
+                continue
+            if random.random() < mod:
+                rv.append("?")
+            else:
+                rv.append(i)
+
+        return "".join(rv)
+
     def set_font_color(s, color):
         """
         @param: color: should be supplied as a string! Not as a variable!
