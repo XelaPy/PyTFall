@@ -15,7 +15,8 @@ label city_jail:
             pytfall.world_actions.slave_market(jail, "Acquire the services of a prisoner buy paying their bail.",
                                                button="Browse Prisoners", null_button="No Prisoners",
                                                buy_button="Bail", buy_tt="Acquire this girl by paying her bail of %s Gold.",
-                                               index=0)
+                                               index=0,
+                                               null_condition="not jail.chars_list or not hero.AP")
             # pytfall.world_actions.slave_market(jail, "Acquire the services of a prisoner buy paying their bail.",
             #                                    button="Browse Prisoners", null_button="No Prisoners",
             #                                    buy_button="Bail", buy_tt="Acquire this girl by paying her bail of %s Gold.",
