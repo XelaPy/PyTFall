@@ -56,10 +56,6 @@ label city_jail:
 
                     $ hero.AP -= 1
                     $ hero.add_char(char)
-                    $ char.action = char.workplace = None
-                    $ char.home = locations["Streets"]
-
-                    $ jail.set_focus()
 
                     call screen message_screen("You've retrieved {} from jail!".format(char.name))
                 else:
@@ -100,9 +96,6 @@ label city_jail:
 
                                 $ hero.AP -= 1
                                 $ hero.add_char(char)
-                                $ char.action = char.workplace = None
-
-                                $ jail.set_focus()
 
                                 $ char.disposition += 200
 
