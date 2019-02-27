@@ -42,7 +42,85 @@ label city_jail:
 
     while True:
         $ result = ui.interact()
-        if result[0] == "control":
+
+        if result[0] == "jail_action":
+            if result[1] == "buy": # Dealing with slave:
+                $ char = jail.focused
+                $ price = jail.get_fees4captured(char)
+                $ Notify("{} was kept in jail for {} days".format(char.name, char.flag("days_in_jail")))
+
+                if hero.AP > 0 and hero.take_money(price, reason="Slave Purchase"):
+                    play sound "content/sfx/sound/world/purchase_1.ogg"
+
+                    $ jail.remove_prisoner(char)
+
+                    $ hero.AP -= 1
+                    $ hero.add_char(char)
+
+                    call screen message_screen("You've retrieved {} from jail!".format(char.name))
+                else:
+                    call screen message_screen("You don't have enough money for this purchase!")
+
+                if not jail.chars_list or not hero.AP:
+                    hide screen slave_shopping
+                    $ Return(("control", "return"))()
+            elif result[1] == "retrieve": # Dealing with a free char:
+                $ char = jail.focused
+                $ price = jail.get_fees4captured(char)
+                $ Notify("{} was kept in jail for {} days".format(char.name, char.flag("days_in_jail")))
+
+                $ speaker = char.say
+                $ chars_sprite = char.get_vnsprite()
+
+                hide screen slave_shopping
+                show expression chars_sprite
+
+                $ char.override_portrait("portrait", "angry")
+                $ char.show_portrait_overlay("angry", "reset")
+                speaker "These bastards are keeping me here against my will!"
+                speaker "I keep telling them that I am a free citizen but they claim that it 'takes time' to confirm that!"
+                $ char.show_portrait_overlay("sweat", "reset")
+                speaker "I bet they just enjoy peeping at me... damned pervs!"
+                $ char.restore_portrait()
+
+                menu:
+                    speaker "Can you help me?"
+                    "Bribe the guards {color=[gold]}(1000G)" if hero.gold >= 1000:
+                        $ hero.take_money(1000, "Bribes")
+                        menu:
+                            "Hire [char.name].":
+                                speaker "Work for you?"
+                                speaker "Sure, I'd love that!"
+
+                                $ jail.remove_prisoner(char)
+
+                                $ hero.AP -= 1
+                                $ hero.add_char(char)
+
+                                $ char.disposition += 200
+
+                                show screen message_screen("You've retrieved {} from jail!".format(char.name))
+                            "Walk away":
+                                # We should get her to pay the bribe back in Interactions!
+                                $ jail.remove_prisoner(char)
+                                $ jail.set_focus()
+
+                                $ char.location = "city"
+
+                                $ char.disposition += 400
+
+                                show screen message_screen("{} was released from Jail! You might meet her in the city one day!".format(char.name))
+                    "Walk away":
+                        $ pass
+
+                hide expression chars_sprite
+
+                if not jail.chars_list or not hero.AP:
+                    hide screen slave_shopping
+                    $ Return(("control", "return"))()
+                else:
+                    show screen slave_shopping
+        elif result[0] == "control":
             if result[1] == "return":
                 hide screen city_jail
                 jump city

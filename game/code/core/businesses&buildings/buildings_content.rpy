@@ -7,9 +7,6 @@ init -9 python:
         """
         The jail where escaped slaves can turn up. May do other things later.
         """
-
-        # TODO lt: Needs recoding!
-
         def __init__(self):
             super(CityJail, self).__init__()
             self.focused = None
@@ -41,48 +38,6 @@ init -9 python:
                     self.focused = char
                     self.index = 0
 
-        def buy_girl(self):
-            """Buys an escaped girl from the jail.
-            """
-            if hero.take_ap(1):
-                if hero.take_money(self.get_price(), reason="Slave Repurchase"):
-                    renpy.play("content/sfx/sound/world/purchase_1.ogg")
-                    self.remove_prisoner(self.focused)
-                else:
-                    renpy.call_screen('message_screen', "You don't have enough money for this purchase!")
-            else:
-                renpy.call_screen('message_screen', "You don't have enough AP left for this action!")
-
-            if not self.chars_list:
-                renpy.hide_screen("slave_shopping")
-
-        def get_price(self):
-            """
-            Returns the price to retrieve the girl.
-            """
-            # In case of non-slave girl, use 3000 as base price
-            return (self.focused.fin.get_price() or 3000) / 2
-
-        def get_upkeep(self):
-            """
-            Return the upkeep cost for the girl.
-            """
-            return self.focused.fin.get_upkeep()
-
-        def next_index(self):
-            """
-            Sets the next index for the slavemarket.
-            """
-            self.index = (self.index+1) % len(self.chars_list)
-            self.focused = self.chars_list[self.index]
-
-        def previous_index(self):
-            """
-            Sets the previous index for the slavemarket.
-            """
-            self.index = (self.index-1) % len(self.chars_list)
-            self.focused = self.chars_list[self.index]
-
         def remove_prisoner(self, char, set_location=True):
             """
             Returns an actor to the player.
@@ -93,30 +48,14 @@ init -9 python:
                 char.del_flag("days_in_jail")
                 self.chars_list.remove(char)
 
-                if self.chars_list:
-                    self.index %= len(self.chars_list)
-                    self.focused = self.chars_list[self.index]
-                else:
-                    self.index = 0
-                    self.focused = None
+                self.set_focus()
 
                 if set_location:
-                    # if schools[TrainingDungeon.NAME] in hero.buildings:
-                        # char.location = schools[TrainingDungeon.NAME]
-                        # char.home = schools[TrainingDungeon.NAME]
-                    # else:
-                    char.home = locations["Streets"]
-                    char.action = None
-                    char.workplace = None
-
-        def set_girl(self, char):
-            """
-            Sets the girl to be the index for the slavemarket.
-            girl = The girl to set.
-            """
-            if self.chars_list and girl in self.chars_list:
-                self.focused = char
-                self.index = self.chars_list.index(self.focused)
+                    if char.status == "slave":
+                        char.home = locations["Streets"]
+                    else:
+                        char.home = locations["City Apartments"]
+                    char.action = char.workplace = None
 
         # Deals with girls captured during SE:
         def sell_captured(self, girl=None, auto=False):
@@ -160,35 +99,8 @@ init -9 python:
         def get_fees4captured(self, char=None):
             # 200 for registration with city hall + 30 per day for "rent"
             if not char:
-                girl = self.focused
-            return 200 + girl.flag("days_in_jail") * 30
-
-        def retrieve_captured(self, direction=None):
-            """
-            Retrieve a captured character (during SE).
-            We handle simple sell-off in a different method (self.sell_captured)
-            """
-            if hero.take_ap(1):
-                if hero.take_money(self.get_fees4captured(), reason="Jail Fees"):
-                    renpy.play("content/sfx/sound/world/purchase_1.ogg")
-                    self.focused.del_flag("sentence_type")
-                    self.focused.del_flag("days_in_jail")
-                    if direction == "STinTD":
-                        self.remove_prisoner(self.focused)
-                    elif direction == "Blue":
-                        if hero.take_money(2000, reason="Blue's Fees"):
-                            pytfall.sm.blue_girls[self.focused] = 0
-                            self.remove_prisoner(self.focused, set_location=False)
-                        else:
-                            hero.add_money(self.get_fees4captured(), reason="Jail Fees")
-                            renpy.call_screen('message_screen', "You don't have enough money for upfront payment for Blue's services!")
-                else:
-                    renpy.call_screen('message_screen', "You don't have enough money!")
-            else:
-                renpy.call_screen('message_screen', "You don't have enough AP left for this action!")
-
-            if not self.chars_list:
-                renpy.hide_screen("slave_shopping")
+                char = self.focused
+            return 200 + char.flag("days_in_jail") * 30
 
 
     class Building(UpgradableBuilding, AdvertableBuilding, FamousBuilding):

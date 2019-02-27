@@ -122,11 +122,7 @@ label slavel_market_controls:
                 $ char.home = locations["Streets"]
                 $ pytfall.sm.chars_list.remove(char)
 
-                if pytfall.sm.chars_list:
-                    $ pytfall.sm.focused = choice(pytfall.sm.chars_list)
-                    $ pytfall.sm.index = pytfall.sm.chars_list.index(pytfall.sm.focused)
-                else:
-                    $ pytfall.sm.focused = None
+                $ pytfall.sm.set_focus()
 
                 if not hero.AP:
                     $ renpy.hide_screen("slave_shopping")
@@ -548,7 +544,7 @@ screen slave_shopping(source, tt_text, buy_button, buy_tt):
                         textbutton "Retrieve":
                             xsize 150
                             action Show("se_captured_retrieval")
-                            tooltip "Retrieve %s for % gold." % (char.name, source.get_fees4captured())
+                            tooltip "Try to get %s out of jail." % (char.name)
                     else:
                         textbutton "[buy_button]":
                             xsize 150
@@ -600,22 +596,28 @@ screen se_captured_retrieval(pos=(900, 300)):
     zorder 3
     modal True
 
+    style_prefix "dropdown_gm"
+
     key "mousedown_4" action NullAction()
     key "mousedown_5" action NullAction()
 
     python:
         x, y = pos
         xval, yval = 1.0, 0
+
     frame:
-        style_group "dropdown"
         pos (x, y)
         anchor (xval, yval)
         vbox:
-            textbutton "Sell!":
-                action jail.sell_captured, renpy.restart_interaction, Hide("se_captured_retrieval")
-            if global_flags.flag("blue_cg"):
-                textbutton "Train with Blue!":
-                    action Function(jail.retrieve_captured, direction="Blue"), Hide("se_captured_retrieval"), With(dissolve)
+            textbutton "Buy":
+                action Hide("se_captured_retrieval"), Return(["jail_action", "buy"])
+                sensitive jail.focused.status == "slave"
+            textbutton "Retrieve":
+                action Hide("se_captured_retrieval"), Return(["jail_action", "retrieve"])
+                sensitive jail.focused.status == "free"
+            # if global_flags.flag("blue_cg"):
+            #     textbutton "Train with Blue!":
+            #         action Function(jail.retrieve_captured, direction="Blue"), Hide("se_captured_retrieval"), With(dissolve)
             textbutton "Close":
                 action Hide("se_captured_retrieval"), With(dissolve)
                 keysym "mousedown_3"
