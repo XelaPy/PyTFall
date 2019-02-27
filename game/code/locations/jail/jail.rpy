@@ -47,8 +47,6 @@ label city_jail:
                 hide screen city_jail
                 jump city
 
-        hide _tag
-
 
 label _no_jail_event:
     $ hero.say(choice(["Nothing to see.",
