@@ -192,6 +192,7 @@ init -6 python: # Guild, Tracker and Log.
             for char in self.team:
                 self.init_stats[char] = char.stats.stats.copy()
                 self.init_stats[char]["exploration"] = char.explorationskill
+                self.init_stats[char]["exp"] = char.exp
 
             if not DEBUG:
                 renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
@@ -332,6 +333,10 @@ init -6 python: # Guild, Tracker and Log.
 
                         if s == "exploration":
                             temp = char.explorationskill - value
+                            if temp:
+                                target[s] = temp
+                        if s == "exp":
+                            temp = char.exp - value
                             if temp:
                                 target[s] = temp
                         else:
