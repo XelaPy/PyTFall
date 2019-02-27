@@ -7,9 +7,6 @@ init -9 python:
         """
         The jail where escaped slaves can turn up. May do other things later.
         """
-
-        # TODO lt: Needs recoding!
-
         def __init__(self):
             super(CityJail, self).__init__()
             self.focused = None
@@ -160,8 +157,8 @@ init -9 python:
         def get_fees4captured(self, char=None):
             # 200 for registration with city hall + 30 per day for "rent"
             if not char:
-                girl = self.focused
-            return 200 + girl.flag("days_in_jail") * 30
+                char = self.focused
+            return 200 + char.flag("days_in_jail") * 30
 
         def retrieve_captured(self, direction=None):
             """
