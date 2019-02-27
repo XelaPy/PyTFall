@@ -335,7 +335,7 @@ init -6 python: # Guild, Tracker and Log.
                             temp = char.explorationskill - value
                             if temp:
                                 target[s] = temp
-                        if s == "exp":
+                        elif s == "exp":
                             temp = char.exp - value
                             if temp:
                                 target[s] = temp

@@ -12,10 +12,11 @@ label city_jail:
             #                                    button="Browse Escapees", null_button="No Escapees",
             #                                    buy_button="Retrieve", buy_tt="Claim this girl by paying her fine of %s Gold.",
             #                                    index=("cells", "sm_ra"))
-            # pytfall.world_actions.slave_market(jail, "Acquire the services of a prisoner buy paying their bail.",
-            #                                    button="Browse Prisoners", null_button="No Prisoners",
-            #                                    buy_button="Bail", buy_tt="Acquire this girl by paying her bail of %s Gold.",
-            #                                    index=("cells", "sm_cj"))
+            pytfall.world_actions.slave_market(jail, "Acquire the services of a prisoner buy paying their bail.",
+                                               button="Browse Prisoners", null_button="No Prisoners",
+                                               buy_button="Bail", buy_tt="Acquire this girl by paying her bail of %s Gold.",
+                                               index=0,
+                                               null_condition="not jail.chars_list or not hero.AP")
             # pytfall.world_actions.slave_market(jail, "Acquire the services of a prisoner buy paying their bail.",
             #                                    button="Browse Prisoners", null_button="No Prisoners",
             #                                    buy_button="Bail", buy_tt="Acquire this girl by paying her bail of %s Gold.",
@@ -46,12 +47,10 @@ label city_jail:
                 hide screen city_jail
                 jump city
 
-        hide _tag
-
 
 label _no_jail_event:
     $ hero.say(choice(["Nothing to see.",
-                       "No ones here.",
+                       "Not implemented yet :(",
                        "Nothing."]))
     return
 

@@ -625,10 +625,11 @@ init -9 python:
             """
             if index in self._a: self._a.pop(index)
 
-        def slave_market(self, store, tt_text, button="Buy Slaves", null_button="N/A",
+        def slave_market(self, source, tt_text, button="Buy Slaves", null_button="N/A",
                          buy_button="Purchase",
                          buy_tt="You can buy this great girl for the sum of %s Gold!",
-                         index="slave_market"):
+                         index="slave_market",
+                         null_condition="not pytfall.sm.chars_list or not hero.AP"):
             """
             Adds the default "Go Shopping" slave market action.
             store = The store interface to use.
@@ -642,10 +643,10 @@ init -9 python:
             self.add(index,
                      WorldAction(button,
                                  Show("slave_shopping", transition=Dissolve(1.0),
-                                      source=store, tt_text=tt_text,
+                                      source=source, tt_text=tt_text,
                                       buy_button=buy_button, buy_tt=buy_tt),
                                  null_button=null_button,
-                                 null_condition="not pytfall.sm.chars_list or not hero.AP"
+                                 null_condition=null_condition
                                  ))
 
         def tree(self, tree):

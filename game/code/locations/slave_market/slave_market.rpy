@@ -92,7 +92,7 @@ label slavel_market_controls:
             pytfall.world_actions.work(Iff(global_flag_complex("visited_sm")),
                                        index=101, name="Work all day", returned="mc_action_work_in_slavemarket_all_day")
             pytfall.world_actions.slave_market(pytfall.sm, "Get these girls while they're still Young and Hot!",
-                                                index=0)
+                                               index=0)
 
             pytfall.world_actions.add(1, "Free Slaves", Jump("sm_free_slaves"))
             pytfall.world_actions.look_around(index=1000)
@@ -100,7 +100,7 @@ label slavel_market_controls:
 
     scene bg slave_market
 
-    $ pytfall.sm.set_index()
+    $ pytfall.sm.set_focus()
 
     show screen slavemarket
     with fade
@@ -113,7 +113,7 @@ label slavel_market_controls:
         $ result = ui.interact()
 
         if result[0] == "buy":
-            $ char = pytfall.sm.girl
+            $ char = pytfall.sm.focused
             if hero.AP > 0 and hero.take_money(char.fin.get_price(), reason="Slave Purchase"):
                 play sound "content/sfx/sound/world/purchase_1.ogg"
                 $ hero.AP -= 1
@@ -123,10 +123,10 @@ label slavel_market_controls:
                 $ pytfall.sm.chars_list.remove(char)
 
                 if pytfall.sm.chars_list:
-                    $ pytfall.sm.girl = choice(pytfall.sm.chars_list)
-                    $ pytfall.sm.index = pytfall.sm.chars_list.index(pytfall.sm.girl)
+                    $ pytfall.sm.focused = choice(pytfall.sm.chars_list)
+                    $ pytfall.sm.index = pytfall.sm.chars_list.index(pytfall.sm.focused)
                 else:
-                    $ pytfall.sm.girl = None
+                    $ pytfall.sm.focused = None
 
                 if not hero.AP:
                     $ renpy.hide_screen("slave_shopping")
@@ -150,8 +150,6 @@ label slavel_market_controls:
             elif result[1] == "return":
                 if not renpy.get_screen("slave_shopping"):
                     $ loop = False
-
-        $ renpy.hide("_tag")
 
     $ renpy.music.stop(channel="world")
     hide screen slavemarket
@@ -318,7 +316,7 @@ screen slave_shopping(source, tt_text, buy_button, buy_tt):
     zorder 1
 
     if source.chars_list:
-        $ char = source.girl
+        $ char = source.focused
 
         # Data (Left Frame): =============================================================================>>>
         frame:
@@ -591,7 +589,7 @@ screen slave_shopping(source, tt_text, buy_button, buy_tt):
                             imagebutton:
                                 idle img
                                 hover (im.MatrixColor(img, im.matrix.brightness(.15)))
-                                action Function(source.set_girl, c)
+                                action Function(source.set_focus, c)
                                 tooltip u"{=proper_stats_text}%s\n{size=-5}{=proper_stats_value_text}%s"%(c.name, c.desc)
                 bar value XScrollValue("sm_vp_glist")
 

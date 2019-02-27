@@ -1,4 +1,4 @@
-init -1 python:
+init -100 python:
     # GUI Logic ---------------------------------------------------------------------------------------------
     # One func:
     def point_in_poly(poly, x, y):
@@ -20,23 +20,52 @@ init -1 python:
 
         return inside
 
+    class CharsMarketBase(object):
+        def next_index(self):
+            """
+            Sets the focus to the next char.
+            """
+            if self.chars_list:
+                index = self.chars_list.index(self.focused)
+                index = (index + 1) % len(self.chars_list)
+                self.focused = self.chars_list[index]
 
-    class SlaveMarket(HabitableLocation):
+        def previous_index(self):
+            """
+            Sets the focus to the previous char.
+            """
+            if self.chars_list:
+                index = self.chars_list.index(self.focused)
+                index = (index - 1) % len(self.chars_list)
+                self.focused = self.chars_list[index]
+
+        def set_focus(self, char=None):
+            """
+            Sets the focus to the given char.
+            Pick at random of None
+            """
+            if self.chars_list:
+                if char is None:
+                    self.focused = choice(self.chars_list)
+                elif char in self.chars_list:
+                    self.focused = char
+
+
+init -1 python:
+    class SlaveMarket(HabitableLocation, CharsMarketBase):
         """
         Class for populating and running of the slave market.
 
         TODO sm/lt: (Refactor)
         Use actors container from Location class and
         """
-        def __init__(self, type=None):
+        def __init__(self):
             """
             Creates a new SlaveMarket.
-            type = type girls predominantly present in the market. Not used.
             """
             super(SlaveMarket, self).__init__(id="PyTFall Slavemarket")
-            self.type = [] if type is None else type
 
-            self.girl = None
+            self.focused = None
 
             self.chars_list = None
             self.blue_girls = dict() # Girls (SE captured) blue is training for you.
@@ -71,13 +100,6 @@ init -1 python:
 
             return slaves
 
-        @property
-        def girlfin(self):
-            """
-            The property to return the proper financial data for the girl.
-            """
-            return self.girl.fin
-
         def populate_chars_list(self):
             """
             Populates the list of girls that are available.
@@ -98,39 +120,6 @@ init -1 python:
                     hero.add_char(g)
                     del self.blue_girls[g]
                     # pytfall.temp_text.append("Blue has finished training %s! The girl has been delivered to you!" % chars[g].name)
-
-        def next_index(self):
-            """
-            Sets the focus to the next girl.
-            """
-            if self.chars_list:
-                index = self.chars_list.index(self.girl)
-                index = (index + 1) % len(self.chars_list)
-                self.girl = self.chars_list[index]
-
-        def previous_index(self):
-            """
-            Sets the focus to the previous girl.
-            """
-            if self.chars_list:
-                index = self.chars_list.index(self.girl)
-                index = (index - 1) % len(self.chars_list)
-                self.girl = self.chars_list[index]
-
-        def set_index(self):
-            """
-            Sets the focus to a random girl.
-            """
-            if self.chars_list:
-                self.girl = choice(self.chars_list)
-
-        def set_girl(self, girl):
-            """
-            Sets the focus to the given girl.
-            girl = The girl to set the focus to.
-            """
-            if self.chars_list and girl in self.chars_list:
-                self.girl = girl
 
 
     class GuiHeroProfile(_object):
