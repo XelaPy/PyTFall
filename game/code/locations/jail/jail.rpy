@@ -68,6 +68,58 @@ label city_jail:
                 if not jail.chars_list or not hero.AP:
                     hide screen slave_shopping
                     $ Return(("control", "return"))()
+            elif result[1] == "retrieve": # Dealing with a free char:
+                $ char = jail.focused
+                $ price = jail.get_fees4captured(char)
+                $ Notify("{} was kept in jail for {} days".format(char.name, char.flag("days_in_jail")))
+
+                $ speaker = char.say
+                $ chars_sprite = char.get_vnsprite()
+
+                hide screen slave_shopping
+                show expression char.get_vnsprite() as _temp_tag
+
+                speaker "These bastards are keeping me here against my will!"
+                speaker "I keep telling them that I am a free citizen but they claim that it 'takes time' to confirm that!"
+                speaker "I bet they just enjoy peeping at me... damned pervs!"
+
+                menu:
+                    speaker "Can you help me?"
+                    "Bribe the guards {color=[gold]}(1000G)" if hero.gold >= 1000:
+                        $ hero.take_money(1000, "Bribes")
+                        menu:
+                            "Hire [char.name].":
+                                speaker "Work for you?"
+                                speaker "Sure, I'd love that!"
+
+                                $ jail.remove_prisoner(char)
+
+                                $ hero.AP -= 1
+                                $ hero.add_char(char)
+                                $ char.action = char.workplace = None
+
+                                $ jail.set_focus()
+
+                                call screen message_screen("You've retrieved {} from jail!".format(char.name))
+                            "Walk away":
+                                # We should get her to pay the bribe back in Interactions!
+                                $ jail.remove_prisoner(char)
+                                $ jail.set_focus()
+
+                                $ char.location = "city"
+                                $ char.home = locations["City Apartments"]
+
+                                call screen message_screen("{} was released from Jail! You might meet her in the city one day!".format(char.name))
+                    "Walk away":
+                        $ pass
+
+                hide _temp_tag
+
+                if not jail.chars_list or not hero.AP:
+                    hide screen slave_shopping
+                    $ Return(("control", "return"))()
+                else:
+                    show screen slave_shopping
         elif result[0] == "control":
             if result[1] == "return":
                 hide screen city_jail
