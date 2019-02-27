@@ -57,15 +57,6 @@ init -9 python:
                         char.home = locations["City Apartments"]
                     char.action = char.workplace = None
 
-        def set_girl(self, char):
-            """
-            Sets the girl to be the index for the slavemarket.
-            girl = The girl to set.
-            """
-            if self.chars_list and girl in self.chars_list:
-                self.focused = char
-                self.index = self.chars_list.index(self.focused)
-
         # Deals with girls captured during SE:
         def sell_captured(self, girl=None, auto=False):
             # Flat price of 1500 Gold - the fees:
