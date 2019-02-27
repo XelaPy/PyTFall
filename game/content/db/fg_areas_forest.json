@@ -79,7 +79,7 @@
         "tier": 3.5,
         "travel_time": 3.0,
         "area": "Forest Catacombs",
-        "unlocked": false,
+        "unlocked": true,
         "mobs": ["Shadowman", "Dark Spirit", "Crawler", "Spectre"],
         "unlocks": {"The Bottom": 80, "Treasures Rooms": 50},
         "cash_limit": 400,
