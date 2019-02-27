@@ -106,7 +106,6 @@ label city_jail:
                                 $ jail.set_focus()
 
                                 $ char.location = "city"
-                                $ char.home = locations["City Apartments"]
 
                                 $ char.disposition += 400
 

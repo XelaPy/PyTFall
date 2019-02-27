@@ -350,9 +350,13 @@ init -6 python: # Guild, Tracker and Log.
                 hero.add_money(cash_earned, "Exploration Guild")
                 building.fin.log_logical_income(cash_earned, "Exploration Guild")
 
-            if self.found_items:
-                for item in self.found_items:
-                    hero.add_item(item)
+            # Items:
+            for item in self.found_items:
+                hero.add_item(item)
+
+            # Chars:
+            for char in self.captured_chars:
+                jail.add_prisoner(char, "SE_capture")
 
             evt = NDEvent(type=event_type,
                           img=images,
