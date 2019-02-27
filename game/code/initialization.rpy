@@ -504,6 +504,9 @@ init:
     default the_chosen = None
     default focus = None
 
+    # We use a global here because checking for the eye is slow and complicated
+    default the_eye_upgrade_active = False
+
 init 999 python:
     # ensure that all initialization debug messages have been written to disk
     if DEBUG_LOG:

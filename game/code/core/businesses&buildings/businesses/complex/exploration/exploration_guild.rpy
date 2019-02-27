@@ -436,6 +436,12 @@ init -6 python: # Guild, Tracker and Log.
             self.focus_team = None
             self.team_to_launch_index = 0
 
+        # Business MainUpgrade related:
+        def add_upgrade(self, upgrade, pay=False):
+            if isinstance(upgrade, TheEye):
+                store.the_eye_upgrade_active = True
+            super(ExplorationGuild, self).add_upgrade(upgrade, pay=pay)
+
         def can_be_sold(self):
             if self.explorers:
                 return False
