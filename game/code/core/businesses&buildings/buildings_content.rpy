@@ -3,7 +3,7 @@ init -9 python:
     # UNIQUE BUILDING CLASSES
     # The classes for actual buildings with the customizations they require.
     #
-    class CityJail(BaseBuilding):
+    class CityJail(HabitableLocation, CharsMarketBase):
         """
         The jail where escaped slaves can turn up. May do other things later.
         """

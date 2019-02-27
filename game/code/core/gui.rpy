@@ -1,4 +1,4 @@
-init -1 python:
+init -100 python:
     # GUI Logic ---------------------------------------------------------------------------------------------
     # One func:
     def point_in_poly(poly, x, y):
@@ -20,8 +20,39 @@ init -1 python:
 
         return inside
 
+    class CharsMarketBase(object):
+        def next_index(self):
+            """
+            Sets the focus to the next char.
+            """
+            if self.chars_list:
+                index = self.chars_list.index(self.focused)
+                index = (index + 1) % len(self.chars_list)
+                self.focused = self.chars_list[index]
 
-    class SlaveMarket(HabitableLocation):
+        def previous_index(self):
+            """
+            Sets the focus to the previous char.
+            """
+            if self.chars_list:
+                index = self.chars_list.index(self.focused)
+                index = (index - 1) % len(self.chars_list)
+                self.focused = self.chars_list[index]
+
+        def set_focus(self, char=None):
+            """
+            Sets the focus to the given char.
+            Pick at random of None
+            """
+            if self.chars_list:
+                if char is None:
+                    self.focused = choice(self.chars_list)
+                elif char in self.chars_list:
+                    self.focused = char
+
+
+init -1 python:
+    class SlaveMarket(HabitableLocation, CharsMarketBase):
         """
         Class for populating and running of the slave market.
 
@@ -89,35 +120,6 @@ init -1 python:
                     hero.add_char(g)
                     del self.blue_girls[g]
                     # pytfall.temp_text.append("Blue has finished training %s! The girl has been delivered to you!" % chars[g].name)
-
-        def next_index(self):
-            """
-            Sets the focus to the next char.
-            """
-            if self.chars_list:
-                index = self.chars_list.index(self.focused)
-                index = (index + 1) % len(self.chars_list)
-                self.focused = self.chars_list[index]
-
-        def previous_index(self):
-            """
-            Sets the focus to the previous char.
-            """
-            if self.chars_list:
-                index = self.chars_list.index(self.focused)
-                index = (index - 1) % len(self.chars_list)
-                self.focused = self.chars_list[index]
-
-        def set_focus(self, char=None):
-            """
-            Sets the focus to the given char.
-            Pick at random of None
-            """
-            if self.chars_list:
-                if char is None:
-                    self.focused = choice(self.chars_list)
-                elif char in self.chars_list:
-                    self.focused = char
 
 
     class GuiHeroProfile(_object):
