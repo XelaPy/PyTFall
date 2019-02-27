@@ -113,7 +113,7 @@ label slavel_market_controls:
         $ result = ui.interact()
 
         if result[0] == "buy":
-            $ char = pytfall.sm.girl
+            $ char = pytfall.sm.focused
             if hero.AP > 0 and hero.take_money(char.fin.get_price(), reason="Slave Purchase"):
                 play sound "content/sfx/sound/world/purchase_1.ogg"
                 $ hero.AP -= 1
@@ -123,10 +123,10 @@ label slavel_market_controls:
                 $ pytfall.sm.chars_list.remove(char)
 
                 if pytfall.sm.chars_list:
-                    $ pytfall.sm.girl = choice(pytfall.sm.chars_list)
-                    $ pytfall.sm.index = pytfall.sm.chars_list.index(pytfall.sm.girl)
+                    $ pytfall.sm.focused = choice(pytfall.sm.chars_list)
+                    $ pytfall.sm.index = pytfall.sm.chars_list.index(pytfall.sm.focused)
                 else:
-                    $ pytfall.sm.girl = None
+                    $ pytfall.sm.focused = None
 
                 if not hero.AP:
                     $ renpy.hide_screen("slave_shopping")
@@ -318,7 +318,7 @@ screen slave_shopping(source, tt_text, buy_button, buy_tt):
     zorder 1
 
     if source.chars_list:
-        $ char = source.girl
+        $ char = source.focused
 
         # Data (Left Frame): =============================================================================>>>
         frame:

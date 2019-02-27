@@ -47,7 +47,7 @@ init -9 python:
             if hero.take_ap(1):
                 if hero.take_money(self.get_price(), reason="Slave Repurchase"):
                     renpy.play("content/sfx/sound/world/purchase_1.ogg")
-                    self.remove_prisoner(self.worker)
+                    self.remove_prisoner(self.focused)
                 else:
                     renpy.call_screen('message_screen', "You don't have enough money for this purchase!")
             else:
@@ -61,13 +61,13 @@ init -9 python:
             Returns the price to retrieve the girl.
             """
             # In case of non-slave girl, use 3000 as base price
-            return (self.worker.fin.get_price() or 3000) / 2
+            return (self.focused.fin.get_price() or 3000) / 2
 
         def get_upkeep(self):
             """
             Return the upkeep cost for the girl.
             """
-            return self.worker.fin.get_upkeep()
+            return self.focused.fin.get_upkeep()
 
         @property
         def girlfin(self):
@@ -81,14 +81,14 @@ init -9 python:
             Sets the next index for the slavemarket.
             """
             self.index = (self.index+1) % len(self.chars_list)
-            self.worker = self.chars_list[self.index]
+            self.focused = self.chars_list[self.index]
 
         def previous_index(self):
             """
             Sets the previous index for the slavemarket.
             """
             self.index = (self.index-1) % len(self.chars_list)
-            self.worker = self.chars_list[self.index]
+            self.focused = self.chars_list[self.index]
 
         def remove_prisoner(self, char, set_location=True):
             """
@@ -102,10 +102,10 @@ init -9 python:
 
                 if self.chars_list:
                     self.index %= len(self.chars_list)
-                    self.worker = self.chars_list[self.index]
+                    self.focused = self.chars_list[self.index]
                 else:
                     self.index = 0
-                    self.worker = None
+                    self.focused = None
 
                 if set_location:
                     # if schools[TrainingDungeon.NAME] in hero.buildings:
@@ -116,14 +116,14 @@ init -9 python:
                     char.action = None
                     char.workplace = None
 
-        def set_girl(self, girl):
+        def set_girl(self, char):
             """
             Sets the girl to be the index for the slavemarket.
             girl = The girl to set.
             """
             if self.chars_list and girl in self.chars_list:
-                self.worker = girl
-                self.index = self.chars_list.index(self.worker)
+                self.focused = char
+                self.index = self.chars_list.index(self.focused)
 
         # Deals with girls captured during SE:
         def sell_captured(self, girl=None, auto=False):
@@ -133,7 +133,7 @@ init -9 python:
             auto: Auto Selloff during next day.
             """
             if not girl:
-                girl = self.worker
+                girl = self.focused
 
             if auto or hero.take_ap(1):
                 if not auto:
@@ -164,10 +164,10 @@ init -9 python:
                         self.sell_captured(auto=True)
                         # pytfall.temp_text.append("Jail keepers sold off: {color=[red]}%s{/color}!" % i.name)
 
-        def get_fees4captured(self, girl=None):
+        def get_fees4captured(self, char=None):
             # 200 for registration with city hall + 30 per day for "rent"
-            if not girl:
-                girl = self.worker
+            if not char:
+                girl = self.focused
             return 200 + girl.flag("days_in_jail") * 30
 
         def retrieve_captured(self, direction=None):
@@ -178,14 +178,14 @@ init -9 python:
             if hero.take_ap(1):
                 if hero.take_money(self.get_fees4captured(), reason="Jail Fees"):
                     renpy.play("content/sfx/sound/world/purchase_1.ogg")
-                    self.worker.del_flag("sentence_type")
-                    self.worker.del_flag("days_in_jail")
+                    self.focused.del_flag("sentence_type")
+                    self.focused.del_flag("days_in_jail")
                     if direction == "STinTD":
-                        self.remove_prisoner(self.worker)
+                        self.remove_prisoner(self.focused)
                     elif direction == "Blue":
                         if hero.take_money(2000, reason="Blue's Fees"):
-                            pytfall.sm.blue_girls[self.worker] = 0
-                            self.remove_prisoner(self.worker, set_location=False)
+                            pytfall.sm.blue_girls[self.focused] = 0
+                            self.remove_prisoner(self.focused, set_location=False)
                         else:
                             hero.add_money(self.get_fees4captured(), reason="Jail Fees")
                             renpy.call_screen('message_screen', "You don't have enough money for upfront payment for Blue's services!")
