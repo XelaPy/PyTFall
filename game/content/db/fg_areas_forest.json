@@ -1,127 +1,161 @@
 [
     {
-        "id": "Cursed Forest",
+        "id": "Dark Forest",
         "main": true,
         "unlocked": true,
-        "img": "content/gfx/bg/locations/night_forest.webp"
-    },
-    {
-        "id": "Forest Entrance",
         "stage": 1,
-        "items": {
-            "Worn Clothes": 34,
-            "Wooden Club": 34,
-            "Mallet": 7,
-            "Pitchfork": 10,
-            "Woodcutting Axe": 20,
-            "Linen Capelet": 20,
-            "Short Bow": 10,
-            "Leather Cape": 10,
-            "Dagger": 15,
-            "Wild Flowers": 30,
-            "Bauble Necklace": 25,
-            "Slippers": 25,
-            "Peasant Gown": 15,
-            "Huntsman Hat": 10,
-            "Scarf": 7
-        },
-        "area": "Cursed Forest",
-        "desc": "Entrance to a Curced Forest area, leads to one of the most popular and profitable treasure hunting grounds locations.",
-        "unlocked": true,
-        "mobs": {
-            "Bear": [
-                5,
-                [
-                    1,
-                    0.1,
-                    2
-                ],
-                [
-                    1,
-                    1,
-                    1
-                ]
-            ],
-            "Black Wolf": [
-                10,
-                [
-                    1,
-                    0.1,
-                    2
-                ],
-                [
-                    1,
-                    2,
-                    2
-                ]
-            ],
-            "Wolf": [
-                30,
-                [
-                    1,
-                    0.1,
-                    2
-                ],
-                [
-                    2,
-                    3,
-                    3
-                ]
-            ]
-        },
-        "unlocks": {
-            "Cursed Forest lvl-1": 30
-        },
-        "travel_time": 0,
-        "girls": {
-            "Angel": 100
-        },
-        "cash_limit": 1000,
-        "items_limit": 1000,
         "img": "content/gfx/bg/locations/night_forest.webp"
     },
     {
-        "id": "Cursed Forest lvl-1",
+        "id": "Forest Catacombs",
+        "main": true,
+        "unlocked": false,
+        "stage": 1,
+        "img": "content/gfx/bg/locations/fg_areas_burial_2.webp"
+    },
+    
+    {
+        "id": "Forest Maze",
+        "stage": 1,
+        "tier": 0.7,
+        "exploration_multiplier": 3,
+        "items": {
+            "Wood": 35
+        },
+        "area": "Dark Forest",
+        "desc": "Sinister trees form an ever changing massive maze, as if preventing travelers from going deeper into the forest.",
+        "unlocked": true,
+        "mobs": ["Black Butterfly", "Black Wolf", "Link Wolf", "Bear"],
+        "unlocks": {
+            "Cursed Forest": 100
+        },
+        "travel_time": 0.2,
+        "cash_limit": 20,
+        "items_limit": 200
+    },
+    {
+        "id": "Cursed Forest",
+        "desc": "A hunting grounds for countless cursed shapeshifters. Hunters and adventurers avoid this part of the forest.",
         "stage": 2,
+        "tier": 1.0,
+        "travel_time": 1.0,
         "area": "Cursed Forest",
         "unlocked": false,
-        "mobs": {
-            "Orc": [
-                20,
-                [
-                    3,
-                    0.5,
-                    6
-                ]
-            ],
-            "Earth Elemental": [
-                12,
-                [
-                    1.5,
-                    0.5,
-                    6
-                ]
-            ],
-            "Goblin Archer": [
-                70,
-                [
-                    4,
-                    0.5,
-                    10
-                ]
-            ],
-            "Goblin Warrior": [
-                50,
-                [
-                    4,
-                    0.5,
-                    10
-                ]
-            ]
-        },
+        "mobs": ["Werewolf", "Weregirl", "Werecat", "Undead Rat"],
+        "unlocks": {"Black Woods": 80, "Dead Forest": 40},
+        "cash_limit": 100,
+        "items_limit": 500
+    },
+    {
+        "id": "Dead Forest",
+        "desc": "An unknown disaster killed this part of the forest long time ago, leaving only dead trees... and undead animals.",
+        "stage": 3,
+        "tier": 1.5,
+        "travel_time": 1.0,
+        "area": "Cursed Forest",
+        "unlocked": false,
+        "mobs": ["Undead Rat", "Undead Werecat", "Undead Unicorn"],
+        "unlocks": {"Elven Burial Grounds": 80},
+        "cash_limit": 200,
+        "items_limit": 700
+    },
+    {
+        "id": "Elven Burial Grounds",
+        "desc": "Ancient elves used to bury their dead ones in this part of the forest. Over time all magic left their bones and became much darker.",
+        "stage": 4,
+        "tier": 2.5,
+        "travel_time": 2.0,
+        "area": "Cursed Forest",
+        "unlocked": false,
+        "mobs": ["Shadowman", "Horny Mummy", "Undead Unicorn", "Skeleton Warrior"],
+        "unlocks": {"Forest Catacombs": 80},
+        "cash_limit": 300,
+        "items_limit": 1000
+    },
+    {
+        "id": "Ancient Tombs",
+        "desc": "Ancient races built these massive underground tombs many centuries ago. Creatures of death and darkness populate it now.",
+        "stage": 1,
+        "tier": 3.5,
+        "travel_time": 3.0,
+        "area": "Forest Catacombs",
+        "unlocked": true,
+        "mobs": ["Shadowman", "Dark Spirit", "Crawler", "Spectre"],
+        "unlocks": {"The Bottom": 80, "Treasures Rooms": 50},
+        "cash_limit": 400,
+        "items_limit": 1500,
+        "hazard": {
+            "health": 0,
+            "mp": 20,
+            "vitality": 0
+        }
+    },
+    {
+        "id": "Treasures Rooms",
+        "desc": "Dark underground rooms are filled with gold... and deadly traps.",
+        "stage": 1,
+        "tier": 4.0,
+        "travel_time": 3.3,
+        "exploration_multiplier": 0.5,
+        "area": "Forest Catacombs",
+        "unlocked": false,
+        "mobs": ["Phantasm", "Spectre"],
         "unlocks": {},
-        "cash_limit": 1500,
-        "items_limit": 1700,
-        "img": "content/gfx/bg/locations/night_forest.webp"
+        "cash_limit": 5000,
+        "items_limit": 0,
+        "hazard": {
+            "health": 100,
+            "mp": 0,
+            "vitality": 50
+        }
+    },
+    {
+        "id": "The Bottom",
+        "desc": "Deep under countless floors filled with bones lie unbelievable treasures of the past... and unspeakable monstrosities.",
+        "stage": 1,
+        "tier": 5.0,
+        "travel_time": 3.5,
+        "exploration_multiplier": 1.5,
+        "area": "Forest Catacombs",
+        "unlocked": false,
+        "mobs": ["Undead Cemetery", "Deathling", "Vortex"],
+        "unlocks": {},
+        "cash_limit": 500,
+        "items_limit": 3000,
+        "hazard": {
+            "health": 0,
+            "mp": 20,
+            "vitality": 20
+        }
+    },
+    {
+        "id": "Black Woods",
+        "desc": "A forest surrounding a small settlement of Dark Elves. Small but numerous elven patrols attack any strangers on sight.",
+        "stage": 4,
+        "tier": 2.5,
+        "travel_time": 2.0,
+        "exploration_multiplier": 2,
+        "area": "Cursed Forest",
+        "unlocked": false,
+        "rchars": {"Dark_Elf": [50, 5]},
+        "mobs": ["Dark Elf Archer", "Undead Unicorn", "Secateuris"],
+        "unlocks": {"Dark Elves Settlement": 70},
+        "cash_limit": 500,
+        "items_limit": 900
+    },
+    {
+        "id": "Dark Elves Settlement",
+        "desc": "Dark Elves outcasts built a small village under the roots of trees. They fiercely attack any intrudes, but the village remains a popular place among well equipped slave hunters.",
+        "stage": 5,
+        "tier": 3.5,
+        "exploration_multiplier": 0.5,
+        "travel_time": 2.5,
+        "area": "Cursed Forest",
+        "unlocked": false,
+        "rchars": {"Dark_Elf": [1, 25]},
+        "mobs": ["Dark Elf Archer", "Undead Unicorn", "Giant Spider"],
+        "unlocks": {},
+        "cash_limit": 500,
+        "items_limit": 900
     }
 ]
