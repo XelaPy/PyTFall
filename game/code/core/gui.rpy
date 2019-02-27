@@ -28,13 +28,11 @@ init -1 python:
         TODO sm/lt: (Refactor)
         Use actors container from Location class and
         """
-        def __init__(self, type=None):
+        def __init__(self):
             """
             Creates a new SlaveMarket.
-            type = type girls predominantly present in the market. Not used.
             """
             super(SlaveMarket, self).__init__(id="PyTFall Slavemarket")
-            self.type = [] if type is None else type
 
             self.focused = None
 
@@ -94,7 +92,7 @@ init -1 python:
 
         def next_index(self):
             """
-            Sets the focus to the next girl.
+            Sets the focus to the next char.
             """
             if self.chars_list:
                 index = self.chars_list.index(self.focused)
@@ -103,7 +101,7 @@ init -1 python:
 
         def previous_index(self):
             """
-            Sets the focus to the previous girl.
+            Sets the focus to the previous char.
             """
             if self.chars_list:
                 index = self.chars_list.index(self.focused)
