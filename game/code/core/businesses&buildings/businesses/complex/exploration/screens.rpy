@@ -73,6 +73,7 @@ screen building_management_leftframe_exploration_guild_mode:
                                 else:
                                     action SetVariable("selected_log_area", area)
                                 $ tmp = area.name
+                                tooltip area.desc
                             else:
                                 $ tmp = "?????????"
                                 action NullAction()
