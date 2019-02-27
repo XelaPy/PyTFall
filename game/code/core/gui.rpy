@@ -110,20 +110,16 @@ init -1 python:
                 index = (index - 1) % len(self.chars_list)
                 self.focused = self.chars_list[index]
 
-        def set_index(self):
+        def set_focus(self, char=None):
             """
-            Sets the focus to a random girl.
+            Sets the focus to the given char.
+            Pick at random of None
             """
             if self.chars_list:
-                self.focused = choice(self.chars_list)
-
-        def set_girl(self, girl):
-            """
-            Sets the focus to the given girl.
-            girl = The girl to set the focus to.
-            """
-            if self.chars_list and girl in self.chars_list:
-                self.focused = girl
+                if char is None:
+                    self.focused = choice(self.chars_list)
+                elif char in self.chars_list:
+                    self.focused = char
 
 
     class GuiHeroProfile(_object):

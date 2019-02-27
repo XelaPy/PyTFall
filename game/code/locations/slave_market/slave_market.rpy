@@ -100,7 +100,7 @@ label slavel_market_controls:
 
     scene bg slave_market
 
-    $ pytfall.sm.set_index()
+    $ pytfall.sm.set_focus()
 
     show screen slavemarket
     with fade
@@ -591,7 +591,7 @@ screen slave_shopping(source, tt_text, buy_button, buy_tt):
                             imagebutton:
                                 idle img
                                 hover (im.MatrixColor(img, im.matrix.brightness(.15)))
-                                action Function(source.set_girl, c)
+                                action Function(source.set_focus, c)
                                 tooltip u"{=proper_stats_text}%s\n{size=-5}{=proper_stats_value_text}%s"%(c.name, c.desc)
                 bar value XScrollValue("sm_vp_glist")
 
