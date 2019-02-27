@@ -353,23 +353,24 @@ init:
                 label (u"__ [bm_mid_frame_mode.name] __") text_size 18 text_color ivory align .5, .6
             null height 5
 
-            frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                align .5, .5
-                padding 10, 10
-                vbox:
-                    style_group "wood"
+            if isinstance(bm_mid_frame_mode, ExplorationGuild):
+                use building_management_rightframe_exploration_guild_mode
+            else:
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                     align .5, .5
-                    spacing 10
-                    button:
-                        xysize 150, 40
-                        yalign .5
-                        action Return(["bm_mid_frame_mode", "building"])
-                        tooltip ("Here you can invest your gold and resources for various improvements.\n"+
-                                 "And see the different information (reputation, rank, fame, etc.)")
-                        text "Building" size 15
-                    if isinstance(bm_mid_frame_mode, ExplorationGuild):
-                        use building_management_rightframe_exploration_guild_mode
+                    padding 10, 10
+                    vbox:
+                        style_group "wood"
+                        align .5, .5
+                        spacing 10
+                        button:
+                            xysize 150, 40
+                            yalign .5
+                            action Return(["bm_mid_frame_mode", "building"])
+                            tooltip ("Here you can invest your gold and resources for various improvements.\n"+
+                                     "And see the different information (reputation, rank, fame, etc.)")
+                            text "Building" size 15
 
     screen building_management_leftframe_building_mode:
         # Stats:
