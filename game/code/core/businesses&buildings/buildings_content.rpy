@@ -12,7 +12,6 @@ init -9 python:
             self.focused = None
             self.index = 0
             self.chars_list = []
-            self.auto_sell_captured = False # Do we auto-sell SE captured slaves?
 
         def __contains__(self, char):
             return char in self.chars_list
@@ -58,43 +57,45 @@ init -9 python:
                     char.action = char.workplace = None
 
         # Deals with girls captured during SE:
-        def sell_captured(self, girl=None, auto=False):
+        def auto_sell_captured(self, char):
             # Flat price of 1500 Gold - the fees:
             """
-            Sells off captured girl from the jail.
-            auto: Auto Selloff during next day.
+            Sells off captured char from the jail.
             """
-            if not girl:
-                girl = self.focused
+            fee = 1500 - self.get_fees4captured(girl)
+            if fee > 0:
+                hero.add_money(fee, "Slave Purchase")
+                self.remove_prisoner(char)
+                char.location = pytfall.sm
+                char.home = pytfall.sm
 
-            if auto or hero.take_ap(1):
-                if not auto:
-                    renpy.play("content/sfx/sound/world/purchase_1.ogg")
-                hero.add_money(1500 - self.get_fees4captured(girl), "SlaveTrade")
-                self.remove_prisoner(girl)
-                girl.location = pytfall.sm
-                girl.home = pytfall.sm
-                girl.action = None
-            else:
-                renpy.call_screen('message_screen', "You don't have enough AP left for this action!")
-
-            if not auto:
-                if not self.chars_list:
-                    renpy.hide_screen("slave_shopping")
+            return fee
 
         def next_day(self):
+            reports = []
             for i in self.chars_list:
+                i.up_counter("days_in_jail")
                 if i.flag("sentence_type") == "SE_capture":
-                    i.mod_flag("days_in_jail")
-                    if self.auto_sell_captured:
-                        # Auto-selloff through flag set in SE module
-                        # TODO se: Implement the button in SE!
-                        self.sell_captured(auto=True)
-                        # pytfall.temp_text.append("Jail keepers sold off: {color=[red]}%s{/color}!" % i.name)
-                    if i.flag("days_in_jail") > 20:
-                        # Auto-Selloff in case of 20+ days:
-                        self.sell_captured(auto=True)
-                        # pytfall.temp_text.append("Jail keepers sold off: {color=[red]}%s{/color}!" % i.name)
+                    if i.status == "slave" and i.flag("days_in_jail") >= randint(15, 20):
+                        fee = self.auto_sell_captured(i)
+                        if dice(45):
+                            temp = "Slave {} captured at badlands was sold off to the slave market and is now available for purchase!".format(i.name)
+                            if fee > 0:
+                                temp += " Guilds owner was compensated with a small reward of {color=[gold]}%d Gold{/color}." % fee
+                        else:
+                            temp = "Captured slave {} was sent off to the Slave Market!".format(i.name)
+                        reports.append(temp)
+                    elif i.status == "free" and i.flag("days_in_jail") >= randint(10, 15):
+                        if dice(45):
+                            temp = "Identity and status of {} captured in badlands was confirmed by the efficient staff of our city prison!".format(i.name)
+                            temp += " She was released after spending a short {} days in custody of our jailers.".format(i.flag("days_in_jail"))
+                        else:
+                            temp = "{} was released from jail after her identity was established!".format(i.name)
+                        self.remove_prisoner(i)
+                        reports.append(temp)
+
+            if reports:
+                gazette.jail.extend(reports)
 
         def get_fees4captured(self, char=None):
             # 200 for registration with city hall + 30 per day for "rent"

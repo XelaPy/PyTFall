@@ -21,7 +21,7 @@ init -100 python:
         return inside
 
     class CharsMarketBase(object):
-        def next_index(self):
+        def next_char(self):
             """
             Sets the focus to the next char.
             """
@@ -30,7 +30,7 @@ init -100 python:
                 index = (index + 1) % len(self.chars_list)
                 self.focused = self.chars_list[index]
 
-        def previous_index(self):
+        def previous_char(self):
             """
             Sets the focus to the previous char.
             """

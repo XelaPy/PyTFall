@@ -520,16 +520,16 @@ screen slave_shopping(source, tt_text, buy_button, buy_tt):
         frame:
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=.98), 10, 10)
             xpadding 5
-            pos(928, 370)
+            pos 928, 370
             xsize 350
             hbox:
                 xalign .5
-                $ img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_left.png", 50, 50)
+                $ img = im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_left.png", 50, 50)
                 imagebutton:
-                    align(.5, .5)
+                    align .5, .5
                     idle img
-                    hover (im.MatrixColor(img, im.matrix.brightness(.15)))
-                    action (Function(source.previous_index))
+                    hover im.MatrixColor(img, im.matrix.brightness(.15))
+                    action Function(source.previous_char)
                     tooltip "<== Previous Girl"
 
                 null width 10
@@ -559,10 +559,10 @@ screen slave_shopping(source, tt_text, buy_button, buy_tt):
 
                 $ img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_right.png", 50, 50)
                 imagebutton:
-                    align(.5, .5)
+                    align .5, .5
                     idle img
-                    hover (im.MatrixColor(img, im.matrix.brightness(.15)))
-                    action (Function(source.next_index))
+                    hover im.MatrixColor(img, im.matrix.brightness(.15))
+                    action Function(source.next_char)
                     tooltip "Next Girl ==>"
 
         # Girl choice:

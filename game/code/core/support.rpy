@@ -293,6 +293,7 @@ init -9 python:
 
         def clear(self):
             self.arena = []
+            self.jail = []
             self.shops = []
             self.other = []
             self.stories = []
