@@ -222,6 +222,8 @@ screen building_management_leftframe_exploration_guild_mode:
                                         xsize 274
                                         text "[tracker.team.name]"
                                         text "[tracker.days_explored]/[tracker.days]" xalign 1.0
+    elif bm_exploration_view_mode == "upgrade":
+        use building_management_leftframe_businesses_mode_upgrades
 
 screen building_management_midframe_exploration_guild_mode:
     if bm_exploration_view_mode == "explore":
@@ -633,6 +635,8 @@ screen building_management_midframe_exploration_guild_mode:
                     add w.show("portrait", resize=(70, 70), cache=1)
                     hovered Function(setattr, config, "mouse", mouse_drag)
                     unhovered Function(setattr, config, "mouse", mouse_cursor)
+    elif bm_exploration_view_mode == "upgrade":
+        use building_management_midframe_businesses_mode_upgrades
 
 screen building_management_rightframe_exploration_guild_mode:
     if bm_exploration_view_mode == "explore" and selected_log_area:
@@ -826,24 +830,32 @@ screen building_management_rightframe_exploration_guild_mode:
 
                 if False:
                     button:
-                        xysize (150, 40)
+                        xysize 150, 40
                         yalign .5
                         action NullAction()
-                        tooltip "All the meetings and conversations are held in this Hall. On the noticeboard, you can take job that available for your rank. Sometimes guild members or the master himself and his Council, can offer you a rare job."
+                        tooltip ("All the meetings and conversations are held in this Hall."+
+                                 "On the noticeboard, you can take job that available for your rank."+
+                                 " Sometimes guild members or the master himself and his Council, can offer you a rare job.")
                         text "Main Hall" size 15
                 button:
-                    xysize (150, 40)
+                    xysize 150, 40
                     yalign .5
                     action SetVariable("bm_exploration_view_mode", "team")
                     tooltip "You can customize your team here or hire Guild members."
                     text "Teams" size 15
                 button:
-                    xysize (150, 40)
+                    xysize 150, 40
                     yalign .5
                     action SetVariable("bm_exploration_view_mode", "explore")
                     tooltip ("On this screen you can organize the expedition. Also, there is a "+
                              "possibility to see all available information on the various places, enemies and items drop.")
                     text "Exploration" size 15
+                button:
+                    xysize 150, 40
+                    yalign .5
+                    action SetVariable("bm_exploration_view_mode", "upgrade")
+                    tooltip "Extend your guild with the best upgrades availible!"
+                    text "Upgrades" size 15
 
 screen fg_char_dropdown(char, team=None, remove=False):
     # Trying to create a drop down screen with choices of actions:

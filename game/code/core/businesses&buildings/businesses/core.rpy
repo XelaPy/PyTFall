@@ -65,7 +65,7 @@ init -12 python:
 
             return True
 
-        def expand_capacity(self):
+        def expand_capacity(self, **kwargs):
             self.in_slots += self.exp_cap_in_slots
             self.building.in_slots += self.exp_cap_in_slots
             self.ex_slots += self.exp_cap_ex_slots
@@ -89,7 +89,7 @@ init -12 python:
                 return False
             return True
 
-        def reduce_capacity(self):
+        def reduce_capacity(self, **kwargs):
             self.in_slots -= self.exp_cap_in_slots
             self.building.in_slots -= self.exp_cap_in_slots
             self.ex_slots -= self.exp_cap_ex_slots

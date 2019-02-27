@@ -416,6 +416,8 @@ init -6 python: # Guild, Tracker and Log.
         IMG = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.webp"
         DESC = "Travel to exotic places, meet new monsters and people... and take their shit!"
 
+        CAPACITY = 0
+
         EXP_CAP_IN_SLOTS = 3
         EXP_CAP_EX_SLOTS = 0
         EXP_CAP_COST = 5000
@@ -427,14 +429,33 @@ init -6 python: # Guild, Tracker and Log.
             self.teams = list() # List to hold all the teams formed in this guild. We should add at least one team or the guild will be useless...
             self.explorers = list() # List to hold all the (active) exploring trackers.
 
-            self.teams.append(Team("Avengers", free=True))
-            if DEBUG_SE:
-                for i in range(5):
-                    self.teams.append(Team("Team " + str(i), free=True))
-
             self.workable = True
             self.focus_team = None
             self.team_to_launch_index = 0
+
+        def expand_capacity(self, name="", mod_gui=None):
+            if not name:
+                name = get_team_name()
+
+            team = self.new_team(name)
+            if mod_gui:
+                mod_gui.add(team)
+
+            super(ExplorationGuild, self).expand_capacity()
+
+        def reduce_capacity(self, team=None, mod_gui=False):
+            if team is None:
+                team = self.teams.pop()
+            else:
+                self.teams.remove(team)
+
+            if mod_gui:
+                workers, guild = mod_gui
+                for i in team:
+                    workers.add(i)
+                guild.remove(team)
+
+            super(ExplorationGuild, self).reduce_capacity()
 
         # Business MainUpgrade related:
         def add_upgrade(self, upgrade, pay=False):

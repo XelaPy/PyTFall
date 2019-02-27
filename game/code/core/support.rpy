@@ -278,7 +278,11 @@ init -9 python:
             cutoff_day = store.day - 10
             for area in store.fg_areas.values():
                 if area.last_explored <= cutoff_day:
-                    area.explored -= 1
+                    new_val = area.explored - 1
+                    if the_eye_upgrade_active and new_val == 49:
+                        area.explored = 50
+                    else:
+                        area.explored = new_val
 
             # Restoring world girls:
             self.restore_all_chars()

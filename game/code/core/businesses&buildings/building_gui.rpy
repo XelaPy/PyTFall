@@ -64,17 +64,12 @@ label building_management:
                         workers.add(i)
                     del result[2].members[:]
                 elif result[1] == "create":
-                    n = renpy.call_screen("pyt_input", "", "Enter Name", 20)
-                    if len(n):
-                        bm_mid_frame_mode.expand_capacity()
-                        t = bm_mid_frame_mode.new_team(n)
-                        guild_teams.add(t)
+                    name = get_team_name()
+                    name = renpy.call_screen("pyt_input", name, "Enter Name", 20)
+                    if len(name):
+                        bm_mid_frame_mode.expand_capacity(name=name, mod_gui=guild_teams)
                 elif result[1] == "dissolve":
-                    for i in result[2]:
-                        workers.add(i)
-                    bm_mid_frame_mode.reduce_capacity()
-                    bm_mid_frame_mode.remove_team(result[2])
-                    guild_teams.remove(result[2])
+                    bm_mid_frame_mode.reduce_capacity(team=result[2], mod_gui=[workers, guild_teams])
         elif result[0] == "building":
             if result[1] == 'items_transfer':
                 python:
@@ -650,7 +645,7 @@ screen building_management_leftframe_businesses_mode_upgrades:
                 text "Capacity:" xalign .02 color ivory
                 text "[bm_mid_frame_mode.capacity]"  xalign .98 style_suffix "value_text" yoffset 4
 
-            if c0:
+            if c0 and not isinstance(bm_mid_frame_mode, ExplorationGuild):
                 null height 5
                 text "To Expand:"
                 frame:
@@ -674,7 +669,7 @@ screen building_management_leftframe_businesses_mode_upgrades:
                     xalign .5
                     if bm_mid_frame_mode.can_extend_capacity():
                         action [Function(bm_mid_frame_mode.expand_capacity),
-                            Play("audio", "content/sfx/sound/world/purchase_1.ogg")]
+                                Play("audio", "content/sfx/sound/world/purchase_1.ogg")]
                         tooltip "Add more space to this business!"
                     else:
                         action NullAction()
@@ -703,7 +698,7 @@ screen building_management_leftframe_businesses_mode_upgrades:
                     xalign .5
                     if bm_mid_frame_mode.can_reduce_capacity():
                         action [Function(bm_mid_frame_mode.reduce_capacity),
-                            Play("audio", "content/sfx/sound/world/purchase_1.ogg")]
+                                Play("audio", "content/sfx/sound/world/purchase_1.ogg")]
                         tooltip "Add more space to the building!"
                     else:
                         action NullAction()
