@@ -42,7 +42,31 @@ label city_jail:
 
     while True:
         $ result = ui.interact()
-        if result[0] == "control":
+
+        if result[0] == "jail_action":
+            if result[1] == "buy": # Dealing with slave:
+                $ char = jail.focused
+                $ price = jail.get_fees4captured(char)
+                $ Notify("{} was kept in jail for {} days".format(char.name, char.flag("days_in_jail")))
+
+                if hero.AP > 0 and hero.take_money(price, reason="Slave Purchase"):
+                    play sound "content/sfx/sound/world/purchase_1.ogg"
+
+                    $ jail.remove_prisoner()
+
+                    $ hero.AP -= 1
+                    $ hero.add_char(char)
+                    $ char.action = char.workplace = None
+                    $ char.home = locations["Streets"]
+
+                    $ jail.set_focus()
+                else:
+                    call screen message_screen("You don't have enough money for this purchase!")
+
+                if not jail.chars_list or not hero.AP:
+                    hide screen slave_shopping
+                    $ Return(("control", "return"))()
+        elif result[0] == "control":
             if result[1] == "return":
                 hide screen city_jail
                 jump city
