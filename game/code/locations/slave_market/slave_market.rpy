@@ -122,11 +122,7 @@ label slavel_market_controls:
                 $ char.home = locations["Streets"]
                 $ pytfall.sm.chars_list.remove(char)
 
-                if pytfall.sm.chars_list:
-                    $ pytfall.sm.focused = choice(pytfall.sm.chars_list)
-                    $ pytfall.sm.index = pytfall.sm.chars_list.index(pytfall.sm.focused)
-                else:
-                    $ pytfall.sm.focused = None
+                $ pytfall.sm.set_focus()
 
                 if not hero.AP:
                     $ renpy.hide_screen("slave_shopping")
