@@ -217,7 +217,9 @@ init -11 python:
     def controlled_char(char):
         # used in chars profile, most user interface options disabled if this returns False.
         global char_profile_entry
-        if char_profile_entry == "employment_agency":
+        entry_labels = ["employment_agency", "building_management"]
+
+        if char_profile_entry in entry_labels:
             return False
         elif not char.is_available:
             return False

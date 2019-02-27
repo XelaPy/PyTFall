@@ -868,7 +868,7 @@ screen fg_char_dropdown(char, team=None, remove=False):
         has vbox
 
         textbutton "Profile":
-            action [SetVariable("char_profile_entry", last_label),
+            action [SetVariable("char_profile_entry", "building_management"),
                     SetVariable("char", char),
                     SetVariable("girls", [char]),
                     Hide("fg_char_dropdown"),

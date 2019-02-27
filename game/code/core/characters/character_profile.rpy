@@ -217,6 +217,7 @@ label char_profile_end:
 
 
 screen char_profile():
+    modal True
 
     key "mousedown_4" action Return(["control", "right"])
     key "mousedown_5" action Return(["control", "left"])
