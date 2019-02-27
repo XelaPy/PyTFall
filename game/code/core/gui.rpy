@@ -36,7 +36,7 @@ init -1 python:
             super(SlaveMarket, self).__init__(id="PyTFall Slavemarket")
             self.type = [] if type is None else type
 
-            self.girl = None
+            self.focused = None
 
             self.chars_list = None
             self.blue_girls = dict() # Girls (SE captured) blue is training for you.
@@ -76,7 +76,7 @@ init -1 python:
             """
             The property to return the proper financial data for the girl.
             """
-            return self.girl.fin
+            return self.focused.fin
 
         def populate_chars_list(self):
             """
@@ -104,25 +104,25 @@ init -1 python:
             Sets the focus to the next girl.
             """
             if self.chars_list:
-                index = self.chars_list.index(self.girl)
+                index = self.chars_list.index(self.focused)
                 index = (index + 1) % len(self.chars_list)
-                self.girl = self.chars_list[index]
+                self.focused = self.chars_list[index]
 
         def previous_index(self):
             """
             Sets the focus to the previous girl.
             """
             if self.chars_list:
-                index = self.chars_list.index(self.girl)
+                index = self.chars_list.index(self.focused)
                 index = (index - 1) % len(self.chars_list)
-                self.girl = self.chars_list[index]
+                self.focused = self.chars_list[index]
 
         def set_index(self):
             """
             Sets the focus to a random girl.
             """
             if self.chars_list:
-                self.girl = choice(self.chars_list)
+                self.focused = choice(self.chars_list)
 
         def set_girl(self, girl):
             """
@@ -130,7 +130,7 @@ init -1 python:
             girl = The girl to set the focus to.
             """
             if self.chars_list and girl in self.chars_list:
-                self.girl = girl
+                self.focused = girl
 
 
     class GuiHeroProfile(_object):

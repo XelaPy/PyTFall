@@ -92,7 +92,7 @@ label slavel_market_controls:
             pytfall.world_actions.work(Iff(global_flag_complex("visited_sm")),
                                        index=101, name="Work all day", returned="mc_action_work_in_slavemarket_all_day")
             pytfall.world_actions.slave_market(pytfall.sm, "Get these girls while they're still Young and Hot!",
-                                                index=0)
+                                               index=0)
 
             pytfall.world_actions.add(1, "Free Slaves", Jump("sm_free_slaves"))
             pytfall.world_actions.look_around(index=1000)
