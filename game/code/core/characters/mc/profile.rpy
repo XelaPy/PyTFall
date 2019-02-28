@@ -61,7 +61,13 @@ label hero_profile:
             $ hero.team.remove(result[1])
         elif result[0] == "rename_team":
             if result[1] == "set_name":
-                $ hero.team.name = renpy.call_screen("pyt_input", hero.team.name, "Enter Team Name", 20, (350, 200))
+                $ t = renpy.call_screen("pyt_input", hero.team.name, "Enter Team Name", 20, (350, 200))
+                if len(t):
+                    $ hero.team.name = t
+                else:
+                    $ hero.team.name = "New Team"
+                $ del t
+                    
 
 # Screens:
 screen hero_profile():
