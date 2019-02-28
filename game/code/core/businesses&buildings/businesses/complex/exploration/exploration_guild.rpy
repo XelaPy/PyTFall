@@ -284,7 +284,7 @@ init -6 python: # Guild, Tracker and Log.
 
             # Log in the return:
             temp = "{} returned to the guild!".format(self.team.name)
-            tracker.log(temp, name="Return")
+            self.log(temp, name="Return")
 
             # Main and Sub Area Stuff:
             area.logs.extend([l for l in self.logs if l.ui_log])
