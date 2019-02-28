@@ -328,7 +328,7 @@ screen building_management_midframe_exploration_guild_mode:
                                 elif focused_log.item:
                                     $ item = focused_log.item
                                     vbox:
-                                        spacing 10 xfill 1
+                                        spacing 10 xfill True
                                         add ProportionalScale(item.icon, 100, 100) xalign .5
                                         text item.desc xalign .5 color white
             elif fg_mid_log_mode == "info":
@@ -795,7 +795,7 @@ screen building_management_rightframe_exploration_guild_mode:
                 hbox:
                     xsize 274
                     text "Explored:"
-                    text "[area.explored]%" xalign 1.0
+                    text "{}%".format(round_int(area.explored)) xalign 1.0
             frame:
                 background Frame(Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
                 xalign .5

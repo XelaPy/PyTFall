@@ -83,7 +83,7 @@ init -9 python: # FG Area
 
         @property
         def explored(self):
-            return round_int(self._explored)
+            return self._explored
 
         @explored.setter
         def explored(self, value):
@@ -980,6 +980,10 @@ init -6 python: # Guild, Tracker and Log.
                                "Your explorers are doing the boring work of mapping the area (+50% exploration rate from the Lab)"])
                 tracker.log(temp)
                 exploration_rate *= 1.5
+
+            if DEBUG_SE:
+                msg = "Exploration rate: {}".format(exploration_rate)
+                se_debug(msg, mode="info")
 
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
