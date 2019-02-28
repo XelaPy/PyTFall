@@ -281,15 +281,17 @@ screen building_management_midframe_exploration_guild_mode:
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                         style_prefix "dropdown_gm2"
-                        ysize 346
+                        ysize 410
                         padding 10, 10
-                        has vbox xsize 220 spacing 1
+                        has vbox xsize 220 # spacing 1
                         frame:
                             style_group "content"
                             xalign .5
                             padding 15, 5
                             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                             label "Events" text_size 20 text_color ivory align .5, .5
+
+                        null height 4
 
                         for l in area.logs:
                             button:
@@ -299,9 +301,9 @@ screen building_management_midframe_exploration_guild_mode:
                                 text str(l.name) size 12 xalign .02 yoffset 1
                                 # Resolve the suffix:
                                 if l.item:
-                                    text "[l.item.type]" size 12 align (1.0, .5)
+                                    text "[l.item.type]" size 12 align 1.0, .5
                                 else: # Suffix:
-                                    text str(l.suffix) size 12 align (1.0, .5)
+                                    text str(l.suffix) size 12 align 1.0, .5
 
                     # Information (Story)
                     frame:
@@ -333,7 +335,7 @@ screen building_management_midframe_exploration_guild_mode:
                     ypos 100 xalign .5
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-                        xysize (310, 410)
+                        xysize 310, 410
                         xpadding 5
                         frame:
                             style_group "content"
@@ -383,7 +385,6 @@ screen building_management_midframe_exploration_guild_mode:
                                                 add ProportionalScale(mob["portrait"], 57, 57) align .5, .5
                                             else:
                                                 add ProportionalScale("content/buildings/upgrades/the_eye.webp", 57, 57) align .5, .5
-
 
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
@@ -601,10 +602,10 @@ screen building_management_midframe_exploration_guild_mode:
             id "team_builder"
             drag:
                 drag_name workers
-                xysize (600, 310)
+                xysize 600, 310
                 draggable 0
                 droppable True
-                pos (0, 0)
+                pos 0, 0
 
             for t, pos in guild_teams:
                 $ idle_t = t not in bm_mid_frame_mode.exploring_teams()
@@ -627,12 +628,12 @@ screen building_management_midframe_exploration_guild_mode:
 
                 drag:
                     drag_name t
-                    xysize (208, 83)
+                    xysize 208, 83
                     draggable 0
                     droppable idle_t
                     pos pos
                     frame:
-                        xysize (208, 83)
+                        xysize 208, 83
                         background gfxframes + "team_frame_4.png"
                         button:
                             background Frame("content/gfx/frame/namebox4.png")
