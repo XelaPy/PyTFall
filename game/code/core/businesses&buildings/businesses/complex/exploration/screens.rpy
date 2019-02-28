@@ -153,7 +153,7 @@ screen building_management_leftframe_exploration_guild_mode:
                         tooltip "The Eye detects something interesting at this location!"
                         add pscale("content/buildings/upgrades/the_eye.webp", 50, 50)
                 else:
-                    null height 50    
+                    null height 50
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                     xalign .5

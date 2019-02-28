@@ -669,6 +669,11 @@ init -6 python: # Guild, Tracker and Log.
             # tacker.tp = int(round(tracker.points / 20.0))
             travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
+            if self.has_extension(GuildStables):
+                speed = 2.5
+            else:
+                speed = 1.25
+
             if not tracker.traveled:
                 temp = "{} are on route to {}!".format(tracker.team.name, tracker.area.name)
                 tracker.log(temp)
@@ -677,7 +682,7 @@ init -6 python: # Guild, Tracker and Log.
                 yield self.env.timeout(5) # We travel...
 
                 tracker.points -= tracker.travel_points
-                tracker.traveled += 1.25
+                tracker.traveled += speed
 
                 # Team arrived:
                 if tracker.traveled >= tracker.distance:
@@ -714,6 +719,11 @@ init -6 python: # Guild, Tracker and Log.
             # tacker.tp = int(round(tracker.points / 20.0))
             travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
+            if self.has_extension(GuildStables):
+                speed = 2.5
+            else:
+                speed = 1.25
+
             if not tracker.traveled:
                 temp = "{} are traveling back home!".format(tracker.team.name)
                 tracker.log(temp)
@@ -722,7 +732,7 @@ init -6 python: # Guild, Tracker and Log.
                 yield self.env.timeout(5) # We travel...
 
                 tracker.points -= tracker.travel_points
-                tracker.traveled += 1.25
+                tracker.traveled += speed
 
                 # Team arrived:
                 if tracker.traveled >= tracker.distance:

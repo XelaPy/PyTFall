@@ -1,6 +1,6 @@
 init 5 python:
     class TheEye(BusinessUpgrade):
-        SORTING_ORDER = 5
+        SORTING_ORDER = 1
         COMPATIBILITY = [ExplorationGuild]
 
         NAME = "The Eye"
@@ -24,5 +24,32 @@ init 5 python:
 
         def __init__(self, **kwargs):
             super(TheEye, self).__init__(**kwargs)
-            self.job_effectiveness_mod = 20
+            self.expands_capacity = False # Force the matter.
+
+
+    class GuildStables(BusinessUpgrade):
+        SORTING_ORDER = 5
+        COMPATIBILITY = [ExplorationGuild]
+
+        NAME = "Stables"
+        IMG = "content/buildings/upgrades/stables.webp"
+        MATERIALS = {"Bricks": 20, "Stone": 10,
+                     "Steel": 10, "Wood": 50}
+        temp = []
+        temp.append("Stables.")
+        temp.append("A man on a horse is spiritually, as well as physically, bigger then a man on foot.")
+        temp.append("(+50% Traveling Speed)")
+        DESC = "\n".join(temp)
+        del temp
+        COST = 10000
+        IN_SLOTS = 2
+        EX_SLOTS = 10
+        CAPACITY = 0
+
+        EXP_CAP_IN_SLOTS = 0
+        EXP_CAP_EX_SLOTS = 0
+        EXP_CAP_COST = 0
+
+        def __init__(self, **kwargs):
+            super(GuildStables, self).__init__(**kwargs)
             self.expands_capacity = False # Force the matter.
