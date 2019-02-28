@@ -273,6 +273,14 @@ init -6 python: # Guild, Tracker and Log.
 
                 return
 
+            if self.guild.has_extension(HealingSprings):
+                temp = choice(["The team visited the Healing Springs on their way back to the Guild.",
+                               "The team took some time off to visit the Onsen on their way back"])
+                self.log(temp)
+                for char in self.team:
+                    mod_by_max("health", .25)
+                    mod_by_max("mp", .25)
+                    mod_by_max("vitality", .25)
 
             # Main and Sub Area Stuff:
             area.logs.extend([l for l in self.logs if l.ui_log])
@@ -670,6 +678,9 @@ init -6 python: # Guild, Tracker and Log.
             travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
             if self.has_extension(GuildStables):
+                temp = choice(["The Stables turned out to be a great investment after all. Team travels at 2x the speed!",
+                               "The team is traveling at 2x the pace! Stables Rule!"])
+                tracker.log(temp)
                 speed = 2.5
             else:
                 speed = 1.25

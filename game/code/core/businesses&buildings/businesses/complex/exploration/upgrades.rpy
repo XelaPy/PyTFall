@@ -38,7 +38,7 @@ init 5 python:
         temp = []
         temp.append("Stables.")
         temp.append("A man on a horse is spiritually, as well as physically, bigger then a man on foot.")
-        temp.append("(+50% Traveling Speed)")
+        temp.append("(+100% Traveling Speed)")
         DESC = "\n".join(temp)
         del temp
         COST = 10000
@@ -52,4 +52,33 @@ init 5 python:
 
         def __init__(self, **kwargs):
             super(GuildStables, self).__init__(**kwargs)
+            self.expands_capacity = False # Force the matter.
+
+
+    class HealingSprings(BusinessUpgrade):
+        SORTING_ORDER = 5
+        COMPATIBILITY = [ExplorationGuild]
+
+        NAME = "Healing Springs"
+        IMG = "content/buildings/upgrades/onsen.webp"
+        MATERIALS = {"Green Marble": 20, "Stone": 10}
+        temp = []
+        temp.append("Healing Springs.")
+        temp.append("Provides the much needed relief when returning to Guild after a difficult quest.")
+        temp.append("(+25% HP when returning to Guild)")
+        temp.append("(+25% MP when returning to Guild)")
+        temp.append("(+25% VP when returning to Guild)")
+        DESC = "\n".join(temp)
+        del temp
+        COST = 2000
+        IN_SLOTS = 2
+        EX_SLOTS = 10
+        CAPACITY = 0
+
+        EXP_CAP_IN_SLOTS = 0
+        EXP_CAP_EX_SLOTS = 0
+        EXP_CAP_COST = 0
+
+        def __init__(self, **kwargs):
+            super(HealingSprings, self).__init__(**kwargs)
             self.expands_capacity = False # Force the matter.
