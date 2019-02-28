@@ -283,7 +283,7 @@ init -6 python: # Guild, Tracker and Log.
                     mod_by_max(char, "vitality", .25)
 
             # Log in the return:
-            temp = "{} returned to the guild!".format(tracker.team.name)
+            temp = "{} returned to the guild!".format(self.team.name)
             tracker.log(temp, name="Return")
 
             # Main and Sub Area Stuff:
