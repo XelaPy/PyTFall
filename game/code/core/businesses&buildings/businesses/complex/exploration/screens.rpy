@@ -26,7 +26,7 @@ screen building_management_leftframe_exploration_guild_mode:
                     style "paging_green_button_left"
                     yalign .5
                     tooltip "Previous Page"
-                    action SetScreenVariable("focused_area_index", (focused_area_index - 1) % len(temp))
+                    action SetScreenVariable("focused_area_index", (focused_area_index - 1) % len(temp)), SetScreenVariable("focused_log", None)
                 null width 5
                 frame:
                     background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
@@ -52,7 +52,7 @@ screen building_management_leftframe_exploration_guild_mode:
                     style "paging_green_button_right"
                     yalign .5
                     tooltip "Next Page"
-                    action SetScreenVariable("focused_area_index", (focused_area_index + 1) % len(temp))
+                    action SetScreenVariable("focused_area_index", (focused_area_index + 1) % len(temp)), SetScreenVariable("focused_log", None)
 
             # Sub Areas:
             null height 5
@@ -68,10 +68,10 @@ screen building_management_leftframe_exploration_guild_mode:
                             xysize 220, 18
                             if area.unlocked:
                                 if selected_log_area == area:
-                                    action SetVariable("selected_log_area", None)
+                                    action SetScreenVariable("focused_log", None), SetVariable("selected_log_area", None)
                                     selected True
                                 else:
-                                    action SetVariable("selected_log_area", area)
+                                    action SetScreenVariable("focused_log", None), SetVariable("selected_log_area", area)
                                 $ tmp = area.name
                                 tooltip area.desc
                             else:
@@ -80,6 +80,7 @@ screen building_management_leftframe_exploration_guild_mode:
                                 else:
                                     $ tmp = "????????????"
                                 action NullAction()
+                            selected selected_log_area == area
                             text str(area.stage):
                                 size 12
                                 xalign .02
@@ -168,7 +169,7 @@ screen building_management_leftframe_exploration_guild_mode:
                     style_prefix "wood"
                     button:
                         xysize 150, 40
-                        action SetVariable("bm_exploration_view_mode", "team")
+                        action SetVariable("bm_exploration_view_mode", "team"), SetScreenVariable("focused_log", None)
                         tooltip "You can customize your team here or hire Guild members."
                         text "<== Teams" size 15
     elif bm_exploration_view_mode == "team":
@@ -441,7 +442,6 @@ screen building_management_midframe_exploration_guild_mode:
                                         else:
                                             add ProportionalScale("content/buildings/upgrades/the_eye.webp", 57, 57) align .5, .5
 
-
             # Toggle mode:
             # Launch teams:
             vbox:
@@ -487,7 +487,6 @@ screen building_management_midframe_exploration_guild_mode:
                         else:
                             action NullAction()
                             text "No Teams Available!" style "basic_button_text" align .5, .5
-
                     button:
                         style "paging_green_button_right2x"
                         yalign .5
