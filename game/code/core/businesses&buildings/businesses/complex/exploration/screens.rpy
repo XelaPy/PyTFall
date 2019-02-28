@@ -75,7 +75,7 @@ screen building_management_leftframe_exploration_guild_mode:
                                 $ tmp = area.name
                                 tooltip area.desc
                             else:
-                                $ tmp = "?????????"
+                                $ tmp = area.obfuscated_name
                                 action NullAction()
                             text str(area.stage):
                                 size 12

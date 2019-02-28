@@ -1,6 +1,6 @@
 # Library of functions
 init -11 python:
-    def obfuscate_string(string, mod=.8):
+    def obfuscate_string(string, mod=.6):
         rv = []
 
         for i in string:
