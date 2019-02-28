@@ -75,7 +75,7 @@ screen building_management_leftframe_exploration_guild_mode:
                                 $ tmp = area.name
                                 tooltip area.desc
                             else:
-                                $ tmp = area.obfuscated_name
+                                $ tmp = get_obfuscated_str(area.name)
                                 action NullAction()
                             text str(area.stage):
                                 size 12
@@ -324,7 +324,7 @@ screen building_management_midframe_exploration_guild_mode:
                             ypos 50
                             xalign .5
                             has vbox spacing 3
-                            for m in area.mobs_defeated:
+                            for m in area.mobs:
                                 $ m = mobs[m]
                                 fixed:
                                     xysize 300, 65

@@ -506,6 +506,8 @@ init:
 
     # We use a global here because checking for the eye is slow and complicated
     default the_eye_upgrade_active = False
+    # Used to store some data we obfuscate for the Eye and maybe other places.
+    default obfuscated_strings = {"day": 0}
 
 init 999 python:
     # ensure that all initialization debug messages have been written to disk

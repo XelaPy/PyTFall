@@ -15,6 +15,18 @@ init -11 python:
 
         return "".join(rv)
 
+    def get_obfuscated_str(string, mod=.6):
+        global obfuscated_strings
+        global day
+
+        if obfuscated_strings["day"] < day:
+            obfuscated_strings = {"day": day}
+
+        if string not in obfuscated_strings:
+            obfuscated_strings[string] = obfuscate_string(string, mod)
+
+        return obfuscated_strings[string]
+
     def set_font_color(s, color):
         """
         @param: color: should be supplied as a string! Not as a variable!

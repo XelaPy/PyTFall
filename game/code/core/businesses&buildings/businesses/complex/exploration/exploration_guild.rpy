@@ -94,20 +94,6 @@ init -9 python: # FG Area
             else:
                 self._explored = value
 
-        @property
-        def obfuscated_name(self):
-            if not getattr(self, "_obfuscated_name", None):
-                self._obfuscated_name = obfuscate_string(self.name)
-            if not getattr(self, "_last_updated_on", None):
-                self._last_updated_on = store.day
-
-            if self._last_updated_on < store.day:
-                self._last_updated_on = store.day
-                self._obfuscated_name = obfuscate_string(self.name)
-
-            return self._obfuscated_name
-
-
 
 init -6 python: # Guild, Tracker and Log.
     # ======================= (Simulated) Exploration code =====================>>>

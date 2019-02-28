@@ -237,6 +237,19 @@ init -9 python:
 
         # Properties:
         @property
+        def obfuscated_name(self):
+            if not getattr(self, "_obfuscated_name", None):
+                self._obfuscated_name = obfuscate_string(self.name)
+            if not getattr(self, "_last_updated_on", None):
+                self._last_updated_on = store.day
+
+            if self._last_updated_on < store.day:
+                self._last_updated_on = store.day
+                self._obfuscated_name = obfuscate_string(self.name)
+
+            return self._obfuscated_name
+
+        @property
         def is_available(self):
             # False if we cannot reach the character.
             if not self.alive:
