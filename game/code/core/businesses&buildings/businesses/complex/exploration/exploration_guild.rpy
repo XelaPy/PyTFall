@@ -278,9 +278,13 @@ init -6 python: # Guild, Tracker and Log.
                                "The team took some time off to visit the Onsen on their way back"])
                 self.log(temp)
                 for char in self.team:
-                    mod_by_max("health", .25)
-                    mod_by_max("mp", .25)
-                    mod_by_max("vitality", .25)
+                    mod_by_max(char, "health", .25)
+                    mod_by_max(char, "mp", .25)
+                    mod_by_max(char, "vitality", .25)
+
+            # Log in the return:
+            temp = "{} returned to the guild!".format(tracker.team.name)
+            tracker.log(temp, name="Return")
 
             # Main and Sub Area Stuff:
             area.logs.extend([l for l in self.logs if l.ui_log])
@@ -747,8 +751,6 @@ init -6 python: # Guild, Tracker and Log.
 
                 # Team arrived:
                 if tracker.traveled >= tracker.distance:
-                    temp = "{} returned to the guild!".format(tracker.team.name)
-                    tracker.log(temp, name="Return")
                     self.env.exit("back2guild")
 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
@@ -968,6 +970,17 @@ init -6 python: # Guild, Tracker and Log.
             # Max cash to be found this day:
             max_cash = tracker.cash_limit + tracker.cash_limit*.1*tracker.day
 
+            # Exploration speed:
+            ability_points = tracker.ability*.025
+            risk_mod = carea.risk*.01
+            exploration_rate = ability_points*risk_mod*area.exploration_multiplier
+
+            if self.has_extension(CartographyLab):
+                temp = choice(["The team is making notes about the area to be used in the lab when they get back.",
+                               "Your explorers are doing the boring work of mapping the area (+50% exploration rate from the Lab)"])
+                tracker.log(temp)
+                exploration_rate *= 1.5
+
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
 
@@ -1167,10 +1180,7 @@ init -6 python: # Guild, Tracker and Log.
                 # risk and multiplier added now
                 # +/- 10 points per day for a competent team.
                 if not self.env.now % 25:
-                    ability_points = tracker.ability*.025
-                    risk_mod = carea.risk*.01
-                    explored = ability_points*risk_mod*area.exploration_multiplier
-                    area.explored += explored
+                    area.explored += exploration_rate
 
                     for member in team:
                         if dice(50):

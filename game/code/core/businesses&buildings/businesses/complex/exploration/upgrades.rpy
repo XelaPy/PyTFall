@@ -28,7 +28,7 @@ init 5 python:
 
 
     class GuildStables(BusinessUpgrade):
-        SORTING_ORDER = 5
+        SORTING_ORDER = 2
         COMPATIBILITY = [ExplorationGuild]
 
         NAME = "Stables"
@@ -56,7 +56,7 @@ init 5 python:
 
 
     class HealingSprings(BusinessUpgrade):
-        SORTING_ORDER = 5
+        SORTING_ORDER = 3
         COMPATIBILITY = [ExplorationGuild]
 
         NAME = "Healing Springs"
@@ -70,7 +70,7 @@ init 5 python:
         temp.append("(+25% VP when returning to Guild)")
         DESC = "\n".join(temp)
         del temp
-        COST = 2000
+        COST = 5000
         IN_SLOTS = 2
         EX_SLOTS = 10
         CAPACITY = 0
@@ -81,4 +81,31 @@ init 5 python:
 
         def __init__(self, **kwargs):
             super(HealingSprings, self).__init__(**kwargs)
+            self.expands_capacity = False # Force the matter.
+
+
+    class CartographyLab(BusinessUpgrade):
+        SORTING_ORDER = 4
+        COMPATIBILITY = [ExplorationGuild]
+
+        NAME = "Cartography Lab"
+        IMG = "content/buildings/upgrades/map.webp"
+        MATERIALS = {"Green Marble": 20, "Stone": 10, "Wood": 50}
+        temp = []
+        temp.append("Cartography Lab.")
+        temp.append("Even a complete idiot would make the best of maps in this lab!")
+        temp.append("(+50% Exploration rate)")
+        DESC = "\n".join(temp)
+        del temp
+        COST = 5000
+        IN_SLOTS = 2
+        EX_SLOTS = 10
+        CAPACITY = 0
+
+        EXP_CAP_IN_SLOTS = 0
+        EXP_CAP_EX_SLOTS = 0
+        EXP_CAP_COST = 0
+
+        def __init__(self, **kwargs):
+            super(CartographyLab, self).__init__(**kwargs)
             self.expands_capacity = False # Force the matter.
