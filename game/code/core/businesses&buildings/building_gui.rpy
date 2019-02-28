@@ -719,7 +719,7 @@ screen building_management_leftframe_businesses_mode_upgrades:
             has vbox
             for u in bm_mid_frame_mode.upgrades:
                 button:
-                    xsize 309
+                    xsize 291
                     style "pb_button"
                     text "[u.name]":
                         align .5, .5
