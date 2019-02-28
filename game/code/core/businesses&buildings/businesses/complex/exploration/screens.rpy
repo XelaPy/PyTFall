@@ -828,7 +828,7 @@ screen building_management_rightframe_exploration_guild_mode:
                     if not area.explored:
                         text "Unknown" xalign 1.0
                     else:
-                        if area.hazards:
+                        if area.hazard:
                             text "Yes" xalign 1.0
                         else:
                             text "No" xalign 1.0
