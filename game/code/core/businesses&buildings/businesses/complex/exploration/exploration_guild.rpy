@@ -677,6 +677,10 @@ init -6 python: # Guild, Tracker and Log.
             # tacker.tp = int(round(tracker.points / 20.0))
             travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
+            if not tracker.traveled:
+                temp = "{} are on route to {}!".format(tracker.team.name, tracker.area.name)
+                tracker.log(temp)
+
             if self.has_extension(GuildStables):
                 temp = choice(["The Stables turned out to be a great investment after all. Team travels at 2x the speed!",
                                "The team is traveling at 2x the pace! Stables Rule!"])
@@ -684,10 +688,6 @@ init -6 python: # Guild, Tracker and Log.
                 speed = 2.5
             else:
                 speed = 1.25
-
-            if not tracker.traveled:
-                temp = "{} are on route to {}!".format(tracker.team.name, tracker.area.name)
-                tracker.log(temp)
 
             while 1:
                 yield self.env.timeout(5) # We travel...
