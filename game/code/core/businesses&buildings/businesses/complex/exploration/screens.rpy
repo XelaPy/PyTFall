@@ -26,7 +26,7 @@ screen building_management_leftframe_exploration_guild_mode:
                     style "paging_green_button_left"
                     yalign .5
                     tooltip "Previous Page"
-                    action SetScreenVariable("focused_arFea_index", (focused_area_index - 1) % len(temp))
+                    action SetScreenVariable("focused_area_index", (focused_area_index - 1) % len(temp))
                 null width 5
                 frame:
                     background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
