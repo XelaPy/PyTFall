@@ -302,7 +302,7 @@ screen battle_overlay(be):
             scrollbars "vertical"
             has vbox
             for entry in reversed(battle.combat_log):
-                label "%s"%entry style_group "stats_value_text" text_size 14 text_color ivory
+                text "{}".format(entry) style "stats_value_text" size 14 color ivory
 
     # I'll need to condition this more appropriately later, for now this will do:
     hbox:

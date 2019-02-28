@@ -324,13 +324,13 @@ screen building_management_midframe_exploration_guild_mode:
                             has viewport draggable 1 mousewheel 1
                             if focused_log:
                                 if focused_log.battle_log:
-                                    text "\n".join(focused_log.battle_log) color white
+                                    text "\n".join(focused_log.battle_log) style "stats_value_text" size 14 color ivory
                                 elif focused_log.item:
                                     $ item = focused_log.item
                                     vbox:
                                         spacing 10 xfill True
                                         add ProportionalScale(item.icon, 100, 100) xalign .5
-                                        text item.desc xalign .5 color white
+                                        text item.desc xalign .5 style "stats_value_text" size 14 color ivory
             elif fg_mid_log_mode == "info":
                 hbox:
                     ypos 100 xalign .5
