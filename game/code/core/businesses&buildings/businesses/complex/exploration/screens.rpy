@@ -75,7 +75,10 @@ screen building_management_leftframe_exploration_guild_mode:
                                 $ tmp = area.name
                                 tooltip area.desc
                             else:
-                                $ tmp = get_obfuscated_str(area.name)
+                                if the_eye_upgrade_active:
+                                    $ tmp = get_obfuscated_str(area.name)
+                                else:
+                                    $ tmp = "????????????"
                                 action NullAction()
                             text str(area.stage):
                                 size 12
@@ -325,31 +328,42 @@ screen building_management_midframe_exploration_guild_mode:
                             xalign .5
                             has vbox spacing 3
                             for m in area.mobs:
-                                $ m = mobs[m]
-                                fixed:
-                                    xysize 300, 65
-                                    frame:
-                                        xpos 6
-                                        left_padding 2
-                                        align .01, .5
-                                        xsize 197
-                                        text m["name"]
-                                    frame:
-                                        yalign .5
-                                        xanchor 1.0
-                                        ysize 44
-                                        xpadding 4
-                                        xminimum 28
-                                        xpos 233
-                                        $ temp = m["min_lvl"]
-                                        text ("Lvl\n[temp]+") style "TisaOTM" size 17 text_align .5 line_spacing -6
-                                    frame:
-                                        background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=.75), 10, 10)
-                                        padding 3, 3
-                                        margin 0, 0
-                                        xysize 60, 60
-                                        align .99, .5
-                                        add ProportionalScale(m["portrait"], 57, 57) align .5, .5
+                                if m in area.mobs_defeated or the_eye_upgrade_active:
+                                    $ mob = mobs[m]
+                                    fixed:
+                                        xysize 300, 65
+                                        frame:
+                                            xpos 6
+                                            left_padding 2
+                                            align .01, .5
+                                            xsize 197
+                                            if m in area.mobs_defeated:
+                                                text mob["name"]
+                                            else:
+                                                text get_obfuscated_str(mob["name"], mod=.8)
+                                        frame:
+                                            yalign .5
+                                            xanchor 1.0
+                                            ysize 44
+                                            xpadding 4
+                                            xminimum 28
+                                            xpos 233
+                                            if m in area.mobs_defeated:
+                                                $ temp = mob["min_lvl"]
+                                            else:
+                                                $ temp = "??"
+                                            text ("Lvl\n[temp]+") style "TisaOTM" size 17 text_align .5 line_spacing -6
+                                        frame:
+                                            background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=.75), 10, 10)
+                                            padding 3, 3
+                                            margin 0, 0
+                                            xysize 60, 60
+                                            align .99, .5
+                                            if m in area.mobs_defeated:
+                                                add ProportionalScale(mob["portrait"], 57, 57) align .5, .5
+                                            else:
+                                                add ProportionalScale("content/buildings/upgrades/the_eye.webp", 57, 57) align .5, .5
+
 
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
@@ -368,8 +382,9 @@ screen building_management_midframe_exploration_guild_mode:
                             ypos 50
                             xalign .5
                             has vbox spacing 3
-                            for i, n in area.found_items.items():
-                                $ i = items[i]
+                            $ source = area.found_items.keys() if not the_eye_upgrade_active else area.found_items.keys() + area.items.keys()
+                            for i in source:
+                                $ item = items[i]
                                 fixed:
                                     xysize 300, 65
                                     frame:
@@ -377,7 +392,10 @@ screen building_management_midframe_exploration_guild_mode:
                                         left_padding 2
                                         align .01, .5
                                         xsize 197
-                                        text i.id
+                                        if i in area.found_items:
+                                            text item.id
+                                        else:
+                                            text get_obfuscated_str(item.id, .8)
                                     frame:
                                         yalign .5
                                         xanchor 1.0
@@ -385,15 +403,23 @@ screen building_management_midframe_exploration_guild_mode:
                                         xsize 35
                                         xpadding 4
                                         xpos 233
-                                        if n >= 100:
-                                            $ n = "99+"
+                                        if i in area.found_items:
+                                            $ n = area.found_items[i]
+                                            if n >= 100:
+                                                $ n = "99+"
+                                        else:
+                                            $ n = "--"
                                         text "[n]" align (.5, .5) style "TisaOTM" size 18
                                     frame:
                                         background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=.75), 10, 10)
                                         padding 3, 3
                                         xysize 60, 60
                                         align .99, .5
-                                        add ProportionalScale(i.icon, 57, 57) align .5, .5
+                                        if i in area.found_items:
+                                            add ProportionalScale(item.icon, 57, 57) align .5, .5
+                                        else:
+                                            add ProportionalScale("content/buildings/upgrades/the_eye.webp", 57, 57) align .5, .5
+
 
             # Toggle mode:
             # Launch teams:
