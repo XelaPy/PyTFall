@@ -90,7 +90,7 @@ init -9 python: # FG Area
             if value >= 100:
                 self._explored = 100
             elif value <= 0:
-                self.explored = 0
+                self._explored = 0
             else:
                 self._explored = value
 
