@@ -141,16 +141,28 @@ screen building_management_leftframe_exploration_guild_mode:
                         color ivory
 
         if selected_log_area:
-            frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                xalign .5 yoffset 60
-                padding 10, 10
-                style_prefix "wood"
-                button:
-                    xysize 150, 40
-                    action SetVariable("bm_exploration_view_mode", "team")
-                    tooltip "You can customize your team here or hire Guild members."
-                    text "<== Teams" size 15
+            $ area = selected_log_area
+            vbox:
+                xalign .5 yoffset 10
+                if the_eye_upgrade_active and (area.chars or area.special_chars or area.special_items):
+                    button:
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+                        padding 5, 5
+                        xalign .5
+                        action SetVariable("bm_exploration_view_mode", "team")
+                        tooltip "The Eye detects something interesting at this location!"
+                        add pscale("content/buildings/upgrades/the_eye.webp", 50, 50)
+                else:
+                    null height 50    
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+                    xalign .5
+                    style_prefix "wood"
+                    button:
+                        xysize 150, 40
+                        action SetVariable("bm_exploration_view_mode", "team")
+                        tooltip "You can customize your team here or hire Guild members."
+                        text "<== Teams" size 15
     elif bm_exploration_view_mode == "team":
         # Filters:
         frame:
