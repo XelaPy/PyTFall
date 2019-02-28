@@ -308,7 +308,7 @@ screen building_management_midframe_exploration_guild_mode:
                     # Information (Story)
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6, yzoom=-1), 10, 10)
-                        ysize 346
+                        ysize 410
                         padding 10, 10
                         has vbox xsize 350 spacing 1
                         frame:
