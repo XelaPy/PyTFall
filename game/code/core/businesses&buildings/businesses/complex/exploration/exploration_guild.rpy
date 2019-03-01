@@ -1047,7 +1047,6 @@ init -6 python: # Guild, Tracker and Log.
                                 se_debug(msg, mode="info")
 
                             self.env.exit("got special item")
-
                         else:
                             item = chosen_items.pop()
                             temp = "Found an item %s!" % item

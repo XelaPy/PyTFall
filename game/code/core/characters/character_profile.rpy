@@ -158,11 +158,11 @@ label char_profile:
                             else:
                                 if char.disposition >= 500:
                                     $ block_say = True
-                                    call interactions_good_goodbye from _call_interactions_good_goodbye
+                                    call interactions_good_goodbye
                                     $ block_say = False
                                 else:
                                     $ block_say = True
-                                    call interactions_bad_goodbye from _call_interactions_bad_goodbye
+                                    call interactions_bad_goodbye
                                     $ block_say = False
 
                                 python:
@@ -172,12 +172,15 @@ label char_profile:
                                     char.workplace = None
                                     set_location(char, locations["City"])
 
+                            $ last_label = "char_profile"
+
                             python:
                                 hero.remove_char(char)
                                 girls.remove(char)
 
                             if girls:
                                 $ change_char_in_profile("next")
+                                pause 3
                             else:
                                 jump char_profile_end
                 elif result[0] == "rename":
