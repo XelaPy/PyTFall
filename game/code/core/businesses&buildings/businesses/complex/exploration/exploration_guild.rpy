@@ -450,7 +450,7 @@ init -6 python: # Guild, Tracker and Log.
                 name = get_team_name()
 
             team = self.new_team(name)
-            if mod_gui:
+            if mod_gui is not None:
                 mod_gui.add(team)
 
             super(ExplorationGuild, self).expand_capacity()
