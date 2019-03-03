@@ -243,6 +243,7 @@ init -6 python: # Guild, Tracker and Log.
             # when calculating the results during the exploration.
             carea = self.area
             area = self.obj_area
+            team = self.team
 
             abilities = list()
             # Difficulty is tier of the area explored + 1/10 of the same value / 100 * risk.
@@ -687,7 +688,7 @@ init -6 python: # Guild, Tracker and Log.
             self.overnight(tracker)
             tracker.day += 1
 
-        def set_travel_speed(self, log=True):
+        def set_travel_speed(self, tracker, log=True):
             if self.has_extension(GuildStables):
                 if log:
                     temp = choice(["The Stables turned out to be a great investment after all. Team travels at 2x the speed!",
@@ -696,6 +697,8 @@ init -6 python: # Guild, Tracker and Log.
                 speed = 2.5
             else:
                 speed = 1.25
+
+            speed = self.rewards_mod(tracker, speed, mb_ability=True, min_val=.75)
 
             return speed
 
@@ -721,7 +724,7 @@ init -6 python: # Guild, Tracker and Log.
                 temp = "{} are on route to {}!".format(tracker.team.name, tracker.area.name)
                 tracker.log(temp)
 
-            speed = self.set_travel_speed(log=True)
+            speed = self.set_travel_speed(tracker, log=True)
 
             while 1:
                 yield self.env.timeout(5) # We travel...
@@ -764,7 +767,7 @@ init -6 python: # Guild, Tracker and Log.
             # tacker.tp = int(round(tracker.points / 20.0))
             travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
-            speed = self.set_travel_speed(log=False)
+            speed = self.set_travel_speed(tracker, log=False)
 
             if not tracker.traveled:
                 temp = "{} are traveling back home!".format(tracker.team.name)
@@ -1413,7 +1416,8 @@ init -6 python: # Guild, Tracker and Log.
                 return "full_death"
 
         def rewards_mod(self, tracker, value, mb_ability=None, mb_risk=None,
-                        mb_exploration_day=None, mb_explored=None):
+                        mb_exploration_day=None, mb_explored=None,
+                        min_val=None):
             """Takes a value, modifies it by SE concepts that might affect it and
             returns it.
             ability: Combination of team size and effectiveness considerations.
@@ -1452,6 +1456,9 @@ init -6 python: # Guild, Tracker and Log.
 
             if mb_explored and explored > 50:
                 value += value/100.0*(explored-50)
+
+            if min_val and min_val > value:
+                value = min_val
 
             return value
 
