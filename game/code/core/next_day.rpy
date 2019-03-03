@@ -176,9 +176,10 @@ label next_day_calculations:
     $ tl.end("ND-Rest (First pass)")
 
     while nd_buildings:
-        $ building = nd_buildings.pop()
-        $ building.run_nd()
-        $ building.next_day()
+        $ _building = nd_buildings.pop()
+        $ _building.run_nd()
+        $ _building.next_day()
+        $ del(_building)
 
     $ tl.end("ND-Buildings")
     # Building events END.
