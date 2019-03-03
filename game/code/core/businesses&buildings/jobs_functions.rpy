@@ -153,6 +153,9 @@ init -10 python:
         if isinstance(c.action, SchoolCourse):
             return True
 
+        if not c.is_available:
+            return False
+
         if c.health < c.get_max("health")*.25:
             if log:
                 log.append("%s is injured and in need of medical attention! "%c.name)
