@@ -18,7 +18,7 @@ label building_management:
                 if index >= len(hero.buildings):
                     index = 0
 
-                building = hero.buildings[index]
+                BUILDING = hero.buildings[index]
                 char = None
 
                 # special cursor for DragAndDrop and the original value
@@ -73,7 +73,7 @@ label building_management:
         elif result[0] == "building":
             if result[1] == 'items_transfer':
                 python:
-                    it_members = list(building.get_all_chars())
+                    it_members = list(BUILDING.get_all_chars())
                     it_members.sort(key=attrgetter("name"))
                 hide screen building_management
                 $ items_transfer(it_members)
@@ -82,14 +82,14 @@ label building_management:
                 python:
                     ad = result[2]
 
-                    if building.flag('bought_sign'):
+                    if BUILDING.flag('bought_sign'):
                         price = ad['price']/10
                     else:
                         price = ad['price']
 
                     if hero.take_money(price, reason="Building Ads"):
-                        building.fin.log_logical_expense(price, "Ads")
-                        building.set_flag('bought_sign', True)
+                        BUILDING.fin.log_logical_expense(price, "Ads")
+                        BUILDING.set_flag('bought_sign', True)
                         ad['active'] = not ad['active']
                     else:
                         renpy.show_screen("message_screen", "Not enough cash on hand!")
@@ -98,33 +98,33 @@ label building_management:
                     ad = result[2]
                     price = ad['price']
                     if hero.take_money(price, reason="Building Ads"):
-                        building.fin.log_logical_expense(price, "Ads")
+                        BUILDING.fin.log_logical_expense(price, "Ads")
                         ad['active'] = True
                     else:
                         renpy.show_screen("message_screen", "Not enough cash on hand!")
             elif result[1] == "sell":
                 python:
-                    price = int(building.price*.9)
+                    price = int(BUILDING.price*.9)
 
                     if renpy.call_screen("yesno_prompt",
-                                         message="Are you sure you wish to sell %s for %d Gold?" % (building.name, price),
+                                         message="Are you sure you wish to sell %s for %d Gold?" % (BUILDING.name, price),
                                          yes_action=Return(True), no_action=Return(False)):
-                        if hero.home == building:
+                        if hero.home == BUILDING:
                             hero.home = locations["Streets"]
-                        if hero.workplace == building:
+                        if hero.workplace == BUILDING:
                             hero.action = None
                             hero.workplace = None
-                        if hero.location == building:
+                        if hero.location == BUILDING:
                             set_location(hero, hero.home)
 
-                        retire_chars_from_location(hero.chars, building)
+                        retire_chars_from_location(hero.chars, BUILDING)
 
                         hero.add_money(price, reason="Property")
-                        hero.remove_building(building)
+                        hero.remove_building(BUILDING)
 
                         if hero.buildings:
                             index = 0
-                            building = hero.buildings[index]
+                            BUILDING = hero.buildings[index]
                         else:
                             jump("building_management_end")
         # Upgrades:
@@ -135,19 +135,19 @@ label building_management:
                     if isinstance(temp, BusinessUpgrade):
                         result[3].add_upgrade(temp, pay=True)
                     elif isinstance(temp, Business):
-                        building.add_business(temp, pay=True)
+                        BUILDING.add_business(temp, pay=True)
                     elif isinstance(temp, BuildingUpgrade):
-                        building.add_upgrade(temp, pay=True)
+                        BUILDING.add_upgrade(temp, pay=True)
                     else:
                         raise Exception("Unknown extension class detected: {}".format(result[2]))
         elif result[0] == "maintenance":
             python:
                 # Cleaning controls
                 if result[1] == "clean":
-                    price = building.get_cleaning_price()
+                    price = BUILDING.get_cleaning_price()
                     if hero.take_money(price, reason="Pro-Cleaning"):
-                        building.fin.log_logical_expense(price, "Pro-Cleaning")
-                        building.dirt = 0
+                        BUILDING.fin.log_logical_expense(price, "Pro-Cleaning")
+                        BUILDING.dirt = 0
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
                 elif result[1] == "clean_all":
@@ -158,9 +158,9 @@ label building_management:
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
                 elif result[1] == "toggle_clean":
-                    building.auto_clean = 90 if building.auto_clean == 100 else 100
+                    BUILDING.auto_clean = 90 if BUILDING.auto_clean == 100 else 100
                 elif result[1] == "rename_building":
-                    building.name = renpy.call_screen("pyt_input", default=building.name, text="Enter Building name:")
+                    BUILDING.name = renpy.call_screen("pyt_input", default=BUILDING.name, text="Enter Building name:")
                 elif result[1] == "retrieve_jail":
                     pytfall.ra.retrieve_jail = not pytfall.ra.retrieve_jail
         elif result[0] == 'control':
@@ -175,7 +175,7 @@ label building_management:
                 if index >= len(hero.buildings):
                     $ index = 0
 
-            $ building = hero.buildings[index]
+            $ BUILDING = hero.buildings[index]
 
 label building_management_end:
     hide screen building_management
@@ -245,44 +245,44 @@ screen building_management_rightframe_building_mode:
             button:
                 xysize (135, 40)
                 action Show("building_adverts")
-                sensitive isinstance(building, BuildingStats) and building.workable and building.can_advert
+                sensitive isinstance(BUILDING, BuildingStats) and BUILDING.workable and BUILDING.can_advert
                 tooltip 'Advertise this building to attract more and better customers'
                 text "Advertise"
             button:
                 xysize (135, 40)
                 action Return(['building', "items_transfer"])
                 tooltip 'Transfer items between characters in this building'
-                sensitive isinstance(building, HabitableLocation) and (len(building.inhabitants) >= 2)
+                sensitive isinstance(BUILDING, HabitableLocation) and (len(BUILDING.inhabitants) >= 2)
                 text "Transfer Items"
             button:
                 xysize (135, 40)
                 action Show("building_controls")
                 tooltip 'Perform maintenance of this building'
-                sensitive isinstance(building, BuildingStats) and building.workable
+                sensitive isinstance(BUILDING, BuildingStats) and BUILDING.workable
                 text "Controls"
         vbox:
             spacing 5
             button:
                 xysize (135, 40)
-                action SetField(hero, "location", building)
+                action SetField(hero, "location", BUILDING)
                 tooltip 'Settle in the building!'
                 sensitive False # We prolly want better conditioning to use this!
                 text "Settle"
             button:
                 xysize (135, 40)
-                action Show("finances", None, building, mode="logical")
+                action Show("finances", None, BUILDING, mode="logical")
                 tooltip 'Show finance log for this building'
-                sensitive isinstance(building, BuildingStats) and building.workable
+                sensitive isinstance(BUILDING, BuildingStats) and BUILDING.workable
                 text "Finance Log"
             button:
                 xysize (135, 40)
                 action Return(["building", "sell"])
                 tooltip 'Get rid of this building'
-                sensitive building.can_be_sold()
+                sensitive BUILDING.can_be_sold()
                 text "Sell"
 
     # Slots for New Style Upgradable Buildings:
-    if isinstance(building, UpgradableBuilding):
+    if isinstance(BUILDING, UpgradableBuilding):
         frame:
             xalign .5
             style_prefix "proper_stats"
@@ -293,24 +293,24 @@ screen building_management_rightframe_building_mode:
             frame:
                 xysize (296, 27)
                 text "Indoor Slots:" xalign .02 color ivory
-                text "%d/%d" % (building.in_slots, building.in_slots_max) xalign .98 style_suffix "value_text"
+                text "%d/%d" % (BUILDING.in_slots, BUILDING.in_slots_max) xalign .98 style_suffix "value_text"
             frame:
                 xysize (296, 27)
                 text "Outdoor Slots:" xalign .02 color ivory
-                text "%d/%d" % (building.ex_slots, building.ex_slots_max) xalign .98 style_suffix "value_text"
+                text "%d/%d" % (BUILDING.ex_slots, BUILDING.ex_slots_max) xalign .98 style_suffix "value_text"
             frame:
                 xysize (296, 27)
                 text "Workable Capacity:" xalign .02 color ivory
-                text "[building.workable_capacity]" xalign .98 style_suffix "value_text"
+                text "[BUILDING.workable_capacity]" xalign .98 style_suffix "value_text"
             frame:
                 xysize (296, 27)
                 text "Habitable Capacity:" xalign .02 color ivory
-                text "[building.habitable_capacity]" xalign .98 style_suffix "value_text"
+                text "[BUILDING.habitable_capacity]" xalign .98 style_suffix "value_text"
 
         null height 20
 
     # Manager?
-    if isinstance(building, UpgradableBuilding):
+    if isinstance(BUILDING, UpgradableBuilding):
         vbox:
             xalign .5
             frame:
@@ -319,16 +319,16 @@ screen building_management_rightframe_building_mode:
 
                 xalign .5
                 background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
-                if building.manager:
-                    add building.manager.show("profile", resize=(190, 190), add_mood=True, cache=True) align .5, .5
+                if BUILDING.manager:
+                    add BUILDING.manager.show("profile", resize=(190, 190), add_mood=True, cache=True) align .5, .5
                 else:
                     xysize (190, 190)
                     text "No manager" align (.5, .5) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
-            if building.manager:
+            if BUILDING.manager:
                 text "Current manager" align (.5, .5) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
         null height 20
-        if building.desc:
-            text building.desc xalign.5 style_prefix "proper_stats" text_align .5 color goldenrod outlines [(1, "#3a3a3a", 0, 0)]
+        if BUILDING.desc:
+            text BUILDING.desc xalign.5 style_prefix "proper_stats" text_align .5 color goldenrod outlines [(1, "#3a3a3a", 0, 0)]
 
 screen building_management_rightframe_businesses_mode:
     $ frgr = Fixed(xysize=(315, 680))
@@ -384,10 +384,10 @@ screen building_management_leftframe_building_mode:
         frame:
             xysize (296, 27)
             text "Location:" xalign .02 color ivory
-            text "[building.location]" xalign .98 style_suffix "value_text" yoffset 4
+            text "[BUILDING.location]" xalign .98 style_suffix "value_text" yoffset 4
 
         # Dirt:
-        if isinstance(building, BuildingStats):
+        if isinstance(BUILDING, BuildingStats):
             frame:
                 xysize (296, 27)
                 button:
@@ -397,7 +397,7 @@ screen building_management_leftframe_building_mode:
                     tooltip "Dirt will never pile up in smaller buildings (10 workable capacity for any and 15 for buildings with a competent manager). Your workers will take care of it before it gets a chance!"
                     action NullAction()
                     text "Dirt:" color brown hover_color green
-                text "%s (%s %%)" % (building.get_dirt_percentage()[1], building.get_dirt_percentage()[0]) xalign .98 style_suffix "value_text" yoffset 4
+                text "%s (%s %%)" % (BUILDING.get_dirt_percentage()[1], BUILDING.get_dirt_percentage()[0]) xalign .98 style_suffix "value_text" yoffset 4
             frame:
                 xysize (296, 27)
                 button:
@@ -407,33 +407,33 @@ screen building_management_leftframe_building_mode:
                     tooltip "Threat will never effect the smaller buildings (15 workable capacity for any and 20 for buildings with a competent manager). Your workers will never allow it to increase!"
                     action NullAction()
                     text "Threat:" color crimson hover_color green
-                text "%s %%" % (building.threat * 100 / building.max_stats["threat"]):
+                text "%s %%" % (BUILDING.threat * 100 / BUILDING.max_stats["threat"]):
                     xalign .98
                     style_suffix "value_text"
                     yoffset 4
-        if hasattr(building, "tier"):
+        if hasattr(BUILDING, "tier"):
             frame:
                 xysize (296, 27)
                 text "Tier:" xalign .02 color ivory
-                text "%s" % (building.tier) xalign .98 style_suffix "value_text" yoffset 4
+                text "%s" % (BUILDING.tier) xalign .98 style_suffix "value_text" yoffset 4
 
         # Fame/Rep:
-        if isinstance(building, FamousBuilding):
+        if isinstance(BUILDING, FamousBuilding):
             frame:
                 xysize (296, 27)
                 text "Fame:" xalign .02 color ivory
-                text "%s/%s" % (building.fame, building.maxfame) xalign .98 style_suffix "value_text" yoffset 4
+                text "%s/%s" % (BUILDING.fame, BUILDING.maxfame) xalign .98 style_suffix "value_text" yoffset 4
             frame:
                 xysize (296, 27)
                 text "Reputation:" xalign .02 color ivory
-                text "%s/%s" % (building.rep, building.maxrep) xalign .98 style_suffix "value_text" yoffset 4
+                text "%s/%s" % (BUILDING.rep, BUILDING.maxrep) xalign .98 style_suffix "value_text" yoffset 4
 
     null height 5
     # Extensions:
     frame:
         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
         xysize (317, 480)
-        if isinstance(building, UpgradableBuilding):
+        if isinstance(BUILDING, UpgradableBuilding):
             frame:
                 align .5, .02
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
@@ -446,7 +446,7 @@ screen building_management_leftframe_building_mode:
                 scrollbars "vertical"
                 draggable True
                 has vbox
-                for u in building.all_extensions():
+                for u in BUILDING.all_extensions():
                     frame:
                         xalign .6
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 5, 5)
@@ -479,7 +479,7 @@ screen building_management_leftframe_building_mode:
                             insensitive im.Sepia(ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24))
                             action Show("yesno_prompt",
                                  message="Are you sure you wish to close this %s for %d Gold?" % (u.name, u.get_price()),
-                                 yes_action=[Function(building.close_business, u, pay=True), Hide("yesno_prompt")], no_action=Hide("yesno_prompt"))
+                                 yes_action=[Function(BUILDING.close_business, u, pay=True), Hide("yesno_prompt")], no_action=Hide("yesno_prompt"))
                             sensitive u.can_be_sold()
                             tooltip "Close the business"
 
@@ -516,13 +516,13 @@ screen building_management_midframe_building_mode:
             xalign .5
             xysize (380, 50)
             background Frame("content/gfx/frame/namebox5.png", 10, 10)
-            label (u"[building.name]") text_size 23 text_color ivory align (.5, .6)
+            label (u"[BUILDING.name]") text_size 23 text_color ivory align (.5, .6)
 
         frame:
             align .5, .0
             ypos 60
             background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
-            add pscale(building.img, 600, 444)
+            add pscale(BUILDING.img, 600, 444)
 
         # Left/Right Controls + Expand button:
         vbox:
@@ -541,12 +541,12 @@ screen building_management_midframe_building_mode:
                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                     xysize 200, 50
                     align (.5, .5)
-                    if isinstance(building, UpgradableBuilding):
+                    if isinstance(BUILDING, UpgradableBuilding):
                         button:
                             style_prefix "wood"
                             align .5, .5
                             xysize 135, 40
-                            action Return(["bm_mid_frame_mode", building])
+                            action Return(["bm_mid_frame_mode", BUILDING])
                             tooltip 'Open a new business or upgrade this building!'
                             text "Expand"
                 button:
@@ -740,7 +740,7 @@ screen building_management_midframe_businesses_mode_upgrades:
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                         has fixed xysize 500, 150
 
-                        $ cost, materials, in_slots, ex_slots = building.get_extension_cost(u)
+                        $ cost, materials, in_slots, ex_slots = BUILDING.get_extension_cost(u)
 
                         hbox:
                             xalign .5
@@ -801,13 +801,13 @@ screen building_management_midframe_businesses_mode_upgrades:
                             style_prefix "proper_stats"
                             if in_slots:
                                 text "Indoor Slots:"
-                                if (building.in_slots_max - building.in_slots) >= in_slots:
+                                if (BUILDING.in_slots_max - BUILDING.in_slots) >= in_slots:
                                     text "[in_slots]"
                                 else:
                                     text "[in_slots]" color grey
                             if ex_slots:
                                 text "Exterior Slots:"
-                                if (building.ex_slots_max - building.ex_slots) >= ex_slots:
+                                if (BUILDING.ex_slots_max - BUILDING.ex_slots) >= ex_slots:
                                     text "[ex_slots]"
                                 else:
                                     text "[ex_slots]" color grey
@@ -827,7 +827,7 @@ screen building_management_midframe_businesses_mode_upgrades:
                                 style "pb_button"
                                 text_size 15
                                 action [Return(["upgrade", "build", u, bm_mid_frame_mode]),
-                                        SensitiveIf(building.eval_extension_build(u,
+                                        SensitiveIf(BUILDING.eval_extension_build(u,
                                                     price=(cost, materials, in_slots, ex_slots)))]
 
 screen building_controls():
@@ -854,7 +854,7 @@ screen building_controls():
                 tooltip "Give new name to your Building!"
                 text "Rename Building"
 
-            if isinstance(building, BuildingStats):
+            if isinstance(BUILDING, BuildingStats):
                 null height 20
                 label (u"Cleaning Options:"):
                     style "proper_stats_label"
@@ -868,17 +868,17 @@ screen building_controls():
                     bar:
                         xmaximum 120
                         align (.5, .5)
-                        if building.auto_clean == 100:
+                        if BUILDING.auto_clean == 100:
                             value 100
                             range 100
                         else:
-                            value FieldValue(building, "auto_clean", 99, style='scrollbar', offset=0, step=1)
+                            value FieldValue(BUILDING, "auto_clean", 99, style='scrollbar', offset=0, step=1)
                             thumb 'content/gfx/interface/icons/move15.png'
-                            tooltip "Cleaners are called if dirt is more than %d%%" % building.auto_clean
+                            tooltip "Cleaners are called if dirt is more than %d%%" % BUILDING.auto_clean
                     button:
                         xalign 1.0
                         action Return(['maintenance', "toggle_clean"])
-                        selected building.auto_clean != 100
+                        selected BUILDING.auto_clean != 100
                         tooltip "Toggle automatic hiring of cleaners"
                         text "Auto"
 
@@ -886,12 +886,12 @@ screen building_controls():
                     xysize(200, 32)
                     xalign .5
                     action Return(['maintenance', "clean"])
-                    tooltip "Hire cleaners to completely clean this building for %d Gold." % building.get_cleaning_price()
+                    tooltip "Hire cleaners to completely clean this building for %d Gold." % BUILDING.get_cleaning_price()
                     text "Clean: Building"
 
                 python:
                     price = 0
-                    for i in hero.buildings:
+                    for i in hero.BUILDING:
                         if isinstance(i, BuildingStats):
                             price = price + i.get_cleaning_price()
 
@@ -902,7 +902,7 @@ screen building_controls():
                     tooltip "Hire cleaners to completely clean all buildings for %d Gold." % price
                     text "Clean: All Buildings"
 
-            if isinstance(building, UpgradableBuilding):
+            if isinstance(BUILDING, UpgradableBuilding):
                 null height 20
                 label u"Management Options:":
                      style "proper_stats_label"
@@ -927,22 +927,22 @@ screen building_controls():
                     button:
                         xysize 200, 32
                         xalign .5
-                        action ToggleField(building, field)
+                        action ToggleField(BUILDING, field)
                         tooltip tt
                         text "[name]"
 
                 null height 5
                 python:
-                    desc0 = "==> {} Rule".format(building.workers_rule.capitalize())
+                    desc0 = "==> {} Rule".format(BUILDING.workers_rule.capitalize())
                     desc1 = "Choose a rule your workers are managed by!"
-                    desc2 = building.WORKER_RULES_DESC[building.workers_rule]
+                    desc2 = BUILDING.WORKER_RULES_DESC[BUILDING.workers_rule]
                     desc = "\n".join([desc0, desc1, desc2])
                 button:
                     xysize (200, 32)
                     xalign .5
-                    action Function(building.toggle_workers_rule)
+                    action Function(BUILDING.toggle_workers_rule)
                     tooltip "{}".format(desc)
-                    text "WR: {}".format(building.workers_rule.capitalize())
+                    text "WR: {}".format(BUILDING.workers_rule.capitalize())
 
         button:
             style_group "dropdown_gm"
@@ -971,7 +971,7 @@ screen building_adverts():
             align(.5, .4)
             box_wrap True
             spacing 20
-            for advert in building.adverts:
+            for advert in BUILDING.adverts:
                 vbox:
                     style_group "basic"
                     align (.5, .5)
