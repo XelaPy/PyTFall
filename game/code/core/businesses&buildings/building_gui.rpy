@@ -8,22 +8,22 @@ label building_management:
             bm_exploration_view_mode = "team"
             selected_log_area = None
 
-        # Some Global Vars we use to pass data between screens:
-        if hero.buildings:
-            try:
-                index = index
-            except:
-                index = 0
+            # Some Global Vars we use to pass data between screens:
+            if hero.buildings:
+                try:
+                    index = index
+                except:
+                    index = 0
 
-            if index >= len(hero.buildings):
-                index = 0
+                if index >= len(hero.buildings):
+                    index = 0
 
-            building = hero.buildings[index]
-            char = None
+                building = hero.buildings[index]
+                char = None
 
-            # special cursor for DragAndDrop and the original value
-            mouse_drag = {"default" :[("content/gfx/interface/cursors/hand.png", 0, 0)]}
-            mouse_cursor = config.mouse
+                # special cursor for DragAndDrop and the original value
+                mouse_drag = {"default" :[("content/gfx/interface/cursors/hand.png", 0, 0)]}
+                mouse_cursor = config.mouse
 
     scene bg scroll
 
@@ -166,8 +166,7 @@ label building_management:
         elif result[0] == 'control':
             if result[1] == 'return':
                 jump building_management_end
-
-            if result[1] == 'left':
+            elif result[1] == 'left':
                 $ index -= 1
                 if index < 0:
                     $ index = len(hero.buildings) - 1
