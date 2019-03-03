@@ -687,6 +687,18 @@ init -6 python: # Guild, Tracker and Log.
             self.overnight(tracker)
             tracker.day += 1
 
+        def set_travel_speed(self, log=True):
+            if self.has_extension(GuildStables):
+                if log:
+                    temp = choice(["The Stables turned out to be a great investment after all. Team travels at 2x the speed!",
+                                   "The team is traveling at 2x the pace! Stables Rule!"])
+                    tracker.log(temp)
+                speed = 2.5
+            else:
+                speed = 1.25
+
+            return speed
+
         def travel_to(self, tracker):
             # Env func that handles the travel to routine.
             team = tracker.team
@@ -709,13 +721,7 @@ init -6 python: # Guild, Tracker and Log.
                 temp = "{} are on route to {}!".format(tracker.team.name, tracker.area.name)
                 tracker.log(temp)
 
-            if self.has_extension(GuildStables):
-                temp = choice(["The Stables turned out to be a great investment after all. Team travels at 2x the speed!",
-                               "The team is traveling at 2x the pace! Stables Rule!"])
-                tracker.log(temp)
-                speed = 2.5
-            else:
-                speed = 1.25
+            speed = self.set_travel_speed(log=True)
 
             while 1:
                 yield self.env.timeout(5) # We travel...
@@ -758,10 +764,7 @@ init -6 python: # Guild, Tracker and Log.
             # tacker.tp = int(round(tracker.points / 20.0))
             travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
-            if self.has_extension(GuildStables):
-                speed = 2.5
-            else:
-                speed = 1.25
+            speed = self.set_travel_speed(log=False)
 
             if not tracker.traveled:
                 temp = "{} are traveling back home!".format(tracker.team.name)
