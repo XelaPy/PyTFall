@@ -366,6 +366,9 @@ init -6 python: # Guild, Tracker and Log.
                         target = team_charmod[char]
 
                     for s, value in data.items():
+                        if value == 0:
+                            continue
+                            
                         if s in ("health", "mp", "vitality"):
                             continue
 
