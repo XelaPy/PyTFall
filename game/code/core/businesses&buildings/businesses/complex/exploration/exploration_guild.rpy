@@ -235,6 +235,28 @@ init -6 python: # Guild, Tracker and Log.
             self.logs.append(obj)
             return obj
 
+        def calc_ability(self):
+            # Effectiveness (Ability):
+            # New concept is as follows:
+            # 300 effectiveness or 100 ability is needed to do this job right.
+            # This will remove the need to mess with the size of the team
+            # when calculating the results during the exploration.
+            carea = self.area
+            area = self.obj_area
+
+            abilities = list()
+            # Difficulty is tier of the area explored + 1/10 of the same value / 100 * risk.
+            difficulty = area.tier+(area.tier*.001*carea.risk)
+            for char in team:
+                # Set their exploration capabilities as temp flag
+                a = self.effectiveness(char, difficulty, log=None, return_ratio=False)
+                abilities.append(a)
+            self.ability = sum(abilities)/3.0
+
+            if DEBUG_SE:
+                msg = "@ {} ability!".format(self.ability)
+                se_debug(msg, mode="info")
+
         def finish_exploring(self):
             """
             Build one major report for next day!
@@ -606,6 +628,9 @@ init -6 python: # Guild, Tracker and Log.
                 temp = "\n" + temp
             tracker.log(temp)
 
+            # Ability:
+            tracker.calc_ability()
+
             while 1:
                 # Additional .state control:
                 if tracker.state is None:
@@ -913,22 +938,7 @@ init -6 python: # Guild, Tracker and Log.
                 msg = "{} is starting an exploration scenario.".format(team.name)
                 se_debug(msg, mode="info")
 
-            # Effectiveness (Ability):
-            # New concept is as follows:
-            # 300 effectiveness or 100 ability is needed to do this job right.
-            # This will remove the need to mess with the size of the team
-            # when calculating the results during the exploration.
-            abilities = list()
-            # Difficulty is tier of the area explored + 1/10 of the same value / 100 * risk.
-            difficulty = area.tier+(area.tier*.001*carea.risk)
-            for char in team:
-                # Set their exploration capabilities as temp flag
-                a = tracker.effectiveness(char, difficulty, log=None, return_ratio=False)
-                abilities.append(a)
-            tracker.ability = sum(abilities)/3.0
-            if DEBUG_SE:
-                msg = "@ {} ability!".format(tracker.ability)
-                se_debug(msg, mode="info")
+
 
             # Let's run the expensive item calculations once and just give
             # items as we explore.
@@ -1399,6 +1409,49 @@ init -6 python: # Guild, Tracker and Log.
             if not len(team):
                 # everyone died...
                 return "full_death"
+
+        def rewards_mod(self, tracker, value, mb_ability=None, mb_risk=None,
+                        mb_exploration_day=None, mb_explored=None):
+            """Takes a value, modifies it by SE concepts that might affect it and
+            returns it.
+            ability: Combination of team size and effectiveness considerations.
+            risk: Risk at which the team operates at the area.
+            exploration_day: 3 - 15 right now, it's the duration of a single exploration run.
+            explored: how much of the area has already been explored. Usually high values increase
+                the rewards.
+
+            mb_ = mod by
+            """
+            area = tracker.obj_area
+            carea = tracker.area
+            team = tracker.team
+
+            risk = carea.risk
+            ability = tracker.ability
+            eday = tracker.day
+            explored = area.explored
+
+            # Ability from base of 100:
+            if mb_ability:
+                value = value/100.0*ability
+
+            # Risk from base of 100:
+            if mb_risk:
+                value = value/100.0*risk
+
+            # eday with bonus of 100% the rewards from day 5 - 15:
+            if mb_exploration_day and eday >= 5:
+                bonus = eday - 5
+                bonus /= 10.0
+                if bonus <= .1:
+                    bonus = .1
+
+                value += value*bonus
+
+            if mb_explored and explored > 50:
+                value += value/100.0*(explored-50)
+
+            return value
 
         # AP:
         def convert_AP(self, tracker):
