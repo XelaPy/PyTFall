@@ -588,9 +588,6 @@ init -6 python: # Guild, Tracker and Log.
 
         def exploration_controller(self, tracker):
             # Controls the exploration by setting up proper simpy processes.
-
-            tracker.obj_area.last_explored = store.day
-
             # handle full death:
             if tracker.state == "full_death":
                 temp = ("{color=[green]}Day: %d{/color} | "+
@@ -606,6 +603,8 @@ init -6 python: # Guild, Tracker and Log.
                 else:
                     tracker.days_explored += 1
                 self.env.exit("full_death")
+
+            tracker.obj_area.last_explored = store.day
 
             # Prep aliases:
             process = self.env.process
