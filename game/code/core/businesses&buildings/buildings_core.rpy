@@ -731,8 +731,10 @@ init -10 python:
 
         def get_business(self, up):
             # Takes a string as an argument
+            global BUILDING
+
             if up == "fg":
-                temp = [u for u in building._businesses if u.__class__ == ExplorationGuild]
+                temp = [u for u in BUILDING._businesses if u.__class__ == ExplorationGuild]
                 if temp:
                     return temp[0]
                 else:

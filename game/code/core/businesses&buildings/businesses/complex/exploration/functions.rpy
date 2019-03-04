@@ -1,6 +1,8 @@
 init python:
     # For now a dedicated sorting funcs, maybe this should be turned into something more generic in the future?
     def all_chars_for_se():
+        global BUILDING
+
         # We expect a global var building to be set for this!
 
         # collect the set of all idle characters that are set exploration teams but not exploring:
@@ -12,4 +14,4 @@ init python:
                 if fg:
                     idle_explorers.update(fg.idle_explorers())
 
-        return [w for w in building.get_workers() if w.status == "free" and w not in idle_explorers]
+        return [w for w in BUILDING.get_workers() if w.status == "free" and w not in idle_explorers]
