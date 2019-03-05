@@ -955,8 +955,6 @@ init -6 python: # Guild, Tracker and Log.
                 msg = "{} is starting an exploration scenario.".format(team.name)
                 se_debug(msg, mode="info")
 
-
-
             # Let's run the expensive item calculations once and just give
             # items as we explore.
             # Get the max number of items that can be found in one day:
@@ -995,7 +993,10 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # Max cash to be found this day:
-            max_cash = tracker.cash_limit + tracker.cash_limit*.1*tracker.day
+            max_cash = self.rewards_mod(tracker, tracker.cash_limit, mb_ability=True,
+                            mb_risk=True,
+                            mb_exploration_day=True, mb_explored=False,
+                            min_val=0)
 
             # Exploration speed:
             ability_points = tracker.ability*.025
@@ -1086,8 +1087,8 @@ init -6 python: # Guild, Tracker and Log.
 
                 # Cash:
                 if max_cash > 0 and not self.env.now % 20:
-                    if dice(tracker.risk):
-                        give = round_int(max_cash/5.0)
+                    give = round_int(max_cash/5.0)
+                    if give > 0:
                         max_cash -= give
                         tracker.daily_cash += give
 
