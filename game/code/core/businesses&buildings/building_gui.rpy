@@ -51,7 +51,7 @@ label building_management:
                 $ fg_filters.target_container = [workers, "content"]
                 $ fg_filters.filter()
 
-                $ guild_teams = CoordsForPaging(bm_mid_frame_mode.idle_teams(), columns=3, rows=3,
+                $ guild_teams = CoordsForPaging(bm_mid_frame_mode.idle_teams(clear_by_workplace=True), columns=3, rows=3,
                                 size=(208, 83), xspacing=0, yspacing=5, init_pos=(4, 340))
         elif result[0] == "fg_team":
             python:

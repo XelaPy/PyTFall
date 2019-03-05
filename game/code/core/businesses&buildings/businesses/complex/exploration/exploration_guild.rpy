@@ -368,7 +368,7 @@ init -6 python: # Guild, Tracker and Log.
                     for s, value in data.items():
                         if value == 0:
                             continue
-                            
+
                         if s in ("health", "mp", "vitality"):
                             continue
 
@@ -543,9 +543,18 @@ init -6 python: # Guild, Tracker and Log.
             # Teams that are busy with exploration runs.
             return [tracker.team for tracker in self.explorers]
 
-        def idle_teams(self):
-            # Teams avalible for setup in order to set them on exploration runs.
-            return [t for t in self.teams if t not in self.exploring_teams()]
+        def idle_teams(self, clear_by_workplace=False):
+            # Teams available for setup in order to set them on exploration runs.
+            teams = [t for t in self.teams if t not in self.exploring_teams()]
+
+            if clear_by_workplace:
+                wp = self.building
+                for team in teams:
+                    for fighter in team:
+                        if fighter.workplace != wp:
+                            team.remove(fighter)
+
+            return teams
 
         def idle_explorers(self):
             # Returns a list of idle explorers:
