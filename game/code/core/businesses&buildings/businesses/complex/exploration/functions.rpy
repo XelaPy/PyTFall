@@ -10,7 +10,7 @@ init python:
         idle_explorers = set()
         for b in hero.buildings:
             if isinstance(b, UpgradableBuilding):
-                fg = b.get_business("fg")
+                fg = b.get_business(ExplorationGuild)
                 if fg:
                     idle_explorers.update(fg.idle_explorers())
 

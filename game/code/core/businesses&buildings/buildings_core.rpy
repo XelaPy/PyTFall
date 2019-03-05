@@ -729,16 +729,11 @@ init -10 python:
 
             return False
 
-        def get_business(self, up):
-            # Takes a string as an argument
-            global BUILDING
-
-            if up == "fg":
-                temp = [u for u in BUILDING._businesses if u.__class__ == ExplorationGuild]
-                if temp:
-                    return temp[0]
-                else:
-                    return False
+        def get_business(self, business):
+            # Takes a class as an argument
+            for u in self._businesses:
+                if u.__class__ == business:
+                    return u
 
         # Describing building purposes:
         @property
