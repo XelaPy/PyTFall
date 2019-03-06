@@ -672,7 +672,7 @@ init -6 python: # Guild, Tracker and Log.
                     result = yield process(self.explore(tracker))
                     if result in ("retreat_to_camp", "defeat"):
                         tracker.state = "camping"
-                    elif str(result).startswith(("captured", "got")):
+                    elif str(result).startswith(("captured", "got", "fallback")):
                         # We found something special or captured a char.
                         self.update_loot(tracker)
                         tracker.state = "traveling back"
@@ -757,7 +757,7 @@ init -6 python: # Guild, Tracker and Log.
                     self.env.exit("arrived")
 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
-                    temp = "{} spent the entire day on route to {}! ".format(team.name, area.name)
+                    temp = "{} spent the rest of the day on route to {}! ".format(team.name, area.name)
                     tracker.log(temp)
                     if DEBUG_SE:
                         se_debug(temp, mode="info")
@@ -780,7 +780,9 @@ init -6 python: # Guild, Tracker and Log.
             speed = self.set_travel_speed(tracker, log=False)
 
             if not tracker.traveled:
-                temp = "{} are traveling back home!".format(tracker.team.name)
+                temp = choice(["{} are traveling back home.".format(tracker.team.name),
+                               "The team is on route back the {}.".format(self.building.name),
+                               "{} are on route back home.".format(tracker.team.name)])
                 tracker.log(temp)
 
             while 1:
@@ -794,7 +796,7 @@ init -6 python: # Guild, Tracker and Log.
                     self.env.exit("back2guild")
 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
-                    temp = "{} spent the entire day traveling back to the guild from {}! ".format(tracker.team.name, tracker.area.name)
+                    temp = "{} spent the rest of the day traveling back to the guild from {}! ".format(tracker.team.name, tracker.area.name)
                     tracker.log(temp)
                     self.env.exit("on the way back")
 
@@ -1376,13 +1378,13 @@ init -6 python: # Guild, Tracker and Log.
             if risk <= 50:
                 # We terminate the exploration but prevent death!
                 if len(dead) == 1:
-                    temp = "A fighter of "
+                    temp = "A fighter of {} was".format(tracker.team.name)
                 else:
-                    temp = "Fighters of "
+                    temp = "Fighters of {} were".format(tracker.team.name)
                 if kind == 'combat':
-                    temp = "{} {} were badly injured in combat and are near death!".format(temp, tracker.team.name)
+                    temp = "{} badly injured in combat and are near death!".format(temp)
                 elif kind == 'hazard':
-                    temp = "{} {} were badly injured by hazards and are near death!".format(temp, tracker.team.name)
+                    temp = "{} badly injured by hazards and are near death!".format(temp)
                 temp = set_font_color(temp, "orange")
                 temp += " The team is retreating back to the Guild."
                 tracker.log(temp)
