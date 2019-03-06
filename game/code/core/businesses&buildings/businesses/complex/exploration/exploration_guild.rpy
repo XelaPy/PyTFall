@@ -1102,7 +1102,7 @@ init -6 python: # Guild, Tracker and Log.
                             se_debug(msg, mode="info")
 
                 # Chars Capture:
-                if carea.capture_chars and not self.env.now % 10:
+                if carea.capture_chars and not self.env.now % 30:
                     # Special Chars:
                     if area.special_chars:
                         for char, explored in area.special_chars.items():
@@ -1123,7 +1123,11 @@ init -6 python: # Guild, Tracker and Log.
                     if area.chars:
                         for id, data in area.chars.items():
                             explored, chance = data
-                            if area.explored >= explored and dice(chance*.1):
+                            chance = self.rewards_mod(tracker, chance, mb_ability=True,
+                                            mb_risk=True,
+                                            mb_exploration_day=True, mb_explored=True,
+                                            min_val=None)
+                            if area.explored >= explored and dice(chance*.33):
                                 del(area.chars[id])
 
                                 char = store.chars[id]
@@ -1141,7 +1145,11 @@ init -6 python: # Guild, Tracker and Log.
                     if area.rchars:
                         for id, data in area.rchars.items():
                             explored, chance = data
-                            if area.explored >= explored and dice(chance*.1):
+                            chance = self.rewards_mod(tracker, chance, mb_ability=True,
+                                            mb_risk=True,
+                                            mb_exploration_day=True, mb_explored=True,
+                                            min_val=None)
+                            if area.explored >= explored and dice(chance*.33):
                                 # Get tier:
                                 if area.tier == 0:
                                     tier = random.uniform(.1, .3)
