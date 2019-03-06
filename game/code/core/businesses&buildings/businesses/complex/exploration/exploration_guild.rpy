@@ -957,40 +957,43 @@ init -6 python: # Guild, Tracker and Log.
 
             # Let's run the expensive item calculations once and just give
             # items as we explore.
-            # Get the max number of items that can be found in one day:
-            max_items = tracker.ability + tracker.risk*2
-            max_items = round_int(max_items*.01 + tracker.day*.2)
+            # Get the max number of items that can be found in one day (base: 3):
+            max_items = self.rewards_mod(tracker, 3, mb_ability=True,
+                            mb_risk=True,
+                            mb_exploration_day=True, mb_explored=True,
+                            min_val=0)
+            max_items = round_int(max_items)
             if DEBUG_SE:
                 msg = "Max Items ({}) to be found on Day: {}!".format(max_items, tracker.day)
                 se_debug(msg, mode="info")
 
-            chosen_items = [] # Picked items:
-            # Local Items:
-            local_items = []
-            for i, d in area.items.iteritems():
-                if dice(d):
-                    local_items.append(i)
+            chosen_items = [] # Picked items
+            local_items = [] # Local Items
+            if max_items:
+                for i, d in area.items.iteritems():
+                    if dice(d):
+                        local_items.append(i)
 
-            area_items = []
-            for i, d in tracker.exploration_items.iteritems():
-                if dice(d):
-                    area_items.append(i)
+                area_items = []
+                for i, d in tracker.exploration_items.iteritems():
+                    if dice(d):
+                        area_items.append(i)
 
-            if DEBUG_SE:
-                msg = "Local Items: {}|Area Items: {}".format(len(local_items), len(area_items))
-                se_debug(msg, mode="info")
+                if DEBUG_SE:
+                    msg = "Local Items: {}|Area Items: {}".format(len(local_items), len(area_items))
+                    se_debug(msg, mode="info")
 
-            while len(chosen_items) < max_items and (area_items or local_items):
-                # always pick from local item list first!
-                if local_items:
-                    chosen_items.append(choice(local_items))
+                while len(chosen_items) < max_items and (area_items or local_items):
+                    # always pick from local item list first!
+                    if local_items:
+                        chosen_items.append(choice(local_items))
 
-                if area_items and len(chosen_items) < max_items:
-                    chosen_items.append(choice(area_items))
+                    if area_items and len(chosen_items) < max_items:
+                        chosen_items.append(choice(area_items))
 
-            if DEBUG_SE:
-                msg = "({}) Items were picked for choice!".format(len(chosen_items))
-                se_debug(msg, mode="info")
+                if DEBUG_SE:
+                    msg = "({}) Items were picked for choice!".format(len(chosen_items))
+                    se_debug(msg, mode="info")
 
             # Max cash to be found this day:
             max_cash = self.rewards_mod(tracker, tracker.cash_limit, mb_ability=True,
