@@ -1037,6 +1037,8 @@ init -6 python: # Guild, Tracker and Log.
                         _result = self.death(tracker, dead=dead, kind='hazard')
                         if _result == "full_death":
                             self.env.exit(_result)
+                        elif _result == "fallback_to_guild":
+                            self.env.exit(_result)
 
                     if self.assess_exploration_risk(tracker):
                         self.env.exit("back2camp")
@@ -1199,6 +1201,8 @@ init -6 python: # Guild, Tracker and Log.
                         if dead:
                             _result = self.death(tracker, dead=dead, kind='combat')
                             if _result == "full_death":
+                                self.env.exit(_result)
+                            elif _result == "fallback_to_guild":
                                 self.env.exit(_result)
 
                         if result == "defeat":
@@ -1383,7 +1387,7 @@ init -6 python: # Guild, Tracker and Log.
                 temp += " The team is retreating back to the Guild."
                 tracker.log(temp)
 
-                tracker.state = "traveling back"
+                return "fallback_to_guild"
             elif risk <= 90:
                 if kind == 'combat':
                     temp = "{} were badly injured in combat!".format(tracker.team.name)
@@ -1411,7 +1415,7 @@ init -6 python: # Guild, Tracker and Log.
                         temp = set_font_color(temp, "orange")
                         tracker.log(temp)
 
-                tracker.state = "traveling back"
+                return "fallback_to_guild"
             else: # risk 90+
                 if kind == 'combat':
                     temp = "{} were badly injured in combat!".format(tracker.team.name)
