@@ -633,11 +633,12 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # Log the day:
-            temp = ("{color=[green]}Day: %d{/color} | "+
-                    "{color=[green]}%s{/color} are on exploration run of %s!"+
-                    "\n") % (tracker.day, tracker.team.name, tracker.area.name)
-            if tracker.day != 1:
-                temp = "\n" + temp
+            if tracker.day == 1:
+                temp = ("{color=[green]}Day: %d{/color} | "+
+                        "{color=[green]}%s{/color} are on exploration run of %s!"+
+                        "\n") % (tracker.day, tracker.team.name, tracker.area.name)
+            else:
+                temp = "\n{color=[green]}Day %d:{/color}\n"
             tracker.log(temp)
 
             # Ability:
@@ -1195,7 +1196,8 @@ init -6 python: # Guild, Tracker and Log.
                         enemies = randint(min_enemies, max_ememies)
 
                         temp = "\n{} were attacked by ".format(team.name)
-                        temp = temp + "%d %s!" % (enemies, plural("mob", enemies))
+                        temp = temp + "%d %s!" % (enemies, plural(mob, enemies))
+                        temp = set_font_color(temp, "orange")
                         log = tracker.log(temp, "Combat!", ui_log=True)
 
                         result, battle = self.combat_mobs(tracker, mob, enemies, log)
@@ -1402,22 +1404,25 @@ init -6 python: # Guild, Tracker and Log.
                     if dice(risk):
                         result = kill_char(fighter)
                         if result:
-                            temp = "{} died..."
+                            temp = "{} died...".format(fighter.name)
                             temp = set_font_color(temp, "red")
                             tracker.log(temp)
 
                             tracker.died.append(fighter)
                             team.remove(fighter)
                         else:
-                            temp = "{} cannot die!"
+                            temp = "{} cannot die!".format(fighter.name)
                             temp = set_font_color(temp, "gray")
                             tracker.log(temp)
                     else:
-                        temp = "{} is near death..."
+                        temp = "{} is near death...".format(fighter.name)
                         temp = set_font_color(temp, "orange")
                         tracker.log(temp)
 
-                return "fallback_to_guild"
+                if not len(team): # everyone died...
+                    return "full_death"
+                else:
+                    return "fallback_to_guild"
             else: # risk 90+
                 if kind == 'combat':
                     temp = "{} were badly injured in combat!".format(tracker.team.name)
@@ -1440,8 +1445,7 @@ init -6 python: # Guild, Tracker and Log.
                         temp = set_font_color(temp, "gray")
                         tracker.log(temp)
 
-            if not len(team):
-                # everyone died...
+            if not len(team): # everyone died...
                 return "full_death"
 
         def rewards_mod(self, tracker, value, mb_ability=None, mb_risk=None,
