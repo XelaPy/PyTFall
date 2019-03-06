@@ -638,7 +638,7 @@ init -6 python: # Guild, Tracker and Log.
                         "{color=[green]}%s{/color} are on exploration run of %s!"+
                         "\n") % (tracker.day, tracker.team.name, tracker.area.name)
             else:
-                temp = "\n{color=[green]}Day %d:{/color}\n"
+                temp = "\n{color=[green]}Day %d:{/color}\n" % tracker.day
             tracker.log(temp)
 
             # Ability:
@@ -1246,7 +1246,7 @@ init -6 python: # Guild, Tracker and Log.
             carea = tracker.area
 
             for member in team:
-                if (member.health <= (member.get_max("health") / 100.0 * (100 - carea.risk))) or member.health < 15:
+                if (member.health <= (member.get_max("health") / 100.0 * (100 - carea.risk))) or check_stat_perc(member, "health", .15, dir="lower"):
                     temp = "{color=[blue]}The team falls back to base due to risk factors!{/color}"
                     tracker.log(temp)
                     return True
