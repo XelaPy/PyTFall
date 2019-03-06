@@ -1002,10 +1002,11 @@ init -6 python: # Guild, Tracker and Log.
                             min_val=0)
 
             # Exploration speed:
-            ability_points = tracker.ability*.025
-            risk_mod = carea.risk*.01
-            exploration_rate = ability_points*risk_mod*area.exploration_multiplier
-
+            exploration_rate = self.rewards_mod(tracker, 2, mb_ability=True,
+                                    mb_risk=True,
+                                    mb_exploration_day=False, mb_explored=False,
+                                    min_val=.2)
+            exploration_rate *= area.exploration_multiplier
             if self.has_extension(CartographyLab):
                 temp = choice(["The team is making notes about the area to be used in the lab when they get back.",
                                "Your explorers are doing the boring work of mapping the area (+50% exploration rate from the Lab)"])
