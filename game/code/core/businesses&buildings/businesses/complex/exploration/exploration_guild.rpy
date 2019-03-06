@@ -1209,19 +1209,6 @@ init -6 python: # Guild, Tracker and Log.
                             elif _result == "fallback_to_guild":
                                 self.env.exit(_result)
 
-                        if result == "defeat":
-                            if DEBUG_SE:
-                                msg = "{} has finished an exploration scenario. (Lost a fight)".format(team.name)
-                                se_debug(msg, mode="info")
-                            self.env.exit("defeat")
-                        if fought_mobs >= carea.risk/25:
-                            temp = "Your team decided to go back to the camp to avoid further {color=[red]}risk{/color}."
-                            tracker.log(temp)
-                            if DEBUG_SE:
-                                msg = "{} has finished an exploration scenario. (Fought too much)".format(team.name)
-                                se_debug(msg, mode="info")
-                            self.env.exit("retreat_to_camp")
-
                         if self.assess_exploration_risk(tracker):
                             self.env.exit("retreat_to_camp")
 
@@ -1246,7 +1233,7 @@ init -6 python: # Guild, Tracker and Log.
             carea = tracker.area
 
             for member in team:
-                if (member.health <= (member.get_max("health") / 100.0 * (100 - carea.risk))) or check_stat_perc(member, "health", .15, dir="lower"):
+                if (member.health <= (member.get_max("health") / 100.0 * (100 - carea.risk))) or check_stat_perc(member, "health", .15):
                     temp = "{color=[blue]}The team falls back to base due to risk factors!{/color}"
                     tracker.log(temp)
                     return True
