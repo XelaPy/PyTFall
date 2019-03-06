@@ -670,14 +670,12 @@ init -6 python: # Guild, Tracker and Log.
                         tracker.traveled = 0
                 elif tracker.state == "exploring":
                     result = yield process(self.explore(tracker))
-                    if result == "back2camp":
-                        break # We're done for today...
+                    if result in ("retreat_to_camp", "defeat"):
+                        tracker.state = "camping"
                     elif str(result).startswith(("captured", "got")):
                         # We found something special or captured a char.
                         self.update_loot(tracker)
                         tracker.state = "traveling back"
-                    elif result == "defeat":
-                        tracker.state = "camping"
                     elif result == "full_death":
                         self.env.exit("full_death")
                 elif tracker.state == "camping":
@@ -1023,7 +1021,7 @@ init -6 python: # Guild, Tracker and Log.
                 # Hazzard:
                 if area.hazard:
                     dead = []
-                    temp = "{color=[yellow]}Hazardous area!{/color} The team has been effected."
+                    temp = "{color=[yellow]}Hazardous area!{/color} The team was effected."
                     tracker.log(temp)
 
                     for char in team:
@@ -1214,10 +1212,10 @@ init -6 python: # Guild, Tracker and Log.
                             if DEBUG_SE:
                                 msg = "{} has finished an exploration scenario. (Fought too much)".format(team.name)
                                 se_debug(msg, mode="info")
-                            self.env.exit("back2camp")
+                            self.env.exit("retreat_to_camp")
 
                         if self.assess_exploration_risk(tracker):
-                            self.env.exit("back2camp")
+                            self.env.exit("retreat_to_camp")
 
                 # record the exploration
                 # risk and multiplier added now
