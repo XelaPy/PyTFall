@@ -130,6 +130,8 @@ init -6 python: # Guild, Tracker and Log.
             self.team = team
             self.guild = guild # Guild this tracker was initiated from...
 
+            self.encounter_chance = getattr(area, "encounter_chance", 45) # 45% base encounter chance
+
             # Features:
             self.basecamp = False
             self.base_camp_health = 0 # We call it health in case we allow it to be attacked at some point...
@@ -957,8 +959,7 @@ init -6 python: # Guild, Tracker and Log.
             area = tracker.obj_area
             carea = tracker.area
             team = tracker.team
-            fought_mobs = 0
-            encountered_opfor = 0
+            encountered_opfor = 1.0
 
             if DEBUG_SE:
                 msg = "{} is starting an exploration scenario.".format(team.name)
@@ -1202,12 +1203,11 @@ init -6 python: # Guild, Tracker and Log.
                                 self.env.exit("captured char")
 
                 # Mobs Combat:
-                if tracker.mobs:
-                    # The expected number of encounters per day is increased by one after every 25 point of risk,
-                    # but never fight anyone with risk lower than 25..
-                    encounter_chance = dice((carea.risk-25) / 5.0) # 100 * ((risk-25)/25.0) / (day_length / iteration_DU)
-                    if encounter_chance:
-                        fought_mobs += 1
+                if tracker.mobs and not self.env.now % 30:
+                    ec = tracker.encounter_chance*.33/encountered_opfor
+                    if ec:
+                        encountered_opfor += 1
+
                         if isinstance(tracker.mobs, list):
                             mob = choice(tracker.mobs)
                         elif isinstance(tracker.mobs, (set, dict)):
@@ -1215,8 +1215,8 @@ init -6 python: # Guild, Tracker and Log.
                         else:
                             mob = tracker.mobs
 
-                        min_enemies = 2 # max(1, len(team) - 1)
-                        max_ememies = 4 # max(3, len(team) + randrange(2))
+                        min_enemies = 2
+                        max_ememies = 4
                         enemies = randint(min_enemies, max_ememies)
 
                         temp = "\n{} were attacked by ".format(team.name)
