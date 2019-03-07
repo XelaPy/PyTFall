@@ -2807,34 +2807,32 @@ init -9 python:
             flag_red = False
             flag_green = False
 
-            # Update upkeep, should always be a saf thing to do.
+            # Update upkeep, should always be a safe thing to do.
             self.fin.calc_upkeep()
+
+            # Front text (Days employed)
+            days = set_font_color(self.fullname, "green")
+            if not self.flag("daysemployed"):
+                txt.append("{} has started working for you today! ".format(days))
+            else:
+                txt.append("{} has been working for you for {} {}. ".format(days,
+                                                                        self.flag("daysemployed"),
+                                                                        plural("day", self.flag("daysemployed"))))
+            self.up_counter("daysemployed")
+
+            if self.status == "slave":
+                txt.append("She is a slave.")
+            else:
+                txt.append("She is a free citizen.")
 
             # If escaped:
             if self in pytfall.ra:
                 self.health = max(1, self.health - randint(3, 5))
                 txt.append("\n{color=[red]}This girl has escaped! Assign guards to search for her or do so yourself.{/color}\n\n")
                 flag_red = True
-            # TODO se/Char.nd(): This can't be right? This is prolly set to the exploration log object.
             elif self.action == "Exploring":
                 txt.append("\n{color=[green]}She is currently on the exploration run!{/color}\n")
-            else:
-                # Front text (Days employed)
-                days = set_font_color(self.fullname, "green")
-                if not self.flag("daysemployed"):
-                    txt.append("{} has started working for you today! ".format(days))
-                else:
-                    txt.append("{} has been working for you for {} {}. ".format(days,
-                                                                            self.flag("daysemployed"),
-                                                                            plural("day", self.flag("daysemployed"))))
-                self.up_counter("daysemployed")
-
-                if self.status == "slave":
-                    txt.append("She is a slave.")
-                else:
-                    txt.append("She is a free citizen.")
-
-                # Home location nd mods:
+            else: # Home location nd mods:
                 loc = self.home
                 mod = loc.daily_modifier
 
