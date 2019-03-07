@@ -635,10 +635,10 @@ init -6 python: # Guild, Tracker and Log.
             # Log the day:
             if tracker.day == 1:
                 temp = ("{color=[green]}Day: %d{/color} | "+
-                        "{color=[green]}%s{/color} are on exploration run of %s!"+
-                        "\n") % (tracker.day, tracker.team.name, tracker.area.name)
+                        "{color=[green]}%s{/color} are on exploration run of %s!") % \
+                        (tracker.day, tracker.team.name, tracker.area.name)
             else:
-                temp = "\n{color=[green]}Day %d:{/color}\n" % tracker.day
+                temp = "\n{color=[green]}Day %d:{/color}" % tracker.day
             tracker.log(temp)
 
             # Ability:
@@ -732,6 +732,8 @@ init -6 python: # Guild, Tracker and Log.
             travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
             if not tracker.traveled:
+                temp = "=> "
+                temp = set_font_color(temp, "green")
                 temp = "{} are on route to {}!".format(tracker.team.name, tracker.area.name)
                 tracker.log(temp)
 
@@ -781,6 +783,8 @@ init -6 python: # Guild, Tracker and Log.
             speed = self.set_travel_speed(tracker, log=False)
 
             if not tracker.traveled:
+                temp = "<= "
+                temp = set_font_color(temp, "green")
                 temp = choice(["{} are traveling back home.".format(tracker.team.name),
                                "The team is on route back the {}.".format(self.building.name),
                                "{} are on route back home.".format(tracker.team.name)])
@@ -804,6 +808,9 @@ init -6 python: # Guild, Tracker and Log.
         def camping(self, tracker):
             """Camping will allow restoration of health/mp/agility and so on.
             Might be forced on low health.
+
+            One day of camping (without item use) is meant to restore about 40%
+                with tent and 80% with a camp at 100% ability.
             """
             team = tracker.team
             area = tracker.area
@@ -814,15 +821,14 @@ init -6 python: # Guild, Tracker and Log.
                 msg = "{} is Camping. State: {}".format(team.name, tracker.state)
                 se_debug(msg, mode="info")
 
+            mod = self.rewards_mod(tracker, .4, mb_ability=True, mb_risk=None,
+                            mb_exploration_day=None, mb_explored=None,
+                            min_val=.1)
             if area.camp:
-                camp = True
-                multiplier = 2
-            else:
-                camp = False
-                multiplier = 1
+                mod *= 2
 
             if not tracker.days_in_camp:
-                if not camp:
+                if not area.camp:
                     temp = "{} setup a tent to get some rest and recover!".format(team.name)
                     tracker.log(temp)
                 else:
@@ -831,13 +837,13 @@ init -6 python: # Guild, Tracker and Log.
                     tracker.log(temp)
 
             while 1:
-                yield self.env.timeout(5) # We camp...
+                yield self.env.timeout(20) # We camp...
 
                 # Base stats:
-                for c in team:
-                    c.health += randint(8, 12)*multiplier
-                    c.mp += randint(8, 12)*multiplier
-                    c.vitality += randint(20, 50)*multiplier
+                for char in team:
+                    mod_by_max(char, "health", mod*.2)
+                    mod_by_max(char, "mp", mod*.2)
+                    mod_by_max(char, "vitality", mod*.2)
 
                 # Apply items:
                 if auto_equip_counter < 2:
@@ -876,7 +882,7 @@ init -6 python: # Guild, Tracker and Log.
                     tracker.days_in_camp += 1
 
                     if DEBUG_SE:
-                        msg = "{} finished Camping. (Day Ended)".format(team.name)
+                        msg = "{} exiting camping. (Day Ended)".format(team.name)
                         se_debug(msg, mode="info")
 
                     self.env.exit("still camping")
@@ -1020,6 +1026,22 @@ init -6 python: # Guild, Tracker and Log.
 
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
+
+                # record the exploration
+                # risk and multiplier added now
+                # +/- 10 points per day for a competent team.
+                if not self.env.now % 25:
+                    area.explored += exploration_rate
+
+                    temp = choice(["-Looking around.",
+                                   "-Exploring the area!",
+                                   "-Trying to find something useful.",
+                                   "-Is there something useful around here?"])
+                    tracker.log(temp)
+
+                    for member in team:
+                        if dice(50):
+                            ss_reward(member, area.tier, {"exploration": 1}, apply=True)
 
                 # Hazzard:
                 if area.hazard:
@@ -1211,16 +1233,6 @@ init -6 python: # Guild, Tracker and Log.
 
                         if self.assess_exploration_risk(tracker):
                             self.env.exit("retreat_to_camp")
-
-                # record the exploration
-                # risk and multiplier added now
-                # +/- 10 points per day for a competent team.
-                if not self.env.now % 25:
-                    area.explored += exploration_rate
-
-                    for member in team:
-                        if dice(50):
-                            ss_reward(member, area.tier, {"exploration": 1}, apply=True)
 
                 if self.env.now >= 99:
                     self.env.exit()
