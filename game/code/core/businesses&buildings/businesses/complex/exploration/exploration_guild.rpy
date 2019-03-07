@@ -126,11 +126,15 @@ init -6 python: # Guild, Tracker and Log.
             # We do this because this data needs to be tracked separately and
             # area object can only be updated once team has returned.
             # There is a good chance that some of these data must be updated in real time.
-            self.area = deepcopy(area)
             self.team = team
             self.guild = guild # Guild this tracker was initiated from...
 
+            # We do not want to deepcopy areas...
+            # We can just write required info to this namespace:
             self.encounter_chance = getattr(area, "encounter_chance", 45) # 45% base encounter chance
+            self.risk = area.risk
+            self.capture_chars = area.capture_chars
+            self.area = area
 
             # Features:
             self.basecamp = False
@@ -203,17 +207,8 @@ init -6 python: # Guild, Tracker and Log.
                 renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
 
         @property
-        def obj_area(self):
-            # "Global" area object, we usually update this where we're done.
-            return fg_areas[self.area.id]
-
-        @property
         def mobs(self):
             return self.area.mobs
-
-        @property
-        def risk(self):
-            return self.area.risk
 
         @property
         def cash_limit(self):
@@ -243,13 +238,12 @@ init -6 python: # Guild, Tracker and Log.
             # 300 effectiveness or 100 ability is needed to do this job right.
             # This will remove the need to mess with the size of the team
             # when calculating the results during the exploration.
-            carea = self.area
-            area = self.obj_area
+            area = self.area
             team = self.team
 
             abilities = list()
             # Difficulty is tier of the area explored + 1/10 of the same value / 100 * risk.
-            difficulty = area.tier+(area.tier*.001*carea.risk)
+            difficulty = area.tier+(area.tier*.001*self.risk)
             for char in team:
                 # Set their exploration capabilities as temp flag
                 a = self.effectiveness(char, difficulty, log=None, return_ratio=False)
@@ -268,7 +262,7 @@ init -6 python: # Guild, Tracker and Log.
             """
             global fg_areas
             global items
-            area = self.obj_area
+            area = self.area
             building = self.guild.building
             team = self.team
 
@@ -620,11 +614,11 @@ init -6 python: # Guild, Tracker and Log.
                     tracker.days_explored += 1
                 self.env.exit("full_death")
 
-            tracker.obj_area.last_explored = store.day
+            tracker.area.last_explored = store.day
 
             # Prep aliases:
             process = self.env.process
-            area = tracker.obj_area
+            area = tracker.area
             team = tracker.team
             global_day = store.day
 
@@ -956,8 +950,7 @@ init -6 python: # Guild, Tracker and Log.
                 tracker.daily_cash = 0
 
             items = tracker.daily_items
-            area = tracker.obj_area
-            carea = tracker.area
+            area = tracker.area
             team = tracker.team
             encountered_opfor = 1.0
 
@@ -1131,7 +1124,7 @@ init -6 python: # Guild, Tracker and Log.
                             se_debug(msg, mode="info")
 
                 # Chars Capture:
-                if carea.capture_chars and not self.env.now % 30:
+                if tracker.capture_chars and not self.env.now % 30:
                     # Special Chars:
                     if area.special_chars:
                         for char, explored in area.special_chars.items():
@@ -1244,10 +1237,9 @@ init -6 python: # Guild, Tracker and Log.
             Returns True if the team has to fall back to camp.
             """
             team = tracker.team
-            carea = tracker.area
 
             for member in team:
-                if (member.health <= (member.get_max("health") / 100.0 * (100 - carea.risk))) or check_stat_perc(member, "health", .15):
+                if (member.health <= (member.get_max("health") / 100.0 * (100 - tracker.risk))) or check_stat_perc(member, "health", .15):
                     temp = "{color=[blue]}The team falls back to base due to risk factors!{/color}"
                     tracker.log(temp)
                     return True
@@ -1330,7 +1322,7 @@ init -6 python: # Guild, Tracker and Log.
 
         def setup_basecamp(self, tracker):
             # New type of shit, trying to get teams to coop here...
-            area = tracker.obj_area
+            area = tracker.area
             team = tracker.team
             teams = [t.team for t in area.trackers if t.state == "setting_up_basecamp"]
 
@@ -1464,11 +1456,10 @@ init -6 python: # Guild, Tracker and Log.
 
             mb_ = mod by
             """
-            area = tracker.obj_area
-            carea = tracker.area
+            area = tracker.area
             team = tracker.team
 
-            risk = carea.risk
+            risk = tracker.risk
             ability = tracker.ability
             eday = tracker.day
             explored = area.explored
