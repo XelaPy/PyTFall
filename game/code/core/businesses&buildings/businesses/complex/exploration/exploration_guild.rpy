@@ -268,6 +268,7 @@ init -6 python: # Guild, Tracker and Log.
             global items
             area = self.obj_area
             building = self.guild.building
+            team = self.team
 
             # Handle the no one returned to base case...
             if self.state == "full_death":
