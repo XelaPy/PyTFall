@@ -1378,6 +1378,10 @@ init -6 python: # Guild, Tracker and Log.
             team = tracker.team
             tracker.flag_red = True
 
+            # Set health to 1 (required when we don't kill anyone)
+            for char in dead:
+                char.health = 1
+
             if risk <= 50:
                 # We terminate the exploration but prevent death!
                 if len(dead) == 1:
