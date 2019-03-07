@@ -558,6 +558,8 @@ init -6 python: # Guild, Tracker and Log.
             team = self.focus_team if not _team else _team
             # self.teams.remove(team) # We prolly do not do this?
 
+            # TODO Prevent sick/poisoned/injured chars from going on exploration runs!
+
             # Setup Explorers:
             for char in team:
                 # We effectively remove char from the game so this is prolly ok.

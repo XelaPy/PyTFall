@@ -2864,8 +2864,7 @@ init -9 python:
                     pass
                 elif in_training_location(self):
                     txt.append("Upkeep is included in price of the class your girl's taking. \n")
-                else:
-                    # The whole upkeep thing feels weird, penalties to slaves are severe...
+                else: # The whole upkeep thing feels weird, penalties to slaves are severe...
                     amount = self.fin.get_upkeep()
 
                     if not amount:
