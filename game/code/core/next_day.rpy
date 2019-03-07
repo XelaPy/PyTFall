@@ -102,17 +102,26 @@ label next_day:
     # Sort data for summary reports:
     $ ndactive, ndresting, ndevents = sort_for_nd_summary()
     # Setting index and picture
-    $ FILTERED_EVENTS = NEXT_DAY_EVENTS * 1
+    $ FILTERED_EVENTS = NEXT_DAY_EVENTS[:]
     if FILTERED_EVENTS:
         $ event = FILTERED_EVENTS[0]
         $ gimg = event.get_displayable()
+
+    # Exploration reports flags:
+    python:
+        for i in NEXT_DAY_EVENTS:
+            if i.type == "explorationndreport":
+                HAS_EXPLORATION_REPORTS = True
+                break
+        else:
+            HAS_EXPLORATION_REPORTS = False
 
     hide screen next_day_calculations
 
     call next_day_controls from _call_next_day_controls
 
     # Lets free some memory...
-    if not day%50:
+    if not day % 50:
         $ renpy.free_memory()
     if next_day_local:
         jump next_day
@@ -1030,7 +1039,21 @@ screen next_day():
                                 tooltip "A course one of your girls attended has ended!"
                                 text "!" color yellow size 40 style "proper_stats_text" align .5, .5
 
-            # # Girls and Other Related data:
+            # Exploration Reports:
+            if HAS_EXPLORATION_REPORTS:
+                default exp_img = im.Sepia("content/gfx/interface/buttons/exploration.webp")
+                button:
+                    background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                    xalign .5 ypos 250
+                    padding 3, 3
+                    margin 0, 0
+                    hovered SetScreenVariable("exp_img", "content/gfx/interface/buttons/exploration.webp")
+                    unhovered SetScreenVariable("exp_img", im.Sepia("content/gfx/interface/buttons/exploration.webp"))
+                    action [Return(['filter', 'xndreports']), SetScreenVariable("show_summary", None)]
+                    tooltip "View the Exploration Guild reports!"
+                    add pscale(exp_img, 60, 60)
+
+            # Chars and Other Related data:
             hbox:
                 xalign .5 ypos 300
                 spacing 80
@@ -1045,11 +1068,8 @@ screen next_day():
                             free = free + 1
                 python:
                     red_flags = False
-                    explorers = False
                     for i in NEXT_DAY_EVENTS:
-                        if i.type == "explorationndreport":
-                            explorers = True
-                        elif i.type == "girlndreport" and i.red_flag:
+                        if i.type == "girlndreport" and i.red_flag:
                             red_flags = True
 
                 vbox:
@@ -1072,16 +1092,6 @@ screen next_day():
                         tooltip "Show personal girl reports!"
                     hbox:
                         align 1.0, 1.0
-                        if explorers:
-                            button:
-                                xysize 30, 30
-                                yalign .5
-                                padding 0, 0
-                                margin 0, 0
-                                background Null()
-                                text "+" color yellow size 40 style "proper_stats_text" align .5, .5
-                                action [Return(['filter', 'xndreports']), SetScreenVariable("show_summary", None)]
-                                tooltip "View the reports of the explorers!"
                         if red_flags:
                             button:
                                 xysize 10, 36
