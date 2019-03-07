@@ -1120,9 +1120,9 @@ init -1 python: # Core classes:
             if not absorbed:
                 # damage = (self.effect + attack)*multiplier/defense + 1
                 # damage = (self.effect + attack)*multiplier * math.log10(damage)
-                damage = (self.effect+attack)*1.0*(75/(75 + defense * 1.0))
+                damage = (self.effect+attack)*(75.0/(75+defense))
             else:
-                damage = -attack*1.0*(75/(75 + defense * 1.0))
+                damage = -attack*(75.0/(75+defense))
 
             # backrow/critpower effects, maybe more:
             damage *= multiplier
