@@ -186,10 +186,6 @@ init -6 python: # Guild, Tracker and Log.
             # This is set back to 0 when team recovers inside of the camping method.
             self.days_in_camp = 0
 
-            self.unlocks = dict()
-            for key in self.area.unlocks:
-                self.unlocks[key] = 0
-
             self.flag_red = False
             self.flag_green = False
             self.logs = list() # List of all log object we create during this exploration run.
@@ -1039,7 +1035,15 @@ init -6 python: # Guild, Tracker and Log.
                         if dice(50):
                             ss_reward(member, area.tier, {"exploration": 1}, apply=True)
 
-                # Hazzard:
+                    for a, value in area.unlocks.items():
+                        if area.explored >= value:
+                            uarea = store.fg_areas[a].unlocked = True
+                            temp = "Your team has uncovered a location of a new area to explore!"
+                            temp += "\n {} is now unlocked!".format(a)
+                            temp = set_font_color(temp, "green")
+                            tracker.log(temp)
+
+                # Hazard:
                 if area.hazard:
                     dead = []
                     temp = "{color=[yellow]}Hazardous area!{/color} The team was effected."
