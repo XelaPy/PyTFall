@@ -1110,7 +1110,7 @@ init -1 python: # Core classes:
 
         def damage_calculator(self, t, attack, defense, multiplier, attacker_items=[], absorbed=False):
             """Used to calc damage of the attack.
-            Before multipliers and effects are apllied.
+            Before multipliers and effects are applied.
             """
             a = self.source
 
@@ -1124,6 +1124,10 @@ init -1 python: # Core classes:
             else:
                 damage = -attack*1.0*(75/(75 + defense * 1.0))
 
+            # backrow/critpower effects, maybe more:
+            damage *= multiplier
+
+            # rng factors:
             damage *= uniform(.90, 1.10)
 
             # Items Bonus:
