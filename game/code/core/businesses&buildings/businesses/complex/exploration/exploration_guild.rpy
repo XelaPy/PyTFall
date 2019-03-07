@@ -678,6 +678,7 @@ init -6 python: # Guild, Tracker and Log.
                         self.update_loot(tracker)
                         tracker.state = "traveling back"
                     elif result == "full_death":
+                        tracker.state = "full_death"
                         self.env.exit("full_death")
                 elif tracker.state == "camping":
                     result = yield process(self.camping(tracker))
@@ -734,7 +735,7 @@ init -6 python: # Guild, Tracker and Log.
             if not tracker.traveled:
                 temp = "=> "
                 temp = set_font_color(temp, "green")
-                temp = "{} are on route to {}!".format(tracker.team.name, tracker.area.name)
+                temp += "{} are on route to {}!".format(tracker.team.name, tracker.area.name)
                 tracker.log(temp)
 
             speed = self.set_travel_speed(tracker, log=True)
@@ -785,7 +786,7 @@ init -6 python: # Guild, Tracker and Log.
             if not tracker.traveled:
                 temp = "<= "
                 temp = set_font_color(temp, "green")
-                temp = choice(["{} are traveling back home.".format(tracker.team.name),
+                temp += choice(["{} are traveling back home.".format(tracker.team.name),
                                "The team is on route back the {}.".format(self.building.name),
                                "{} are on route back home.".format(tracker.team.name)])
                 tracker.log(temp)
@@ -1387,7 +1388,6 @@ init -6 python: # Guild, Tracker and Log.
                 elif kind == 'hazard':
                     temp = "{} badly injured by hazards and are near death!".format(temp)
                 temp = set_font_color(temp, "orange")
-                temp += " The team is retreating back to the Guild."
                 tracker.log(temp)
 
                 return "fallback_to_guild"
@@ -1397,7 +1397,6 @@ init -6 python: # Guild, Tracker and Log.
                 elif kind == 'hazard':
                     temp = "{} were badly injured by hazard!".format(tracker.team.name)
                 temp = set_font_color(temp, "orange")
-                temp += " The team is retreating back to the Guild."
                 tracker.log(temp)
                 for fighter in dead:
                     if dice(risk):
