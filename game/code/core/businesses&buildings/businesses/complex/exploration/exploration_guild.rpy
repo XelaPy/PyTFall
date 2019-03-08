@@ -328,9 +328,12 @@ init -6 python: # Guild, Tracker and Log.
 
             # Restore Chars and Remove from guild:
             self.guild.explorers.remove(self)
+            now = self.guild.env.now
             for char in self.team:
                 char.action = char.flag("loc_backup")
                 char.del_flag("loc_backup")
+                # Give the AP back if team returned early:
+                char.AP = round_int(now*.01*char.setAP)
 
             # Next Day Stuff:
             # Not sure if this is required... we can add log objects and build
