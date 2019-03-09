@@ -1314,9 +1314,13 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 $ temp += '*Multiplies status of ranged skills.\n'
                             else:
                                 $ temp += '*Decreases status of ranged skills.\n'
+                                
+                    if item.type == "scroll":
+                        for i in item.add_be_spells:
+                            $ temp += battle_skills[i].desc
+                            $ temp += "\n"
 
                     text '{color=#ecc88a}[item.desc]{/color}{color=#daa520}[temp]{/color}' font "fonts/TisaOTM.otf" size 15 outlines [(1, "#3a3a3a", 0, 0)]
-
 
                 frame:
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=.9)

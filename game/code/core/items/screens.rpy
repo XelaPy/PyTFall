@@ -308,8 +308,17 @@ screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=Fals
                 frame:
                     xalign .5
                     background Frame("content/gfx/frame/p_frame7.webp", 10, 10)
-                    has viewport mousewheel True xysize (460, 100)
-                    text '[item.desc]' style "TisaOTM" size 16 color gold
+                    viewport:
+                        mousewheel True 
+                        xysize (460, 100)
+                        has vbox
+                        if item.type == "scroll":
+                            for i in item.add_be_spells:
+                                if i in battle_skills.keys():
+                                    text battle_skills[i].desc + "\n" style "TisaOTM" size 16 color gold
+                                    
+                        else:
+                            text '[item.desc]' style "TisaOTM" size 16 color gold
 
 # Inventory paging
 screen paging(path="content/gfx/interface/buttons/", use_filter=True,
