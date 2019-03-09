@@ -1435,7 +1435,7 @@ init -9 python:
                     temp = temp.format(hero.name, opfor.name, opfor.pp, hero.name)
                     temp = set_font_color(temp, "red")
                 else:
-                    temp = "{} didn't show up for a team combat vs {}!".format(hero.team.named,
+                    temp = "{} didn't show up for a team combat vs {}!".format(hero.team.name,
                                                                                penalty_setup[1].name)
                     temp += " The spectators were very displeased!"
                     temp = set_font_color(temp, "red")
