@@ -172,7 +172,7 @@ label start:
     python: # SE (Areas)
         tl.start("Loading: Exploration Areas")
         # pytfall.forest_1 = Exploration()
-        fg_areas = load_fg_areas()
+        fg_areas = load_se_areas()
         tl.end("Loading: Exploration Areas")
 
     python: # Move to a World AI method:
@@ -245,7 +245,7 @@ label dev_testing_menu_and_load_mc:
             hero.log_stats()
 
             if DEBUG and not hero.home:
-                ap = None 
+                ap = None
                 for b in buildings.values():
                     if ap is None or b.price > ap.price:
                         ap = b
@@ -405,7 +405,7 @@ label after_load:
     python hide:
         last_modified_items = global_flags.get_flag("last_modified_items", 0)
         last_modified = os.path.getmtime(content_path('db/items'))
-        if last_modified_items < last_modified: 
+        if last_modified_items < last_modified:
             tl.start("Updating items")
             updated_items = load_items()
             updated_items.update(load_gifts())
@@ -444,7 +444,7 @@ label after_load:
 
             del updated_traits
             tl.end("Updating traits")
-            global_flags.set_flag("last_modified_traits", last_modified) 
+            global_flags.set_flag("last_modified_traits", last_modified)
             renpy.call("sort_traits_for_gameplay")
 
     # All kinds of chars:
@@ -587,7 +587,7 @@ label after_load:
 
         if not hasattr(pytfall.arena, "df_count"):
             pytfall.arena.df_count = 0
-            pytfall.arena.hero_match_result = None 
+            pytfall.arena.hero_match_result = None
 
         if hasattr(hero, "STATS"):
             for c in itertools.chain(chars.values(), [hero], hero.chars, npcs.values()):
@@ -620,7 +620,7 @@ label after_load:
                 if isinstance(b.auto_clean, bool):
                     val = 90 if b.auto_clean else 100
                     del b.auto_clean
-                    b.auto_clean = val 
+                    b.auto_clean = val
         for b in businesses.values():
             if isinstance(b, UpgradableBuilding):
                 if not hasattr(b, "init_pep_talk"):
@@ -629,7 +629,7 @@ label after_load:
                 if isinstance(b.auto_clean, bool):
                     val = 90 if b.auto_clean else 100
                     del b.auto_clean
-                    b.auto_clean = val 
+                    b.auto_clean = val
 
         if "clearControllers" in locals():
             for girl in itertools.chain(chars.values(), hero.chars, npcs.values()):

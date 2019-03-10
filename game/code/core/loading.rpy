@@ -549,12 +549,12 @@ init -11 python:
             traits[t.id] = t
         return traits
 
-    def load_fg_areas():
+    def load_se_areas():
         content = list()
-        folder = content_path('db')
+        folder = content_path('db/se')
         for file in os.listdir(folder):
-            if file.startswith("fg_areas") and file.endswith(".json"):
-                in_file = content_path("".join(["db/", file]))
+            if file.startswith("se_") and file.endswith(".json"):
+                in_file = content_path("".join(["db/se/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
         areas = dict()
