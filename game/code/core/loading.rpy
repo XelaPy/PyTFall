@@ -627,29 +627,38 @@ init -11 python:
         return { d['id']: Dungeon(**d) for d in content }
 
     def load_battle_skills():
-        content = dict()
-        battle_skills_data = load_db_json("battle_skills.json")
-        fx_maps = ("attacker_action", "attacker_effects", "main_effect", "dodge_effect", "target_sprite_damage_effect", "target_damage_effect", "target_death_effect", "bg_main_effect")
+        rv = {}
+        skills = []
+        folder = content_path('db/battle_skills')
+        fx_maps = ("attacker_action", "attacker_effects", "main_effect",
+                   "dodge_effect", "target_sprite_damage_effect", "target_damage_effect",
+                   "target_death_effect", "bg_main_effect")
 
-        for skill in battle_skills_data:
-            constructor = globals()[skill.pop("class")]
-            s = constructor()
+        for file in os.listdir(folder):
+            if file.startswith("bes_") and file.endswith(".json"):
+                in_file = content_path("".join(["db/battle_skills/", file]))
+                with open(in_file) as f:
+                    skills.extend(json.load(f))
 
-            for key, value in skill.iteritems():
-                if key in fx_maps:
-                    getattr(s, key).update(value)
-                elif key == "_DEBUG_BE":
+        for s in skills:
+            cls = getattr(store, s.pop("class"))
+            skill = cls()
+
+            for key, value in s.iteritems():
+                if key == "_DEBUG_BE":
                     if not DEBUG_BE:
                         break
+                elif key in fx_maps:
+                    getattr(skill, key).update(value)
                 elif key.startswith("_COMMENT"):
                     pass
                 else:
-                    setattr(s, key, value)
+                    setattr(skill, key, value)
             else:
-                s.init()
-                content[s.name] = s
+                skill.init()
+                rv[skill.name] = skill
 
-        return content
+        return rv
 
 
 label load_resources:
