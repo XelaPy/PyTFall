@@ -327,7 +327,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
             key "т" action [Hide("mainscreen"), Jump("next_day")]
             key "Т" action [Hide("mainscreen"), Jump("next_day")]
             
-        elif all([tc_0, tc_1, not gm_points]):
+        elif all([tc_1, not gm_points]):
             if renpy.current_screen().tag == "next_day":
                 key "n" action Return(['control', "next_day_local"])
                 key "N" action Return(['control', "next_day_local"])
