@@ -258,6 +258,16 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         key "I" action Function(renpy.scene, "screens"), Return(["hero_eq"])
         key "ш" action Function(renpy.scene, "screens"), Return(["hero_eq"])
         key "Ш" action Function(renpy.scene, "screens"), Return(["hero_eq"])
+        
+        key "b" action Return(["building_management"])
+        key "B" action Return(["building_management"])
+        key "и" action Return(["building_management"])
+        key "И" action Return(["building_management"])
+        
+        key "c" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
+        key "C" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
+        key "с" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
+        key "С" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
             
         key "K_F5" action QuickSave()
         key "K_F9" action QuickLoad()
