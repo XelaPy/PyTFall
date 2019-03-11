@@ -45,6 +45,7 @@ init python:
     pyp.add_sub("Next Day", "pyp_next_day", "General")
     pyp.add_sub("Controls", "pyp_controls", "General")
     pyp.add_sub("Gazette", "pyp_gazette", "General")
+    pyp.add_sub("Hotkeys", "pyp_hotkeys", "General")
 
     pyp.add_main("Characters", "pyp_characters")
     pyp.add_sub("Locations", "pyp_ctrl", "Characters")

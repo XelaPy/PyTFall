@@ -287,3 +287,48 @@ screen pyp_gazette():
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
+    
+screen pyp_hotkeys():
+    zorder 1001
+
+    fixed:
+        pos 302, 49
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Hotkeys" size 30
+
+            vbox:
+                spacing 8
+                ypos 80
+                vbox:
+                    text "A number of hotkeys is available on the main screen. Note that hotkeys sending you to different locations work only if you were in that location at least once."
+                    label "I"
+                    text "Shows hero equipment screen."
+                    label "N"
+                    text "Advance to next day. Work only on screens where you can advance without using this hotkey too."
+                    label "S"
+                    text "Performs a quick save."
+                    label "Q"
+                    text "Activates panic mode screen. Works in most places. See panic mode section for more info."
+                    label "A"
+                    text "Sends you to arena."
+                    label "T"
+                    text "Sends you to forest."
+                    label "M"
+                    text "Sends you to slave market."
+                    label "P"
+                    text "Sends you to main street."
+
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            # Images and maybe details:
+
+    add "content/gfx/frame/h3.webp"
