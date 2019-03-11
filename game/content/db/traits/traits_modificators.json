@@ -114,18 +114,18 @@
     },
     {
     "id": "Sadist",
-    "desc": "She enjoys inflicting pain, or watching it inflicted (+ damage).",
+    "desc": "She enjoys inflicting pain, or watching it inflicted (+10% to all damage).",
     "max": {"attack": 5},
     "sexual": true,
     "character_trait": true,
-    "damage_multiplier": 0.05,
+    "damage_multiplier": 0.1,
     "client": true
     },
     {
     "id": "Masochist",
-    "desc": "She gets sexual gratification from pain and humiliation.",
+    "desc": "She gets sexual gratification from pain and humiliation (+10% to all defenses).",
     "max": {"defence": -5},
-    "defence_multiplier": {"magic":0.05, "status":0.05, "melee":0.05, "ranged":0.05},
+    "defence_multiplier": {"magic":0.1, "status":0.1, "melee":0.1, "ranged":0.1},
     "sexual": true,
     "character_trait": true
     },
