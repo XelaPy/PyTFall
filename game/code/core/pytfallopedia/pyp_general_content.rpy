@@ -306,16 +306,28 @@ screen pyp_hotkeys():
             vbox:
                 spacing 8
                 ypos 80
-                vbox:
+                viewport:
+                    draggable 1
+                    mousewheel 1
+                    scrollbars "vertical"
+                    xysize 600, 575
+                    has vbox
+                    
                     text "A number of hotkeys is available on the main screen. Note that hotkeys sending you to different locations work only if you were in that location at least once."
                     label "I"
                     text "Shows hero equipment screen."
                     label "N"
                     text "Advance to next day. Work only on screens where you can advance without using this hotkey too."
                     label "S"
-                    text "Performs a quick save."
+                    text "Take a screenshot."
+                    label "F"
+                    text "Toggle between full screen and window modes."
                     label "Q"
                     text "Activates panic mode screen. Works in most places. See panic mode section for more info."
+                    label "F5"
+                    text "Quick save."
+                    label "F9"
+                    text "Quick load."
                     label "A"
                     text "Sends you to arena."
                     label "T"

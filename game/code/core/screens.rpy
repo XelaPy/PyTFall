@@ -259,10 +259,8 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         key "ш" action Function(renpy.scene, "screens"), Return(["hero_eq"])
         key "Ш" action Function(renpy.scene, "screens"), Return(["hero_eq"])
             
-        key "s" action QuickSave()
-        key "S" action QuickSave()
-        key "ы" action QuickSave()
-        key "Ы" action QuickSave()
+        key "K_F5" action QuickSave()
+        key "K_F9" action QuickLoad()
 
     # Top Stripe Frame:
     add "content/gfx/frame/top_stripe.png"
