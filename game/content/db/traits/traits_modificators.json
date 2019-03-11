@@ -131,7 +131,7 @@
     },
     {
     "id": "Lesbian",
-    "desc": "This girl prefers women to men.",
+    "desc": "This girl prefers women to men. Gives penalties during sex acts with the opposite sex.",
     "blocks": ["Bisexual"],
     "sexual": true,
     "client": true,
