@@ -67,7 +67,7 @@ label hero_profile:
                 else:
                     $ hero.team.name = "New Team"
                 $ del t
-                    
+
 
 # Screens:
 screen hero_profile():
@@ -737,7 +737,7 @@ screen hero_team():
                         tooltip "Dissolve"
                 button:
                     xminimum 100
-                    action Function(hero.select_team, team) 
+                    action SetField(hero, "team", team)
                     sensitive hero.team != team
                     text "[team.name]" style "pb_button_text"
                     tooltip "Select {}".format(team.name)

@@ -23,8 +23,7 @@ init -9 python:
             flag: Sentence type (reason to put in Jail)
             """
             if char not in self:
-                if char in hero.team:
-                    hero.team.remove(char)
+                hero.remove_from_teams(char)
                 self.chars_list.append(char)
 
                 # Flag to determine how the girl is handled in the jail:

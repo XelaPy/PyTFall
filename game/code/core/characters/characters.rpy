@@ -2358,25 +2358,25 @@ init -9 python:
         def remove_char(self, char):
             if char in self._chars:
                 self._chars.remove(char)
-
                 # remove from the teams as well
-                for team in self.teams:
-                    if char in team:
-                        team.remove(char)
+                self.remove_from_teams(char)
             else:
                 raise Exception, "This char (ID: %s) is not in service to the player!!!" % self.id
 
+        # Hero Team management:
         def new_team(self):
             t = Team(implicit=[self])
             self.team = t
             self.teams.append(t)
 
+        def remove_from_teams(self, char):
+            for team in self.teams:
+                if char in team:
+                    team.remove(char)
+
         def remove_team(self, team):
             if self.team != team:
                 self.teams.remove(team)
-
-        def select_team(self, team):
-            self.team = team
 
         # ----------------------------------------------------------------------------------
         def nd_pay_taxes(self, txt, flag_red):
@@ -2562,7 +2562,7 @@ init -9 python:
             self.item_counter()
             self.restore_ap()
             self.reservedAP = 0
-            
+
             # ------------>
             self.nd_log_report(txt, img, flag_red, type='mcndreport')
             self.log_stats()
