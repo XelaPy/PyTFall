@@ -362,7 +362,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                 if renpy.current_screen().tag == "next_day":
                     action Return(['control', "next_day_local"])
                 else:
-                    action (hs, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
+                    action (cdl, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
                 text "Next Day"
         else:
             button:
