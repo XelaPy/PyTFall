@@ -230,8 +230,6 @@ screen top_stripe(show_return_button=True, return_button_action=None,
     default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
 
     # Hotkeys:
-
-
     if renpy.get_screen("mainscreen"):
         if global_flags.flag("visited_arena"):
             key "a" action Function(renpy.scene, "screens"), Jump("arena_inside")

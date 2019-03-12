@@ -7,6 +7,31 @@ init 100 python:
     mobs = load_mobs()
     tl.end("Loading: Mobs")
 
+    def update_object(obj_dest, obj_src, prefix):
+        for attr, v in vars(obj_dest).items():
+            if hasattr(obj_src, attr):
+                v2 = getattr(obj_src, attr)
+                if v2 != v:
+                    try:
+                        devlog.info("{} - Modified Attr {}: {} -> {} in {}".format(prefix, attr, str(v), str(v2), str(obj_dest)))
+                    except:
+                        pass
+                    setattr(obj_dest, attr, v2)
+            else:
+                try:
+                    devlog.info("{} - Attr Removed: {} from {}".format(prefix, attr, str(obj_dest)))
+                except:
+                    pass
+                delattr(obj_dest, attr)
+
+        for attr, v2 in vars(obj_src).items():
+            if not hasattr(obj_dest, attr):
+                try:
+                    devlog.info("{} - New Attr {} for {} with value {}".format(prefix, attr, str(obj_dest), str(v2)))
+                except:
+                    pass
+                setattr(obj_dest, attr, v2)
+
 default defeated_mobs = {}
 default gazette = Gazette()
 
@@ -376,29 +401,14 @@ label sort_traits_for_gameplay:
     return
 
 label after_load:
+    $ config.mouse = None
+
     if hasattr(store, "stored_random_seed"):
         $ renpy.random.setstate(stored_random_seed)
 
     python hide:
         for c in store.chars.values():
             c.clear_img_cache()
-
-    init python:
-        def update_object(obj_dest, obj_src, prefix):
-            for attr, v in vars(obj_dest).items():
-                if hasattr(obj_src, attr):
-                    v2 = getattr(obj_src, attr)
-                    if v2 != v:
-                        devlog.info("{} - Modified Attr {}: {} -> {} in {}".format(prefix, attr, str(v), str(v2), str(obj_dest)))
-                        setattr(obj_dest, attr, v2)
-                else:
-                    devlog.info("{} - Attr Removed: {} from {}".format(prefix, attr, str(obj_dest)))
-                    delattr(obj_dest, attr)
-
-            for attr, v2 in vars(obj_src).items():
-                if not hasattr(obj_dest, attr):
-                    devlog.info("{} - New Attr {} for {} with value {}".format(prefix, attr, str(obj_dest), str(v2)))
-                    setattr(obj_dest, attr, v2)
 
     # Updating Databases:
     # Items:
