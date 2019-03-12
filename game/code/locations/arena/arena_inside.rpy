@@ -1,4 +1,7 @@
 label arena_inside:
+    python:
+        renpy.scene()
+        renpy.scene("screens")
 
     # Music related:
     if not "arena_inside" in ilists.world_music:
@@ -394,9 +397,9 @@ init: # Main Screens:
                                             align (.5, .5)
                                             $ team = lineup[1]
                                             style_prefix "arena_badaboom"
-                                            text "Challenge!" size 40 
+                                            text "Challenge!" size 40
                                             text ("Enemy level: %s" % team.get_level()) outlines [(1, "#3a3a3a", 0, 0)]
-                                            text ("Reputation: %s" % team.get_rep()) size 20 outlines [(1, "#3a3a3a", 0, 0)] 
+                                            text ("Reputation: %s" % team.get_rep()) size 20 outlines [(1, "#3a3a3a", 0, 0)]
 
                                 # Or we show the team that challenged:
                                 else:
@@ -1021,7 +1024,7 @@ init: # Main Screens:
             align (.5, .63)
             style_group "pb"
             action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
-            text "Continue" style "pb_button_text" yalign 1.0 
+            text "Continue" style "pb_button_text" yalign 1.0
 
         # Winner Details Display on the left:
         if winner.combat_stats == "K.O.":
