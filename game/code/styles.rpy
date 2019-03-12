@@ -519,6 +519,7 @@ init 2: # Advanced style that can carry a lot of properties to be used in screen
         size 20
         drop_shadow [(1, 1)]
         color azure
+        insensitive_color gray
 
     # Used mainly as Next Day Button
     style main_screen_4_button:
