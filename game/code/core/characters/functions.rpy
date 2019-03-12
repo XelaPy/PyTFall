@@ -1173,6 +1173,22 @@ init -11 python:
 
         return rv
 
+    def check_for_impairments(char):
+        """Checks if a char can do business.
+
+        Presently used in SE.
+        Returns True if we consider char not fit for work.
+        (Harsh version of a number of similar functions we may unify in the future)
+        """
+        for s in ("health", "mp"):
+            if check_stat_perc(char, s, .2):
+                return True
+
+        if set(["Poisoned", "Food Poisoning", "Injured"]).intersection(char.effects.keys()):
+            return True
+
+        return False
+
     # def get_act(character, tags):
     #    # copypaste from jobs without the self part, allows to randomly select one of existing tags sets
     #    acts = list()

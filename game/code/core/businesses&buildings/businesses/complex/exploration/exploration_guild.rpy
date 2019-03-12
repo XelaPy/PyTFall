@@ -561,7 +561,9 @@ init -6 python: # Guild, Tracker and Log.
             team = self.focus_team if not _team else _team
             # self.teams.remove(team) # We prolly do not do this?
 
-            # TODO Prevent sick/poisoned/injured chars from going on exploration runs!
+            for c in team:
+                if check_for_impairments(c):
+                    return c
 
             # Setup Explorers:
             for char in team:
@@ -586,6 +588,8 @@ init -6 python: # Guild, Tracker and Log.
             if not _team:
                 self.focus_team = None
                 self.team_to_launch_index = 0
+
+            return True
 
         # SimPy methods:
         def business_control(self):

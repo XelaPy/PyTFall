@@ -477,7 +477,7 @@ screen building_management_midframe_exploration_guild_mode:
                         style "marble_button"
                         padding 10, 10
                         if teams:
-                            action Function(temp.launch_team, area), Jump("building_management")
+                            action Return(["fg_team", "explore_area", area])
                             tooltip "Send {} on {} days long exploration run!".format(temp.focus_team.name, area.days)
                             vbox:
                                 xminimum 150
