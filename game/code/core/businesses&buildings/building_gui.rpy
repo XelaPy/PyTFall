@@ -1,3 +1,17 @@
+default BUILDING = None
+
+init python:
+    def set_building_index():
+        global index
+        global BUILDING
+
+        try:
+            BUILDING = hero.buildings[index]
+        except:
+            index = 0
+            BUILDING = hero.buildings[index]
+
+
 label building_management:
     python:
         # Reset screen settings, we do this only if we left this screen directly (No jump to char profile/equip)
@@ -8,22 +22,12 @@ label building_management:
             bm_exploration_view_mode = "team"
             selected_log_area = None
 
-            # Some Global Vars we use to pass data between screens:
-            if hero.buildings:
-                try:
-                    index = index
-                except:
-                    index = 0
+    $ set_building_index()
 
-                if index >= len(hero.buildings):
-                    index = 0
-
-                BUILDING = hero.buildings[index]
-                char = None
-
-                # special cursor for DragAndDrop and the original value
-                mouse_drag = {"default" :[("content/gfx/interface/cursors/hand.png", 0, 0)]}
-                mouse_cursor = config.mouse
+    python:
+        # special cursor for DragAndDrop and the original value
+        mouse_drag = {"default" :[("content/gfx/interface/cursors/hand.png", 0, 0)]}
+        mouse_cursor = config.mouse
 
     scene bg scroll
 
@@ -167,15 +171,10 @@ label building_management:
             if result[1] == 'return':
                 jump building_management_end
             elif result[1] == 'left':
-                $ index -= 1
-                if index < 0:
-                    $ index = len(hero.buildings) - 1
-            else: # if result[1] == 'right':
-                $ index += 1
-                if index >= len(hero.buildings):
-                    $ index = 0
-
-            $ BUILDING = hero.buildings[index]
+                $ index = (index - 1) % len(hero.buildings)
+            elif result[1] == 'right':
+                $ index = (index + 1) % len(hero.buildings)
+            $ set_building_index()
 
 label building_management_end:
     hide screen building_management
