@@ -1386,6 +1386,7 @@ init -6 python: # Guild, Tracker and Log.
             # Set health to 1 (required when we don't kill anyone)
             for char in dead:
                 char.health = 1
+                char.enable_effect("Injured", duration=3)
 
             if risk <= 50:
                 # We terminate the exploration but prevent death!
