@@ -116,6 +116,7 @@ screen mainscreen():
                 tooltip "A list of all of your workers"
             textbutton "Buildings":
                 action Return(["building_management"])
+                sensitive hero.buildings
                 tooltip "Manage here your properties and businesses"
             textbutton "Go to the City":
                 action Return(["city"])
