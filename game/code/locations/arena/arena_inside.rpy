@@ -1,7 +1,5 @@
 label arena_inside:
-    python:
-        renpy.scene()
-        renpy.scene("screens")
+    $ cdl()
 
     # Music related:
     if not "arena_inside" in ilists.world_music:
