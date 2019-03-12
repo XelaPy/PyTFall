@@ -2562,10 +2562,10 @@ init -9 python:
             self.item_counter()
             self.restore_ap()
             self.reservedAP = 0
-            self.log_stats()
-
+            
             # ------------>
             self.nd_log_report(txt, img, flag_red, type='mcndreport')
+            self.log_stats()
 
             self.arena_stats = dict()
 

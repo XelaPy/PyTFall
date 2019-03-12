@@ -1,8 +1,4 @@
 label arena_inside:
-    python:
-        renpy.scene()
-        renpy.scene("screens")
-
     # Music related:
     if not "arena_inside" in ilists.world_music:
         $ ilists.world_music["arena_inside"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("arena_inside")]

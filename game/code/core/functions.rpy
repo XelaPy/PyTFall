@@ -64,6 +64,11 @@ init -11 python:
     def round_int(value):
         return int(round(value))
 
+    def cdl():
+        # clears default layers (master and screens)
+        renpy.scene()
+        renpy.scene("screens")
+
     # ---------------------- Game related:
     # Assists:
     # Function are not named according to PEP8 because we'll be using the living shit out of them in the game:
@@ -116,12 +121,6 @@ init -11 python:
                 if string.startswith(i): return "an"
 
         return "a"
-
-    def hs():
-        # Hides the current renpy screen.
-        scr = renpy.current_screen()
-        if scr is not None:
-            renpy.hide_screen(scr.tag)
 
     def clear_screens():
         renpy.scene("screens")
