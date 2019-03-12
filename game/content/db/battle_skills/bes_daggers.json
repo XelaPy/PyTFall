@@ -1,0 +1,362 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Dagger Strike",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.05,
+        "effect": 1,
+        "range": 1,
+        "vitality_cost": 1,
+        "menu_pos": 0,
+        "multiplier": 0.5,
+        "desc": "An attack with a dagger.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_dagger_attack_webm",
+            "sfx": "content/sfx/sound/be/knife.mp3",
+            "duration": 0.564,
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.04,
+            "duration": 0.56
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Dagger Strike 4X",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.075,
+        "multiplier": 0.75,
+        "effect": 20,
+        "vitality_cost": 5,
+        "range": 1,
+        "desc": "Four quick strikes with a dagger.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "content/gfx/be/daggers.webp",
+            "sfx": "content/sfx/sound/be/dagger_attack_2.mp3",
+            "duration": 1.2,
+            "times": 4,
+            "sd_duration": 0.4,
+            "interval": 0.3,
+            "scale": [150, 150]
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 1.1
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Rapid Strikes",
+        "range": 1,
+        "attributes": ["melee", "physical"],
+        "effect": 30,
+        "menu_pos": 0.5,
+        "multiplier": 0.85,
+        "critpower": 0.2,
+        "vitality_cost": 15,
+        "type": "all_enemies",
+        "desc": "Special enchantments can temporally decrease weapon weight and momentum, allowing to perform a rapid succession of strikes.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "speed_dagger_webm",
+            "sfx": "content/sfx/sound/be/multi_dagger.mp3",
+            "duration": 0.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true,
+            "zoom": 1.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 0.4
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Ice Strike",
+        "menu_pos": 0.31,
+        "range": 1,
+        "attributes": ["melee", "ice", "physical"],
+        "effect": 60,
+        "critpower": 0.15,
+        "multiplier": 0.8,
+        "vitality_cost": 5,
+        "mp_cost": 1,
+        "desc": "An attack with with an ice dagger.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "ice_dagger",
+            "sfx": "content/sfx/sound/be/knife_ice.mp3",
+            "duration": 0.7,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true,
+            "zoom": 1.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "iced_with_shake",
+            "initial_pause": 0.3,
+            "duration": 0.4
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Ice Strike 3X",
+        "attributes": ["melee", "physical", "ice"],
+        "menu_pos": 0.32,
+        "multiplier": 0.9,
+        "critpower": 0.25,
+        "effect": 80,
+        "vitality_cost": 7,
+        "mp_cost": 2,
+        "range": 1,
+        "desc": "Three quick strikes with an ice dagger.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "ice_dagger",
+            "sfx": "content/sfx/sound/be/knife_ice.mp3",
+            "duration": 1.55,
+            "zoom": 1.1,
+            "times": 3,
+            "sd_duration": 0.65,
+            "interval": 0.45,
+            "alpha_fade": 1.0
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "iced_with_shake",
+            "initial_pause": 0.1,
+            "duration": 1.45
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.35,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Ice Break",
+        "range": 2,
+        "attributes": ["ranged", "ice"],
+        "menu_pos": 1.4,
+        "effect": 90,
+        "multiplier": 1.1,
+        "critpower": 0.35,
+        "vitality_cost": 15,
+        "mp_cost": 7,
+        "desc": "Released inner powers of the dagger summon a sharp ice formation.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "ice_dagger_webm",
+            "sfx": "content/sfx/sound/be/knife_ice.mp3",
+            "duration": 0.88,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "xo": 140
+            },
+            "hflip": true,
+            "zoom": 0.8
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "frozen",
+            "initial_pause": 0.3,
+            "duration": 0.58
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.8,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Poisoned Dagger",
+        "attributes": ["melee", "physical", "poison"],
+        "critpower": 0.2,
+        "effect": 20,
+        "range": 1,
+        "vitality_cost": 2,
+        "menu_pos": 0.2,
+        "multiplier": 0.6,
+        "desc": "An attack with a poisoned dagger.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_dagger_attack_webm",
+            "sfx": "content/sfx/sound/be/knife.mp3",
+            "duration": 0.564,
+            "hflip": true,
+            "blend": {
+                "alpha": 0.8,
+                "effect": "poison_effect_color",
+                "size": [149, 120]
+            }
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "poisoned_with_shake",
+            "initial_pause": 0.064,
+            "duration": 0.5
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BasicPoisonSpell",
+        "name": "Poisonous Rune",
+        "range": 2,
+        "attributes": ["status", "poison"],
+        "effect": 0.05,
+        "mn": "P Rune",
+        "menu_pos": 0.7,
+        "multiplier": 1.0,
+        "vitality_cost": 20,
+        "mp_cost": 0.1,
+        "desc": "Blade enchantment materializes a good deal of poison above the target.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "poison_dagger_webm",
+            "sfx": "content/sfx/sound/be/poison_cloud.mp3",
+            "duration": 1.8,
+            "aim": {
+                "point": "tc",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true,
+            "zoom": 1.1
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.0
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "poisoned_with_shake",
+            "initial_pause": 1.0,
+            "duration": 0.8
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.8,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "P2P_Skill",
+        "name": "Shadow Kunai",
+        "attributes": ["ranged", "darkness", "physical"],
+        "menu_pos": 1.5,
+        "effect": 70,
+        "vitality_cost": 20,
+        "multiplier": 1.0,
+        "critpower": 0.3,
+        "mp_cost": 0.1,
+        "range": 4,
+        "piercing": true,
+        "desc": "Creates an explosive shadow copy of the weapon which can be thrown at the target.",
+        "item_only": true,
+        "projectile_effects": {
+            "gfx": "kunai_throw_webm",
+            "sfx": "content/sfx/sound/be/kunai_throw.mp3",
+            "duration": 0.75
+        },
+        "main_effect": {
+            "gfx": "kunai_exp_webm",
+            "sfx": "content/sfx/sound/be/kunai_exp.mp3",
+            "duration": 0.55,
+            "aim": {
+                "anchor": [0.5, 0.5]
+            }
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_dark_with_shake",
+            "initial_pause": 0.75,
+            "duration": 0.55
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.1,
+            "duration": 0.5
+        },
+        "dodge_effect": {
+            "initial_pause": 0.72
+        }
+    },
+    {
+        "class": "ArealSkill",
+        "name": "Shadow Contract",
+        "range": 2,
+        "attributes": ["melee", "darkness", "physical", "poison"],
+        "menu_pos": 1.8,
+        "effect": 100,
+        "critpower": 0.4,
+        "multiplier": 1.2,
+        "vitality_cost": 30,
+        "mp_cost": 0.2,
+        "type": "all_enemies",
+        "piercing": true,
+        "desc": "Establishes a spiritual connection between shadow scrolls and the targets. All that remains is to destroy the said scrolls.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "kunai_bomb_webm",
+            "sfx": "content/sfx/sound/be/shadow_contract.ogg",
+            "duration": 1.46,
+            "aim": {
+                "anchor": [0.5, 0.5],
+                "xo": 180,
+                "yo": -70
+            },
+            "hflip": true,
+            "zoom": 1.2
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_dark_with_shake",
+            "initial_pause": 0.2,
+            "duration": 1.2
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.3,
+            "duration": 0.5
+        },
+        "bg_main_effect": {
+            "gfx": "mirage",
+            "initial_pause": 0.7,
+            "duration": 0.3
+        },
+        "dodge_effect": {
+            "initial_pause": 0.7
+        }
+    }
+]

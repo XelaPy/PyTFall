@@ -1,0 +1,382 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Stone",
+        "menu_pos": 0,
+        "attributes": ["magic", "earth"],
+        "effect": 10,
+        "multiplier": 1.0,
+        "mp_cost": 10,
+        "range": 4,
+        "type": "all_enemies",
+        "desc": "Creates a cloud of hardened sharp clay.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_earth_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "earth_1",
+            "sfx": "content/sfx/sound/be/earth.mp3",
+            "duration": 2.0,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 40
+            },
+            "start_at": 0,
+            "zoom": 1.4
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "vertical_shake",
+            "initial_pause": 0.1,
+            "duration": 1.7
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Stonera",
+        "menu_pos": 0.1,
+        "attributes": ["magic", "earth"],
+        "effect": 10,
+        "multiplier": 1.1,
+        "mp_cost": 8,
+        "range": 4,
+        "desc": "Creates a sharp stone spike.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_earth_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "earth_2",
+            "sfx": "content/sfx/sound/be/earth.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 10
+            },
+            "start_at": 0
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "vertical_shake",
+            "initial_pause": 0.1,
+            "duration": 0.8
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.6,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Stonega",
+        "menu_pos": 0.2,
+        "attributes": ["magic", "earth"],
+        "effect": 10,
+        "multiplier": 0.9,
+        "mp_cost": 12,
+        "range": 4,
+        "piercing": true,
+        "desc": "Summons magma to the surface.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_earth_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "earth_3",
+            "sfx": "content/sfx/sound/be/earth3.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 1.2
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "vertical_shake",
+            "initial_pause": 0.1,
+            "duration": 1.2
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.2,
+            "duration": 0.3
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Stoneja",
+        "menu_pos": 0.3,
+        "attributes": ["magic", "earth"],
+        "effect": 10,
+        "multiplier": 0.8,
+        "mp_cost": 15,
+        "range": 4,
+        "piercing": true,
+        "type": "all_enemies",
+        "desc": "A small part of the target becomes stone and shatters into a thousand pieces.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_earth_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "earth_4",
+            "sfx": "content/sfx/sound/be/earth2.mp3",
+            "duration": 1.2,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 40
+            },
+            "start_at": 0,
+            "zoom": 1.2
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 0.9
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.9,
+            "duration": 0.3
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Breach",
+        "menu_pos": 0.5,
+        "attributes": ["magic", "earth"],
+        "effect": 50,
+        "multiplier": 1.3,
+        "mp_cost": 30,
+        "range": 4,
+        "piercing": true,
+        "desc": "Summons hot dust and poisonous gases under high pressure.",
+        "tier": 1,
+        "attacker_effects": {
+            "gfx": "cast_earth_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "earth_5_webm",
+            "sfx": "content/sfx/sound/be/earth4.mp3",
+            "duration": 0.86,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 0
+            },
+            "zoom": 1.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "vertical_shake",
+            "initial_pause": 0.1,
+            "duration": 0.8
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.7
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.7,
+            "duration": 0.15
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Transmutation",
+        "menu_pos": 1,
+        "attributes": ["magic", "earth"],
+        "effect": 50,
+        "multiplier": 1.4,
+        "mp_cost": 50,
+        "range": 4,
+        "desc": "The land itself becomes explosive and detonates.",
+        "tier": 2,
+        "attacker_effects": {
+            "gfx": "cast_earth_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "earth_6",
+            "sfx": "content/sfx/sound/be/earth4.mp3",
+            "duration": 2.0,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 50
+            },
+            "zoom": 1.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.2,
+            "duration": 1.8
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.7
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.7,
+            "duration": 0.3
+        },
+        "dodge_effect": {
+            "initial_pause": 0.2
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Rift Line",
+        "menu_pos": 5,
+        "attributes": ["magic", "earth"],
+        "effect": 50,
+        "multiplier": 1.2,
+        "mp_cost": 65,
+        "range": 4,
+        "type": "all_enemies",
+        "desc": "Summons a huge flow of magma to the surface.",
+        "tier": 3,
+        "attacker_effects": {
+            "gfx": "cast_earth_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "magma",
+            "sfx": "content/sfx/sound/be/rift_line.mp3",
+            "duration": 3.2,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 75
+            },
+            "zoom": 2.0
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "vertical_shake",
+            "master_shake": true,
+            "initial_pause": 0.7,
+            "duration": 2.2
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 2.8
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "ArealSkill",
+        "name": "Fist of Bethel",
+        "menu_pos": 9,
+        "mn": "FoB",
+        "attributes": ["magic", "earth", "inevitable"],
+        "effect": 100,
+        "multiplier": 1.5,
+        "mp_cost": 100,
+        "range": 4,
+        "type": "all_enemies",
+        "piercing": true,
+        "desc": "The fist of an ancient underground deity crashes all enemies.",
+        "tier": 4,
+        "attacker_effects": {
+            "gfx": "cast_orb_1",
+            "sfx": "default",
+            "zoom": 1.85,
+            "duration": 0.84
+        },
+        "main_effect": {
+            "gfx": "crushing_hand",
+            "sfx": "content/sfx/sound/be/earth7.mp3",
+            "duration": 2.7,
+            "aim": {
+                "anchor": [0.5, 1.0],
+                "xo": 0,
+                "yo": 150
+            },
+            "hflip": true,
+            "xzoom": -1,
+            "zoom": 2
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 2.7
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 1.0,
+            "duration": 1.7,
+            "master_shake": true
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.5,
+            "duration": 0.5
+        },
+        "bg_main_effect": {
+            "gfx": "black",
+            "initial_pause": 0,
+            "duration": 2.7
+        }
+    }
+]

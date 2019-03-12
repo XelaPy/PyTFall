@@ -1,0 +1,64 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Spray",
+        "attributes": ["ranged", "poison"],
+        "critpower": 0.15,
+        "effect": 100,
+        "range": 2,
+        "vitality_cost": 3,
+        "menu_pos": 0,
+        "multiplier": 0.65,
+        "desc": "Spray a dangerous substance.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_spray_attack",
+            "sfx": "content/sfx/sound/be/spray_attack.mp3",
+            "duration": 1.3,
+            "hflip": true,
+            "aim": {
+                "point": "fc",
+                "anchor": [0.5, 0.5]
+            }
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 1.1
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.2,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Bite",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.3,
+        "effect": 1,
+        "range": 1,
+        "vitality_cost": 1,
+        "menu_pos": 0,
+        "multiplier": 0.5,
+        "desc": "Biting with fangs.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_bite_attack_webm",
+            "sfx": "content/sfx/sound/be/bite_attack.mp3",
+            "duration": 0.77,
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.2,
+            "duration": 0.57
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.7,
+            "duration": 0.5
+        }
+    }
+]

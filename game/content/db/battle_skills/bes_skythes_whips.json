@@ -1,0 +1,300 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Scythe Slash",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.5,
+        "effect": 10,
+        "range": 1,
+        "vitality_cost": 2,
+        "menu_pos": 0,
+        "multiplier": 0.5,
+        "desc": "An attack with a scythe.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_scythe_attack_webm",
+            "sfx": "content/sfx/sound/be/scythe_attack.mp3",
+            "duration": 0.363,
+            "hflip": true,
+            "zoom": 0.6
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.06,
+            "duration": 0.3
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.3,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Scythe Slash 2X",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.5,
+        "multiplier": 0.65,
+        "effect": 25,
+        "range": 1,
+        "vitality_cost": 4,
+        "menu_pos": 0.1,
+        "desc": "Two quick attacks with a scythe.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "content/gfx/be/scythe.webp",
+            "sfx": "content/sfx/sound/be/scythe_attack.mp3",
+            "duration": 0.6,
+            "times": 2,
+            "scale": [150, 150]
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 0.55
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Scythe Slash 4X",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.5,
+        "multiplier": 0.8,
+        "effect": 40,
+        "range": 1,
+        "vitality_cost": 6,
+        "menu_pos": 0.2,
+        "desc": "Four quick attacks with a scythe.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "content/gfx/be/scythe.webp",
+            "sfx": "content/sfx/sound/be/scythe_attack.mp3",
+            "duration": 1.2,
+            "times": 4,
+            "sd_duration": 0.4,
+            "interval": 0.3,
+            "scale": [150, 150]
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.15,
+            "duration": 0.95
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Steel Assault",
+        "type": "all_enemies",
+        "range": 1,
+        "attributes": ["melee", "physical"],
+        "critpower": 0.2,
+        "multiplier": 1.05,
+        "effect": 70,
+        "vitality_cost": 20,
+        "menu_pos": 1.7,
+        "desc": "Quick consecutive slashes capable of damaging multiple enemies.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "chain_scythe_webm",
+            "sfx": "content/sfx/sound/be/chop.ogg",
+            "duration": 0.76,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true,
+            "zoom": 1.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.15,
+            "duration": 0.7
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.7,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "ArealSkill",
+        "name": "Harvesting Time",
+        "range": 2,
+        "attributes": ["melee", "darkness", "physical", "poison", "inevitable"],
+        "menu_pos": 5,
+        "critpower": 1.0,
+        "effect": 150,
+        "multiplier": 1.8,
+        "vitality_cost": 40,
+        "mp_cost": 0.1,
+        "health_cost": 0.1,
+        "type": "all_enemies",
+        "item_only": true,
+        "desc": "By sacrificing some life energy a small piece of the Death powers can be summoned to join the battle.",
+        "main_effect": {
+            "gfx": "death_scythe_webm",
+            "sfx": "content/sfx/sound/be/death_skythe.ogg",
+            "duration": 1.46,
+            "aim": {
+                "anchor": [0.5, 0.5],
+                "xo": 180,
+                "yo": -70
+            },
+            "hflip": true,
+            "zoom": 1.2
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.35,
+            "duration": 0.5
+        },
+        "bg_main_effect": {
+            "gfx": "black",
+            "initial_pause": 0,
+            "duration": 1.46
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_death",
+            "initial_pause": 0.3,
+            "duration": 1.16
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Whip Strike",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.1,
+        "effect": 4,
+        "range": 1,
+        "vitality_cost": 1,
+        "menu_pos": 0,
+        "multiplier": 0.5,
+        "desc": "An attack with a whip.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_whip_attack_webm",
+            "sfx": ["content/sfx/sound/be/whip_attack_1.mp3", "content/sfx/sound/be/whip_attack_2.mp3"],
+            "duration": 0.367,
+            "hflip": true,
+            "initial_pause": 0.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 0.36
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.3,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Whip Strike 2X",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.1,
+        "multiplier": 0.6,
+        "effect": 15,
+        "range": 1,
+        "menu_pos": 0.1,
+        "vitality_cost": 3,
+        "desc": "Two quick attacks with a whip.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "content/gfx/be/whip.webp",
+            "sfx": "content/sfx/sound/be/whip_attack_1.mp3",
+            "duration": 0.6,
+            "times": 2,
+            "scale": [150, 150]
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 0.55
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Shocker Whip",
+        "menu_pos": 1.4,
+        "range": 1,
+        "attributes": ["melee", "electricity", "physical"],
+        "effect": 70,
+        "critpower": 0.5,
+        "multiplier": 1.1,
+        "vitality_cost": 8,
+        "mp_cost": 0.1,
+        "desc": "A whip attack charged with electricity. Double pleasure, double pain.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "shock_whip_webm",
+            "sfx": "content/sfx/sound/be/shock_whip.ogg",
+            "duration": 1.36,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "xo": 180
+            },
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_ele_with_shake",
+            "initial_pause": 0.5,
+            "duration": 0.86
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.2,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Lightning Whip",
+        "menu_pos": 0.9,
+        "range": 1,
+        "attributes": ["melee", "electricity", "physical"],
+        "effect": 25,
+        "critpower": 0.6,
+        "multiplier": 1.1,
+        "vitality_cost": 10,
+        "desc": "Powerful lightning strike used to do battle by artificial beings.",
+        "main_effect": {
+            "gfx": "shock_whip_webm",
+            "sfx": "content/sfx/sound/be/shock_whip.ogg",
+            "duration": 1.36,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "xo": 180
+            },
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_ele_with_shake",
+            "initial_pause": 0.5,
+            "duration": 0.86
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.2,
+            "duration": 0.5
+        }
+    }
+]

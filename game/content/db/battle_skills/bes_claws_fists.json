@@ -1,0 +1,220 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Claw Slash",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.1,
+        "effect": 15,
+        "range": 1,
+        "vitality_cost": 1,
+        "menu_pos": 0,
+        "multiplier": 0.5,
+        "desc": "An attack with claws.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_claw_attack_webm",
+            "sfx": "content/sfx/sound/be/claw_attack.mp3",
+            "duration": 0.367,
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 0.3
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.3,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Claw Slash 2X",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.1,
+        "effect": 30,
+        "range": 1,
+        "vitality_cost": 2,
+        "menu_pos": 0.1,
+        "multiplier": 0.65,
+        "desc": "Two quick attacks with claws.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "content/gfx/be/claws.webp",
+            "sfx": "content/sfx/sound/be/claw_attack.mp3",
+            "duration": 0.85,
+            "times": 2,
+            "sd_duration": 0.5,
+            "interval": 0.35,
+            "scale": [150, 150]
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.0,
+            "duration": 0.8
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.6,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Claw Slash 4X",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.1,
+        "multiplier": 0.8,
+        "effect": 45,
+        "range": 1,
+        "vitality_cost": 5,
+        "menu_pos": 0.2,
+        "desc": "Four quick attacks with claws.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "content/gfx/be/claws.webp",
+            "sfx": "content/sfx/sound/be/claw_attack.mp3",
+            "duration": 1.55,
+            "times": 4,
+            "sd_duration": 0.5,
+            "interval": 0.35,
+            "scale": [150, 150]
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.0,
+            "duration": 1.5
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.35,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Fist Attack",
+        "attributes": ["melee", "physical"],
+        "critpower": 0,
+        "effect": 5,
+        "range": 1,
+        "menu_pos": 0,
+        "multiplier": 0.4,
+        "desc": "An attack with bare hands.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_fist_attack_webm",
+            "sfx": ["content/sfx/sound/be/fist_attack_1.mp3", "content/sfx/sound/be/fist_attack_2.mp3", "content/sfx/sound/be/fist_attack_3.mp3", "content/sfx/sound/be/fist_attack_4.mp3", "content/sfx/sound/be/fist_attack_5.mp3"],
+            "duration": 0.567,
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.067,
+            "duration": 0.5
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Fist Attack 2X",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.01,
+        "effect": 5,
+        "range": 1,
+        "vitality_cost": 1,
+        "menu_pos": 0.1,
+        "multiplier": 0.5,
+        "desc": "Two quick attacks with bare hands.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "content/gfx/be/fists.webp",
+            "sfx": "content/sfx/sound/be/fist_attack_5.mp3",
+            "duration": 0.65,
+            "times": 2,
+            "sd_duration": 0.4,
+            "interval": 0.3,
+            "scale": [150, 150]
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 0.55
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Fist Attack 4X",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.02,
+        "multiplier": 0.6,
+        "effect": 5,
+        "range": 1,
+        "vitality_cost": 2,
+        "menu_pos": 0.2,
+        "desc": "Two quick attacks with bare hands.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "content/gfx/be/fists.webp",
+            "sfx": "content/sfx/sound/be/fist_attack_5.mp3",
+            "duration": 1.2,
+            "times": 4,
+            "sd_duration": 0.4,
+            "interval": 0.3,
+            "scale": [150, 150]
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.15,
+            "duration": 1.05
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.1,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Fire Barrage",
+        "menu_pos": 2,
+        "range": 1,
+        "attributes": ["melee", "fire", "physical"],
+        "effect": 40,
+        "critpower": 0.1,
+        "multiplier": 0.9,
+        "vitality_cost": 5,
+        "desc": "A high-speed combination of attacks, fast enough to set air ablaze.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "multi_fist_webm",
+            "sfx": "content/sfx/sound/be/fire_barrage.ogg",
+            "duration": 0.46,
+            "aim": {
+                "point": "fc",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_fire_with_shake",
+            "initial_pause": 0.1,
+            "duration": 0.36
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.4,
+            "duration": 0.5
+        }
+    }
+]

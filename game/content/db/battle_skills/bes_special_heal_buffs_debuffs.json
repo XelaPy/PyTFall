@@ -1,0 +1,705 @@
+[
+{
+        "_COMMENT0": " fields named _COMMENT are ignored, only purpose to serve as a meta_data",
+        "_COMMENT1": "# Skillz (We do not want to do this in the init so I am making it a label):",
+
+        "_COMMENT2": "# Sorting notes:",
+        "_COMMENT3": "# 1) skills with 'item_only':true are available for characters only if some item is equipped. it's mostly weapon skills, but there is already one shield spell too; they still are freely available for mobs though.",
+        "_COMMENT4": "# 2) skills with 'mob_only':true should only be available for mobs via mobs json",
+        "_COMMENT5": "# 3) spells have tiers from 0 to 4. we need at very least twice as many spells to have tiers from 0 to 9, so 0-4 will do for now",
+        "_COMMENT6": "# Note that item_only and mob_only skills don't have tiers, they are not needed as long as tiers are not a part of BE AI",
+        "_COMMENT7": "# effect should be from 0 to 1, heals the max health*effect",
+        "class": "BasicHealingSpell",
+        "name": "Life Wind",
+        "menu_pos": -3,
+        "attributes": ["magic", "healing", "air"],
+        "kind": "healing",
+        "effect": 0.1,
+        "mp_cost": 10,
+        "range": 5,
+        "type": "all_allies",
+        "desc": "Healing wind restores health for the whole party (+10%).",
+        "tier": 0,
+        "attacker_action": {
+            "gfx": ""
+        },
+        "attacker_effects": {
+            "gfx": "cast_runes_1",
+            "sfx": "default",
+            "zoom": 1.1,
+            "duration": 0.75,
+            "cast": {
+                "ontop": false,
+                "point": "bc",
+                "yo": -50
+            }
+        },
+        "main_effect": {
+            "gfx": "heal_3",
+            "sfx": "content/sfx/sound/be/heal3.mp3",
+            "duration": 2.1,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "zoom": 1.4
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "being_healed"
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.0
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.5,
+            "duration": 1.5
+        }
+    },
+    {
+        "class": "BasicHealingSpell",
+        "name": "Curer",
+        "menu_pos": -2,
+        "attributes": ["magic", "healing", "water"],
+        "kind": "healing",
+        "effect": 0.25,
+        "mp_cost": 20,
+        "range": 5,
+        "type": "sa",
+        "desc": "Heals superficial wounds and accelerates the healing of internal ones (+25%).",
+        "tier": 1,
+        "attacker_action": {
+            "gfx": ""
+        },
+        "attacker_effects": {
+            "gfx": "cast_runes_1",
+            "sfx": "default",
+            "zoom": 1.1,
+            "duration": 0.75,
+            "cast": {
+                "ontop": false,
+                "point": "bc",
+                "yo": -50
+            }
+        },
+        "main_effect": {
+            "gfx": "heal_2",
+            "sfx": "content/sfx/sound/be/heal2.mp3",
+            "duration": 2.5,
+            "zoom": 2.4,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            }
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "being_healed"
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.7
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.5,
+            "duration": 1.5
+        }
+    },
+    {
+        "class": "BasicHealingSpell",
+        "name": "Restoration",
+        "menu_pos": -1,
+        "attributes": ["magic", "healing", "light"],
+        "kind": "healing",
+        "effect": 0.5,
+        "mp_cost": 40,
+        "range": 5,
+        "type": "sa",
+        "piercing": true,
+        "true_pierce": true,
+        "desc": "Concentrated flow of positive energy quickly regenerates even severe wounds (+50%).",
+        "tier": 2,
+        "attacker_action": {
+            "gfx": ""
+        },
+        "attacker_effects": {
+            "gfx": "cast_runes_1",
+            "sfx": "default",
+            "zoom": 1.1,
+            "duration": 0.75,
+            "cast": {
+                "ontop": false,
+                "point": "bc",
+                "yo": -50
+            }
+        },
+        "main_effect": {
+            "gfx": "heal_1",
+            "sfx": "content/sfx/sound/be/heal1.mp3",
+            "duration": 3.0,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 40
+            },
+            "zoom": 2.0
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "being_healed"
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.0
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.5,
+            "duration": 1.5
+        }
+    },
+    {
+        "_COMMENT": "# spell for killing allies for testing; available only in debug mode",
+        "_DEBUG_BE": true,
+
+        "class": "BE_Action",
+        "name": "DarkTouch",
+        "menu_pos": -99,
+        "attributes": ["magic", "darkness"],
+        "effect": 999999999,
+        "mp_cost": 10,
+        "range": 5,
+        "type": "sa",
+        "piercing": true,
+        "true_pierce": true,
+        "test_only": true,
+        "desc": "Sacrifices a party member in the name of an ancient dark creature from another dimension.",
+        "attacker_action": {
+            "gfx": ""
+        },
+        "tier": 50,
+        "attacker_effects": {
+            "gfx": "cast_runes_1",
+            "sfx": "default",
+            "zoom": 1.1,
+            "duration": 0.75,
+            "cast": {
+                "ontop": false,
+                "point": "bc",
+                "yo": -50
+            }
+        },
+        "main_effect": {
+            "gfx": "heal_2",
+            "sfx": "content/sfx/sound/be/heal2.mp3",
+            "duration": 2.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "zoom": 1.4
+        },
+        "target_sprite_damage_effect": {
+            "gfx": ""
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.7
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.5,
+            "duration": 1.5
+        }
+    },
+    {
+        "_COMMENT": " # testing spell for killing enemy team on spot",
+        "_DEBUG_BE": true,
+
+        "class": "FullScreenCenteredArealSkill",
+        "name": "Get Rekt",
+        "menu_pos": 0,
+        "attributes": ["magic", "darkness", "fire", "ice", "water", "inevitable"],
+        "effect": 10000,
+        "multiplier": 100,
+        "mp_cost": 1,
+        "range": 4,
+        "type": "all_enemies",
+        "piercing": true,
+        "test_only": true,
+        "desc": "«Instant death! Instant death, unavoidable! I was dodging, and still got instantly killed!»",
+        "attacker_effects": {
+            "gfx": "cast_orb_1",
+            "sfx": "default",
+            "zoom": 1.85,
+            "duration": 0.84
+        },
+        "main_effect": {
+            "gfx": "dominion",
+            "sfx": "content/sfx/sound/be/darkness5.mp3",
+            "duration": 2.5
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 2.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 2.4
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 2,
+            "duration": 0.5
+        },
+        "bg_main_effect": {
+            "gfx": "black",
+            "initial_pause": 0,
+            "duration": 2.6
+        }
+    },
+    {
+        "_COMMENT": "# Reviving:",
+
+        "class": "ReviveSpell",
+        "name": "Revive",
+        "attributes": ["magic", "light"],
+        "kind": "revival",
+        "menu_pos": -1,
+        "effect": 10,
+        "mp_cost": 35,
+        "health_cost": 0.25,
+        "range": 5,
+        "type": "sa",
+        "piercing": true,
+        "true_pierce": true,
+        "target_state": "dead",
+        "desc": "Brings an unconscious ally back to the battlefield by sharing some life energy.",
+        "tier": 3,
+        "attacker_action": {
+            "gfx": ""
+        },
+        "attacker_effects": {
+            "gfx": "cast_circle_3",
+            "sfx": "default",
+            "zoom": 1.8,
+            "duration": 0.96,
+            "cast": {
+                "yo": -50
+            }
+        },
+        "main_effect": {
+            "gfx": "resurrection",
+            "sfx": "content/sfx/sound/be/heal2.mp3",
+            "duration": 2.0,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": -150
+            },
+            "zoom": 1.75
+        },
+        "target_sprite_damage_effect": {
+            "gfx": ""
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 2.0
+        },
+        "target_death_effect": {
+            "gfx": ""
+        }
+    },
+    {
+        "_COMMENT0": "# effect should be from 0 to 1, ie part of max health the poison takes every turn",
+        "_COMMENT1": "###### Effects:",
+        "_COMMENT2": "# Poison:",
+
+        "class": "BasicPoisonSpell",
+        "name": "Poison",
+        "menu_pos": 1,
+        "attributes": ["status", "poison", "darkness"],
+        "tier": 0,
+        "effect": 0.05,
+        "multiplier": 0.5,
+        "mp_cost": 10,
+        "vitality_cost": 10,
+        "range": 4,
+        "kind": "damage_over_time",
+        "buff_group": "poison",
+        "event_duration": 5,
+        "desc": "Sprays poison into the air around the target, decreasing health by 5% for 5 turns.",
+        "attacker_effects": {
+            "gfx": "cast_default_1",
+            "sfx": "default",
+            "zoom": 1.6,
+            "duration": 1.12,
+            "cast": {
+                "ontop": false,
+                "point": "bc"
+            }
+        },
+        "main_effect": {
+            "gfx": "poison_1",
+            "sfx": "content/sfx/sound/be/poison_01.ogg",
+            "duration": 1.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "zoom": 2.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": ""
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.2
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.3,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BasicPoisonSpell",
+        "name": "Deadly Poison",
+        "menu_pos": 4,
+        "attributes": ["status", "poison", "darkness"],
+        "tier": 1,
+        "effect": 0.1,
+        "multiplier": 0.5,
+        "mp_cost": 15,
+        "vitality_cost": 20,
+        "range": 4,
+        "kind": "damage_over_time",
+        "buff_group": "poison",
+        "event_duration": 3,
+        "desc": "Sprays concentrated poison into the air around the target, decreasing health by 10% for 3 turns.",
+        "attacker_effects": {
+            "gfx": "cast_default_1",
+            "sfx": "default",
+            "zoom": 1.6,
+            "duration": 1.12,
+            "cast": {
+                "ontop": false,
+                "point": "bc"
+            }
+        },
+        "main_effect": {
+            "gfx": "poison_3",
+            "sfx": "content/sfx/sound/be/poison_cloud_2.mp3",
+            "duration": 2.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "zoom": 2.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": ""
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.2
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.3,
+            "duration": 0.5
+        }
+    },
+    {
+        "_COMMENT": "# Buffs:",
+
+        "class": "DefenceBuffSpell",
+        "name": "Aery Field",
+        "menu_pos": 6,
+        "attributes": ["status", "air"],
+        "kind": "buff",
+        "defence_multiplier": {
+            "ranged": 1.5
+        },
+        "buff_group": "ranged shield",
+        "buff_icon": "content/gfx/be/buffs/ranged_def.webp",
+        "mp_cost": 0.1,
+        "vitality_cost": 0.1,
+        "range": 4,
+        "type": "sa",
+        "defence_gfx": "air_shield",
+        "desc": "Creates a force field, reducing damage from ranged attacks.",
+        "tier": 1,
+        "main_effect": {
+            "gfx": "ranged_shield1_webm",
+            "sfx": "content/sfx/sound/be/m_shield.ogg",
+            "duration": 0.967,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "xzoom": 2,
+            "yzoom": 3,
+            "blend": {
+                "effect": "green_shield",
+                "size": [350, 300]
+            }
+        },
+        "target_sprite_damage_effect": {
+            "gfx": ""
+        },
+        "target_damage_effect": {
+            "gfx": ""
+        },
+        "target_death_effect": {
+            "gfx": ""
+        }
+    },
+    {
+        "class": "DefenceBuffSpell",
+        "name": "Aery Shield",
+        "menu_pos": 7,
+        "attributes": ["status", "air"],
+        "kind": "buff",
+        "defence_multiplier": {
+            "ranged": 3.0
+        },
+        "buff_group": "ranged shield",
+        "buff_icon": "content/gfx/be/buffs/big_ranged_def.webp",
+        "mp_cost": 0.2,
+        "vitality_cost": 0.2,
+        "range": 4,
+        "type": "sa",
+        "defence_gfx": "air_shield",
+        "desc": "Creates a powerful force field, reducing damage from ranged attacks.",
+        "tier": 2,
+        "main_effect": {
+            "gfx": "ranged_shield1_webm",
+            "sfx": "content/sfx/sound/be/m_shield.ogg",
+            "duration": 0.967,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "xzoom": 2,
+            "yzoom": 3,
+            "blend": {
+                "effect": "green_shield",
+                "size": [350, 300]
+            }
+        },
+        "target_sprite_damage_effect": {
+            "gfx": ""
+        },
+        "target_damage_effect": {
+            "gfx": ""
+        },
+        "target_death_effect": {
+            "gfx": ""
+        }
+    },
+    {
+        "class": "DefenceBuffSpell",
+        "name": "Arcane Field",
+        "menu_pos": 6,
+        "attributes": ["status", "darkness"],
+        "kind": "buff",
+        "defence_multiplier": {
+            "magic": 1.5
+        },
+        "buff_group": "spell shield",
+        "buff_icon": "content/gfx/be/buffs/mag_def.webp",
+        "mp_cost": 0.1,
+        "vitality_cost": 0.1,
+        "range": 4,
+        "type": "sa",
+        "desc": "Sets up a force field, partly shielding from magical damage.",
+        "tier": 1,
+        "main_effect": {
+            "gfx": "magic_shield_webm",
+            "sfx": "content/sfx/sound/be/m_shield.ogg",
+            "duration": 1.27,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "zoom": 1.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": ""
+        },
+        "target_damage_effect": {
+            "gfx": ""
+        },
+        "target_death_effect": {
+            "gfx": ""
+        }
+    },
+    {
+        "class": "DefenceBuffSpell",
+        "name": "Arcane Shield",
+        "menu_pos": 7,
+        "attributes": ["status", "darkness"],
+        "kind": "buff",
+        "defence_multiplier": {
+            "magic": 3.0
+        },
+        "buff_group": "spell shield",
+        "vitality_cost": 0.2,
+        "mp_cost": 0.2,
+        "buff_icon": "content/gfx/be/buffs/big_mag_def.webp",
+        "range": 4,
+        "type": "sa",
+        "desc": "Sets up a powerful force field, shielding from magical damage.",
+        "tier": 2,
+        "main_effect": {
+            "gfx": "magic_shield_webm",
+            "sfx": "content/sfx/sound/be/m_shield.ogg",
+            "duration": 1.27,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "zoom": 1.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": ""
+        },
+        "target_damage_effect": {
+            "gfx": ""
+        },
+        "target_death_effect": {
+            "gfx": ""
+        }
+    },
+    {
+        "class": "DefenceBuffSpell",
+        "name": "Solid Field",
+        "menu_pos": 6,
+        "attributes": ["status", "earth"],
+        "kind": "buff",
+        "defence_multiplier": {
+            "melee": 1.5
+        },
+        "buff_group": "melee shield",
+        "buff_icon": "content/gfx/be/buffs/melee_def.webp",
+        "mp_cost": 0.1,
+        "vitality_cost": 0.1,
+        "range": 4,
+        "type": "sa",
+        "defence_gfx": "solid_shield",
+        "desc": "Sets up a force field, partly shielding from melee damage.",
+        "tier": 1,
+        "main_effect": {
+            "gfx": "shield_1",
+            "sfx": "content/sfx/sound/be/m_shield.ogg",
+            "duration": 1.0,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "zoom": 2.0
+        },
+        "target_sprite_damage_effect": {
+            "gfx": ""
+        },
+        "target_damage_effect": {
+            "gfx": ""
+        },
+        "target_death_effect": {
+            "gfx": ""
+        }
+    },
+    {
+        "class": "DefenceBuffSpell",
+        "name": "Solid Shield",
+        "menu_pos": 7,
+        "attributes": ["status", "earth"],
+        "kind": "buff",
+        "defence_multiplier": {
+            "melee": 3.0
+        },
+        "buff_group": "melee shield",
+        "vitality_cost": 0.2,
+        "mp_cost": 0.2,
+        "buff_icon": "content/gfx/be/buffs/big_melee_def.webp",
+        "range": 4,
+        "type": "sa",
+        "defence_gfx": "solid_shield",
+        "desc": "Sets up a powerful force field, shielding from melee damage.",
+        "tier": 2,
+        "main_effect": {
+            "gfx": "shield_1",
+            "sfx": "content/sfx/sound/be/m_shield.ogg",
+            "duration": 1.0,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "zoom": 2.0
+        },
+        "target_sprite_damage_effect": {
+            "gfx": ""
+        },
+        "target_damage_effect": {
+            "gfx": ""
+        },
+        "target_death_effect": {
+            "gfx": ""
+        }
+    },
+    {
+        "class": "DefenceBuffSpell",
+        "name": "Gray Shield",
+        "menu_pos": 8,
+        "attributes": ["status", "darkness", "light"],
+        "kind": "buff",
+        "defence_multiplier": {
+            "melee": 3.0,
+            "magic": 3.0,
+            "ranged": 3.0
+        },
+        "buff_group": "melee shield",
+        "vitality_cost": 0.25,
+        "mp_cost": 0.25,
+        "buff_icon": "content/gfx/be/buffs/gray.webp",
+        "range": 4,
+        "type": "sa",
+        "defence_gfx": "gray_shield",
+        "item_only": true,
+        "desc": "The apathy of the Gray Ring denies the existence of most incoming attacks, decreasing their power because it's such a bother to deal with them...",
+        "main_effect": {
+            "gfx": "magic_shield_webm",
+            "sfx": "content/sfx/sound/be/m_shield.ogg",
+            "duration": 1.27,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "blend": {
+                "effect": "gray_shield",
+                "size": [340, 330]
+            }
+        },
+        "target_sprite_damage_effect": {
+            "gfx": ""
+        },
+        "target_damage_effect": {
+            "gfx": ""
+        },
+        "target_death_effect": {
+            "gfx": ""
+        }
+    }
+]
