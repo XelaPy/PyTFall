@@ -700,8 +700,8 @@ init -1 python: # Core classes:
             # First figure out all targets within the range:
             # We calculate this by assigning.
             all_targets = battle.get_fighters(self.target_state)
-            left_front_row_empty = not (f for f in all_targets if f.row == 1)
-            right_front_row_empty = not (f for f in all_targets if f.row == 2)
+            left_front_row_empty = not any(f for f in all_targets if f.row == 1)
+            right_front_row_empty = not any(f for f in all_targets if f.row == 2)
             range = self.range
             if left_front_row_empty:
                 # 'move' closer because of an empty row

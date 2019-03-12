@@ -230,6 +230,8 @@ screen top_stripe(show_return_button=True, return_button_action=None,
     default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
 
     # Hotkeys:
+
+    
     if renpy.get_screen("mainscreen"):
         if global_flags.flag("visited_arena"):
             key "a" action Function(renpy.scene, "screens"), Jump("arena_inside")
@@ -237,10 +239,10 @@ screen top_stripe(show_return_button=True, return_button_action=None,
             key "ф" action Function(renpy.scene, "screens"), Jump("arena_inside")
             key "Ф" action Function(renpy.scene, "screens"), Jump("arena_inside")
         if global_flags.flag('visited_dark_forest'):
-            key "f" action Function(renpy.scene, "screens"), Jump("forest_entrance")
-            key "F" action Function(renpy.scene, "screens"), Jump("forest_entrance")
-            key "А" action Function(renpy.scene, "screens"), Jump("forest_entrance")
-            key "а" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+            key "t" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+            key "T" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+            key "е" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+            key "Е" action Function(renpy.scene, "screens"), Jump("forest_entrance")
         if global_flags.flag("visited_sm"):
             key "m" action Function(renpy.scene, "screens"), Jump("slave_market")
             key "M" action Function(renpy.scene, "screens"), Jump("slave_market")
@@ -251,7 +253,24 @@ screen top_stripe(show_return_button=True, return_button_action=None,
             key "P" action Function(renpy.scene, "screens"), Jump("main_street")
             key "з" action Function(renpy.scene, "screens"), Jump("main_street")
             key "З" action Function(renpy.scene, "screens"), Jump("main_street")
+        
         key "i" action Function(renpy.scene, "screens"), Return(["hero_eq"])
+        key "I" action Function(renpy.scene, "screens"), Return(["hero_eq"])
+        key "ш" action Function(renpy.scene, "screens"), Return(["hero_eq"])
+        key "Ш" action Function(renpy.scene, "screens"), Return(["hero_eq"])
+        
+        key "b" action Return(["building_management"])
+        key "B" action Return(["building_management"])
+        key "и" action Return(["building_management"])
+        key "И" action Return(["building_management"])
+        
+        key "c" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
+        key "C" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
+        key "с" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
+        key "С" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
+            
+        key "K_F5" action QuickSave()
+        key "K_F9" action QuickLoad()
 
     # Top Stripe Frame:
     add "content/gfx/frame/top_stripe.png"
@@ -311,6 +330,24 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         $ tc_0 = any([renpy.current_screen().tag == "next_day", hero.AP == 0])
         $ tc_1 = show_lead_away_buttons and renpy.current_screen().tag not in ["mainscreen"]
         $ gm_points = gm.gm_points
+        
+        if renpy.get_screen("mainscreen"):
+            key "n" action [Hide("mainscreen"), Jump("next_day")]
+            key "N" action [Hide("mainscreen"), Jump("next_day")]
+            key "т" action [Hide("mainscreen"), Jump("next_day")]
+            key "Т" action [Hide("mainscreen"), Jump("next_day")]
+            
+        elif all([tc_1, not gm_points]):
+            if renpy.current_screen().tag == "next_day":
+                key "n" action Return(['control', "next_day_local"])
+                key "N" action Return(['control', "next_day_local"])
+                key "т" action Return(['control', "next_day_local"])
+                key "Т" action Return(['control', "next_day_local"])
+            else:
+                key "n" action (hs, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
+                key "N" action (hs, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
+                key "т" action (hs, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
+                key "Т" action (hs, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
 
         $ tt_string = "You have {} Action Points to interact with the world".format(hero.AP)
         if gm_points:
@@ -428,6 +465,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                 hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png" , 38, 40), im.matrix.brightness(.15))
                 tooltip "QuickLoad"
                 action QuickLoad()
+
 
         if show_return_button:
             default special_screens = ["girl_interactions",
