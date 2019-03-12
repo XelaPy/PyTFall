@@ -231,7 +231,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
 
     # Hotkeys:
 
-    
+
     if renpy.get_screen("mainscreen"):
         if global_flags.flag("visited_arena"):
             key "a" action Function(renpy.scene, "screens"), Jump("arena_inside")
@@ -253,22 +253,22 @@ screen top_stripe(show_return_button=True, return_button_action=None,
             key "P" action Function(renpy.scene, "screens"), Jump("main_street")
             key "з" action Function(renpy.scene, "screens"), Jump("main_street")
             key "З" action Function(renpy.scene, "screens"), Jump("main_street")
-        
+
         key "i" action Function(renpy.scene, "screens"), Return(["hero_eq"])
         key "I" action Function(renpy.scene, "screens"), Return(["hero_eq"])
         key "ш" action Function(renpy.scene, "screens"), Return(["hero_eq"])
         key "Ш" action Function(renpy.scene, "screens"), Return(["hero_eq"])
-        
+
         key "b" action Return(["building_management"])
         key "B" action Return(["building_management"])
         key "и" action Return(["building_management"])
         key "И" action Return(["building_management"])
-        
+
         key "c" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
         key "C" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
         key "с" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
         key "С" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
-            
+
         key "K_F5" action QuickSave()
         key "K_F9" action QuickLoad()
 
@@ -330,13 +330,12 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         $ tc_0 = any([renpy.current_screen().tag == "next_day", hero.AP == 0])
         $ tc_1 = show_lead_away_buttons and renpy.current_screen().tag not in ["mainscreen"]
         $ gm_points = gm.gm_points
-        
+
         if renpy.get_screen("mainscreen"):
             key "n" action [Hide("mainscreen"), Jump("next_day")]
             key "N" action [Hide("mainscreen"), Jump("next_day")]
             key "т" action [Hide("mainscreen"), Jump("next_day")]
             key "Т" action [Hide("mainscreen"), Jump("next_day")]
-            
         elif all([tc_1, not gm_points]):
             if renpy.current_screen().tag == "next_day":
                 key "n" action Return(['control', "next_day_local"])
@@ -344,10 +343,10 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                 key "т" action Return(['control', "next_day_local"])
                 key "Т" action Return(['control', "next_day_local"])
             else:
-                key "n" action (hs, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
-                key "N" action (hs, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
-                key "т" action (hs, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
-                key "Т" action (hs, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
+                key "n" action (cdl, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
+                key "N" action (cdl, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
+                key "т" action (cdl, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
+                key "Т" action (cdl, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
 
         $ tt_string = "You have {} Action Points to interact with the world".format(hero.AP)
         if gm_points:
