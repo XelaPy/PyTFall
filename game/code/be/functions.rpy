@@ -137,14 +137,13 @@ init -11 python:
         - if death == True, characters in MC team will die if defeated, otherwise they will have 1 hp left
         """
         if your_team is None:
-            your_team = Team(name="Your Team")
-            for member in hero.team:
-                if member.status == "slave" and slaves:
-                    member.controller = BE_AI(member)
-                    your_team.add(member)
-                elif member.status == "free":
-                    member.controller = None # no AI -> controlled by the player
-                    your_team.add(member)
+            your_team = hero.team
+
+        for member in your_team:
+            if member.status == "slave" and slaves:
+                member.controller = BE_AI(member)
+            elif member.status == "free":
+                member.controller = None # no AI -> controlled by the player
 
         # Controllers:
         for member in enemy_team:
@@ -165,7 +164,7 @@ init -11 python:
         for member in your_team:
             if member in battle.corpses:
                 if death:
-                    member.health = 0
+                    kill_char(member)
                 else:
                     member.health = 1
                     if member != hero:
