@@ -679,8 +679,8 @@ screen building_management_midframe_exploration_guild_mode:
                     pos pos
                     clicked Show("fg_char_dropdown", dissolve, w, team=None, remove=False)
                     add w.show("portrait", resize=(70, 70), cache=1)
-                    hovered Function(setattr, config, "mouse", mouse_drag)
-                    unhovered Function(setattr, config, "mouse", mouse_cursor)
+                    hovered SetField(config, "mouse", mouse_drag)
+                    unhovered SetField(config, "mouse", mouse_cursor)
     elif bm_exploration_view_mode == "upgrade":
         use building_management_midframe_businesses_mode_upgrades
 
