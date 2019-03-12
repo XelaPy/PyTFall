@@ -1,0 +1,575 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Bow Shot",
+        "attributes": ["ranged", "physical"],
+        "critpower": 0,
+        "effect": 5,
+        "range": 3,
+        "vitality_cost": 1,
+        "menu_pos": 0,
+        "multiplier": 0.5,
+        "desc": "An arrow shot.",
+        "item_only": true,
+        "piercing": true,
+        "main_effect": {
+            "gfx": "simple_bow_attack_webm",
+            "sfx": "content/sfx/sound/be/bow_attack.mp3",
+            "duration": 0.48,
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 0.43
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.4,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Bow Shot 2X",
+        "attributes": ["ranged", "physical"],
+        "critpower": 0.02,
+        "multiplier": 0.65,
+        "effect": 20,
+        "range": 3,
+        "vitality_cost": 2,
+        "menu_pos": 0.1,
+        "piercing": true,
+        "desc": "Shooting two arrows in quick succession.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "content/gfx/be/bows.webp",
+            "sfx": "content/sfx/sound/be/bow_attack.mp3",
+            "duration": 0.7,
+            "times": 2,
+            "sd_duration": 0.4,
+            "interval": 0.3,
+            "scale": [150, 150]
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.0,
+            "duration": 0.65
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.6,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Bow Shot 4X",
+        "attributes": ["ranged", "physical"],
+        "critpower": 0.04,
+        "multiplier": 0.8,
+        "effect": 50,
+        "range": 4,
+        "vitality_cost": 5,
+        "menu_pos": 0.2,
+        "piercing": true,
+        "desc": "Shooting four arrows in quick succession.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "content/gfx/be/bows.webp",
+            "sfx": "content/sfx/sound/be/bow_attack.mp3",
+            "duration": 1.2,
+            "times": 4,
+            "sd_duration": 0.4,
+            "interval": 0.3,
+            "scale": [150, 150]
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 1.1
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.1,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Light Shot",
+        "range": 4,
+        "attributes": ["ranged", "physical", "light"],
+        "piercing": true,
+        "critpower": 0.2,
+        "multiplier": 0.9,
+        "effect": 60,
+        "vitality_cost": 5,
+        "menu_pos": 1.0,
+        "desc": "Shot an arrow made of light.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "angel_bow_attack_webm",
+            "sfx": "content/sfx/sound/be/light3.mp3",
+            "duration": 0.96,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "zoom": 1.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_light",
+            "initial_pause": 0.3,
+            "duration": 0.96
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.9,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Dark Shot",
+        "range": 4,
+        "attributes": ["ranged", "physical", "darkness"],
+        "critpower": 0.4,
+        "piercing": true,
+        "multiplier": 0.95,
+        "effect": 70,
+        "vitality_cost": 2,
+        "health_cost": 2,
+        "menu_pos": 1.0,
+        "desc": "Shot an arrow made of darkness.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "demon_bow_attack_webm",
+            "sfx": "content/sfx/sound/be/demon_sword.ogg",
+            "duration": 0.96,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "zoom": 1.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_darkness",
+            "initial_pause": 0.1,
+            "duration": 0.86
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.96,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Poison Arrow",
+        "attributes": ["ranged", "physical", "poison"],
+        "critpower": 0,
+        "multiplier": 0.8,
+        "effect": 15,
+        "range": 4,
+        "vitality_cost": 4,
+        "menu_pos": 1.5,
+        "piercing": true,
+        "desc": "Shot a poisonous arrow.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "green_hit_webm",
+            "sfx": "content/sfx/sound/be/elf_arrow.ogg",
+            "duration": 0.56,
+            "hflip": true,
+            "zoom": 1.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "poisoned_with_shake",
+            "initial_pause": 0.1,
+            "duration": 0.46
+        }
+    },
+    {
+        "class": "ArrowsSkill",
+        "name": "Emerald Arrow",
+        "menu_pos": 1.6,
+        "attributes": ["ranged", "air", "earth"],
+        "critpower": 0.3,
+        "true_pierce": true,
+        "effect": 55,
+        "multiplier": 0.95,
+        "vitality_cost": 12,
+        "mp_cost": 3,
+        "range": 4,
+        "piercing": true,
+        "desc": "Shot an arrow empowered with nature itself.",
+        "item_only": true,
+        "firing_effects": {
+            "gfx": "emerald_bow_webm",
+            "sfx": "content/sfx/sound/be/elf_bow.ogg",
+            "duration": 0.86
+        },
+        "_COMMENT": "# Maybe realign a bit closer to caster TODO (be-skill)",
+        "projectile_effects": {
+            "gfx": "emerald_bow_arrow_webm",
+            "duration": 0.76
+        },
+        "attacker_effects": {
+            "gfx": "cast_earth_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.86
+        },
+        "main_effect": {
+            "gfx": "emerald_bow_hit_webm",
+            "sfx": "content/sfx/sound/be/elf_arrow.ogg",
+            "duration": 0.46,
+            "aim": {
+                "anchor": [0.5, 0.5]
+            }
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.86,
+            "duration": 0.76
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 2.0,
+            "duration": 0.5
+        },
+        "dodge_effect": {
+            "initial_pause": 0.9
+        }
+    },
+    {
+        "class": "ArrowsSkill",
+        "name": "Trinity Arrow",
+        "menu_pos": 2,
+        "attributes": ["ranged", "light"],
+        "effect": 95,
+        "true_pierce": true,
+        "critpower": 0.3,
+        "multiplier": 1.3,
+        "vitality_cost": 30,
+        "mp_cost": 5,
+        "range": 4,
+        "piercing": true,
+        "desc": "Shot a triple arrow made of highly concentrated light.",
+        "item_only": true,
+        "firing_effects": {
+            "gfx": "angel_bow_webm",
+            "sfx": "content/sfx/sound/be/elf_bow.ogg",
+            "duration": 1.2,
+            "zoom": 1.3
+        },
+        "projectile_effects": {
+            "gfx": "angel_bow_arrow_webm",
+            "duration": 0.46
+        },
+        "attacker_effects": {
+            "gfx": "cast_light_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.2
+        },
+        "main_effect": {
+            "gfx": "angel_bow_hit_webm",
+            "sfx": "content/sfx/sound/be/light3.mp3",
+            "duration": 0.36,
+            "aim": {
+                "anchor": [0.5, 0.5]
+            },
+            "zoom": 1.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_light",
+            "initial_pause": 1.2,
+            "duration": 0.5
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 2.0,
+            "duration": 0.5
+        },
+        "dodge_effect": {
+            "initial_pause": 0.9
+        }
+    },
+    {
+        "class": "P2P_Skill",
+        "name": "Midnight Arrow",
+        "menu_pos": 2,
+        "range": 3,
+        "attributes": ["ranged", "physical", "darkness"],
+        "true_pierce": true,
+        "effect": 100,
+        "multiplier": 1.3,
+        "vitality_cost": 20,
+        "health_cost": 5,
+        "critpower": 0.3,
+        "desc": "Releases explosive arrow made of dark energy.",
+        "item_only": true,
+        "piercing": true,
+        "projectile_effects": {
+            "gfx": "demon_bow_arrow_webm",
+            "sfx": "content/sfx/sound/be/elf_bow.ogg",
+            "duration": 0.56,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            }
+        },
+        "main_effect": {
+            "gfx": "demon_bow_hit_webm",
+            "sfx": "content/sfx/sound/be/demon_core.ogg",
+            "duration": 0.36,
+            "aim": {
+                "anchor": [0.5, 0.5],
+                "xo": 0,
+                "yo": 0
+            },
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_dark_with_shake",
+            "initial_pause": 0.56,
+            "duration": 0.36
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.92,
+            "duration": 0.5
+        },
+        "dodge_effect": {
+            "initial_pause": 0.56
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Fire Shot",
+        "attributes": ["ranged", "physical", "fire"],
+        "critpower": 0.1,
+        "multiplier": 0.85,
+        "effect": 30,
+        "range": 3,
+        "vitality_cost": 3,
+        "menu_pos": 1.0,
+        "desc": "Shot a fire arrow.",
+        "item_only": true,
+        "piercing": true,
+        "main_effect": {
+            "gfx": "simple_fire_bow_attack_webm",
+            "sfx": "content/sfx/sound/be/bow_attack.mp3",
+            "duration": 0.67,
+            "hflip": true,
+            "zoom": 0.8
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_fire_with_shake",
+            "initial_pause": 0.1,
+            "duration": 0.57
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Ice Shot",
+        "attributes": ["ranged", "physical", "ice"],
+        "critpower": 0.1,
+        "multiplier": 0.85,
+        "effect": 30,
+        "range": 3,
+        "vitality_cost": 3,
+        "menu_pos": 1.0,
+        "desc": "Shot an ice arrow.",
+        "item_only": true,
+        "piercing": true,
+        "main_effect": {
+            "gfx": "simple_ice_bow_attack_webm",
+            "sfx": "content/sfx/sound/be/bow_attack.mp3",
+            "duration": 0.57,
+            "hflip": true,
+            "zoom": 0.8
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "iced_with_shake",
+            "initial_pause": 0.05,
+            "duration": 0.5
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.4,
+            "duration": 0.5
+        }
+    },
+    {
+        "_COMMENT0": "# Arrow skills are setup poorly! Everything is handle in main_effect method!!!",
+        "_COMMENT1": "# Attacker Effect: 0.6 (Default)",
+
+        "class": "ArrowsSkill",
+        "name": "Fire Arrow",
+        "menu_pos": 1.2,
+        "attributes": ["ranged", "fire", "air"],
+        "true_pierce": true,
+        "effect": 45,
+        "multiplier": 1.0,
+        "critpower": 0.2,
+        "mp_cost": 5,
+        "vitality_cost": 10,
+        "range": 4,
+        "piercing": true,
+        "desc": "Shot an arrow of scorching air.",
+        "item_only": true,
+        "firing_effects": {
+            "gfx": "Fire Arrow cast",
+            "sfx": "content/sfx/sound/be/fire_arrow.mp3"
+        },
+        "projectile_effects": {
+            "gfx": "Fire Arrow fly",
+            "duration": 0.4
+        },
+        "attacker_effects": {
+            "gfx": "cast_default_1",
+            "sfx": "default",
+            "zoom": 1.6,
+            "duration": 1.12,
+            "cast": {
+                "ontop": false,
+                "point": "bc"
+            }
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.0
+        },
+        "main_effect": {
+            "gfx": "Fire Arrow impact",
+            "duration": 0.51,
+            "aim": {
+                "anchor": [0.5, 0.5]
+            }
+        },
+        "_COMMENT": "# .51s :Duration of main effect.",
+        "target_sprite_damage_effect": {
+            "gfx": "burning_with_shake",
+            "initial_pause": 1.0,
+            "duration": 0.5
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.5,
+            "duration": 0.5
+        },
+        "dodge_effect": {
+            "initial_pause": 1.0
+        }
+    },
+    {
+        "class": "ArrowsSkill",
+        "name": "Ice Arrow",
+        "menu_pos": 1.2,
+        "attributes": ["ranged", "ice", "water"],
+        "true_pierce": true,
+        "effect": 45,
+        "multiplier": 1.0,
+        "critpower": 0.2,
+        "mp_cost": 5,
+        "vitality_cost": 10,
+        "range": 4,
+        "piercing": true,
+        "desc": "Shot an arrow of frozen water.",
+        "item_only": true,
+        "firing_effects": {
+            "gfx": "Ice Arrow cast",
+            "sfx": "content/sfx/sound/be/ice_arrow.mp3"
+        },
+        "projectile_effects": {
+            "gfx": "Ice Arrow fly",
+            "duration": 0.4
+        },
+        "main_effect": {
+            "gfx": "Ice Arrow impact",
+            "duration": 0.51,
+            "aim": {
+                "anchor": [0.5, 0.5],
+                "xo": 0,
+                "yo": 0
+            }
+        },
+        "attacker_effects": {
+            "gfx": "cast_ice_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.0
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "frozen_with_shake",
+            "initial_pause": 1.0,
+            "duration": 0.5
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.5,
+            "duration": 0.5
+        },
+        "dodge_effect": {
+            "initial_pause": 1.0
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Arc Strike",
+        "menu_pos": 1.0,
+        "range": 3,
+        "attributes": ["ranged", "physical"],
+        "effect": 35,
+        "true_pierce": true,
+        "multiplier": 0.9,
+        "critpower": 0.15,
+        "vitality_cost": 10,
+        "mp_cost": 5,
+        "type": "all_enemies",
+        "desc": "Countless enchanted arrows are coming from above.",
+        "item_only": true,
+        "piercing": true,
+        "main_effect": {
+            "gfx": "magic_bow_webm",
+            "sfx": "content/sfx/sound/be/enc_arrows.ogg",
+            "duration": 0.67,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "zoom": 1.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 0.57
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    }
+
+]

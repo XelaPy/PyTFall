@@ -1,0 +1,196 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Stone Fist",
+        "menu_pos": 3,
+        "range": 1,
+        "attributes": ["melee", "earth", "physical"],
+        "effect": 90,
+        "critpower": 0.1,
+        "multiplier": 1.3,
+        "vitality_cost": 15,
+        "piercing": true,
+        "desc": "The earth itself becomes an extension of the hand to deal a powerful blow.",
+        "mob_only": true,
+        "main_effect": {
+            "gfx": "stone_fist_webm",
+            "sfx": "content/sfx/sound/be/stone_fist.ogg",
+            "duration": 0.77,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 0.6]
+            },
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.2,
+            "duration": 0.57
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.7,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Web Vortex",
+        "menu_pos": 3,
+        "range": 1,
+        "attributes": ["melee", "poison", "physical"],
+        "effect": 90,
+        "critpower": 0.1,
+        "multiplier": 1.3,
+        "vitality_cost": 15,
+        "piercing": true,
+        "true_pierce": true,
+        "desc": "A vortex of spider web crashes the target.",
+        "mob_only": true,
+        "main_effect": {
+            "gfx": "web_webm",
+            "sfx": "content/sfx/sound/be/web.ogg",
+            "duration": 0.97,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true,
+            "zoom": 1.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.2,
+            "duration": 0.7
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.8,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Power Pack",
+        "menu_pos": 3,
+        "range": 1,
+        "attributes": ["melee", "light", "physical"],
+        "effect": 90,
+        "critpower": 0.1,
+        "multiplier": 1.3,
+        "vitality_cost": 15,
+        "piercing": true,
+        "desc": "Spirits of ancient long dead wolves assist in battle, attacking the target from the spirits world.",
+        "mob_only": true,
+        "attacker_effects": {
+            "gfx": "wolf_1_webm",
+            "sfx": "content/sfx/sound/be/wolf_1.ogg",
+            "hflip": true,
+            "zoom": 0.85,
+            "duration": 1.27,
+            "cast": {
+                "align": [0.0, 0.5]
+            }
+        },
+        "main_effect": {
+            "gfx": "wolf_2_webm",
+            "sfx": "content/sfx/sound/be/wolf_2.ogg",
+            "duration": 0.37,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 0.3
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.2,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Power Bear",
+        "menu_pos": 3,
+        "range": 1,
+        "attributes": ["melee", "ice", "physical"],
+        "effect": 100,
+        "critpower": 0.1,
+        "multiplier": 1.4,
+        "vitality_cost": 20,
+        "piercing": true,
+        "desc": "A spirit of ancient long dead bear assists in battle, attacking the target from the spirits world.",
+        "mob_only": true,
+        "attacker_effects": {
+            "gfx": "bear_1_webm",
+            "sfx": "content/sfx/sound/be/bear.mp3",
+            "hflip": true,
+            "zoom": 0.85,
+            "duration": 0.97,
+            "cast": {
+                "align": [0.0, 0.5]
+            }
+        },
+        "main_effect": {
+            "gfx": "bear_2_webm",
+            "sfx": "content/sfx/sound/be/wolf_2.ogg",
+            "duration": 0.57,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 0.47
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Sharpest Claws",
+        "menu_pos": 3,
+        "range": 1,
+        "attributes": ["melee", "physical"],
+        "effect": 110,
+        "critpower": 0.15,
+        "multiplier": 1.35,
+        "vitality_cost": 25,
+        "piercing": false,
+        "desc": "Multiple quick attacks with sharp deadly claws.",
+        "mob_only": true,
+        "main_effect": {
+            "gfx": "claws_webm",
+            "sfx": "content/sfx/sound/be/many_hits.mp3",
+            "duration": 1.37,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "xo": 40,
+                "yo": -40
+            },
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 1.3
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.2,
+            "duration": 0.5
+        }
+    }
+]

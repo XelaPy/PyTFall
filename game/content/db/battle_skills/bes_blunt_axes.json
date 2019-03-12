@@ -1,0 +1,193 @@
+[
+    {
+        "_COMMENT": "# Blunt Attacks:",
+
+        "class": "BE_Action",
+        "name": "Blunt Strike",
+        "attributes": ["melee", "physical"],
+        "effect": 35,
+        "range": 1,
+        "vitality_cost": 1,
+        "menu_pos": 0,
+        "multiplier": 0.5,
+        "desc": "An attack with a blunt weapon.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_blunt_attack_webm",
+            "sfx": "content/sfx/sound/be/rod_attack.mp3",
+            "duration": 0.567,
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 0.5
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.15
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Ground Shockwave",
+        "menu_pos": 0.6,
+        "range": 1,
+        "attributes": ["melee", "earth", "physical"],
+        "effect": 100,
+        "critpower": 0.25,
+        "multiplier": 1.15,
+        "vitality_cost": 20,
+        "desc": "Sends a shockwave powerful enough to cause a local earthquake.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "earth_hammer_webm",
+            "sfx": "content/sfx/sound/be/earth_hammer.mp3",
+            "duration": 0.9,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "xo": 160
+            },
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "vertical_shake",
+            "initial_pause": 0.5,
+            "duration": 0.6,
+            "master_shake": true
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.9,
+            "duration": 0.5
+        }
+    },
+    {
+        "_COMMENT": "# Axe Attacks:",
+
+        "class": "BE_Action",
+        "name": "Axe Strike",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.1,
+        "effect": 10,
+        "range": 1,
+        "vitality_cost": 2,
+        "menu_pos": 0,
+        "multiplier": 0.55,
+        "desc": "An attack with an axe.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_axe_attack_webm",
+            "sfx": "content/sfx/sound/be/axe_attack.mp3",
+            "duration": 0.367,
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 0.3
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.35,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Axe Strike 2X",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.15,
+        "multiplier": 0.7,
+        "effect": 15,
+        "range": 1,
+        "vitality_cost": 4,
+        "menu_pos": 0.1,
+        "desc": "Two quick attacks with an axe.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "content/gfx/be/axes.webp",
+            "sfx": "content/sfx/sound/be/axe_attack.mp3",
+            "duration": 0.6,
+            "scale": [150, 150]
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 0.55
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.6,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "MultiAttack",
+        "name": "Axe Strike 4X",
+        "attributes": ["melee", "physical"],
+        "critpower": 0.2,
+        "multiplier": 0.85,
+        "effect": 35,
+        "range": 1,
+        "vitality_cost": 7,
+        "menu_pos": 0.2,
+        "desc": "Four quick attacks with an axe.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "content/gfx/be/axes.webp",
+            "sfx": "content/sfx/sound/be/axe_attack.mp3",
+            "duration": 1.2,
+            "times": 4,
+            "sd_duration": 0.4,
+            "interval": 0.3,
+            "scale": [150, 150]
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 1.1
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Ice Axe Strike",
+        "menu_pos": 1,
+        "range": 1,
+        "critpower": 0.2,
+        "attributes": ["melee", "ice", "physical"],
+        "effect": 50,
+        "multiplier": 0.95,
+        "vitality_cost": 12,
+        "mp_cost": 4,
+        "desc": "An attack with an ice axe.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "Ice Arrow impact",
+            "sfx": "content/sfx/sound/be/ice_axe.mp3",
+            "duration": 0.7,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "iced_with_shake",
+            "initial_pause": 0.2,
+            "duration": 0.5
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    }
+]

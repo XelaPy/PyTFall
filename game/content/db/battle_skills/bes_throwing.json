@@ -1,0 +1,118 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Throw",
+        "attributes": ["ranged", "physical"],
+        "effect": 5,
+        "range": 3,
+        "vitality_cost": 1,
+        "menu_pos": 0,
+        "multiplier": 0.5,
+        "desc": "Throw a projectile.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_throw_attack_webm",
+            "sfx": ["content/sfx/sound/be/throwing_attack_1.mp3", "content/sfx/sound/be/throwing_attack_2.mp3"],
+            "duration": 0.367,
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 0.31
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.3,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "ArrowsSkill",
+        "name": "Shadow Shuriken",
+        "menu_pos": 0.5,
+        "attributes": ["ranged", "darkness"],
+        "effect": 60,
+        "critpower": 0.5,
+        "multiplier": 0.95,
+        "mp_cost": 0.05,
+        "vitality_cost": 15,
+        "range": 4,
+        "piercing": true,
+        "desc": "Throw an explosive shadow projectile.",
+        "item_only": true,
+        "true_pierce": true,
+        "firing_effects": {
+            "gfx": "shuriken_throw_webm",
+            "sfx": "content/sfx/sound/be/kunai_throw.mp3"
+        },
+        "projectile_effects": {
+            "gfx": "shuriken_fly_webm",
+            "duration": 0.4
+        },
+        "main_effect": {
+            "gfx": "shuriken_hit_webm",
+            "sfx": "content/sfx/sound/be/kunai_exp.mp3",
+            "duration": 0.51,
+            "aim": {
+                "anchor": [0.5, 0.5],
+                "xo": 0,
+                "yo": 0
+            }
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.05
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_dark_with_shake",
+            "initial_pause": 1.0,
+            "duration": 0.51
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.5,
+            "duration": 0.5
+        },
+        "dodge_effect": {
+            "initial_pause": 0.95,
+            "duration": 0.75
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Cloud of Knives",
+        "range": 3,
+        "attributes": ["ranged", "physical"],
+        "critpower": 0.4,
+        "effect": 100,
+        "multiplier": 1.05,
+        "vitality_cost": 15,
+        "menu_pos": 0.5,
+        "true_pierce": true,
+        "piercing": true,
+        "desc": "Throw multiple knives in quick succession.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "throwing_knives_webm",
+            "sfx": "content/sfx/sound/be/knives_cloud.mp3",
+            "duration": 1.96,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true,
+            "zoom": 1.3
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 1.8
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.4,
+            "duration": 0.8
+        }
+    }
+]

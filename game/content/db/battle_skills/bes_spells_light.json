@@ -1,0 +1,377 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Holy",
+        "menu_pos": 0,
+        "attributes": ["magic", "light"],
+        "effect": 15,
+        "multiplier": 1.0,
+        "mp_cost": 12,
+        "range": 4,
+        "type": "all_enemies",
+        "desc": "A flash of light energy burns targets from inside.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_light_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "light_1",
+            "sfx": "content/sfx/sound/be/light1.mp3",
+            "duration": 1.25,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 1.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_light_with_shake",
+            "initial_pause": 0.1,
+            "duration": 1.1
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.9,
+            "duration": 0.2
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Holyra",
+        "menu_pos": 0.1,
+        "attributes": ["magic", "light"],
+        "effect": 15,
+        "multiplier": 1.1,
+        "mp_cost": 10,
+        "range": 4,
+        "desc": "A sphere of light energy burns the target from all sides.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_light_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "light_2",
+            "sfx": "content/sfx/sound/be/light3.mp3",
+            "duration": 1.25,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 1.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_light_with_shake",
+            "initial_pause": 0.1,
+            "duration": 1.1
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.9,
+            "duration": 0.2
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Holyda",
+        "menu_pos": 0.2,
+        "attributes": ["magic", "light"],
+        "effect": 15,
+        "multiplier": 0.9,
+        "mp_cost": 14,
+        "range": 4,
+        "desc": "Summons a small particle of stellar energy near the target.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_light_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "piercing": true,
+        "main_effect": {
+            "gfx": "light_3",
+            "sfx": "content/sfx/sound/be/light4.mp3",
+            "duration": 1.6,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 2.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_light_with_shake",
+            "initial_pause": 0.1,
+            "duration": 1.5
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.3,
+            "duration": 0.2
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Holyja",
+        "menu_pos": 0.3,
+        "attributes": ["magic", "light"],
+        "effect": 15,
+        "multiplier": 0.8,
+        "mp_cost": 17,
+        "range": 4,
+        "piercing": true,
+        "type": "all_enemies",
+        "desc": "Gathers holy energy and releases it upwards like a pillar of light.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_light_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "light_4_webm",
+            "sfx": "content/sfx/sound/be/light5.mp3",
+            "duration": 2.23,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 70
+            },
+            "zoom": 1.5
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 2.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_light_with_shake",
+            "initial_pause": 0.5,
+            "duration": 1.4
+        },
+        "target_death_effect": {
+            "gfx": "hide",
+            "initial_pause": 1.5,
+            "duration": 0.0001
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Star Light",
+        "menu_pos": 0.5,
+        "attributes": ["magic", "light"],
+        "effect": 60,
+        "multiplier": 1.3,
+        "mp_cost": 35,
+        "range": 4,
+        "desc": "A powerful and painful flash of starlight.",
+        "tier": 1,
+        "attacker_effects": {
+            "gfx": "cast_light_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "piercing": true,
+        "main_effect": {
+            "gfx": "light_6_webm",
+            "sfx": "content/sfx/sound/be/light2.mp3",
+            "duration": 0.96,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 1.4
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_light_with_shake",
+            "initial_pause": 0.1,
+            "duration": 0.8
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.3
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.4
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Photon Blade",
+        "menu_pos": 1,
+        "attributes": ["magic", "light"],
+        "effect": 60,
+        "multiplier": 1.4,
+        "mp_cost": 55,
+        "range": 4,
+        "desc": "Infinitely thin blades of pure light slices the target.",
+        "tier": 2,
+        "attacker_effects": {
+            "gfx": "cast_light_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "light_5",
+            "sfx": "content/sfx/sound/be/dawn.mp3",
+            "duration": 2.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "hflip": true,
+            "zoom": 1.9
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.5,
+            "duration": 1.4
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.6
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 2.0,
+            "duration": 0.4
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Forced Dawn",
+        "menu_pos": 5,
+        "mn": "Dawn",
+        "attributes": ["magic", "light"],
+        "effect": 60,
+        "multiplier": 1.2,
+        "mp_cost": 75,
+        "range": 4,
+        "type": "all_enemies",
+        "desc": "The energy of a whole sunrise quickly covers a small area.",
+        "tier": 3,
+        "attacker_effects": {
+            "gfx": "cast_orb_1",
+            "sfx": "default",
+            "zoom": 1.85,
+            "duration": 0.84
+        },
+        "main_effect": {
+            "gfx": "dawn",
+            "sfx": "content/sfx/sound/be/dawn.mp3",
+            "duration": 3.3,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 50,
+                "xo": -50
+            },
+            "zoom": 2.5
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.7
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_light",
+            "initial_pause": 1.5,
+            "duration": 0.5
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.6,
+            "duration": 1.0
+        },
+        "dodge_effect": {
+            "initial_pause": 1.2
+        }
+    },
+    {
+        "class": "ArealSkill",
+        "name": "Holy Blast",
+        "menu_pos": 9,
+        "attributes": ["magic", "light", "inevitable"],
+        "effect": 120,
+        "multiplier": 1.5,
+        "mp_cost": 110,
+        "range": 4,
+        "type": "all_enemies",
+        "piercing": true,
+        "desc": "Concentrates all holy energy in the area into one point, forcing it to explode as it reaches critical levels.",
+        "tier": 4,
+        "attacker_effects": {
+            "gfx": "cast_orb_1",
+            "sfx": "default",
+            "zoom": 1.85,
+            "duration": 0.84
+        },
+        "main_effect": {
+            "gfx": "holy_blast",
+            "sfx": "content/sfx/sound/be/light6.mp3",
+            "duration": 3.7,
+            "aim": {
+                "anchor": [0.5, 1.0],
+                "yo": 320
+            },
+            "zoom": 2.2
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 3.7
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 1.5,
+            "duration": 2.2
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 2.7,
+            "duration": 0.5
+        }
+    }
+]

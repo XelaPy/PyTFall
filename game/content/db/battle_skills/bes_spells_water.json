@@ -1,0 +1,370 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Water",
+        "menu_pos": 0,
+        "attributes": ["magic", "water"],
+        "effect": 10,
+        "multiplier": 1.0,
+        "mp_cost": 10,
+        "range": 4,
+        "type": "all_enemies",
+        "desc": "Crushes targets by bubbles of water.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_water_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "water_1",
+            "sfx": "content/sfx/sound/be/water.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 40
+            },
+            "start_at": 0,
+            "zoom": 1.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "true_water",
+            "initial_pause": 0.1,
+            "duration": 1.4
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.11,
+            "duration": 0.9
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Watera",
+        "menu_pos": 0.1,
+        "attributes": ["magic", "water"],
+        "effect": 10,
+        "multiplier": 1.1,
+        "mp_cost": 8,
+        "range": 4,
+        "desc": "High-pressure water jets pierce through the target.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_water_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "water_2",
+            "sfx": "content/sfx/sound/be/water.mp3",
+            "duration": 2.0,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 40
+            },
+            "start_at": 0,
+            "zoom": 1.4
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "true_water",
+            "initial_pause": 0.1,
+            "duration": 1.4
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Waterga",
+        "menu_pos": 0.2,
+        "attributes": ["magic", "water"],
+        "effect": 10,
+        "multiplier": 0.9,
+        "mp_cost": 12,
+        "range": 4,
+        "desc": "A cloud of water droplets at high speed crashes into the target.",
+        "attacker_effects": {
+            "gfx": "cast_water_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "tier": 0,
+        "main_effect": {
+            "gfx": "water_3",
+            "sfx": "content/sfx/sound/be/water2.mp3",
+            "duration": 2.5,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 40
+            },
+            "start_at": 0,
+            "zoom": 1.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "true_water",
+            "initial_pause": 0.1,
+            "duration": 1.9
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Waterja",
+        "menu_pos": 0.3,
+        "attributes": ["magic", "water"],
+        "effect": 10,
+        "multiplier": 0.8,
+        "mp_cost": 15,
+        "range": 4,
+        "type": "all_enemies",
+        "piercing": true,
+        "desc": "Creates a powerful burst of water and steam from the ground.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_water_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "water_4",
+            "sfx": "content/sfx/sound/be/water3.mp3",
+            "duration": 2.25,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 40
+            },
+            "start_at": 0,
+            "zoom": 1.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_water",
+            "initial_pause": 0.3,
+            "duration": 1.9
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 2.2
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.2,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Last Drop",
+        "menu_pos": 0.5,
+        "attributes": ["magic", "water"],
+        "effect": 50,
+        "multiplier": 1.3,
+        "mp_cost": 30,
+        "piercing": true,
+        "range": 6,
+        "desc": "Hits the target with a massive water blast from above.",
+        "tier": 1,
+        "attacker_effects": {
+            "gfx": "cast_water_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "water_6",
+            "sfx": "content/sfx/sound/be/water5.mp3",
+            "duration": 5.0,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 60
+            },
+            "zoom": 1.9
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_water",
+            "initial_pause": 1.0,
+            "duration": 3.5
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.1
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 4.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Geyser",
+        "menu_pos": 1,
+        "attributes": ["magic", "water"],
+        "effect": 50,
+        "multiplier": 1.4,
+        "mp_cost": 50,
+        "range": 6,
+        "desc": "A powerful stream of water shoots from the ground.",
+        "tier": 2,
+        "attacker_effects": {
+            "gfx": "cast_water_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "water_5",
+            "sfx": "content/sfx/sound/be/water6.mp3",
+            "duration": 3.0,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 60
+            },
+            "start_at": 0,
+            "zoom": 1.9
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "true_water",
+            "initial_pause": 0.5,
+            "duration": 2.5
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 2.2
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.2,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Heavy Rain",
+        "menu_pos": 5,
+        "attributes": ["magic", "water"],
+        "effect": 50,
+        "multiplier": 1.2,
+        "mp_cost": 70,
+        "type": "all_enemies",
+        "range": 6,
+        "desc": "Summons a rain of extra heavy water from another dimension.",
+        "tier": 3,
+        "attacker_effects": {
+            "gfx": "cast_water_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "rain",
+            "sfx": "content/sfx/sound/be/heavy_rain.mp3",
+            "duration": 5.0,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 80
+            },
+            "hflip": true,
+            "zoom": 2.0
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 1.0,
+            "duration": 3.8,
+            "master_shake": true
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 4.5
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 4.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "ATL_ArealSkill",
+        "name": "High Tide",
+        "menu_pos": 9,
+        "attributes": ["magic", "water", "inevitable"],
+        "effect": 100,
+        "multiplier": 1.5,
+        "mp_cost": 100,
+        "piercing": true,
+        "range": 6,
+        "type": "all_enemies",
+        "desc": "A huge tidal wave instantly crashes all enemies.",
+        "tier": 4,
+        "attacker_effects": {
+            "gfx": "cast_orb_1",
+            "sfx": "default",
+            "zoom": 1.85,
+            "duration": 0.84
+        },
+        "main_effect": {
+            "atl": "water_combined",
+            "predict": ["water_attack", "water_wave"],
+            "left_args": [1.8, -300],
+            "right_args": [-1.8, 300],
+            "sfx": "content/sfx/sound/be/water7.mp3",
+            "duration": 1.6
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_water_with_shake",
+            "initial_pause": 0.6,
+            "duration": 0.9
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.6
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.5
+        }
+    }
+]

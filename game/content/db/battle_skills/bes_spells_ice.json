@@ -1,0 +1,424 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Blizzard",
+        "menu_pos": 0,
+        "attributes": ["magic", "ice"],
+        "effect": 10,
+        "multiplier": 1.0,
+        "mp_cost": 10,
+        "range": 4,
+        "type": "all_enemies",
+        "desc": "Creates a cloud of sharp ice splinters.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_ice_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "ice_1",
+            "sfx": "content/sfx/sound/be/ice3.mp3",
+            "duration": 2.0,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 60
+            },
+            "start_at": 0,
+            "zoom": 1.9
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.2,
+            "duration": 1.8
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.5,
+            "duration": 0.4
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Blizzara",
+        "menu_pos": 0.1,
+        "attributes": ["magic", "ice"],
+        "effect": 10,
+        "multiplier": 1.1,
+        "mp_cost": 8,
+        "range": 4,
+        "desc": "Ice blades grow out of the ground.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_ice_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "ice_2",
+            "sfx": "content/sfx/sound/be/ice1.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 80
+            },
+            "start_at": 0,
+            "zoom": 1.3
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "iced_with_shake",
+            "initial_pause": 0.1,
+            "duration": 1.35
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.4
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Blizzarga",
+        "menu_pos": 0.2,
+        "attributes": ["magic", "ice"],
+        "effect": 10,
+        "multiplier": 0.9,
+        "mp_cost": 12,
+        "range": 4,
+        "desc": "Freezes the air itself, creating deadly ice blades.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_ice_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "piercing": true,
+        "main_effect": {
+            "gfx": "ice_4",
+            "sfx": "content/sfx/sound/be/ice2.mp3",
+            "duration": 0.8,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 40
+            },
+            "start_at": 0,
+            "zoom": 1.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "iced_with_shake",
+            "initial_pause": 0.1,
+            "duration": 0.7
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.6,
+            "duration": 0.3
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Blizzarja",
+        "menu_pos": 0.3,
+        "attributes": ["magic", "ice"],
+        "effect": 10,
+        "multiplier": 0.9,
+        "mp_cost": 15,
+        "range": 4,
+        "desc": "Quickly draws heat from a small area.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_ice_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "piercing": true,
+        "type": "all_enemies",
+        "main_effect": {
+            "gfx": "ice_3",
+            "sfx": "content/sfx/sound/be/ice2.mp3",
+            "duration": 1.25,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 60
+            },
+            "start_at": 0,
+            "zoom": 1.7
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "frozen",
+            "initial_pause": 0.1,
+            "duration": 1.1
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.6,
+            "duration": 0.3
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Ice Blast",
+        "menu_pos": 0.5,
+        "attributes": ["magic", "ice"],
+        "effect": 50,
+        "multiplier": 1.3,
+        "mp_cost": 30,
+        "range": 4,
+        "piercing": true,
+        "type": "se",
+        "desc": "Summons frozen fragments of a meteor.",
+        "tier": 1,
+        "attacker_effects": {
+            "gfx": "cast_orb_1",
+            "sfx": "default",
+            "zoom": 1.85,
+            "duration": 0.84
+        },
+        "main_effect": {
+            "gfx": "ice_blast",
+            "sfx": "content/sfx/sound/be/ice5.mp3",
+            "duration": 2.3,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 0.1],
+                "xo": 120,
+                "yo": -370
+            },
+            "hflip": true,
+            "xzoom": -1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "iced_with_shake",
+            "initial_pause": 1.6,
+            "duration": 0.5
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.5
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 2.0,
+            "duration": 0.5
+        },
+        "dodge_effect": {
+            "initial_pause": 0.8
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Zero Prism",
+        "menu_pos": 1,
+        "attributes": ["magic", "ice"],
+        "effect": 50,
+        "multiplier": 1.4,
+        "mp_cost": 50,
+        "range": 4,
+        "desc": "Freezes the target into a solid ice block.",
+        "tier": 1,
+        "attacker_effects": {
+            "gfx": "cast_ice_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "ice_5",
+            "sfx": "content/sfx/sound/be/ice4.mp3",
+            "duration": 2.1,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 110
+            },
+            "zoom": 2.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "frozen",
+            "initial_pause": 0.3,
+            "duration": 1.5
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.2
+        },
+        "target_death_effect": {
+            "gfx": "shatter",
+            "initial_pause": 1.4,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Ice Shards",
+        "menu_pos": 2,
+        "attributes": ["magic", "ice"],
+        "effect": 65,
+        "multiplier": 1.25,
+        "mp_cost": 70,
+        "range": 4,
+        "type": "all_enemies",
+        "desc": "A small part of the target immediately freezes and explodes.",
+        "tier": 2,
+        "attacker_effects": {
+            "gfx": "cast_ice_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "ice_6",
+            "sfx": "content/sfx/sound/be/ice2.mp3",
+            "duration": 1.2,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 80
+            },
+            "zoom": 2.0
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "iced",
+            "initial_pause": 0.1,
+            "duration": 1.1
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.2
+        },
+        "target_death_effect": {
+            "gfx": "shatter",
+            "initial_pause": 0.5,
+            "duration": 0.2
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Hailstorm",
+        "menu_pos": 5,
+        "attributes": ["magic", "ice"],
+        "effect": 50,
+        "multiplier": 1.35,
+        "mp_cost": 60,
+        "range": 4,
+        "piercing": true,
+        "type": "all_enemies",
+        "desc": "Puts targets in a middle of a small, but violent snow storm.",
+        "tier": 3,
+        "attacker_effects": {
+            "gfx": "cast_ice_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "ice_7",
+            "sfx": "content/sfx/sound/be/Hailstorm.mp3",
+            "duration": 2.0,
+            "aim": {
+                "point": "bc",
+                "anchor": [0.5, 1.0],
+                "yo": 50
+            },
+            "hflip": true,
+            "zoom": 1.7
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "iced",
+            "initial_pause": 0.2,
+            "duration": 1.8
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.2
+        },
+        "target_death_effect": {
+            "gfx": "shatter",
+            "initial_pause": 1.9,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "ATL_ArealSkill",
+        "name": "Ice Storm",
+        "menu_pos": 9,
+        "attributes": ["magic", "ice", "inevitable"],
+        "effect": 100,
+        "multiplier": 1.5,
+        "mp_cost": 100,
+        "range": 4,
+        "type": "all_enemies",
+        "piercing": true,
+        "desc": "Conjures a power ice storm from a remote cold planet.",
+        "tier": 4,
+        "attacker_effects": {
+            "gfx": "cast_orb_1",
+            "sfx": "default",
+            "zoom": 1.85,
+            "duration": 0.84
+        },
+        "main_effect": {
+            "atl": "ice_storm",
+            "predict": ["ice_twin_explosion", "ice_strike"],
+            "sfx": "content/sfx/sound/be/ice2.mp3",
+            "duration": 1.7,
+            "left_args": [
+                [190, 700]
+            ],
+            "right_args": [
+                [1035, 700]
+            ]
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.7
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "iced_with_shake",
+            "initial_pause": 0.6,
+            "duration": 1.0,
+            "master_shake": true
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.5
+        }
+    }
+]

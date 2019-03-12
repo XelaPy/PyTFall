@@ -1,0 +1,371 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Dark",
+        "menu_pos": 0,
+        "attributes": ["magic", "darkness"],
+        "effect": 15,
+        "multiplier": 1.0,
+        "mp_cost": 12,
+        "range": 4,
+        "type": "all_enemies",
+        "desc": "The mere presence of dark energy is dangerous for most creatures.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_dark_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "darkness_1",
+            "sfx": "content/sfx/sound/be/darkness1.mp3",
+            "duration": 1.0,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 1.3
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_darkness",
+            "initial_pause": 0.1,
+            "duration": 0.9
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.8,
+            "duration": 0.2
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Darkra",
+        "menu_pos": 0.1,
+        "attributes": ["magic", "darkness"],
+        "effect": 15,
+        "multiplier": 1.1,
+        "mp_cost": 10,
+        "range": 4,
+        "desc": "Darkness envelops the target, damaging it.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_dark_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "darkness_2",
+            "sfx": "content/sfx/sound/be/darkness2.mp3",
+            "duration": 1.6,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 1.6
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_darkness",
+            "initial_pause": 0.3,
+            "duration": 1.3
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.4
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.8,
+            "duration": 0.2
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Darkga",
+        "menu_pos": 0.2,
+        "attributes": ["magic", "darkness"],
+        "effect": 15,
+        "multiplier": 0.9,
+        "mp_cost": 14,
+        "range": 4,
+        "piercing": true,
+        "desc": "Negative energy concentrates in a small area and then explodes.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_dark_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "darkness_3",
+            "sfx": "content/sfx/sound/be/darkness3.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "zoom": 1.4
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.9
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.9,
+            "duration": 0.6
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Darkja",
+        "menu_pos": 0.3,
+        "attributes": ["magic", "darkness"],
+        "effect": 15,
+        "multiplier": 0.8,
+        "mp_cost": 17,
+        "range": 4,
+        "piercing": true,
+        "type": "all_enemies",
+        "desc": "Summons abnormal and chaotic substances from a dark world that deforms targets.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_dark_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "darkness_4",
+            "sfx": "content/sfx/sound/be/darkness2.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "zoom": 1.2
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 1.2
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.4
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Eternal Gluttony",
+        "menu_pos": 0.5,
+        "attributes": ["magic", "darkness"],
+        "effect": 60,
+        "multiplier": 1.3,
+        "mp_cost": 35,
+        "range": 4,
+        "piercing": true,
+        "desc": "Summons a dark creature from the world of darkness to devour.",
+        "tier": 1,
+        "attacker_effects": {
+            "gfx": "cast_dark_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "darkness_5",
+            "sfx": "content/sfx/sound/be/horny2.mp3",
+            "duration": 1.2,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "zoom": 1.2
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.5,
+            "duration": 0.7
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.9,
+            "duration": 0.2
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Black Hole",
+        "menu_pos": 1,
+        "attributes": ["magic", "darkness"],
+        "effect": 60,
+        "multiplier": 1.2,
+        "mp_cost": 75,
+        "range": 4,
+        "type": "all_enemies",
+        "desc": "Creates holes in the space itself leading to the dimension of Darkness.",
+        "tier": 2,
+        "attacker_effects": {
+            "gfx": "cast_dark_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "darkness_6",
+            "sfx": "content/sfx/sound/be/darkness3.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "zoom": 1.1
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_darknes_with_shake",
+            "initial_pause": 0.1,
+            "duration": 1.2
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.9,
+            "duration": 0.2
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Other Light",
+        "menu_pos": 4,
+        "attributes": ["magic", "darkness", "light"],
+        "effect": 75,
+        "multiplier": 1.25,
+        "mp_cost": 45,
+        "range": 4,
+        "piercing": true,
+        "true_pierce": true,
+        "desc": "Summons an alternative form of light from a dark dimension. Ignores back row damage reduction.",
+        "tier": 3,
+        "attacker_effects": {
+            "gfx": "cast_orb_1",
+            "sfx": "default",
+            "zoom": 1.85,
+            "duration": 0.84
+        },
+        "main_effect": {
+            "gfx": "darklight",
+            "sfx": "content/sfx/sound/be/darklight.mp3",
+            "duration": 2.0,
+            "aim": {
+                "point": "tc",
+                "anchor": [0.5, 0],
+                "yo": -55
+            },
+            "zoom": 1.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.3,
+            "duration": 1.2
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.8
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.8,
+            "duration": 0.5
+        },
+        "dodge_effect": {
+            "initial_pause": 0.2
+        }
+    },
+    {
+        "class": "FullScreenCenteredArealSkill",
+        "name": "Dominion",
+        "menu_pos": 9,
+        "attributes": ["magic", "darkness", "inevitable"],
+        "effect": 100,
+        "multiplier": 1.5,
+        "mp_cost": 110,
+        "range": 4,
+        "type": "all_enemies",
+        "piercing": true,
+        "desc": "Conjures primary darkness tearing apart all living things.",
+        "tier": 4,
+        "attacker_effects": {
+            "gfx": "cast_orb_1",
+            "sfx": "default",
+            "zoom": 1.85,
+            "duration": 0.84
+        },
+        "main_effect": {
+            "gfx": "dominion",
+            "sfx": "content/sfx/sound/be/darkness5.mp3",
+            "duration": 2.5
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 2.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 2.4
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 2,
+            "duration": 0.5
+        },
+        "bg_main_effect": {
+            "gfx": "black",
+            "initial_pause": 0,
+            "duration": 2.6
+        }
+    }
+]

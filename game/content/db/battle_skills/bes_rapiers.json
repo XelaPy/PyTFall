@@ -1,0 +1,110 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Steel Flourish",
+        "range": 1,
+        "attributes": ["melee", "physical"],
+        "critpower": 0.6,
+        "effect": 70,
+        "multiplier": 1.05,
+        "vitality_cost": 12,
+        "mp_cost": 6,
+        "menu_pos": 1,
+        "desc": "Quick consecutive slashes form an ancient rune which increases critical damage of the attack.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "steel_flourish_webm",
+            "sfx": "content/sfx/sound/be/chop.ogg",
+            "duration": 0.97,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true,
+            "zoom": 1.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.17,
+            "duration": 0.8
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.9,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Toxic Core",
+        "range": 1,
+        "attributes": ["melee", "physical", "poison"],
+        "critpower": 0.2,
+        "effect": 100,
+        "multiplier": 0.95,
+        "vitality_cost": 5,
+        "health_cost": 5,
+        "menu_pos": 1.1,
+        "desc": "Inner layers of the weapon produce natural toxins which could be released during the attack.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "elven_rapier_webm",
+            "sfx": "content/sfx/sound/be/sword.mp3",
+            "duration": 0.47,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true,
+            "zoom": 0.9
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "poisoned_with_shake",
+            "initial_pause": 0.15,
+            "duration": 0.8
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.7,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Air Assault",
+        "range": 1,
+        "attributes": ["melee", "physical", "air"],
+        "critpower": 0.1,
+        "effect": 30,
+        "vitality_cost": 20,
+        "multiplier": 1.0,
+        "health_cost": 5,
+        "menu_pos": 1.2,
+        "type": "all_enemies",
+        "desc": "Countless quick slashes rip the air itself, sending rapid shockwaves.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "elven_combo_webm",
+            "sfx": "content/sfx/sound/be/elven_combo.mp3",
+            "duration": 1.4,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true,
+            "zoom": 1.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_air",
+            "initial_pause": 0.1,
+            "duration": 1.3
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.3,
+            "duration": 0.5
+        }
+    }
+
+
+]

@@ -1,0 +1,416 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Aero",
+        "menu_pos": 0,
+        "attributes": ["magic", "air"],
+        "effect": 10,
+        "multiplier": 1.0,
+        "mp_cost": 10,
+        "range": 4,
+        "type": "all_enemies",
+        "desc": "High-pressure air cuts through armor and flesh like a hardened blade.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_air_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "air_1",
+            "sfx": "content/sfx/sound/be/air2.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 1.2
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 1.3
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.2,
+            "duration": 0.3
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Aerora",
+        "menu_pos": 0.1,
+        "attributes": ["magic", "air"],
+        "effect": 10,
+        "multiplier": 1.1,
+        "mp_cost": 8,
+        "range": 4,
+        "desc": "Causes damage by sand and branches picked up by the wind rather than air itself.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_air_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "air_5",
+            "sfx": "content/sfx/sound/be/air1.mp3",
+            "duration": 0.9,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 1.3
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_air",
+            "initial_pause": 0.1,
+            "duration": 0.8
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.7,
+            "duration": 0.2
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Aeroga",
+        "menu_pos": 0.2,
+        "attributes": ["magic", "air"],
+        "effect": 10,
+        "multiplier": 0.9,
+        "mp_cost": 12,
+        "range": 4,
+        "piercing": true,
+        "desc": "Even for those who don't need to breathe instantaneous air pressure drop is dangerous.",
+        "attacker_effects": {
+            "gfx": "cast_air_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "tier": 0,
+        "main_effect": {
+            "gfx": "air_2",
+            "sfx": "content/sfx/sound/be/air3.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 1.2
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 1.3
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.3
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Aeroja",
+        "menu_pos": 0.3,
+        "attributes": ["magic", "air"],
+        "effect": 10,
+        "multiplier": 0.8,
+        "mp_cost": 15,
+        "range": 4,
+        "piercing": true,
+        "type": "all_enemies",
+        "desc": "High pressure air flows cover a small area.",
+        "tier": 0,
+        "attacker_effects": {
+            "gfx": "cast_air_1",
+            "sfx": "default",
+            "zoom": 1.5,
+            "duration": 0.84,
+            "cast": {
+                "point": "bc",
+                "yo": -75
+            }
+        },
+        "main_effect": {
+            "gfx": "air_3",
+            "sfx": "content/sfx/sound/be/air2.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 1.4
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 1.2
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.3
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Pressure",
+        "menu_pos": 0.5,
+        "attributes": ["magic", "air"],
+        "effect": 50,
+        "multiplier": 1.3,
+        "mp_cost": 30,
+        "range": 4,
+        "piercing": true,
+        "desc": "Pumps air from the target, crushing it by external atmospheric pressure.",
+        "tier": 1,
+        "attacker_effects": {
+            "gfx": "cast_air_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "air_4",
+            "sfx": "content/sfx/sound/be/air3.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 1.2
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_air",
+            "initial_pause": 0.1,
+            "duration": 1.3
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce"
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.3
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Air Blast",
+        "menu_pos": 1,
+        "attributes": ["magic", "air"],
+        "effect": 50,
+        "multiplier": 1.4,
+        "mp_cost": 50,
+        "range": 4,
+        "desc": "Pumps air into the target, tearing it from the inside.",
+        "tier": 2,
+        "attacker_effects": {
+            "gfx": "cast_air_2",
+            "sfx": "default",
+            "zoom": 0.9,
+            "duration": 1.4
+        },
+        "main_effect": {
+            "gfx": "air_6",
+            "sfx": "content/sfx/sound/be/air3.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 1.5
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 1.3
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.0
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.3
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Vortex",
+        "menu_pos": 2,
+        "attributes": ["magic", "air"],
+        "effect": 50,
+        "multiplier": 1.2,
+        "mp_cost": 70,
+        "range": 4,
+        "type": "all_enemies",
+        "desc": "Creates a small but very powerful sphere of hurricane winds.",
+        "tier": 3,
+        "attacker_effects": {
+            "gfx": "cast_orb_1",
+            "sfx": "default",
+            "zoom": 1.85,
+            "duration": 0.84
+        },
+        "main_effect": {
+            "gfx": "vortex",
+            "sfx": "content/sfx/sound/be/vortex.mp3",
+            "duration": 1.5,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "yo": 0
+            },
+            "start_at": 0,
+            "zoom": 2.2
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_air",
+            "initial_pause": 0.1,
+            "duration": 1.4,
+            "master_shake": true
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 1.0
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.0,
+            "duration": 0.3
+        }
+    },
+    {
+        "class": "ArealSkill",
+        "name": "Northern Flow",
+        "menu_pos": 4.2,
+        "attributes": ["magic", "air", "ice"],
+        "effect": 120,
+        "multiplier": 1.2,
+        "mp_cost": 60,
+        "range": 4,
+        "type": "all_enemies",
+        "piercing": true,
+        "true_pierce": true,
+        "desc": "Summons frozen air from the upper atmosphere. Ignores back row damage reduction.",
+        "tier": 4,
+        "attacker_effects": {
+            "gfx": "cast_orb_1",
+            "sfx": "default",
+            "zoom": 1.85,
+            "duration": 0.84
+        },
+        "main_effect": {
+            "gfx": "north_webm",
+            "sfx": "content/sfx/sound/be/air5.mp3",
+            "duration": 3.8,
+            "aim": {
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.1,
+            "duration": 0.1
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "iced",
+            "initial_pause": 0.1,
+            "duration": 3.7
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 3.7,
+            "duration": 0.2
+        }
+    },
+    {
+        "class": "ArealSkill",
+        "name": "Tornado",
+        "menu_pos": 9,
+        "attributes": ["magic", "air", "inevitable"],
+        "effect": 100,
+        "multiplier": 1.5,
+        "mp_cost": 100,
+        "range": 4,
+        "type": "all_enemies",
+        "piercing": true,
+        "desc": "Conjures a full-fledged but short-lived tornado to wipe out all enemies.",
+        "tier": 4,
+        "attacker_effects": {
+            "gfx": "cast_orb_1",
+            "sfx": "default",
+            "zoom": 1.85,
+            "duration": 0.84
+        },
+        "main_effect": {
+            "gfx": "tornado",
+            "sfx": "content/sfx/sound/be/air4.mp3",
+            "duration": 3.5,
+            "aim": {
+                "anchor": [0.5, 1.0],
+                "yo": 150
+            }
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 4.8
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "fly_away",
+            "initial_pause": 0.2,
+            "duration": 5.1
+        },
+        "target_death_effect": {
+            "gfx": "shatter",
+            "initial_pause": 4.7,
+            "duration": 0.2
+        }
+    }
+]

@@ -1,0 +1,79 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Heat Discharge",
+        "menu_pos": -0.1,
+        "range": 4,
+        "attributes": ["magic", "fire"],
+        "critpower": 0.3,
+        "effect": 50,
+        "multiplier": 0.5,
+        "mp_cost": 3,
+        "desc": "Releases a discharge of heat energy.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "magic_staff_01_webm",
+            "sfx": "content/sfx/sound/be/fire4.mp3",
+            "duration": 0.967,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5],
+                "xo": 120
+            },
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "on_fire_with_shake",
+            "initial_pause": 0.45,
+            "duration": 0.55
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.8,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "P2P_Skill",
+        "name": "Ice Sphere",
+        "menu_pos": -0.1,
+        "attributes": ["magic", "ice"],
+        "effect": 40,
+        "critpower": 0.2,
+        "multiplier": 0.45,
+        "mp_cost": 2,
+        "range": 4,
+        "piercing": true,
+        "desc": "Creates a simple projectile made of ice.",
+        "item_only": true,
+        "projectile_effects": {
+            "gfx": "magic_staff_02_webm",
+            "sfx": "content/sfx/sound/be/ice_staff.opus",
+            "duration": 0.4
+        },
+        "main_effect": {
+            "gfx": "Ice Arrow impact",
+            "sfx": "content/sfx/sound/be/ice_axe.mp3",
+            "duration": 0.7,
+            "aim": {
+                "anchor": [0.5, 0.5],
+                "xo": 0,
+                "yo": 0
+            }
+        },
+        "target_damage_effect": {
+            "gfx": "battle_bounce",
+            "initial_pause": 0.42
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "iced_with_shake",
+            "initial_pause": 0.45,
+            "duration": 0.6
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 1.2,
+            "duration": 0.5
+        }
+    }
+]

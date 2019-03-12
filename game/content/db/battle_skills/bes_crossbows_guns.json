@@ -1,0 +1,128 @@
+[
+    {
+        "class": "BE_Action",
+        "name": "Crossbow Shot",
+        "attributes": ["ranged", "physical"],
+        "critpower": 0.1,
+        "multiplier": 0.55,
+        "effect": 10,
+        "range": 4,
+        "vitality_cost": 1,
+        "menu_pos": 0,
+        "desc": "Shot a bolt.",
+        "item_only": true,
+        "piercing": true,
+        "main_effect": {
+            "gfx": "simple_crossbow_attack_webm",
+            "sfx": "content/sfx/sound/be/crossbow_attack.mp3",
+            "duration": 0.37,
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 0.32
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.35,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Penetrating Bolt",
+        "range": 3,
+        "attributes": ["ranged", "physical"],
+        "critpower": 0.5,
+        "multiplier": 0.65,
+        "piercing": true,
+        "effect": 20,
+        "vitality_cost": 6,
+        "menu_pos": 1,
+        "true_pierce": true,
+        "desc": "Releases special high-density bolt with high critical damage.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "crossbow_hit_webm",
+            "sfx": "content/sfx/sound/be/crossbow_1.ogg",
+            "duration": 0.56,
+            "aim": {
+                "point": "center",
+                "anchor": [0.5, 0.5]
+            },
+            "hflip": true,
+            "zoom": 1.3
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 0.46
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.5,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Cannon Shot",
+        "attributes": ["ranged", "physical"],
+        "critpower": 0.3,
+        "effect": 50,
+        "range": 3,
+        "vitality_cost": 3,
+        "menu_pos": 0,
+        "multiplier": 0.55,
+        "piercing": true,
+        "desc": "Shot a large caliber.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_cannon_attack_webm",
+            "sfx": ["content/sfx/sound/be/cannon_1.mp3", "content/sfx/sound/be/cannon_2.mp3", "content/sfx/sound/be/cannon_3.mp3"],
+            "duration": 0.433,
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.1,
+            "duration": 0.333
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.4,
+            "duration": 0.5
+        }
+    },
+    {
+        "class": "BE_Action",
+        "name": "Gun Shot",
+        "attributes": ["ranged", "physical"],
+        "critpower": 0.3,
+        "true_pierce": true,
+        "effect": 50,
+        "range": 3,
+        "vitality_cost": 2,
+        "menu_pos": 0,
+        "multiplier": 0.5,
+        "desc": "Shot a bullet.",
+        "item_only": true,
+        "main_effect": {
+            "gfx": "simple_gun_attack_webm",
+            "sfx": "content/sfx/sound/be/gun_attack.mp3",
+            "duration": 0.433,
+            "hflip": true
+        },
+        "target_sprite_damage_effect": {
+            "gfx": "shake",
+            "initial_pause": 0.05,
+            "duration": 0.4
+        },
+        "target_death_effect": {
+            "gfx": "dissolve",
+            "initial_pause": 0.4,
+            "duration": 0.5
+        }
+    }
+]
