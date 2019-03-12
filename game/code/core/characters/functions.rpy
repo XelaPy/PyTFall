@@ -1180,7 +1180,7 @@ init -11 python:
         Returns True if we consider char not fit for work.
         (Harsh version of a number of similar functions we may unify in the future)
         """
-        for s in ("health", "mp"):
+        for s in ("health", "mp", "vitality"):
             if check_stat_perc(char, s, .2):
                 return True
 
