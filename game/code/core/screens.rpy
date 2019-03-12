@@ -268,9 +268,9 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         key "C" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
         key "с" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
         key "С" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
-
-        key "K_F5" action QuickSave()
-        key "K_F9" action QuickLoad()
+        
+    key "K_F5" action QuickSave()
+    key "K_F9" action QuickLoad()
 
     # Top Stripe Frame:
     add "content/gfx/frame/top_stripe.png"
