@@ -766,7 +766,7 @@ label interactions_frigid_sex_refuse:
     return
 
 label interactions_blowoff(char=None, exit=None):
-    $ hs()
+    $ clear_screens()
     show expression char.get_vnsprite() as vn_sprite
     $ char.override_portrait("portrait", "angry")
     $ char.show_portrait_overlay("angry")

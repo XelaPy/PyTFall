@@ -9,7 +9,7 @@ init -9 python:
             xeona_status.meet_day = 0
             xeona_status.heal_day = 0
             store.xeona_status = xeona_status
-            
+
         if xeona_status.disposition > 0:
             if day%3 == 0:
                 xeona_status.flirt = True
@@ -25,7 +25,7 @@ init -9 python:
                 status = "confident"
         xeona_status.sprite = npcs["Xeona_arena"].get_vnsprite(status)
         npcs["Xeona_arena"].override_portrait("portrait", status)
-    
+
 label arena_outside:
     $ setup_xeona()
     if not global_flags.has_flag("menu_return"):
@@ -84,8 +84,8 @@ label arena_outside:
 
         if result[0] == 'control':
             if result[1] == "enter_arena":
+                $ cdl()
                 $ renpy.music.stop(channel="gamemusic")
-                $ hs()
                 $ jump("arena_inside")
 
             if result[1] == 'return':
@@ -128,7 +128,7 @@ label xeona_talking:
     while loop:
         menu:
             ax "Well?"
-            
+
             "Xeona Main":
                 $ pass
 
@@ -208,7 +208,7 @@ label xeona_talking:
                 if not xeona_status.flirt:
                     ax "Sorry, I can't today. Too busy. I only have some free time every third day."
                 elif xeona_status.meet_day == day:
-                    ax "I don't have any more free time today, sorry. Come back in three days." 
+                    ax "I don't have any more free time today, sorry. Come back in three days."
                 else:
                     $ xeona_status.disposition += 1
                     $ xeona_status.meet_day = day
@@ -232,7 +232,7 @@ label xeona_talking:
                 if not xeona_status.flirt:
                     ax "Sorry, I can't today. Too busy. I only have some free time every third day."
                 elif xeona_status.meet_day == day:
-                    ax "I don't have any more free time today, sorry. Come back in three days." 
+                    ax "I don't have any more free time today, sorry. Come back in three days."
                 else:
                     $ xeona_status.disposition += 1
                     $ xeona_status.meet_day = day
@@ -291,7 +291,7 @@ label xeona_talking:
                     $ del img
                     ax "Phew, not bad! I didn't do to for a long time, always busy with arena and stuff..."
                     ax "Come again soon. Really soon."
-            
+
             "Talk about weather":
                 ax "Err... this is getting really awkward..."
                 ax "Is there anything else???"

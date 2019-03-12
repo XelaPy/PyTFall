@@ -26,7 +26,7 @@ label city_park:
         if result[0] == 'control':
             if result[1] == 'jumpgates':
                 $ global_flags.set_flag("keep_playing_music")
-                $ hs()
+                $ clear_screens()
                 $ jump('city_parkgates')
 
             if result[1] == 'return':

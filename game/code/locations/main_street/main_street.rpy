@@ -38,7 +38,7 @@ label main_street:
                 jump city
 
         elif result[0] == 'location':
-            $ hs()
+            $ clear_screens()
             $ jump(result[1])
 
         if result[0] == 'jump':
