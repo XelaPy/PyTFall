@@ -84,6 +84,7 @@ label next_day:
     scene
 
     $ next_day_local = None
+    $ config.mouse = None
 
     if just_view_next_day: # Review old reports:
         $ just_view_next_day = False

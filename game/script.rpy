@@ -376,6 +376,8 @@ label sort_traits_for_gameplay:
     return
 
 label after_load:
+    $ config.mouse = None
+
     if hasattr(store, "stored_random_seed"):
         $ renpy.random.setstate(stored_random_seed)
 
