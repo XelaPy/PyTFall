@@ -267,6 +267,9 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         key "с" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
         key "С" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
 
+    key "K_F5" action QuickSave()
+    key "K_F9" action QuickLoad()
+
     # Top Stripe Frame:
     add "content/gfx/frame/top_stripe.png"
 
@@ -449,18 +452,16 @@ screen top_stripe(show_return_button=True, return_button_action=None,
             null width 10
 
             imagebutton:
-                idle im.Scale("content/gfx/interface/buttons/save.png", 40, 40)
-                hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png" , 40, 40), im.matrix.brightness(.15))
-                tooltip "QuickSave"
-                action QuickSave()
-                keysym "K_F5"
+                    idle im.Scale("content/gfx/interface/buttons/save.png", 40, 40)
+                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png" , 40, 40), im.matrix.brightness(.15))
+                    tooltip "QuickSave"
+                    action QuickSave()
 
             imagebutton:
                 idle im.Scale("content/gfx/interface/buttons/load.png", 38, 40)
                 hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png" , 38, 40), im.matrix.brightness(.15))
                 tooltip "QuickLoad"
                 action QuickLoad()
-                keysym "K_F9"
 
 
         if show_return_button:
