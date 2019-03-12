@@ -74,6 +74,13 @@ label building_management:
                         bm_mid_frame_mode.expand_capacity(name=name, mod_gui=guild_teams)
                 elif result[1] == "dissolve":
                     bm_mid_frame_mode.reduce_capacity(team=result[2], mod_gui=[workers, guild_teams])
+                elif result[1] == "explore_area":
+                    result = bm_mid_frame_mode.launch_team(result[2])
+                    if isinstance(result, PytCharacter):
+                        renpy.show_screen("message_screen", "{} is not in shape to explore anything :(".format(result.name))
+                    else:
+                        jump("building_management")
+
         elif result[0] == "building":
             if result[1] == 'items_transfer':
                 python:
@@ -127,8 +134,7 @@ label building_management:
                         hero.remove_building(BUILDING)
 
                         if hero.buildings:
-                            index = 0
-                            BUILDING = hero.buildings[index]
+                            set_building_index()
                         else:
                             jump("building_management_end")
         # Upgrades:
