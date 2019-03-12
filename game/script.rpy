@@ -12,15 +12,24 @@ init 100 python:
             if hasattr(obj_src, attr):
                 v2 = getattr(obj_src, attr)
                 if v2 != v:
-                    devlog.info("{} - Modified Attr {}: {} -> {} in {}".format(prefix, attr, str(v), str(v2), str(obj_dest)))
+                    try:
+                        devlog.info("{} - Modified Attr {}: {} -> {} in {}".format(prefix, attr, str(v), str(v2), str(obj_dest)))
+                    except:
+                        pass
                     setattr(obj_dest, attr, v2)
             else:
-                devlog.info("{} - Attr Removed: {} from {}".format(prefix, attr, str(obj_dest)))
+                try:
+                    devlog.info("{} - Attr Removed: {} from {}".format(prefix, attr, str(obj_dest)))
+                except:
+                    pass
                 delattr(obj_dest, attr)
 
         for attr, v2 in vars(obj_src).items():
             if not hasattr(obj_dest, attr):
-                devlog.info("{} - New Attr {} for {} with value {}".format(prefix, attr, str(obj_dest), str(v2)))
+                try:
+                    devlog.info("{} - New Attr {} for {} with value {}".format(prefix, attr, str(obj_dest), str(v2)))
+                except:
+                    pass
                 setattr(obj_dest, attr, v2)
 
 default defeated_mobs = {}
@@ -400,7 +409,7 @@ label after_load:
     python hide:
         for c in store.chars.values():
             c.clear_img_cache()
-            
+
     # Updating Databases:
     # Items:
     python hide:
