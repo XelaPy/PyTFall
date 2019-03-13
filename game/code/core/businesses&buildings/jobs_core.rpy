@@ -4,7 +4,8 @@
         """
         def __init__(self, txt=""):
             self.log = []
-            if txt: self.log.append(txt)
+            if txt:
+                self.log.append(txt)
 
         def add(self, text, newline=True):
             # Adds a text to the log.
@@ -39,6 +40,11 @@
                      team=None, job=None, **kwargs):
             super(NDEvent, self).__init__(txt)
 
+            if charmod is None:
+                charmod = {}
+            if locmod is None:
+                self.locmod = {}
+
             self.job = job
             if not type and job:
                 self.type = job.event_type
@@ -48,23 +54,24 @@
             self.txt = txt
             self.img = img
 
-            self.char = char
-            self.team = team
-            if charmod is None:
-                charmod = {}
-            if team:
-                self.team_charmod = charmod.copy()
-                self.charmod = None
-            else:
+            if char is None and team is None:
+                self.char = None
+                self.team = None
+                self.charmod = charmod
+                self.team_charmod = None
+            elif char or len(team) == 1:
                 self.charmod = charmod.copy()
                 self.team_charmod = None
+                self.char = char or list(team)[0]
+                self.team = None
+            else:
+                self.team_charmod = charmod.copy()
+                self.charmod = None
+                self.team = team
+                self.char = None
 
             # the location of the event (optional):
             self.loc = loc
-            if locmod is None:
-                self.locmod = {}
-            else:
-                self.locmod = locmod
 
             self.business = kwargs.get("business", None)
             self.kind = kwargs.get("kind", None)

@@ -32,7 +32,7 @@ init python:
             if os.path.isdir(path):
                 for fn in os.listdir(path):
                     if fn.endswith(IMAGE_EXTENSIONS):
-                        images.append(os.path.join(folder, fn)) 
+                        images.append(os.path.join(folder, fn))
 
             img = choice(images) if images else "no_image"
             self.img = renpy.displayable(img)
@@ -225,33 +225,26 @@ init python:
             else:
                 txt = "\n".join(txt)
 
+            loc = schools["-PyTFall Educators-"]
+
             if type == "normal":
-                evt = NDEvent()
-                evt.type = "course_nd_report"
-                evt.charmod = charmod
-                evt.red_flag = False
-                evt.green_flag = flag_green
-                evt.loc = schools["-PyTFall Educators-"]
-                evt.char = char
-                evt.txt = txt
-                # Get char image from data:
+                # img:
                 tags = self.data.get("imageTags", ["profile"])
                 mode = self.data.get("imageMode", "reduce")
                 kwargs = dict(exclude=self.data.get("noImageTags", []),
                               resize=ND_IMAGE_SIZE, type=mode, add_mood=False)
-                evt.img = char.show(*tags, **kwargs)
+                img = char.show(*tags, **kwargs)
 
-                NEXT_DAY_EVENTS.append(evt)
+                flag_red = False
             elif type == "failed_to_pay":
-                evt = NDEvent()
-                evt.type = "course_nd_report"
-                # evt.charmod = charmod
-                evt.red_flag = True
-                evt.loc = schools["-PyTFall Educators-"]
-                evt.char = char
-                evt.img = char.show("profile", "sad", resize=ND_IMAGE_SIZE)
-                evt.txt = txt
-                NEXT_DAY_EVENTS.append(evt)
+                img = char.show("profile", "sad", resize=ND_IMAGE_SIZE)
+                flag_red = True
+                charmod = None
+
+            evt = NDEvent(char=char, type="course_nd_report", charmod=charmod,
+                          green_flag=flag_green, red_flag=flag_red, loc=loc,
+                          txt=txt)
+            NEXT_DAY_EVENTS.append(evt)
 
 
     class School(BaseBuilding):

@@ -549,12 +549,10 @@ init -9 python:
 
             # If we have escaped girls, post the event
             if self.girls:
-                ev = NDEvent()
-                ev.type = type
-                ev.char = None
-                ev.img = im.Scale("content/gfx/bg/locations/dungeoncell.webp", int(config.screen_width*.6), int(config.screen_height*.8))
-                ev.txt = "\n".join(txt)
-                NEXT_DAY_EVENTS.append(ev)
+                img = im.Scale("content/gfx/bg/locations/dungeoncell.webp", int(config.screen_width*.6), int(config.screen_height*.8))
+                txt = "\n".join(txt)
+                evt = NDEvent(img=img, type=type, txt=txt)
+                NEXT_DAY_EVENTS.append(evt)
 
         def next_index(self):
             """
@@ -623,6 +621,7 @@ init -9 python:
 
             status = (float(a) / float(b)) * 100
             status *= girl_training_trait_mult(girl, "Restrained")
-            if girl.status == "slave": status *= .75
+            if girl.status == "slave":
+                status *= .75
 
             return 100-status

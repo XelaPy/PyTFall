@@ -2157,13 +2157,8 @@ init -9 python:
                     charmod[stat] = self.stats.stats[stat] - value
 
             # Create the event:
-            evt = NDEvent()
-            evt.red_flag = flag_red
-            evt.charmod = charmod
-            evt.type = type
-            evt.char = self
-            evt.img = img
-            evt.txt = txt
+            evt = NDEvent(char=self, red_flag=flag_red, charmod=charmod,
+                          type=type, img=img, txt=txt)
             NEXT_DAY_EVENTS.append(evt)
 
 
