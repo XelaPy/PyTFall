@@ -39,6 +39,7 @@ init -999 python:
             renpy.restart_interaction()
     config.keymap['panic_screen'] = ['q', 'Q', 'й', 'Й']
     config.underlay.append(renpy.Keymap(panic_screen=show_panic_screen_func))
+    config.keymap["director"] = []
 
 init -5 python hide:
     config.console_history_size = 50
