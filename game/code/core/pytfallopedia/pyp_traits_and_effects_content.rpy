@@ -343,7 +343,7 @@ screen pyp_effects():
                     text "Tied to a certain trait. Neutralizes the AP penalty of Drunk effect."
                 vbox:
                     label "Injured"
-                    text "Appears if too much damage was inflicted in battle. Gives heavy penalties until healed."
+                    text "Appears if too much damage was inflicted in battle. Gives heavy penalties until healed. Can be healed by most healing potions and in the temple."
                 vbox:
                     label "Exhausted"
                     text "Appears if character has low vitality for some time. Gives penalties until proper rest."
