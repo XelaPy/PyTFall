@@ -42,12 +42,13 @@ init -11 python:
                         c.home = locations["Streets"]
                     else: # Weird case for free chars...
                         c.home = location["City Apartments"]
-                        
+
             if work:
                 if c.workplace == loc:
                     c.action = None
                     c.workplace = None
 
+            # Not used atm.
             if c.location == loc:
                 set_location(c, c.home)
 

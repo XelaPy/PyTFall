@@ -80,7 +80,6 @@ label building_management:
                         renpy.show_screen("message_screen", "{} is not in shape to explore anything :(".format(result.name))
                     else:
                         jump("building_management")
-
         elif result[0] == "building":
             if result[1] == 'items_transfer':
                 python:

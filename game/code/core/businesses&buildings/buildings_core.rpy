@@ -682,9 +682,13 @@ init -10 python:
             if normalize_jobs:
                 self.normalize_jobs()
 
-        def close_business(self, business, normalize_jobs=True, pay=False):
+        def close_business(self, business, normalize_jobs=True,
+                           update_chars=True, pay=False):
             """Remove a business from the building.
             """
+            habitable = self.habitable
+            workable = self.workable
+
             self._businesses.remove(business)
             self.in_slots -= business.in_slots
             self.ex_slots -= business.ex_slots
@@ -694,6 +698,25 @@ init -10 python:
 
             if normalize_jobs:
                 self.normalize_jobs()
+
+            if update_chars and habitable:
+                hcap = self.habitable_capacity
+                inhabitants = [c for c in hero.chars if c.home == self]
+                while inhabitants and hcap < len(inhabitants):
+                    char = inhabitants.pop()
+                    retire_chars_from_location(char, BUILDING, work=False)
+
+            if update_chars and workable:
+                workers = [c for c in hero.chars if c.workplace == self]
+                for char in workers:
+                    if isinstance(char.action, AutoRest):
+                        if char.previousaction not in self.jobs:
+                            char.previousaction = None
+                            char.action = store.simple_jobs["Rest"]
+                    elif isinstance(char.action, Rest):
+                        pass
+                    elif char.action not in self.jobs:
+                        char.action = None
 
         def add_upgrade(self, upgrade, pay=False):
             cost, materials, in_slots, ex_slots = self.get_extension_cost(upgrade)
