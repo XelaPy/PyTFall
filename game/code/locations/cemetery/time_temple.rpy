@@ -44,7 +44,7 @@ label time_temple:
             python:
                 temp_charcters = 0
                 for i in hero.team:
-                    if any([i.health < i.get_max("health"), i.mp< i.get_max("mp"), i.vitality < i.get_max("vitality"), "Food Poisoning" in i.effects, "Poisoned" in i.effects, "Down with Cold" in i.effects, "Exhausted" in i.effects]):
+                    if any([i.health < i.get_max("health"), i.mp< i.get_max("mp"), i.vitality < i.get_max("vitality"), "Food Poisoning" in i.effects, "Poisoned" in i.effects, "Down with Cold" in i.effects, "Injured" in i.effects]):
                         if i.health < i.get_max("health"):
                             temp_charcters += i.get_max("health") - i.health
                         if i.mp < i.get_max("mp"):
@@ -55,10 +55,10 @@ label time_temple:
                         if "Food Poisoning" in i.effects:
                             temp_charcters += 100
                         if "Poisoned" in i.effects:
-                            temp_charcters += 200
+                            temp_charcters += 100
                         if "Down with Cold" in i.effects:
                             temp_charcters += 50
-                        if "Exhausted" in i.effects:
+                        if "Injured" in i.effects:
                             temp_charcters += 150
 
                     
@@ -90,8 +90,7 @@ label time_temple:
                                 i.disable_effect("Poisoned")
                                 i.disable_effect("Food Poisoning")
                                 i.disable_effect("Down with Cold")
-                                i.disable_effect("Drunk")
-                                i.disable_effect("Exhausted")
+                                i.disable_effect("Injured")
                         t "Done. Please come again if you need our help."
                         $ del temp_charcters
                         jump time_temple_menu
@@ -124,7 +123,32 @@ label time_temple:
                         $ pass
             jump time_temple_menu
             
-        "Remove "
+        "Remove injures":
+            if not global_flags.has_flag("asked_miel_about_wounds"):
+                $ global_flags.set_flag("asked_miel_about_wounds")
+                t "I can remove injures from everyone who works for you. It's a common problem among adventurers these days."
+            $ temp_charcters = list(c for c in hero.chars if (c.is_available and "Injured" in c.effects))
+            $ p = len(temp_charcters)*150
+            if len(temp_charcters) <= 0:
+                t "I don't think you need this service at the moment."
+            elif hero.gold < p:
+                "Unfortunately, you don't have [len(temp_charcters)*150] gold coins to pay."
+            else:
+                menu:
+                    "Do you wish to pay [p] gold to heal all injures for your girls?"
+                    "Yes":
+                        play sound "content/sfx/sound/events/clock.ogg"
+                        with Fade(.5, .2, .5, color=goldenrod)
+                        $ hero.take_money(p, reason="Time Temple")
+                        python:
+                            for i in temp_charcters:
+                                i.disable_effect("Injured")
+                        t "Done. Come again if you need me."
+                    "No":
+                        $ pass
+            $ del temp_charcters
+            $ del p
+            jump time_temple_menu
                         
         "Ask about this place":
             t "This is the Temple of Time. Locals come here to to pray to almighty gods of time and space."
