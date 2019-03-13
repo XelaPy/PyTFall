@@ -150,7 +150,7 @@ init -5 python:
             images = []
             bg = pscale(loc.img, *ND_IMAGE_SIZE)
             images.append(bg)
-            imgs = vp_or_fixed(self.team, ["maid", "cleaning"],
+            imgs = vp_or_fixed(all_workers, ["maid", "cleaning"],
                               {"exclude": ["sex"], "resize": (1000, 200), "type": "any"})
             images.extend(imgs)
             log.img = images

@@ -174,7 +174,7 @@ init -5 python:
             images = []
             bg = pscale(loc.img, *ND_IMAGE_SIZE)
             images.append(bg)
-            imgs = vp_or_fixed(self.team, ["fighting"],
+            imgs = vp_or_fixed(all_workers, ["fighting"],
                               {"exclude": ["sex"], "resize": (1000, 200)})
             images.extend(imgs)
             log.img = images
