@@ -31,19 +31,23 @@ init -11 python:
             if msg:
                 msg.append("\n {} became pretty close to you.".format(char.nickname))
 
-    def retire_chars_from_location(chars, loc):
+    def retire_chars_from_location(chars, loc, home=True, work=True):
         if isinstance(chars, PytCharacter):
             chars = [chars]
 
         for c in chars:
-            if c.home == loc:
-                if c.status == "slave":
-                    c.home = locations["Streets"]
-                else: # Weird case for free chars...
-                    c.home = location["City Apartments"]
-            if c.workplace == loc:
-                c.action = None
-                c.workplace = None
+            if home:
+                if c.home == loc:
+                    if c.status == "slave":
+                        c.home = locations["Streets"]
+                    else: # Weird case for free chars...
+                        c.home = location["City Apartments"]
+                        
+            if work:
+                if c.workplace == loc:
+                    c.action = None
+                    c.workplace = None
+
             if c.location == loc:
                 set_location(c, c.home)
 
