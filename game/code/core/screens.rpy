@@ -237,10 +237,15 @@ screen top_stripe(show_return_button=True, return_button_action=None,
             key "ф" action Function(renpy.scene, "screens"), Jump("arena_inside")
             key "Ф" action Function(renpy.scene, "screens"), Jump("arena_inside")
         if global_flags.flag('visited_dark_forest'):
-            key "t" action Function(renpy.scene, "screens"), Jump("forest_entrance")
-            key "T" action Function(renpy.scene, "screens"), Jump("forest_entrance")
-            key "е" action Function(renpy.scene, "screens"), Jump("forest_entrance")
-            key "Е" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+            key "e" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+            key "E" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+            key "у" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+            key "У" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+        if global_flags.flag('visited_time_temple'):
+            key "t" action Function(renpy.scene, "screens"), Jump("time_temple")
+            key "T" action Function(renpy.scene, "screens"), Jump("time_temple")
+            key "е" action Function(renpy.scene, "screens"), Jump("time_temple")
+            key "Е" action Function(renpy.scene, "screens"), Jump("time_temple")
         if global_flags.flag("visited_sm"):
             key "m" action Function(renpy.scene, "screens"), Jump("slave_market")
             key "M" action Function(renpy.scene, "screens"), Jump("slave_market")
