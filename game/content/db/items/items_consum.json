@@ -106,6 +106,7 @@
     "mod": {"health": 100},
     "locations": ["Witches Hut"],
     "pref_class":["Healer", "Shooter", "Warrior", "Knight"],
+    "removeeffects": ["Injured"],
     "be": true
     },
     {
@@ -124,6 +125,7 @@
     "mod": {"health": 200},
     "locations": ["Witches Hut", "Exploration"],
     "pref_class":["Healer", "Shooter", "Warrior", "Knight"],
+    "removeeffects": ["Injured"],
     "be": true
     },
     {
@@ -238,7 +240,8 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"health": 250, "mp": -50, "vitality": -50},
-    "locations": ["Fishing", "Exploration"]
+    "locations": ["Fishing", "Exploration"],
+    "removeeffects": ["Injured"]
     },
     {
     "id": "Antidote",

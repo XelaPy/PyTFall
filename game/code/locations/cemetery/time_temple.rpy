@@ -37,36 +37,42 @@ label time_temple:
 
             if not global_flags.has_flag("asked_miel_about_healing"):
                 $ global_flags.set_flag("asked_miel_about_healing")
-                t "Indeed, like any other temple we can heal your body and soul."
+                t "Indeed, like any other temple we can heal your body and soul, as well as remove most negative effects."
                 t "Or rather, reverse the time and restore them to former condition."
                 t "But we do it only once per day. Such is the natural limitation of time flow."
 
             python:
-                temp_charcters = {}
+                temp_charcters = 0
                 for i in hero.team:
-                    if i.health < i.get_max("health") or i.mp< i.get_max("mp") or i.vitality < i.get_max("vitality"):
-                        temp_charcters[i] = 0
+                    if any([i.health < i.get_max("health"), i.mp< i.get_max("mp"), i.vitality < i.get_max("vitality"), "Food Poisoning" in i.effects, "Poisoned" in i.effects, "Down with Cold" in i.effects, "Injured" in i.effects]):
                         if i.health < i.get_max("health"):
-                            temp_charcters[i] += i.get_max("health") - i.health
+                            temp_charcters += i.get_max("health") - i.health
                         if i.mp < i.get_max("mp"):
-                            temp_charcters[i] += i.get_max("mp") - i.mp
+                            temp_charcters += i.get_max("mp") - i.mp
                         if i.vitality < i.get_max("vitality"):
-                            temp_charcters[i] += i.get_max("vitality") - i.vitality
+                            temp_charcters += i.get_max("vitality") - i.vitality
+                            
+                        if "Food Poisoning" in i.effects:
+                            temp_charcters += 100
+                        if "Poisoned" in i.effects:
+                            temp_charcters += 100
+                        if "Down with Cold" in i.effects:
+                            temp_charcters += 50
+                        if "Injured" in i.effects:
+                            temp_charcters += 150
 
-            if not temp_charcters:
+                    
+                    
+                    
+                    
+            if temp_charcters <= 0:
                 t "I don't see the need in healing right now."
                 "Miel can only restore characters in your team, including the main hero."
                 jump time_temple_menu
             else:
-                python:
-                    res = 0
-                    for i in temp_charcters:
-                        res += temp_charcters[i]
-
-                t "I see your team could use our services. It will be [res] gold."
-                if hero.gold < res:
+                t "I see your team could use our services. It will be [temp_charcters] gold."
+                if hero.gold < temp_charcters:
                     "Unfortunately, you don't have enough money."
-                    $ del res
                     $ del temp_charcters
                     jump time_temple_menu
 
@@ -75,19 +81,21 @@ label time_temple:
                         $ global_flags.set_flag("time_healing_day", day)
                         play sound "content/sfx/sound/events/clock.ogg"
                         with Fade(.5, .2, .5, color=goldenrod)
-                        $ hero.take_money(res, reason="Time Temple")
+                        $ hero.take_money(temp_charcters, reason="Time Temple")
                         python:
-                            for i in temp_charcters:
+                            for i in hero.team:
                                 i.health = i.get_max("health")
                                 i.mp = i.get_max("mp")
                                 i.vitality = i.get_max("vitality")
+                                i.disable_effect("Poisoned")
+                                i.disable_effect("Food Poisoning")
+                                i.disable_effect("Down with Cold")
+                                i.disable_effect("Injured")
                         t "Done. Please come again if you need our help."
-                        $ del res
                         $ del temp_charcters
                         jump time_temple_menu
                     "Don't Pay":
                         t "Very well."
-                        $ del res
                         $ del temp_charcters
                         jump time_temple_menu
                         
@@ -100,19 +108,46 @@ label time_temple:
             if hero.AP >= hero.baseAP:
                 "Your action points are maxed out already at the moment."
                 jump time_temple_menu
-            if hero.gold < 100000:
-                "Unfortunately, you don't have 100000 gold coins to pay."
+            if hero.gold < 10000:
+                "Unfortunately, you don't have 10000 gold coins to pay."
             else:
-                "Do you wish to pay 100000 gold to restore AP for [hero.name]?"
+                "Do you wish to pay 10000 gold to restore AP for [hero.name]?"
                 menu:
                     "Yes":
                         play sound "content/sfx/sound/events/clock.ogg"
                         with Fade(.5, .2, .5, color=goldenrod)
-                        $ hero.take_money(100000, reason="Time Temple")
+                        $ hero.take_money(10000, reason="Time Temple")
                         $ hero.AP = hero.baseAP
                         t "Your time has been returned to you. Come again if you need me."
                     "No":
                         $ pass
+            jump time_temple_menu
+            
+        "Remove injures":
+            if not global_flags.has_flag("asked_miel_about_wounds"):
+                $ global_flags.set_flag("asked_miel_about_wounds")
+                t "I can remove injures from everyone who works for you. It's a common problem among adventurers these days."
+            $ temp_charcters = list(c for c in hero.chars if (c.is_available and "Injured" in c.effects))
+            $ p = len(temp_charcters)*150
+            if len(temp_charcters) <= 0:
+                t "I don't think you need this service at the moment."
+            elif hero.gold < p:
+                "Unfortunately, you don't have [len(temp_charcters)*150] gold coins to pay."
+            else:
+                menu:
+                    "Do you wish to pay [p] gold to heal all injures for your girls?"
+                    "Yes":
+                        play sound "content/sfx/sound/events/clock.ogg"
+                        with Fade(.5, .2, .5, color=goldenrod)
+                        $ hero.take_money(p, reason="Time Temple")
+                        python:
+                            for i in temp_charcters:
+                                i.disable_effect("Injured")
+                        t "Done. Come again if you need me."
+                    "No":
+                        $ pass
+            $ del temp_charcters
+            $ del p
             jump time_temple_menu
                         
         "Ask about this place":

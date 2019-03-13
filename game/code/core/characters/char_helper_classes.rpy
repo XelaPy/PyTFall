@@ -1782,11 +1782,11 @@ init -10 python:
                 if dice(char.luck+55):
                     char.add_money(randint(5, 25), reason="Kleptomania")
             elif self.name == "Injured":
-                if char.health > char.get_max("health")*.2:
-                    char.health = int(char.get_max("health")*.2)
+                if char.health > char.get_max("health")*.5:
+                    char.health = int(char.get_max("health")*.5)
                 if char.vitality > char.get_max("vitality")*.5:
                     char.vitality = int(char.get_max("vitality")*.5)
-                char.joy -= 10
+                char.joy -= 5
             elif self.name == "Exhausted":
                 char.vitality -= int(char.get_max("vitality")*.2)
             elif self.name == "Lactation": # TODO add milking activities, to use this fetish more widely
