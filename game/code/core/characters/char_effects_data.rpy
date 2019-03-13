@@ -27,7 +27,7 @@ init python:
     effect_descs["Depression"] = "She's in a very low mood right now (-1AP)."
     effect_descs["Elation"] = "She's in a very high mood right now (10% chance of +1AP)."
     effect_descs["Drinker"] = "Neutralizes the AP penalty of Drunk effect. But hangover is still the same."
-    effect_descs["Injured"] = "Some wounds cannot be healed easily. In such cases special medicines are needed."
+    effect_descs["Injured"] = "Some wounds cannot be healed easily. Reduces AP, HP, Joy and Vitality until healed."
     effect_descs["Exhausted"] = "Sometimes anyone needs a good long rest."
     effect_descs["Impressible"] = "Easier to decrease and increase joy."
     effect_descs["Calm"] = "Harder to decrease and increase joy."
