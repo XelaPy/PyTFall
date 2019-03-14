@@ -461,12 +461,12 @@ init python:
         def __init__(self):
             super(P2P_Skill, self).__init__()
 
-            self.projectile_effects = None
+            self.projectile_effects = {}
 
         def show_main_gfx(self, battle, attacker, targets):
             # We simply want to add projectile effect here:
-            pro_gfx = self.projectile_effects["gfx"]
-            pro_sfx = self.projectile_effects["sfx"]
+            pro_gfx = self.projectile_effects.get("gfx", Null())
+            pro_sfx = self.projectile_effects.get("sfx", None)
             pro_sfx = choice(pro_sfx) if isinstance(pro_sfx, (list, tuple)) else pro_sfx
             pause = self.projectile_effects["duration"]
 
@@ -533,8 +533,8 @@ init python:
 
         def show_main_gfx(self, battle, attacker, targets):
             # We simply want to add projectile effect here:
-            pro_gfx = self.projectile_effects["gfx"]
-            pro_sfx = self.projectile_effects["sfx"]
+            pro_gfx = self.projectile_effects.get("gfx", Null())
+            pro_sfx = self.projectile_effects.get("sfx", None)
             pro_sfx = choice(pro_sfx) if isinstance(pro_sfx, (list, tuple)) else pro_sfx
             pause = self.projectile_effects["duration"]
 
@@ -549,7 +549,11 @@ init python:
 
             aimpos = BDP["perfect_middle_right"] if target.beteampos == "l" else BDP["perfect_middle_left"]
 
-            renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=pause), Transform(anchor=(.5, .5))], zorder=target.besk["zorder"]+1000)
+            renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos,
+                                                       end_pos=aimpos,
+                                                       t=pause),
+                       Transform(anchor=(.5, .5))],
+                       zorder=target.besk["zorder"]+1000)
             renpy.pause(pause)
             renpy.hide("launch")
 
@@ -607,8 +611,8 @@ init python:
                 renpy.pause(.6)
 
             # We simply want to add projectile effect here:
-            pro_gfx = self.projectile_effects["gfx"]
-            pro_sfx = self.projectile_effects["sfx"]
+            pro_gfx = self.projectile_effects.get("gfx", Null())
+            pro_sfx = self.projectile_effects.get("sfx", None)
             pro_sfx = choice(pro_sfx) if isinstance(pro_sfx, (list, tuple)) else pro_sfx
             pause = self.projectile_effects["duration"]
 
