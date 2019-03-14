@@ -103,6 +103,12 @@ init python:
     pyp.add_sub("Jobs", "pyp_jobs", "Buildings&Businesses")
     pyp.add_sub("Simulation", "pyp_simulation", "Buildings&Businesses")
 
+    pyp.add_main("Exploration Guild", "pyp_se_guild")
+    pyp.add_sub("Teams Management", "pyp_se_teams", "Exploration Guild")
+    pyp.add_sub("Exploration Log", "pyp_se_log", "Exploration Guild")
+    pyp.add_sub("Exploration GUI #1", "pyp_se_exploration_1", "Exploration Guild")
+    pyp.add_sub("Exploration GUI #2", "pyp_se_exploration_2", "Exploration Guild")
+
     pyp.add_main("School", "pyp_school")
 
     pyp.add_main("Quest&Events", "pyp_quests_and_events")
