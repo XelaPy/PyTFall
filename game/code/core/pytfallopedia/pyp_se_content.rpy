@@ -120,7 +120,7 @@ screen pyp_se_exploration_1():
             vbox:
                 ypos 80
                 text ("Areas are structured into mail location which contains a number of smaller areas to be explored."+
-                      " Each of those areas has difficulty, items and gold to be found and etc. New location can be unlocked"+
+                      " Each of those areas has difficulty, items, gold to be found, etc. New location can be unlocked"+
                       " by exploring areas, throughs quest or interacting with the game world. If areas are left unexplored,"+
                       " exploration will slowly be reduced on daily basis.")
                 null height 5
@@ -162,7 +162,7 @@ screen pyp_se_exploration_2():
                 ypos 80
                 text ("Hazards damage the entire team regardless of risk or other factors and cannot be avoided."+
                       " Usually more of an annoyance, you may want to consider sending a well equipped,"+
-                      " experience teams to such places.")
+                      " experienced teams to such places.")
                 null height 5
                 text ("Player may set number of days (3-15) for teams to remain in the area. If things get to"+
                       " dangerous, team may fall back prematurely. The longer a team explores an area"+
@@ -172,7 +172,7 @@ screen pyp_se_exploration_2():
                 null height 5
                 text ("In certain areas teams may meet and capture characters. By law, those characters are to be"+
                       " submitted to City Jail until their situations can be sorted out. Visit them there for more info."
-                      " You can decide if your teams are to capture characters.")
+                      " You can decide if your teams going to capture characters.")
                 null height 5
                 text ("You can view latest events for each areas, what items have been located and what mobs have been encountered by your teams.")
 
