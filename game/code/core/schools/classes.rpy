@@ -243,7 +243,7 @@ init python:
 
             evt = NDEvent(char=char, type="course_nd_report", charmod=charmod,
                           green_flag=flag_green, red_flag=flag_red, loc=loc,
-                          txt=txt)
+                          txt=txt, img=img)
             NEXT_DAY_EVENTS.append(evt)
 
 
