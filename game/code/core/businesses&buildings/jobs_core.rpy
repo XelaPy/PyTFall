@@ -145,8 +145,6 @@
                     char.exp += value
                 elif key == 'health' and (char.health + value) <= 0:
                     char.health = 1
-                    # if char.constitution > 5: # @Review (Alex): Why??? This is insane??
-                    #     char.constitution -= 5
                 else:
                     if char.stats.is_stat(key):
                         char.mod_stat(key, value)

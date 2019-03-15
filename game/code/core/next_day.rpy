@@ -1128,7 +1128,6 @@ screen next_day():
                     color green
 
         use top_stripe(True)
-
     #  Reports  =============================================================================>>>>
     else:
         key "mousedown_4" action Return(['control', 'right'])
@@ -1189,14 +1188,11 @@ screen next_day():
                 if event.charmod or event.team_charmod:
                     frame:
                         style_group "content"
-                        xalign .5
-                        ypos 5
-                        xysize (136, 40)
+                        xalign .5 ypos 5
+                        xysize 136, 40
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.7), 10, 10)
                         label (u"Stat Changes:") text_size 18 text_color ivory align (.5, .5)
 
-                    # if event.team:
-                    #     pass # Preventing crash before system is adjusted to team jobs again.
                     if event.team_charmod:
                         viewport:
                             xalign .5
@@ -1228,13 +1224,21 @@ screen next_day():
                                                     $ size = 20
                                                 text w.nickname align .5, .5 style "TisaOTM" size size
                                             null height 4
-                                            for key in sorted(stats.keys()):
-                                                $ value = stats[key]
+                                            for key, value in sorted(stats.items(), key=itemgetter(0)):
+                                                $ value = round_int(value)
                                                 if value:
                                                     frame:
                                                         xalign .5
                                                         xysize 130, 25
-                                                        text (u"%s:"%str(key).capitalize()) align .02, .5
+                                                        # [action_value, TRAINING_value]
+                                                        if w.stats.is_skill(key):
+                                                            if key.islower():
+                                                                $ key = "(A) " + key.capitalize()
+                                                            else:
+                                                                $ key = "(T) " + key.capitalize()
+                                                        elif key.islower():
+                                                            $ key = key.capitalize()
+                                                        text "[key]:" size 16 align .02, .5
                                                         if value > 0:
                                                             label (u"{color=[lawngreen]}%d"%value) align .98, .5
                                                         else:
@@ -1247,13 +1251,23 @@ screen next_day():
                             xsize 136
                             xalign .5 ypos 45
                             spacing 1
-                            for key, value in event.charmod.items():
+                            for key, value in sorted(event.charmod.items(), key=itemgetter(0)):
+                                $ value = round_int(value)
+                                $ w = event.char
                                 if value:
                                     frame:
                                         xalign .5
                                         xysize 130, 25
-                                        text (u"%s:" % str(key).capitalize()) align .02, .5
+                                        if w.stats.is_skill(key):
+                                            if key.islower():
+                                                $ key = "(A) " + key.capitalize()
+                                            else:
+                                                $ key = "(T) " + key.capitalize()
+                                        elif key.islower():
+                                            $ key = key.capitalize()
+                                        text "[key]:" size 16 align .02, .5
                                         python: # Special considerations:
+                                            # Why is this here?
                                             if key in ["dirt", "threat"]:
                                                 neg_color = lawngreen
                                                 pos_color = red

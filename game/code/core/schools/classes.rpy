@@ -206,6 +206,8 @@ init python:
                 if skills:
                     for i in xrange(skills_pool):
                         skill = choice(skills)
+                        if dice(60):
+                            skill = skill.capitalize()
                         char.mod_skill(skill, 1)
                         charmod[skill] += 1
 

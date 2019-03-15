@@ -6,10 +6,10 @@ init -9 python:
                   "health", "fame", "mood", "disposition", "vitality", "intelligence",
                   "luck", "attack", "magic", "defence", "agility", "mp"}
         SKILLS = {"vaginal", "anal", "oral", "sex", "strip", "service",
-                      "refinement", "group", "bdsm", "dancing",
-                      "bartending", "cleaning", "waiting", "management",
-                      "exploration", "teaching", "swimming", "fishing",
-                      "security"}
+                  "refinement", "group", "bdsm", "dancing",
+                  "bartending", "cleaning", "waiting", "management",
+                  "exploration", "teaching", "swimming", "fishing",
+                  "security"}
         # Used to access true, final, adjusted skill values through direct access to class, like: char.swimmingskill
         FULLSKILLS = set(skill + "skill" for skill in SKILLS)
         GEN_OCCS = {"SIW", "Combatant", "Server", "Specialist"}
@@ -915,10 +915,6 @@ init -9 python:
 
         def remove_item(self, item, amount=1):
             self.inventory.remove(item, amount=amount)
-
-        #def remove_all_items(self):
-        #    self.inventory.clear()
-        #    TODO eqlots?
 
         def equip(self, item, remove=True, aeq_mode=False): # Equips the item
             """
@@ -2164,7 +2160,8 @@ init -9 python:
                 elif stat == "level":
                     charmod[stat] = self.level - value
                 elif stat in STATIC_CHAR.SKILLS:
-                    charmod[stat] = round_int(self.stats.get_skill(stat) - value)
+                    _stat = "(F) " + stat.capitalize()
+                    charmod[_stat] = round_int(self.stats.get_skill(stat) - value)
                 else:
                     charmod[stat] = self.stats.stats[stat] - value
 
