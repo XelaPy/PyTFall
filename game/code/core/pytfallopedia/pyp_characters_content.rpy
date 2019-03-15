@@ -85,7 +85,7 @@ screen pyp_tiers():
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
-    
+
 screen pyp_ctrl():
     zorder 1001
 
@@ -93,7 +93,7 @@ screen pyp_ctrl():
         pos 302, 49
         xysize 971, 664
         style_prefix "pyp"
-        
+
         fixed:
             xysize 370, 664
             style_prefix "pyp"
@@ -208,8 +208,11 @@ screen pyp_skills():
         text ("Skills are used mostly in Jobs, but also in some Actions and Events. Their levels are depicted as Stars and "+
               " not shown if their value is too low to be of significant. The maximum value is 5 stars but that maximum value is "+
               "recalculated every time a character's Tier is increased (so stars might be lost in such a case as value remains the same)."+
-              " Skills are also governed by a completely different mechanics than stats, they are made of two parts: Action and Knowledge. The best ratio between"+
-              " action and knowledge is 3:1, exact information of this ratio however is obfuscated from player. If one of the parts lags, skill will rise slower but it will be compensated if "+
+              " Skills are also governed by a completely different mechanics than stats, they are made of two parts: {color=[green]}(P){/color} "+
+              "Practical and {color=[green]}(T){/color} Theoretical. The best ratio between"+
+              " the two is 3:1, exact information of this ratio however is obfuscated from player. {color=[blue]}(R){/color} Resulting value"+
+              " is calculated from both parts of the skill and applies a direct multiplier to them (effected by items and traits). "+
+              "If one of the parts lags, skill will rise slower but it will be compensated if "+
               "the character works on increasing the other at later time."):
                   ypos 80
         fixed:
@@ -233,16 +236,16 @@ screen pyp_skills():
                         xysize 682, 396
                         has vbox spacing 8
                         vbox:
-                            label "MC Skills"
-                            text ("Some skills such as 'fishing' or 'swimming' are only"+
-                                  " useful to the Player as they are used for actions in"+
-                                  " the City. They are governed by the same rules as any other skill.")
-                        vbox:
-                            label "Girls Skills"
-                            text ("The girls skills serve as a measure of their capabilities to do the job,"+
+                            label "Skills"
+                            text ("Skills serve as a measure of capability to do the job,"+
                                  " for example cleaning skill for cleaners. You can usually"+
                                  " tell what they are used for and will know if the skill"+
                                  " level fits the tier by the number of Stars.")
+                        vbox:
+                            label "MC Only Skills"
+                            text ("Some skills such as 'fishing' or 'swimming' are only"+
+                                  " useful to the Player as they are used for actions in"+
+                                  " the City. They are governed by the same rules as any other skill.")
 
         fixed:
             xpos 601

@@ -2160,7 +2160,7 @@ init -9 python:
                 elif stat == "level":
                     charmod[stat] = self.level - value
                 elif stat in STATIC_CHAR.SKILLS:
-                    _stat = "(F) " + stat.capitalize()
+                    _stat = "(R) " + stat.capitalize()
                     charmod[_stat] = round_int(self.stats.get_skill(stat) - value)
                 else:
                     charmod[stat] = self.stats.stats[stat] - value

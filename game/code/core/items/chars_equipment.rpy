@@ -373,7 +373,7 @@ init python:
 screen char_equip():
     on "show":
         action Function(ce_on_show)
- 
+
     modal True
 
     # Useful keymappings
@@ -619,14 +619,14 @@ screen char_equip_left_frame(stats_display):
                                         button:
                                             style "default"
                                             action NullAction()
-                                            tooltip "Direct bonus to action skill values."
-                                            label "A: " + str(data[3]) text_size 15
+                                            tooltip "Direct bonus to practical skill value."
+                                            label "P: " + str(data[3]) text_size 15
                                     if data[4]:
                                         button:
                                             style "default"
                                             action NullAction()
-                                            tooltip "Direct bonus to knowledge skill values."
-                                            label "K: " + str(data[4]) text_size 15
+                                            tooltip "Direct bonus to theoretical skill value."
+                                            label "T: " + str(data[4]) text_size 15
 
     use char_equip_right_frame()
 
@@ -1314,7 +1314,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 $ temp += '*Multiplies status of ranged skills.\n'
                             else:
                                 $ temp += '*Decreases status of ranged skills.\n'
-                                
+
                     if item.type == "scroll":
                         for i in item.add_be_spells:
                             $ temp += battle_skills[i].desc

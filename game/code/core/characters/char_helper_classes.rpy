@@ -1051,7 +1051,7 @@ init -10 python:
             Expects a dict with statname as key and a list of:
             [stat, min, max, lvl_max] as value.
             Added skills to this class... (Maybe move to a separate class if they get complex?).
-            DevNote: Training skills have a capital letter in them, action skills do not.
+            DevNote: Theoretical skills have a capital letter in them, Practical skills do not.
                 This should be done thought the class of the character and NEVER using self.mod_skill directly!
             """
             self.instance = args[0]
@@ -1067,7 +1067,7 @@ init -10 python:
                 self.max[stat] = values[2]
                 self.lvl_max[stat] = values[3]
 
-            # [action_value, TRAINING_value]
+            # [practical_value, THEORETICAL_value]
             self.skills = dict()
             for s in STATIC_CHAR.SKILLS:
                 self.skills[s] = list([0, 0])
@@ -1147,20 +1147,20 @@ init -10 python:
         def get_skill(self, skill):
             """
             Returns adjusted skill.
-            'Action' skill points become less useful as they exceed training points * 3.
+            'practical' skill points become less useful as they exceed training points * 3.
             """
             skill = skill.lower()
-            action = self._raw_skill(skill)
-            training = self._raw_skill(skill.capitalize())
+            practical = self._raw_skill(skill)
+            theoretical = self._raw_skill(skill.capitalize())
 
-            training_range = training * 3
-            beyond_training = action - training_range
+            training_range = theoretical * 3
+            beyond_training = practical - training_range
 
             if beyond_training >= 0:
-                training += training_range + beyond_training / 3.0
+                theoretical += training_range + beyond_training / 3.0
             else:
-                training += action
-            return training * max(min(self.skills_multipliers[skill][2], 2.5), .5)
+                theoretical += practical
+            return theoretical * max(min(self.skills_multipliers[skill][2], 2.5), .5)
 
         def is_skill(self, key):
             # Easy check for skills.

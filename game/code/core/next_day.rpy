@@ -1230,10 +1230,10 @@ screen next_day():
                                                     frame:
                                                         xalign .5
                                                         xysize 130, 25
-                                                        # [action_value, TRAINING_value]
+                                                        # [practical_value, THEORETICAL_value]
                                                         if w.stats.is_skill(key):
                                                             if key.islower():
-                                                                $ key = "(A) " + key.capitalize()
+                                                                $ key = "(P) " + key.capitalize()
                                                             else:
                                                                 $ key = "(T) " + key.capitalize()
                                                         elif key.islower():
@@ -1260,7 +1260,7 @@ screen next_day():
                                         xysize 130, 25
                                         if w.stats.is_skill(key):
                                             if key.islower():
-                                                $ key = "(A) " + key.capitalize()
+                                                $ key = "(P) " + key.capitalize()
                                             else:
                                                 $ key = "(T) " + key.capitalize()
                                         elif key.islower():
