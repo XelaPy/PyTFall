@@ -17,7 +17,8 @@
         "mobs": ["Griffin", "Boros", "Bats", "Link Wolf", "Dryad"],
         "unlocks": {"Elven Village": 80, "Fairy Forest": 50},
         "cash_limit": 100,
-        "items_limit": 900
+        "items_limit": 900,
+        "items": {"Aromatic Pendant": 15}
     },
     {
         "id": "Fairy Forest",

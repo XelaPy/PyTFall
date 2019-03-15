@@ -88,7 +88,8 @@
             "health": 0,
             "mp": 20,
             "vitality": 0
-        }
+        },
+        "items": {"Earthquake Charm": 25}
     },
     {
         "id": "Treasures Rooms",

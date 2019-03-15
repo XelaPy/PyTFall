@@ -54,7 +54,7 @@
     "max": {"character": -20, "vitality": 25, "constitution": 20},
     "mod": {"defence": -30, "constitution": 20},
     "addtraits": ["Masochist"],
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Fishing"],
     "tier": 2,
     "goodtraits": ["Curious"],
     "pref_class":["SIW"]
@@ -173,7 +173,7 @@
     "slot": "amulet",
     "type": "amulet",
     "addtraits": ["Sexy Air"],
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Diving"],
     "goodtraits": ["Nymphomaniac"],
     "tier": 2,
     "badtraits": ["Frigid"],
@@ -235,7 +235,7 @@
     "max": {"defence": 30, "agility": 15},
     "mod": {"defence": 30, "agility": 15},
     "tier": 2,
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Arena", "Ninja Shop"],
     "pref_class":["Warrior", "Assassin", "Shooter"]
     },
     {
@@ -328,7 +328,7 @@
     "mod": {"character": 15},
     "removetraits": ["Pessimist"],
     "tier": 3,
-    "locations": ["Exploration", "Ninja Shop"],
+    "locations": ["Ninja Shop"],
     "pref_class":["Assassin", "Manager", "Casual"]
     },
     {
@@ -347,7 +347,7 @@
     "max": {"joy": -10},
     "tier": 4,
     "removetraits": ["Extremely Jealous"],
-    "locations": ["Exploration", "Fishing"],
+    "locations": ["Diving"],
     "pref_class":["Any"]
     },
     {
@@ -366,7 +366,7 @@
     "max": {"attack": 5, "mp": 5},
     "mod": {"attack": 5, "character": 5},
     "tier": 1,
-    "locations": ["Exploration", "Fishing"],
+    "locations": ["Fishing"],
     "pref_class":["Mage", "Warrior"]
     },
     {
@@ -386,7 +386,7 @@
     "mod": {"character": 35},
     "mod_skills": {"management": [0.1, 0.1, 0.15, 0, 0]},
     "tier": 4,
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Arena"],
     "pref_class":["Manager", "Casual"]
     },
     {
@@ -405,7 +405,7 @@
     "max": {"character": 5},
     "mod": {"character": 5},
     "mod_skills": {"security": [0.05, 0.05, 0.05, 0, 0]},
-    "locations": ["Exploration", "Tailor Store"],
+    "locations": ["Look around", "Tailor Store"],
     "evasion_bonus": 1,
     "tier": 0,
     "goodtraits": ["Bokukko"],
@@ -467,7 +467,7 @@
     "type": "amulet",
     "max": {"defence": 10, "magic": 5},
     "mod": {"defence": 10, "magic": 5},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Arena"],
     "tier": 3,
     "addtraits": ["Earth Focus"],
     "pref_class":["Mage"]
@@ -567,7 +567,7 @@
     "type": "amulet",
     "max": {"defence": 25},
     "mod": {"defence": 25},
-    "locations": ["Exploration"],
+    "locations": ["Arena"],
     "tier": 3,
     "addtraits": ["Ice Focus"],
     "pref_class":["Mage"]
