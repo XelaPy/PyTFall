@@ -102,7 +102,7 @@
         },
         "cash_limit": 100,
         "items_limit": 400,
-        "items": {"Darksome Trophy": 25}
+        "items": {"Darksome Trophy": 25, "Necklace of Pain Reversal": 50}
     },
     {
         "id": "Inner Burial Grounds",
@@ -178,7 +178,7 @@
         "cash_limit": 20,
         "items_limit": 250,
         "items": {
-            "Stone": 100
+            "Stone": 100, "Victory Charm": 15
         }
     },
     {
