@@ -1025,6 +1025,9 @@ init -10 python:
 
             # Run the manager process:
             if self.manager:
+                # Hero never converts:
+                if not self.manager.jobpoints:
+                    convert_ap_to_jp(self.manager)
                 init_jp = self.manager.jobpoints
                 building.mlog = NDEvent(job=simple_jobs["Manager"], char=self.manager, loc=self)
                 env.process(manager_process(env, self))
