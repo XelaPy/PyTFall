@@ -161,7 +161,6 @@ init -10 python:
                 log.append("%s is injured and in need of medical attention! "%c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
-                c.previousaction = c.action
                 c.action = simple_jobs["AutoRest"]
                 if log:
                     log.append("And going to take few days off to heal. ")
@@ -171,7 +170,6 @@ init -10 python:
                 log.append("%s is too tired! "%c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
-                c.previousaction = c.action
                 c.action = simple_jobs["AutoRest"]
                 if log:
                     log.append("And going to take few days off to recover. ")
@@ -181,7 +179,6 @@ init -10 python:
                 log.append("%s is exhausted! " % c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
-                c.previousaction = c.action
                 c.action = simple_jobs["AutoRest"]
                 if log:
                     log.append("And needs a day to recover. ")
@@ -191,7 +188,6 @@ init -10 python:
                 log.append("%s is suffering from Food Poisoning! "%c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
-                c.previousaction = c.action
                 c.action = simple_jobs["AutoRest"]
                 if log:
                     log.append("And going to take few days off to recover. ")
