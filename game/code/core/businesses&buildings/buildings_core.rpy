@@ -574,12 +574,13 @@ init -10 python:
             Returns an empty list if no jobs is available for the character.
             """
             jobs = []
+            workers = [c for c in hero.chars if c.workplace == self]
 
             for job in self.jobs:
                 # We need to check if there are any slots for a worker are left:
                 if job in self.worker_slots_max:
                     # we get a list of all workers that are assigned for this job:
-                    temp = [w for w in self.all_workers if w.action == job or w.previousaction == job]
+                    temp = [w for w in workers if w.action == job or w.previousaction == job]
                     # This isn't bulletproof... we prolly want to access building.manager here...
                     if len(temp) >= self.worker_slots_max[job]:
                         continue
@@ -711,7 +712,6 @@ init -10 python:
                 for char in workers:
                     if isinstance(char.action, AutoRest):
                         if char.previousaction not in self.jobs:
-                            char.previousaction = None
                             char.action = store.simple_jobs["Rest"]
                     elif isinstance(char.action, Rest):
                         pass
@@ -1025,6 +1025,9 @@ init -10 python:
 
             # Run the manager process:
             if self.manager:
+                # Hero never converts:
+                if not self.manager.jobpoints:
+                    convert_ap_to_jp(self.manager)
                 init_jp = self.manager.jobpoints
                 building.mlog = NDEvent(job=simple_jobs["Manager"], char=self.manager, loc=self)
                 env.process(manager_process(env, self))

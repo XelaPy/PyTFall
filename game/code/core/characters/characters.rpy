@@ -317,13 +317,13 @@ init -9 python:
         @action.setter
         def action(self, value):
             # Resting considerations:
-            c0 = getattr(value, "type", None) == "Resting"
-            c1 = self.previousaction == value
-            if c0 or c1:
-                self._action = value
-                return
+            # c0 = getattr(value, "type", None) == "Resting"
+            # c1 = self.previousaction == value
+            # if c0 or c1:
+            #     self._action = value
+            #     return
 
-            # SchoolCourses, we need to remove the student as action is being changed:
+            # School stuff:
             course = None
             if isinstance(self._action, SchoolCourse):
                 course = self._action
@@ -336,9 +336,21 @@ init -9 python:
             old_action = self._action
             wp = self.workplace
             mj = simple_jobs["Manager"]
+            going_autorest = False
 
-            if getattr(wp, "manager", None) == self:
-                # Works as a Manager so special considerations are needed:
+            # Resting considerations:
+            if isinstance(old_action, AutoRest):
+                # We go from AutoRest to something else,
+                # might as always reset the previousaction here...
+                self.previousaction = ""
+            elif isinstance(value, AutoRest):
+                self.previousaction = self._action
+                going_autorest = True
+
+            # Managers stuff:
+            if getattr(wp, "manager", None) == self and not going_autorest:
+                # if this char already works as a manager in this building,
+                # we need to make changes unless we're going to autorest.
                 wp.manager = None
                 wp.manager_effectiveness = 0
             if value == mj:
