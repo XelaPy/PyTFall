@@ -895,7 +895,7 @@ screen building_controls():
 
                 python:
                     price = 0
-                    for i in hero.BUILDING:
+                    for i in hero.buildings:
                         if isinstance(i, BuildingStats):
                             price = price + i.get_cleaning_price()
 
