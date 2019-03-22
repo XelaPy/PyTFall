@@ -1059,7 +1059,7 @@ init -6 python: # Guild, Tracker and Log.
                     tracker.log(temp)
 
                     for char in team:
-                        for stat, value in area.hazard:
+                        for stat, value in area.hazard.items():
                             # value, because we calculated effects on daily base in the past...
                             var = max(1, round_int(value*.05))
                             if stat == "health" and char.health-val <= 0:
