@@ -1052,30 +1052,30 @@ init -6 python: # Guild, Tracker and Log.
                             temp = set_font_color(temp, "green")
                             tracker.log(temp)
 
-                # Hazard:
-                if area.hazard:
-                    dead = []
-                    temp = "{color=[yellow]}Hazardous area!{/color} The team was effected."
-                    tracker.log(temp)
+                    # Hazard:
+                    if area.hazard:
+                        dead = []
+                        temp = "{color=[yellow]}Hazardous area!{/color} The team was effected."
+                        tracker.log(temp)
 
-                    for char in team:
-                        for stat, value in area.hazard.items():
-                            # value, because we calculated effects on daily base in the past...
-                            var = max(1, round_int(value*.05))
-                            if stat == "health" and char.health-val <= 0:
-                                dead.append(char)
-                            else:
-                                char.mod_stat(stat, -var)
+                        for char in team:
+                            for stat, value in area.hazard.items():
+                                # value, because we calculated effects on daily base in the past...
+                                val = max(1, round_int(value*.25))
+                                if stat == "health" and char.health-val <= 0:
+                                    dead.append(char)
+                                else:
+                                    char.mod_stat(stat, -val)
 
-                    if dead:
-                        _result = self.death(tracker, dead=dead, kind='hazard')
-                        if _result == "full_death":
-                            self.env.exit(_result)
-                        elif _result == "fallback_to_guild":
-                            self.env.exit(_result)
+                        if dead:
+                            _result = self.death(tracker, dead=dead, kind='hazard')
+                            if _result == "full_death":
+                                self.env.exit(_result)
+                            elif _result == "fallback_to_guild":
+                                self.env.exit(_result)
 
-                    if self.assess_exploration_risk(tracker):
-                        self.env.exit("back2camp")
+                        if self.assess_exploration_risk(tracker):
+                            self.env.exit("back2camp")
 
                 # Items:
                 # Handle the special items (must be done here so it doesn't collide with other teams)
