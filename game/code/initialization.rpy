@@ -442,10 +442,8 @@ init -950 python:
 
 
 init -1 python: # Constants:
-    # for f in renpy.list_files():
-        # if check_image_extension(f):
-            # renpy.image(f, At(f, slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)))
-    CLIENT_CASTES = ['None', 'Peasant', 'Merchant', 'Nomad', 'Wealthy Merchant', 'Clerk', 'Noble', 'Royal']
+    CLIENT_CASTES = ['None', 'Peasant', 'Merchant', 'Nomad', 'Wealthy Merchant',
+                     'Clerk', 'Noble', 'Royal']
     EQUIP_SLOTS = ['body', 'head', 'feet', 'wrist', 'amulet',
                    'cape', 'weapon', 'misc', 'ring', 'smallweapon']
     SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand",
@@ -470,8 +468,9 @@ init -1 python: # Constants:
     equipSlotsPositions['ring1'] = [u'Ring', 1.18, .4]
     equipSlotsPositions['ring2'] = [u'Ring', 1.18, .6]
 
-init python: # Locking random seed of internal renpys random
+init python:
     def locked_random(type, *args, **kwargs):
+        # Locking random seed of internal renpys random
         rv = getattr(renpy.random, type)(*args, **kwargs)
         store.stored_random_seed = renpy.random.getstate()
         return rv

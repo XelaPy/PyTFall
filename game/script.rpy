@@ -401,11 +401,17 @@ label sort_traits_for_gameplay:
     return
 
 label after_load:
-    $ config.mouse = None
+    # Resets:
+    python:
+        config.mouse = None
 
-    if hasattr(store, "stored_random_seed"):
-        $ renpy.random.setstate(stored_random_seed)
+        if hasattr(store, "stored_random_seed"):
+            renpy.random.setstate(stored_random_seed)
 
+        if hasattr(store, "dummy"):
+            del dummy
+
+    # Clear cache, may reduce PScale errors, maybe...
     python hide:
         for c in store.chars.values():
             c.clear_img_cache()
@@ -481,10 +487,7 @@ label after_load:
         # Arena Chars (We need this for databases it would seem...):
         load_special_arena_fighters()
 
-    python:
-        if hasattr(store, "dummy"):
-            del dummy
-
+    # Maps/BE Skills data overloads?/tiered_items/Be controllers?
     python hide:
         pytfall.maps = OnScreenMap()
 
@@ -581,7 +584,6 @@ label after_load:
                     for client in b.all_clients:
                         if client.controller == "player":
                             client.controller = None
-
 
     stop music
     return
