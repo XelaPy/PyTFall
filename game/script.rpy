@@ -409,7 +409,7 @@ label after_load:
             renpy.random.setstate(stored_random_seed)
 
         if hasattr(store, "dummy"):
-            del dummy
+            del(dummy)
 
     # Clear cache, may reduce PScale errors, maybe...
     python hide:

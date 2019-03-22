@@ -482,5 +482,39 @@
 			}
 		}],
 		"allowed_businesses": []
-        }
+  },
+  {
+		"name": "Exploration Guild",
+		"desc": "A rare building hosting one of the few authorized Exploration Guilds.",
+		"location": "Richford",
+		"price": 1,
+
+		"in_slots_max": 120,
+		"ex_slots_max": 40,
+
+		"fame": 200,
+		"maxfame": 1000,
+		"rep": 0,
+		"maxrep": 1000,
+
+		"tier": 8,
+		"mod": 1,
+
+		"adverts": [],
+		"img": "content/buildings/centralpalace.webp",
+
+		"build_businesses": [{
+				"class": "ExplorationGuild",
+				"kwargs": {
+					"capacity": 0,
+					"in_slots": 0,
+					"desc": "Explore the world, find new places, meet new people... and take their shit!"
+				}
+			}
+		],
+		"allowed_businesses": [],
+		"allowed_upgrades": [],
+		"allowed_business_upgrades": {"ExplorationGuild": ["TheEye", "CartographyLab",
+                                        "HealingSprings", "GuildStables"]}
+	}
 ]
