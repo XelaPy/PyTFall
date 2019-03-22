@@ -301,9 +301,7 @@ init -1 python: # Core classes:
                     renpy.music.stop()
 
             for f in self.get_fighters("all"):
-                for s in f.magic_skills:
-                    s.source = None
-                for s in f.attack_skills:
+                for s in list(f.magic_skills)+list(f.attack_skills):
                     s.source = None
 
                 f.betag = None

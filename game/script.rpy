@@ -485,10 +485,6 @@ label after_load:
         if hasattr(store, "dummy"):
             del dummy
 
-    python hide: # Do we need/want this?
-        for skill in store.battle_skills.values():
-            skill.source = None
-
     python hide:
         pytfall.maps = OnScreenMap()
 
