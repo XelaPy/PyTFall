@@ -460,56 +460,23 @@ label after_load:
     # All kinds of chars:
     python hide:
         # uChars:
-        # always run till tagdb is not separated from the load_characters
-        # last_modified_chars = global_flags.get_flag("last_modified_chars", 0)
-        # last_modified = os.path.getmtime(content_path('chars'))
-        if True: # last_modified_chars < last_modified:
-        #    tl.start("Updating chars")
-            updated_chars = load_characters("chars", Char)
-            for id, char in updated_chars.items():
-                curr_char = store.chars.get(id, None)
-                if curr_char is None:
-                    # Add new char
-                    store.chars[id] = char
-        #            devlog.info("New Character: {}".format(id))
-        #        else:
-        #            # Update the existing char
-        #            update_object(curr_char, char, "Char")
-
-        #    del updated_chars
-        #    tl.end("Updating chars")
-        #    global_flags.set_flag("last_modified_chars", last_modified)
-
-        # NPCs:
-        # always run till tagdb is not separated from load_characters
-        # last_modified_npcs = global_flags.get_flag("last_modified_npcs", 0)
-        # last_modified = os.path.getmtime(content_path('npc'))
-        if True: #last_modified_npcs < last_modified:
-        #    tl.start("Updating NPCs")
-            updated_npcs = load_characters("npc", NPC)
-            for id, npc in updated_npcs.items():
-                curr_npc = store.npcs.get(id, None)
-                if curr_npc is None:
-                    # Add new NPC
-                    store.npcs[id] = npc
-        #            devlog.info("New NPC: {}".format(id))
-        #        else:
-        #            # Update the existing npc
-        #            update_object(curr_npc, npc, "NPC")
-
-        #    del updated_npcs
-        #    tl.end("Updating NPCs")
-        #    global_flags.set_flag("last_modified_npcs", last_modified)
+        updated_chars = load_characters("chars", Char)
+        for id, char in updated_chars.items():
+            curr_char = store.chars.get(id, None)
+            if curr_char is None:
+                # Add new char
+                store.chars[id] = char
 
         # rChars:
-        # always run till tagdb is not separated from load_random_characters
-        # last_modified_rchars = global_flags.get_flag("last_modified_rchars", 0)
-        # last_modified = os.path.getmtime(content_path('rchars'))
-        if True: #last_modified_rchars < last_modified:
-        #    tl.start("Updating rchars")
-            store.rchars = load_random_characters()
-        #    tl.end("Updating rchars")
-        #    global_flags.set_flag("last_modified_rchars", last_modified)
+        store.rchars = load_random_characters()
+
+        # NPCs:
+        updated_npcs = load_characters("npc", NPC)
+        for id, npc in updated_npcs.items():
+            curr_npc = store.npcs.get(id, None)
+            if curr_npc is None:
+                # Add new NPC
+                store.npcs[id] = npc
 
         # Arena Chars (We need this for databases it would seem...):
         load_special_arena_fighters()
@@ -525,6 +492,7 @@ label after_load:
     python hide:
         pytfall.maps = OnScreenMap()
 
+        # Update battle skills?
         for s in store.battle_skills.values():
             if "initial_pause" not in s.target_damage_effect.keys():
                 s.target_damage_effect["initial_pause"] = s.main_effect["duration"] * .75
@@ -579,16 +547,13 @@ label after_load:
                     s.attacker_effects["duration"] = 0.75
                     s.attacker_effects["cast"] = { "ontop": False, "point": "bc", "yo": -50}
 
+        # Handle on tier 0 items?
         tierless_items = store.tiered_items.get(None)
         if tierless_items:
             for item in tierless_items:
                 item.tier = 0
                 store.tiered_items[0].append(item)
             del store.tiered_items[None]
-
-        if not hasattr(pytfall.arena, "df_count"):
-            pytfall.arena.df_count = 0
-            pytfall.arena.hero_match_result = None
 
         # Not sure why we do this:
         if hero.controller == "player":
