@@ -590,18 +590,13 @@ label after_load:
             pytfall.arena.df_count = 0
             pytfall.arena.hero_match_result = None
 
+        # Not sure why we do this:
         if hero.controller == "player":
             hero.controller = None
-            clearControllers = True
 
-        if "clearControllers" in locals():
             for girl in itertools.chain(chars.values(), hero.chars, npcs.values()):
                 if girl.controller == "player":
                     girl.controller = None
-
-            #for girl in itertools.chain(jail.chars_list, pytfall.ra.girls.keys()):
-            #    if girl.controller == "player":
-            #        girl.controller = None
 
             arena = pytfall.arena
             for fighter in itertools.chain(arena.ladder, arena.arena_fighters.values()):
@@ -611,7 +606,6 @@ label after_load:
             for team in itertools.chain(arena.teams_2v2, arena.teams_3v3,\
                  arena.dogfights_1v1, arena.dogfights_2v2, arena.dogfights_3v3,\
                  arena.lineup_1v1, arena.lineup_2v2, arena.lineup_3v3):
-
                     for fighter in team:
                         if fighter.controller == "player":
                             fighter.controller = None
@@ -627,29 +621,6 @@ label after_load:
                         if client.controller == "player":
                             client.controller = None
 
-    python hide:
-        for obj in pytfall.__dict__.values():
-            if isinstance(obj, ItemShop) and not hasattr(obj, "total_items_price"):
-                obj.total_items_price = 0
-
-    python hide:
-        for d in pytfall.world_actions.nest:
-            if hasattr(d, "values"):
-                for obj in d.values():
-                    if not hasattr(obj, "keysym"):
-                        obj.keysym = None
-            else:
-                if not hasattr(d, "keysym"):
-                    d.keysym = None
-
-        for d in pytfall.world_actions.locations.values():
-            if hasattr(d, "values"):
-                for obj in d.values():
-                    if not hasattr(obj, "keysym"):
-                        obj.keysym = None
-            else:
-                if not hasattr(d, "keysym"):
-                    d.keysym = None
 
     stop music
     return
