@@ -461,8 +461,8 @@ label after_load:
     python hide:
         # uChars:
         # always run till tagdb is not separated from the load_characters
-        #last_modified_chars = global_flags.get_flag("last_modified_chars", 0)
-        #last_modified = os.path.getmtime(content_path('chars'))
+        # last_modified_chars = global_flags.get_flag("last_modified_chars", 0)
+        # last_modified = os.path.getmtime(content_path('chars'))
         if True: # last_modified_chars < last_modified:
         #    tl.start("Updating chars")
             updated_chars = load_characters("chars", Char)
@@ -482,8 +482,8 @@ label after_load:
 
         # NPCs:
         # always run till tagdb is not separated from load_characters
-        #last_modified_npcs = global_flags.get_flag("last_modified_npcs", 0)
-        #last_modified = os.path.getmtime(content_path('npc'))
+        # last_modified_npcs = global_flags.get_flag("last_modified_npcs", 0)
+        # last_modified = os.path.getmtime(content_path('npc'))
         if True: #last_modified_npcs < last_modified:
         #    tl.start("Updating NPCs")
             updated_npcs = load_characters("npc", NPC)
@@ -522,15 +522,6 @@ label after_load:
         for skill in store.battle_skills.values():
             skill.source = None
 
-    # Save-Load Compatibility TODO Delete when we're willing to break saves (again :D).
-    # python hide:
-    #     for c in pytfall.sm.inhabitants.copy():
-    #         if c not in chars.itervalues():
-    #             remove_from_gameworld(c)
-    #     aps = locations["City Apartments"]
-    #     for c in aps.inhabitants.copy():
-    #         if c not in chars.itervalues():
-    #             remove_from_gameworld(c)
     python hide:
         pytfall.maps = OnScreenMap()
 
@@ -599,28 +590,9 @@ label after_load:
             pytfall.arena.df_count = 0
             pytfall.arena.hero_match_result = None
 
-        if hasattr(hero, "STATS"):
-            for c in itertools.chain(chars.values(), [hero], hero.chars, npcs.values()):
-                if hasattr(c, "STATS"):
-                    del c.STATS
-                if hasattr(c, "SKILLS"):
-                    del c.SKILLS
-                if hasattr(c, "FULLSKILLS"):
-                    del c.FULLSKILLS
-                if hasattr(c, "GEN_OCCS"):
-                    del c.GEN_OCCS
-                if hasattr(c, "STATUS"):
-                    del c.STATUS
-                if hasattr(c, "MOOD_TAGS"):
-                    del c.MOOD_TAGS
-                if hasattr(c, "UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS"):
-                    del c.UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS
-
         if hero.controller == "player":
             hero.controller = None
             clearControllers = True
-        if not hasattr(hero, "teams"):
-            hero.teams = [hero.team]
 
         for b in hero.buildings:
             if isinstance(b, UpgradableBuilding):

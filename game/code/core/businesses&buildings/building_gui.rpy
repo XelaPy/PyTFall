@@ -844,7 +844,7 @@ screen building_controls():
         at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)
         xpos 936
         yalign .95
-        xysize(343, 675)
+        xysize 343, 675
 
         # Controls themselves ---------------------------------->
         vbox:
@@ -852,7 +852,7 @@ screen building_controls():
             xalign .5 ypos 30
 
             button:
-                xysize (200, 32)
+                xysize 200, 32
                 xalign .5
                 action Return(['maintenance', "rename_building"])
                 tooltip "Give new name to your Building!"
@@ -867,11 +867,11 @@ screen building_controls():
                 null height 5
 
                 hbox:
-                    xysize(200,32)
+                    xysize 200, 32
                     xalign .5
                     bar:
                         xmaximum 120
-                        align (.5, .5)
+                        align .5, .5
                         if BUILDING.auto_clean == 100:
                             value 100
                             range 100
@@ -887,7 +887,7 @@ screen building_controls():
                         text "Auto"
 
                 button:
-                    xysize(200, 32)
+                    xysize 200, 32
                     xalign .5
                     action Return(['maintenance', "clean"])
                     tooltip "Hire cleaners to completely clean this building for %d Gold." % BUILDING.get_cleaning_price()
@@ -900,7 +900,7 @@ screen building_controls():
                             price = price + i.get_cleaning_price()
 
                 button:
-                    xysize(200, 32)
+                    xysize 200, 32
                     xalign .5
                     action Return(['maintenance', "clean_all", price])
                     tooltip "Hire cleaners to completely clean all buildings for %d Gold." % price
@@ -942,7 +942,7 @@ screen building_controls():
                     desc2 = BUILDING.WORKER_RULES_DESC[BUILDING.workers_rule]
                     desc = "\n".join([desc0, desc1, desc2])
                 button:
-                    xysize (200, 32)
+                    xysize 200, 32
                     xalign .5
                     action Function(BUILDING.toggle_workers_rule)
                     tooltip "{}".format(desc)
@@ -972,23 +972,23 @@ screen building_adverts():
 
         # Buttons themselves ---------------------------------->
         hbox:
-            align(.5, .4)
+            align .5, .4
             box_wrap True
             spacing 20
             for advert in BUILDING.adverts:
                 vbox:
                     style_group "basic"
-                    align (.5, .5)
+                    align .5, .5
                     # else:
                     if advert['name'] == "Sign" and not advert['active']:
                         button:
-                            xysize(280, 32)
+                            xysize 280, 32
                             tooltip advert['desc']
                             action Return(["building", 'sign', advert])
                             text "Put Up Sign for 200 gold" color black align (.5, .5) size 15
                     elif advert['name'] == "Celebrity":
                         button:
-                            xysize(280, 32)
+                            xysize 280, 32
                             tooltip advert['desc']
                             action Return(["building", 'celeb', advert])
                             sensitive not advert['active']
@@ -998,7 +998,7 @@ screen building_adverts():
                                 text "Celebrity hired!" color black align (.5, .5) size 15
                     else:
                         button:
-                            xysize(280, 32)
+                            xysize 280, 32
                             tooltip advert['desc']
                             action ToggleDict(advert, "active")
                             if advert['active']:
