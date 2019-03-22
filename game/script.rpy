@@ -431,7 +431,8 @@ label after_load:
                 if curr_item is None:
                     # Add new item
                     store.items[id] = item
-                    devlog.info("New Item: {}".format(id))
+                    if DEBUG:
+                        devlog.info("New Item: {}".format(id))
                 else:
                     # Update the existing item
                     update_object(curr_item, item, "Item")
@@ -453,7 +454,8 @@ label after_load:
                 if curr_trait is None:
                     # Add new trait
                     store.traits[id] = trait
-                    devlog.info("New Trait: {}".format(id))
+                    if DEBUG:
+                        devlog.info("New Trait: {}".format(id))
                 else:
                     # Update the existing trait
                     update_object(curr_trait, trait, "Trait")
