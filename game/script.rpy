@@ -594,25 +594,6 @@ label after_load:
             hero.controller = None
             clearControllers = True
 
-        for b in hero.buildings:
-            if isinstance(b, UpgradableBuilding):
-                if not hasattr(b, "init_pep_talk"):
-                    ManagerData.__init__(b)
-            if isinstance(b, BuildingStats):
-                if isinstance(b.auto_clean, bool):
-                    val = 90 if b.auto_clean else 100
-                    del b.auto_clean
-                    b.auto_clean = val
-        for b in businesses.values():
-            if isinstance(b, UpgradableBuilding):
-                if not hasattr(b, "init_pep_talk"):
-                    ManagerData.__init__(b)
-            if isinstance(b, BuildingStats):
-                if isinstance(b.auto_clean, bool):
-                    val = 90 if b.auto_clean else 100
-                    del b.auto_clean
-                    b.auto_clean = val
-
         if "clearControllers" in locals():
             for girl in itertools.chain(chars.values(), hero.chars, npcs.values()):
                 if girl.controller == "player":
