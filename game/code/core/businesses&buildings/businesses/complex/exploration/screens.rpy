@@ -816,12 +816,24 @@ screen building_management_rightframe_exploration_guild_mode:
                     xsize 274
                     text "Difficulty:"
                     text "[area.tier]/10" xalign 1.0
-            frame:
+            # Hazards:
+            if area.explored and area.hazard:
+                python:
+                    temp = []
+                    temp.append("Special Rules Apply:")
+                    for stat, value in area.hazard.items():
+                        temp.append("{}: {}".format(stat.capitalize(), -value))
+                    temp = "\n".join(temp)
+            else:
+                $ temp = ""
+            button:
                 background Frame(Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
                 xalign .5
                 xsize 280
                 padding 3, 2
                 margin 0, 0
+                action NullAction()
+                tooltip temp
                 hbox:
                     xsize 274
                     text "Hazards:"
