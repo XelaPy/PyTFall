@@ -1211,7 +1211,7 @@ init -6 python: # Guild, Tracker and Log.
                 # Mobs Combat:
                 if tracker.mobs and not self.env.now % 30:
                     ec = tracker.encounter_chance*.33/encountered_opfor
-                    if ec:
+                    if dice(ec):
                         encountered_opfor += 1
 
                         if isinstance(tracker.mobs, list):
