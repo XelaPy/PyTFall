@@ -765,11 +765,11 @@ screen building_management_rightframe_exploration_guild_mode:
                 null width 5
                 bar:
                     align .5, 1.0
-                    value FieldValue(area, 'risk', 100, max_is_zero=False, style='scrollbar', offset=0, step=1)
+                    value FieldValue(area, 'risk', 80, max_is_zero=False, style='scrollbar', offset=20, step=1)
                     xmaximum 150
                     thumb 'content/gfx/interface/icons/move15.png'
                     tooltip ("How much risk does the team take when exploring? The more significant the risk,"+
-                             "the higher the reward but your team may not even return of you push this too far!")
+                             " the higher the reward but your team may not return of you push this too far!")
                 null width 5
                 imagebutton:
                     yalign .5
