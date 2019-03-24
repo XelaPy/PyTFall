@@ -1484,7 +1484,7 @@ init -6 python: # Guild, Tracker and Log.
 
             # Risk from base of 100:
             if mb_risk:
-                value = value/100.0*risk
+                value = value/100.0*(risk+10)
 
             # eday with bonus of 100% the rewards from day 5 - 15:
             if mb_exploration_day and eday >= 5:
