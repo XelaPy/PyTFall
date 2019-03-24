@@ -158,11 +158,11 @@ label char_profile:
                             else:
                                 if char.disposition >= 500:
                                     $ block_say = True
-                                    call interactions_good_goodbye
+                                    call interactions_good_goodbye from _call_interactions_good_goodbye
                                     $ block_say = False
                                 else:
                                     $ block_say = True
-                                    call interactions_bad_goodbye
+                                    call interactions_bad_goodbye from _call_interactions_bad_goodbye
                                     $ block_say = False
 
                                 python:

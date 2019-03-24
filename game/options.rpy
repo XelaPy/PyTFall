@@ -21,7 +21,7 @@ python early:
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "PyTFall"
-    config.version = '0.72 "and take their sh!t..."'
+    config.version = '0.72 and take their shit...'
 
 define config.quicksave_slots = 6
 define config.window_icon = "content/gfx/interface/icons/win_icon.png"
