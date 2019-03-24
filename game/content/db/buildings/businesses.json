@@ -1,42 +1,44 @@
 [{
-                "name": "Scary Shack",
-                "desc": "It is a haunted sh*thole no sane being would pay a dime for!\nBut it's all you've got...\nAnd 'haunted' is probably just a rumor.",
-                "location": "Flee Bottom",
-                "price": 100,
+		"name": "Scary Shack",
+		"desc": "It is a haunted sh*thole no sane being would pay a dime for!\nBut it's all you've got...\nAnd 'haunted' is probably just a rumor.",
+		"location": "Flee Bottom",
+		"price": 100,
 
-                "in_slots_max": 16,
-                "ex_slots_max": 0,
+		"in_slots_max": 16,
+		"ex_slots_max": 0,
 
-                "fame": 0,
-                "maxfame": 100,
-                "rep": 0,
-                "maxrep": 100,
+		"fame": 0,
+		"maxfame": 100,
+		"rep": 0,
+		"maxrep": 100,
 
-                "tier": 0,
-                "mod": 1,
+		"tier": 0,
+		"mod": 1,
 
-                "adverts": ["Sign", "Flyers"],
-                "img": "content/buildings/haunted.webp",
+		"adverts": ["Sign", "Flyers"],
+		"img": "content/buildings/haunted.webp",
 
-                "build_businesses": [{
-                                "class": "BrothelBlock",
-                                "kwargs": {
-                                        "capacity": 2,
-                                        "in_slots": 2,
-                                        "desc": "Small, private rooms that'll 'do the trick'!"
-                                }
-                        },
-                        {
-                                "class": "Cleaners"
-                        },
-                        {
-                                "class": "SlaveQuarters"
-                        }
-                ],
-                "allowed_businesses": ["BrothelBlock", "Cleaners", "SlaveQuarters", "WarriorQuarters"],
-                "allowed_business_upgrades": {"Cleaners": ["BroomCloset"]}
-        },
-        {
+		"build_businesses": [{
+				"class": "BrothelBlock",
+				"kwargs": {
+					"capacity": 2,
+					"in_slots": 2,
+					"desc": "Small, private rooms that'll 'do the trick'!"
+				}
+			},
+			{
+				"class": "Cleaners"
+			},
+			{
+				"class": "SlaveQuarters"
+			}
+		],
+		"allowed_businesses": ["BrothelBlock", "Cleaners", "SlaveQuarters", "WarriorQuarters"],
+		"allowed_business_upgrades": {
+			"Cleaners": ["BroomCloset"]
+		}
+	},
+	{
 		"name": "Old Shack",
 		"desc": "Small, rundown building on the very outskirts of town.",
 		"location": "Flee Bottom",
@@ -57,14 +59,13 @@
 		"img": "content/buildings/bad_0.webp",
 
 		"build_businesses": [{
-				"class": "BrothelBlock",
-				"kwargs": {
-					"capacity": 2,
-					"in_slots": 2,
-					"desc": "Small, private rooms that'll 'do the trick'!"
-				}
+			"class": "BrothelBlock",
+			"kwargs": {
+				"capacity": 2,
+				"in_slots": 2,
+				"desc": "Small, private rooms that'll 'do the trick'!"
 			}
-		],
+		}],
 		"allowed_businesses": ["BrothelBlock", "Cleaners"]
 	},
 	{
@@ -101,7 +102,9 @@
 		],
 		"allowed_businesses": ["BrothelBlock", "Cleaners", "WarriorQuarters"],
 		"allowed_upgrades": ["Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"]}
+		"allowed_business_upgrades": {
+			"BrothelBlock": ["StatueOfSexGoddess"]
+		}
 	},
 	{
 		"name": "House on Outskirts",
@@ -132,10 +135,12 @@
 		],
 		"allowed_businesses": ["BrothelBlock", "BarBusiness", "Cleaners", "WarriorQuarters"],
 		"allowed_upgrades": ["Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"BarBusiness": ["TapBeer"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["SparringQuarters"]}
+		"allowed_business_upgrades": {
+			"BrothelBlock": ["StatueOfSexGoddess"],
+			"BarBusiness": ["TapBeer"],
+			"Cleaners": ["BroomCloset"],
+			"WarriorQuarters": ["SparringQuarters"]
+		}
 	},
 	{
 		"name": "'Bottom's up' Building!",
@@ -166,10 +171,12 @@
 		],
 		"allowed_businesses": ["BrothelBlock", "BarBusiness", "Cleaners", "WarriorQuarters"],
 		"allowed_upgrades": ["Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"BarBusiness": ["TapBeer"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["SparringQuarters"]}
+		"allowed_business_upgrades": {
+			"BrothelBlock": ["StatueOfSexGoddess"],
+			"BarBusiness": ["TapBeer"],
+			"Cleaners": ["BroomCloset"],
+			"WarriorQuarters": ["SparringQuarters"]
+		}
 	},
 	{
 		"name": "House in the City",
@@ -209,10 +216,12 @@
 		],
 		"allowed_businesses": ["BrothelBlock", "StripClub", "Cleaners", "WarriorQuarters"],
 		"allowed_upgrades": ["MainHall", "Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"StripClub": ["Catwalk"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["EnforcedOrder"]}
+		"allowed_business_upgrades": {
+			"BrothelBlock": ["StatueOfSexGoddess"],
+			"StripClub": ["Catwalk"],
+			"Cleaners": ["BroomCloset"],
+			"WarriorQuarters": ["EnforcedOrder"]
+		}
 	},
 	{
 		"name": "Mansion on the Main Road",
@@ -259,11 +268,13 @@
 		],
 		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
 		"allowed_upgrades": ["MainHall"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"StripClub": ["Catwalk"],
-																	"BarBusiness": ["TapBeer"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["EnforcedOrder"]}
+		"allowed_business_upgrades": {
+			"BrothelBlock": ["StatueOfSexGoddess"],
+			"StripClub": ["Catwalk"],
+			"BarBusiness": ["TapBeer"],
+			"Cleaners": ["BroomCloset"],
+			"WarriorQuarters": ["EnforcedOrder"]
+		}
 	},
 	{
 		"name": "Old Master's Mansion",
@@ -285,8 +296,7 @@
 		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
 		"img": "content/buildings/large_0.webp",
 
-		"build_businesses": [
-			{
+		"build_businesses": [{
 				"class": "Cleaners"
 			},
 			{
@@ -295,11 +305,13 @@
 		],
 		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
 		"allowed_upgrades": ["MainHall", "Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"StripClub": ["Catwalk"],
-																	"BarBusiness": ["TapBeer"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["SparringQuarters", "EnforcedOrder"]}
+		"allowed_business_upgrades": {
+			"BrothelBlock": ["StatueOfSexGoddess"],
+			"StripClub": ["Catwalk"],
+			"BarBusiness": ["TapBeer"],
+			"Cleaners": ["BroomCloset"],
+			"WarriorQuarters": ["SparringQuarters", "EnforcedOrder"]
+		}
 	},
 	{
 		"name": "Palace on the Main Road",
@@ -321,8 +333,7 @@
 		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
 		"img": "content/buildings/palace.webp",
 
-		"build_businesses": [
-			{
+		"build_businesses": [{
 				"class": "Cleaners"
 			},
 			{
@@ -331,11 +342,13 @@
 		],
 		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
 		"allowed_upgrades": ["MainHall", "Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"StripClub": ["Catwalk"],
-																	"BarBusiness": ["TapBeer"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["SparringQuarters", "EnforcedOrder"]}
+		"allowed_business_upgrades": {
+			"BrothelBlock": ["StatueOfSexGoddess"],
+			"StripClub": ["Catwalk"],
+			"BarBusiness": ["TapBeer"],
+			"Cleaners": ["BroomCloset"],
+			"WarriorQuarters": ["SparringQuarters", "EnforcedOrder"]
+		}
 	},
 	{
 		"name": "Central Palace",
@@ -382,11 +395,13 @@
 		],
 		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
 		"allowed_upgrades": ["MainHall", "Garden"],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
-																	"StripClub": ["Catwalk"],
-																	"BarBusiness": ["TapBeer"],
-																	"Cleaners": ["BroomCloset"],
-																	"WarriorQuarters": ["SparringQuarters", "EnforcedOrder"]}
+		"allowed_business_upgrades": {
+			"BrothelBlock": ["StatueOfSexGoddess"],
+			"StripClub": ["Catwalk"],
+			"BarBusiness": ["TapBeer"],
+			"Cleaners": ["BroomCloset"],
+			"WarriorQuarters": ["SparringQuarters", "EnforcedOrder"]
+		}
 	},
 	{
 		"name": "Simple Slave Quarters",
@@ -482,12 +497,12 @@
 			}
 		}],
 		"allowed_businesses": []
-  },
-  {
+	},
+	{
 		"name": "Exploration Guild",
 		"desc": "A rare building hosting one of the few authorized Exploration Guilds.",
 		"location": "Richford",
-		"price": 1,
+		"price": 1001,
 
 		"in_slots_max": 120,
 		"ex_slots_max": 40,
@@ -501,20 +516,22 @@
 		"mod": 1,
 
 		"adverts": [],
-		"img": "content/buildings/centralpalace.webp",
+		"img": "content/gfx/bg/buildings/Chorrol_Fighters_Guild.webp",
 
 		"build_businesses": [{
-				"class": "ExplorationGuild",
-				"kwargs": {
-					"capacity": 0,
-					"in_slots": 0,
-					"desc": "Explore the world, find new places, meet new people... and take their shit!"
-				}
+			"class": "ExplorationGuild",
+			"kwargs": {
+				"capacity": 0,
+				"in_slots": 0,
+				"desc": "Explore the world, find new places, meet new people... and take their shit!"
 			}
-		],
+		}],
 		"allowed_businesses": [],
 		"allowed_upgrades": [],
-		"allowed_business_upgrades": {"ExplorationGuild": ["TheEye", "CartographyLab",
-                                        "HealingSprings", "GuildStables"]}
+		"allowed_business_upgrades": {
+			"ExplorationGuild": ["TheEye", "CartographyLab",
+				"HealingSprings", "GuildStables"
+			]
+		}
 	}
 ]
