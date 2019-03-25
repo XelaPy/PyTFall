@@ -47,8 +47,8 @@ init -9 python:
             self.dogfights_3v3 = list()
             self.dogfight_day = 1
 
-            self.df_count = 0 
-            self.hero_match_result = None 
+            self.df_count = 0
+            self.hero_match_result = None
             self.daily_report = []
 
             self.setup = None # Setup in focus
@@ -430,7 +430,7 @@ init -9 python:
             elif team_size == 2:
                 lineup = self.lineup_2v2
             elif team_size == 3:
-                lineup = self.lineup_3v3 
+                lineup = self.lineup_3v3
             else:
                 raise Exception("Invalid team size for Automatic Arena Combat Resolver: %d" % team_size)
 
@@ -445,7 +445,7 @@ init -9 python:
                     for idx, t in enumerate(lineup):
                          if t.leader == hero:
                              # another team in the lineup -> replace it with the current one
-                             lineup[idx] = winner 
+                             lineup[idx] = winner
                              winner_added = True
                              break
                 if not "winner_added" in locals():
@@ -456,7 +456,7 @@ init -9 python:
                 index = lineup.index(loser)
                 lineup.insert(index+2, loser)
                 del lineup[index]
- 
+
         def find_opfor(self):
             """
             Find a team to fight challenger team in the official arena matches.
@@ -602,7 +602,7 @@ init -9 python:
             if fight_day == day and self.hero_match_result:
                 renpy.call_screen("message_screen", "You already had a fight today. Having two official matches on the same day is not allowed!")
                 return
- 
+
             result = renpy.call_screen("yesno_prompt",
                 "Are you sure you want to schedule a fight? Backing out of it later will mean a hit on reputation!",
                 Return(["Yes"]), Return(["No"]))
@@ -913,7 +913,7 @@ init -9 python:
                 self.cf_setup = self.chain_fights[result]
 
             # Picking an opponent(s):
-            num_opps = len(hero.team) 
+            num_opps = len(hero.team)
             team = Team(name=self.cf_setup.get("id", "Captured Creatures"), max_size=num_opps)
 
             new_level = self.cf_setup["level"]
@@ -924,7 +924,7 @@ init -9 python:
                 num_opps -= 1
             else:
                 new_level = round_int(new_level)
- 
+
             # Add the same amount of mobs as there characters on the MCs team:
             for i in range(num_opps):
                 mob = build_mob(choice(self.cf_setup["mobs"]), level=new_level)
@@ -1003,38 +1003,41 @@ init -9 python:
                 self.cf_count += 1
 
                 if self.cf_count > 5:
-                    amount = 2
-                    amount += min(round_int(hero.arena_rep/max(15000.0, self.ladder[0].arena_rep / 3.0)), 3)
-                    tier = self.mob_power/40.0
-                    #types = ['scroll', 'restore', 'armor', 'weapon'] 
-                    types = "all" 
-                    rewards = get_item_drops(types=types,
-                                                      tier=tier, locations=["Arena"],
-                                                      amount=amount)
-                    for i in rewards:
-                        hero.inventory.append(i)
-
-                    self.cf_mob = None
-                    self.cf_setup = None
-                    self.cf_count = 0
-                    self.award = None
-                    renpy.play("win_screen.mp3", channel="world")
-                    renpy.show_screen("arena_finished_chainfight", hero.team, rewards)
+                    self.cf_victory()
                     return
                 else:
                     renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
                     self.setup_chainfight()
                     return
             else: # Player lost -->
-                self.cf_mob = None
-                self.cf_setup = None
-                self.cf_count = 0
-                self.award = None
+                self.cf_reset()
                 winner = team
                 loser = hero.team
                 for member in hero.team:
                     member.combat_stats = "K.O."
                 jump("arena_inside")
+
+        def cf_victory(self):
+            amount = 2
+            # Why is ladder accessed here? TODO
+            amount += min(round_int(hero.arena_rep/max(15000.0, self.ladder[0].arena_rep / 3.0)), 3)
+            tier = self.mob_power/40.0
+            types = "all"
+            rewards = get_item_drops(types=types,
+                                     tier=tier, locations=["Arena"],
+                                     amount=amount)
+            for i in rewards:
+                hero.inventory.append(i)
+
+            self.cf_reset()
+            renpy.play("win_screen.mp3", channel="world")
+            renpy.show_screen("arena_finished_chainfight", hero.team, rewards)
+
+        def cf_reset(self):
+            self.cf_mob = None
+            self.cf_setup = None
+            self.cf_count = 0
+            self.award = None
 
         def setup_minigame(self, luck):
             # Color: range (int) pares =======>>>
@@ -1127,7 +1130,7 @@ init -9 python:
         # -------------------------- Battle/Next Day ------------------------------->
         @staticmethod
         def arena_rep_reward(loser, winner):
-            return max(0.0, (loser.get_rep() - (winner.get_rep() / 2)) / 10.0) 
+            return max(0.0, (loser.get_rep() - (winner.get_rep() / 2)) / 10.0)
 
         def auto_resolve_combat(self, off_team, def_team, type="dog_fight"):
 
@@ -1139,7 +1142,7 @@ init -9 python:
 
             rep = self.arena_rep_reward(loser, winner)
             if type == "dog_fight":
-                rep = min(50.0, max(3.0, rep)) 
+                rep = min(50.0, max(3.0, rep))
 
             for fighter in winner:
                 for stat in ("attack", "defence", "agility", "magic"):
@@ -1256,11 +1259,11 @@ init -9 python:
         def shallow_copy_team(team):
             """
             Create a shallow copy of the team to preserve the important team informations for today's report
-            """ 
+            """
             tmp = Team(name=team.name, implicit=team.implicit, free = team.free, max_size = team.max_size)
             tmp.set_leader(team.leader)
             return tmp
- 
+
         def start_matchfight(self, setup):
             """
             Bridge to battle engine + rewards/penalties.
@@ -1316,7 +1319,7 @@ init -9 python:
                         member.mod_stat(stat, value)
                     member.combat_stats = statdict
 
-            rep = rep / 10.0 
+            rep = rep / 10.0
             for member in loser:
                 member.arena_rep -= int(rep)
                 member.exp += exp_reward(member, winner, ap_used=2, final_mod=.15)
@@ -1341,7 +1344,7 @@ init -9 python:
 
             # record the event
             self.hero_match_result = [self.shallow_copy_team(winner), self.shallow_copy_team(loser)]
- 
+
             fday = setup[2]
             for d in hero.fighting_days[:]:
                 if d == fday:
@@ -1351,7 +1354,7 @@ init -9 python:
 
         @staticmethod
         def append_match_result(txt, f2f, match_result):
-            if f2f: 
+            if f2f:
                 temp = "{} has defeated {} in a one on one fight. ".format(
                           match_result[0][0].name, match_result[1][0].name)
             else:
@@ -1379,7 +1382,7 @@ init -9 python:
 
             # Add the hero's matchresult from today
             if self.hero_match_result:
-                self.append_match_result(txt, len(self.hero_match_result[0]) == 1, self.hero_match_result) 
+                self.append_match_result(txt, len(self.hero_match_result[0]) == 1, self.hero_match_result)
 
             tl.start("Arena: Matches")
             # Running the matches:
@@ -1388,7 +1391,7 @@ init -9 python:
                 if setup[2] == day and setup[0].leader != hero:
                     if setup[0] and setup[1]:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
-                        self.append_match_result(txt, True, match_result) 
+                        self.append_match_result(txt, True, match_result)
 
                     setup[0] = Team(max_size=1)
                     setup[1] = Team(max_size=1)
