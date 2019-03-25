@@ -900,7 +900,7 @@ init -1 python: # Core classes:
                                 minv, maxv, lvl = i.evasion_bonus
                                 if lvl <= 0:
                                     lvl = 1
-                                if lvl >= t.level:
+                                if lvl <= t.level:
                                     temp += maxv
                                 else:
                                     temp += max(minv, float(t.level)*maxv/lvl)
@@ -1027,7 +1027,7 @@ init -1 python: # Core classes:
                         minv, maxv, lvl = i.delivery_bonus[self.delivery]
                         if lvl <= 0:
                             lvl = 1
-                        if lvl >= a.level:
+                        if lvl <= a.level:
                             attack += maxv
                         else:
                             attack += max(minv, float(a.level)*maxv/lvl)
@@ -1076,7 +1076,7 @@ init -1 python: # Core classes:
                         minv, maxv, lvl = i.defence_bonus[self.delivery]
                         if lvl <= 0:
                             lvl = 1
-                        if lvl >= target.level:
+                        if lvl <= target.level:
                             defense += maxv
                         else:
                             defense += max(minv, float(target.level)*maxv/lvl)
