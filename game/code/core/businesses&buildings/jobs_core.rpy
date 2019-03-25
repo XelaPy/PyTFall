@@ -44,6 +44,8 @@
                 charmod = {}
             if locmod is None:
                 self.locmod = {}
+            else:
+                self.locmod = locmod
 
             self.job = job
             if not type and job:
