@@ -65,6 +65,11 @@ init -20 python:
                 self.id = id
             # self.actors = set()
 
+        @property
+        def nickname(self):
+            rv = getattr(self, "name", str(self.id))
+            return rv
+
         def __str__(self):
             if hasattr(self, "name"):
                 return str(self.name)
