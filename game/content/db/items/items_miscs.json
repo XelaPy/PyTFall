@@ -627,7 +627,7 @@
     "mtemp": 1,
     "mreusable": true,
     "mdestruct": false,
-    "mod": {"gold": 50},
+    "mod": {"gold": 100},
     "locations": ["Exploration", "Arena"],
     "pref_class": ["Any"]
     },
