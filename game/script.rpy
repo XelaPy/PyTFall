@@ -409,6 +409,10 @@ label after_load:
         $ se_testing_boost = False
         $ hero.gold += 20000
 
+    python hide: # TODO DELETE AFTER TEST PHASE!!!!!!!!!!!!!!
+        fg_areas["Deep Northern Forest"].travel_time = .7
+
+
     # Resets:
     python:
         config.mouse = None
