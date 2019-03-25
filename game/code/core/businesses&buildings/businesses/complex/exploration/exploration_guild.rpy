@@ -306,11 +306,6 @@ init -6 python: # Guild, Tracker and Log.
             area.logs.extend([l for l in self.logs if l.ui_log])
             area.trackers.remove(self)
 
-            # Settle rewards and update data:
-            for i in self.found_items:
-                item = items[i]
-                hero.add_item(item)
-
             found_items = collections.Counter(self.found_items)
             cash_earned = sum(self.cash)
             chars_captured = len(self.captured_chars)
