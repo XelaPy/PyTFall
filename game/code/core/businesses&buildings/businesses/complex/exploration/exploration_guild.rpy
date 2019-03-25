@@ -1040,8 +1040,9 @@ init -6 python: # Guild, Tracker and Log.
                             ss_reward(member, area.tier, {"exploration": 1}, apply=True)
 
                     for a, value in area.unlocks.items():
-                        if area.explored >= value:
-                            uarea = store.fg_areas[a].unlocked = True
+                        area_to_unlock = store.fg_areas[a]
+                        if area.explored >= value and not area_to_unlock.unlocked:
+                            area_to_unlock.unlocked = True
                             temp = "Your team has uncovered a location of a new area to explore!"
                             temp += "\n {} is now unlocked!".format(a)
                             temp = set_font_color(temp, "green")
