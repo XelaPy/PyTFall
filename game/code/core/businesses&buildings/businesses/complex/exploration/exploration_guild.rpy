@@ -901,11 +901,11 @@ init -6 python: # Guild, Tracker and Log.
                 msg = "{} is overnighting. State: {}".format(team.name, tracker.state)
                 se_debug(msg, mode="info")
 
-                self.update_loot(tracker)
+            self.update_loot(tracker)
 
-                if DEBUG_SE:
-                    msg = "{} has finished an exploration scenario. (Day Ended)".format(team.name)
-                    se_debug(msg, mode="info")
+            if DEBUG_SE:
+                msg = "{} has finished an exploration scenario. (Day Ended)".format(team.name)
+                se_debug(msg, mode="info")
 
             if tracker.state == "exploring":
                 temp = "{} are done with exploring for the day and will now rest and recover! ".format(team.name)
