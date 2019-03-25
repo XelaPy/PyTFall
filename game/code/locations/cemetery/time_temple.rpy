@@ -51,7 +51,7 @@ label time_temple:
                             temp_charcters += i.get_max("mp") - i.mp
                         if i.vitality < i.get_max("vitality"):
                             temp_charcters += i.get_max("vitality") - i.vitality
-                            
+
                         if "Food Poisoning" in i.effects:
                             temp_charcters += 100
                         if "Poisoned" in i.effects:
@@ -61,10 +61,10 @@ label time_temple:
                         if "Injured" in i.effects:
                             temp_charcters += 150
 
-                    
-                    
-                    
-                    
+
+
+
+
             if temp_charcters <= 0:
                 t "I don't see the need in healing right now."
                 "Miel can only restore characters in your team, including the main hero."
@@ -80,7 +80,31 @@ label time_temple:
                     "Pay":
                         $ global_flags.set_flag("time_healing_day", day)
                         play sound "content/sfx/sound/events/clock.ogg"
-                        with Fade(.5, .2, .5, color=goldenrod)
+                        show magic_circle:
+                            yalign .5 subpixel True
+
+                            parallel:
+                                xalign .5
+                                linear 3.0 xalign .75
+                                linear 6.0 xalign .25
+                                linear 3.0 xalign .5
+                                repeat
+
+                            parallel:
+                                alpha 1.0 zoom 1.0
+                                linear .75 alpha .5 zoom .9
+                                linear .75 alpha 1.0 zoom 1.0
+                                repeat
+
+                            parallel:
+                                rotate 0
+                                linear 5 rotate 360
+                                repeat
+
+                        with dissolve
+                        pause 3
+                        hide magic_circle
+
                         $ hero.take_money(temp_charcters, reason="Time Temple")
                         python:
                             for i in hero.team:
@@ -93,12 +117,13 @@ label time_temple:
                                 i.disable_effect("Injured")
                         t "Done. Please come again if you need our help."
                         $ del temp_charcters
+
                         jump time_temple_menu
                     "Don't Pay":
                         t "Very well."
                         $ del temp_charcters
                         jump time_temple_menu
-                        
+
         "Restore AP":
             if not global_flags.has_flag("asked_miel_about_ap"):
                 $ global_flags.set_flag("asked_miel_about_ap")
@@ -122,7 +147,7 @@ label time_temple:
                     "No":
                         $ pass
             jump time_temple_menu
-            
+
         "Remove injures":
             if not global_flags.has_flag("asked_miel_about_wounds"):
                 $ global_flags.set_flag("asked_miel_about_wounds")
@@ -149,7 +174,7 @@ label time_temple:
             $ del temp_charcters
             $ del p
             jump time_temple_menu
-                        
+
         "Ask about this place":
             t "This is the Temple of Time. Locals come here to to pray to almighty gods of time and space."
             t "We also provide additional services, for a fee."

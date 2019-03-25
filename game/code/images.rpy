@@ -2,6 +2,8 @@ init:
     image bg pytfall = "content/gfx/bg/locations/map_buttons/gismo/humans.webp"
     image slave_market_slaves = "content/gfx/bg/locations/slave_podium.webp"
 
+    image magic_circle = "content/gfx/images/magic.png"
+
     image button_circle_green:
         "content/gfx/interface/icons/move15.png"
         yoffset 6
