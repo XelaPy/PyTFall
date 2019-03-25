@@ -655,7 +655,7 @@ init -6 python: # Guild, Tracker and Log.
 
                 # Day counter:
                 temp = global_day not in tracker.days_explored_tracker
-                if temp and tracker.state in ("exploring", "camping"):
+                if temp and tracker.state in ("exploring", "camping", "setting_up_basecamp"):
                     tracker.days_explored_tracker.add(global_day)
                     tracker.days_explored += 1
 
@@ -901,11 +901,11 @@ init -6 python: # Guild, Tracker and Log.
                 msg = "{} is overnighting. State: {}".format(team.name, tracker.state)
                 se_debug(msg, mode="info")
 
-                self.update_loot(tracker)
+            self.update_loot(tracker)
 
-                if DEBUG_SE:
-                    msg = "{} has finished an exploration scenario. (Day Ended)".format(team.name)
-                    se_debug(msg, mode="info")
+            if DEBUG_SE:
+                msg = "{} has finished an exploration scenario. (Day Ended)".format(team.name)
+                se_debug(msg, mode="info")
 
             if tracker.state == "exploring":
                 temp = "{} are done with exploring for the day and will now rest and recover! ".format(team.name)
@@ -1040,8 +1040,9 @@ init -6 python: # Guild, Tracker and Log.
                             ss_reward(member, area.tier, {"exploration": 1}, apply=True)
 
                     for a, value in area.unlocks.items():
-                        if area.explored >= value:
-                            uarea = store.fg_areas[a].unlocked = True
+                        area_to_unlock = store.fg_areas[a]
+                        if area.explored >= value and not area_to_unlock.unlocked:
+                            area_to_unlock.unlocked = True
                             temp = "Your team has uncovered a location of a new area to explore!"
                             temp += "\n {} is now unlocked!".format(a)
                             temp = set_font_color(temp, "green")
@@ -1339,7 +1340,7 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # TODO (se): Make sure this is adapted to building skill(s) once we have it!
-            build_power = max(1, tracker.ability*.03)
+            build_power = max(3, tracker.ability*.03)
 
             if len(teams) > 1:
                 temp = "Teams: {} are setting up basecamp!".format(", ".join([t.name for t in teams]))
@@ -1352,6 +1353,7 @@ init -6 python: # Guild, Tracker and Log.
                     # Team done setting up the encampment:
                     temp = "Encampment is finished! Team is moving onto exploration!"
                     area.camp = True
+                    tracker.state = "exploring"
                     tracker.log(temp)
                     self.env.exit()
 
