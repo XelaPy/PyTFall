@@ -1254,7 +1254,7 @@ screen next_day():
                             for key, value in sorted(event.charmod.items(), key=itemgetter(0)):
                                 $ value = round_int(value)
                                 $ w = event.char
-                                if value:
+                                if w and value:
                                     frame:
                                         xalign .5
                                         xysize 130, 25
