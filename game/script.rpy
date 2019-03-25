@@ -400,7 +400,12 @@ label sort_traits_for_gameplay:
         gen_occ_basetraits = dict(gen_occ_basetraits)
     return
 
+default se_testing_boost = True # TODO Kill before release!!!
 label after_load:
+    if se_testing_boost:
+        $ se_testing_boost = False
+        $ hero.gold += 20000
+
     # Resets:
     python:
         config.mouse = None
