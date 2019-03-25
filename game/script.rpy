@@ -376,6 +376,9 @@ label sort_items_for_gameplay:
         tiered_items = {}
         for i in items.values():
             tiered_items.setdefault(i.tier, []).append(i)
+
+    # Max Arena price:
+    $ MAX_ARENA_ITEM_PRICE = max([i.price for i in items.values() if "Arena" in i.locations])
     return
 
 label sort_traits_for_gameplay:

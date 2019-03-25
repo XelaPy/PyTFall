@@ -897,7 +897,6 @@ init -9 python:
             """
             # Case: First battle:
             if not self.cf_mob:
-                # renpy.hide_screen("arena_inside")
                 renpy.call_screen("chain_fight")
 
                 result, self.result = self.result, None
@@ -1019,12 +1018,17 @@ init -9 python:
 
         def cf_victory(self):
             amount = 2
-            # Why is ladder accessed here? TODO
-            amount += min(round_int(hero.arena_rep/max(15000.0, self.ladder[0].arena_rep / 3.0)), 3)
-            tier = self.mob_power/40.0
+            amount += randint(0, 2)
             types = "all"
+            tier = self.mob_power/40.0
+            mobs_level = self.mob_power
+            price = MAX_ARENA_ITEM_PRICE*mobs_level/190
+            if price < 50:
+                price = 50
             rewards = get_item_drops(types=types,
-                                     tier=tier, locations=["Arena"],
+                                     price=price,
+                                     tier=tier,
+                                     locations=["Arena"],
                                      amount=amount)
             for i in rewards:
                 hero.inventory.append(i)
