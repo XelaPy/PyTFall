@@ -655,7 +655,7 @@ init -6 python: # Guild, Tracker and Log.
 
                 # Day counter:
                 temp = global_day not in tracker.days_explored_tracker
-                if temp and tracker.state in ("exploring", "camping"):
+                if temp and tracker.state in ("exploring", "camping", "setting_up_basecamp"):
                     tracker.days_explored_tracker.add(global_day)
                     tracker.days_explored += 1
 
@@ -1339,7 +1339,7 @@ init -6 python: # Guild, Tracker and Log.
                 se_debug(msg, mode="info")
 
             # TODO (se): Make sure this is adapted to building skill(s) once we have it!
-            build_power = max(1, tracker.ability*.03)
+            build_power = max(3, tracker.ability*.03)
 
             if len(teams) > 1:
                 temp = "Teams: {} are setting up basecamp!".format(", ".join([t.name for t in teams]))
@@ -1352,6 +1352,7 @@ init -6 python: # Guild, Tracker and Log.
                     # Team done setting up the encampment:
                     temp = "Encampment is finished! Team is moving onto exploration!"
                     area.camp = True
+                    tracker.state = "exploring"
                     tracker.log(temp)
                     self.env.exit()
 
