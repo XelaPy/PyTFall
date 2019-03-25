@@ -164,8 +164,8 @@ init -9 python:
 
                 self.fin.log_logical_expense(spentcash, "Ads")
 
-            charmod = self.nd_log_stats()
-            evt = NDEvent(charmod=charmod, type=type,
+            locmod = self.nd_log_stats()
+            evt = NDEvent(locmod=locmod, type=type,
                           red_flag=self.flag_red, loc=self, char=char,
                           img=img, txt=txt)
             NEXT_DAY_EVENTS.append(evt)
