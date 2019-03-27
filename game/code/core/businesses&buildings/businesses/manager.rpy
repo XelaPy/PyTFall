@@ -60,7 +60,7 @@ init -5 python:
 
         cheered_up_workers = set()
 
-        while (1):
+        while 1:
             yield env.timeout(5)
             simpy_debug("Entering manager_process at %s", env.now)
             # Special direct bonus to tired/sad characters

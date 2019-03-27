@@ -170,6 +170,7 @@ init -6 python: # Guild, Tracker and Log.
             self.found_items = list()
             self.captured_chars = list()
             self.cash = list()
+
             self.daily_items = None
 
             self.day = 1 # Day since start (total of everything).
@@ -670,7 +671,7 @@ init -6 python: # Guild, Tracker and Log.
                     result = yield process(self.explore(tracker))
                     if result in ("retreat_to_camp", "defeat"):
                         tracker.state = "camping"
-                    elif str(result).startswith(("captured", "got", "fallback")):
+                    elif str(result).startswith(("captured", "got", "fallback", "unlocked")):
                         # We found something special or captured a char.
                         self.update_loot(tracker)
                         tracker.state = "traveling back"
@@ -1045,8 +1046,10 @@ init -6 python: # Guild, Tracker and Log.
                             area_to_unlock.unlocked = True
                             temp = "Your team has uncovered a location of a new area to explore!"
                             temp += "\n {} is now unlocked!".format(a)
+                            temp += "\n They are falling back to the base to report the finding."
                             temp = set_font_color(temp, "green")
                             tracker.log(temp)
+                            self.env.exit("unlocked area")
 
                     # Hazard:
                     if area.hazard:
