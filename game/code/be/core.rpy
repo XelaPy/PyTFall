@@ -863,7 +863,7 @@ init -1 python: # Core classes:
                 # Critical Strike and Evasion checks:
                 if self.delivery in ["melee", "ranged"]:
                     # Critical Hit Chance:
-                    ch = max(0, min((a.luck - t.luck + 10) * .75, 35)) # No more than 35% chance? Dark: we can add items/traits field capable to increase the max chance of crit hit
+                    ch = max(0, min((a.luck - t.luck), 20)) # No more than 20% chance based on luck
 
                     # Items bonuses:
                     m = .0
