@@ -580,8 +580,10 @@
         },
         "defence_multiplier": {
             "melee": 0.1,
-            "ranged": 0.05
+            "ranged": 0.1
         },
+        "evasion_bonus": [1, 10, 40],
+        "ch_multiplier": 0.1,
         "base_stats": {
             "attack": 20,
             "defence": 20,
@@ -648,6 +650,8 @@
         "desc": "Specializes in heavy armored combat. Agility and attack are not high, but health and defense compensate it.",
         "higher_tiers": ["Warrior"],
         "basetrait": true,
+        "evasion_bonus": [1, 5, 30],
+        "ch_multiplier": 0.05,
         "mod_stats": {
             "defence": [2, 1],
             "agility": [1, 3],
@@ -662,7 +666,7 @@
             "security": 150
         },
         "defence_multiplier": {
-            "melee": 0.15,
+            "melee": 0.25,
             "ranged": 0.15
         },
         "init_lvlmax": {
@@ -720,8 +724,11 @@
             "defence": [1, 2]
         },
         "defence_multiplier": {
-            "ranged": 0.1
+            "ranged": 0.25,
+            "melee": -0.25
         },
+        "delivery_multiplier": {"ranged": 0.2},
+        "ch_multiplier": 0.15,
         "base_stats": {
             "attack": 10,
             "defence": 10,
@@ -790,13 +797,18 @@
             "defence": [1, 1],
             "agility": [3, 1]
         },
-        "evasion_bonus": [5, 10, 50],
-        "ch_multiplier": 0.5,
+        "evasion_bonus": [5, 15, 50],
+        "ch_multiplier": 0.2,
         "base_stats": {
             "attack": 20,
             "defence": 5,
             "agility": 20
         },
+        "defence_multiplier": {
+            "status": 0.2
+        },
+        "delivery_multiplier": {"status": 0.2},
+        
         "base_skills": {
             "security": 150
         },
