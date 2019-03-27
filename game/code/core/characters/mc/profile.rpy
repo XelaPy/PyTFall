@@ -44,6 +44,8 @@ label hero_profile:
                 $ pytfall.hp.item = False
                 hide screen hero_profile
 
+                if pytfall.hp.came_from == "chars_list":
+                    $ rebuild_chars_listings = True
                 jump expression pytfall.hp.came_from
         elif result[0] == "dropdown":
             if result[1] == "workplace":

@@ -1,5 +1,5 @@
 init:
-    default rebuild_chars_listings = None
+    default rebuild_chars_listings = False
 
     default status_filters = set()
     default location_filters = set()

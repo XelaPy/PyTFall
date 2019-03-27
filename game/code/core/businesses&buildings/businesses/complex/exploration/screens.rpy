@@ -3,7 +3,7 @@ screen building_management_leftframe_exploration_guild_mode:
 
         default focused_area_index = 0
 
-        $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked], key=attrgetter("stage"))
+        $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked is True], key=attrgetter("stage"))
         vbox:
             xsize 320 spacing 1
             # Maps sign:
@@ -66,7 +66,7 @@ screen building_management_leftframe_exploration_guild_mode:
                     for area in areas:
                         button:
                             xysize 220, 18
-                            if area.unlocked:
+                            if area.unlocked is True:
                                 if selected_log_area == area:
                                     action SetScreenVariable("focused_log", None), SetVariable("selected_log_area", None)
                                     selected True
