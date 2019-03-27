@@ -170,6 +170,7 @@ init -6 python: # Guild, Tracker and Log.
             self.found_items = list()
             self.captured_chars = list()
             self.cash = list()
+            self.unlocked_areas = list()
 
             self.daily_items = None
 
@@ -321,6 +322,9 @@ init -6 python: # Guild, Tracker and Log.
             main_area.found_items = add_dicts(main_area.found_items, found_items)
             main_area.cash_earned += cash_earned
             main_area.chars_captured += chars_captured
+
+            for a in self.unlocked_areas:
+                a.unlocked = True
 
             # Restore Chars and Remove from guild:
             self.guild.explorers.remove(self)
@@ -1042,8 +1046,9 @@ init -6 python: # Guild, Tracker and Log.
 
                     for a, value in area.unlocks.items():
                         area_to_unlock = store.fg_areas[a]
-                        if area.explored >= value and not area_to_unlock.unlocked:
-                            area_to_unlock.unlocked = True
+                        if area.explored >= value and area_to_unlock.unlocked is False:
+                            area_to_unlock.unlocked = "standby"
+                            tracker.unlocked_areas.append(area_to_unlock)
                             temp = "Your team has uncovered a location of a new area to explore!"
                             temp += "\n {} is now unlocked!".format(a)
                             temp += "\n They are falling back to the base to report the finding."
