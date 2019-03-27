@@ -103,7 +103,6 @@ label slavel_market_controls:
     $ pytfall.sm.set_focus()
 
     show screen slavemarket
-    with fade
 
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
@@ -252,6 +251,7 @@ label mc_action_work_in_slavemarket:
     pause 0.01
 
     python:
+        block_say = True
         if dice(50):
             renpy.say("", choice(["You did some chores around the Slave Market!",
                                   "Pay might be crap, but it's still money.",
@@ -260,6 +260,7 @@ label mc_action_work_in_slavemarket:
             hero.say(choice(["What a boring job...",
                              "There's gotta be faster way to make money..."]))
 
+    $ block_say = False
     $ global_flags.set_flag("came_from_sc")
     python:
         del wage
