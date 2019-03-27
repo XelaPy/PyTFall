@@ -46,17 +46,7 @@ label building_management:
             pass
         elif result[0] == "bm_mid_frame_mode":
             $ bm_mid_frame_mode = result[1]
-            if isinstance(bm_mid_frame_mode, ExplorationGuild):
-                # Looks pretty ugly... this might be worth improving upon just for the sake of esthetics.
-                $ workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3,
-                        size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 11))
-                $ fg_filters = CharsSortingForGui(all_chars_for_se)
-                $ fg_filters.occ_filters.add("Combatant")
-                $ fg_filters.target_container = [workers, "content"]
-                $ fg_filters.filter()
-
-                $ guild_teams = CoordsForPaging(bm_mid_frame_mode.idle_teams(clear_by_workplace=True), columns=3, rows=3,
-                                size=(208, 83), xspacing=0, yspacing=5, init_pos=(4, 340))
+            $ rebuild_se_dd()
         elif result[0] == "fg_team":
             python:
                 if result[1] == "rename":
@@ -79,6 +69,7 @@ label building_management:
                     if isinstance(result, PytCharacter):
                         renpy.show_screen("message_screen", "{} is not in shape to explore anything :(".format(result.name))
                     else:
+                        rebuild_se_dd()
                         jump("building_management")
         elif result[0] == "building":
             if result[1] == 'items_transfer':

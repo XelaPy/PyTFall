@@ -317,7 +317,7 @@
             # Formerly check_occupation
             """Settles effects of worker who already agreed to do the job.
 
-            Normaly deals with disposition, joy and vitality (for some reason?)
+            Normally deals with disposition, joy and vitality (for some reason?)
             """
             return True
 

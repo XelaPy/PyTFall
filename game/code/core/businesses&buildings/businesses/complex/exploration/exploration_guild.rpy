@@ -330,8 +330,8 @@ init -6 python: # Guild, Tracker and Log.
             self.guild.explorers.remove(self)
             now = self.guild.env.now
             for char in self.team:
-                char.action = char.flag("loc_backup")
-                char.del_flag("loc_backup")
+                char.action = char.flag("action_backup")
+                char.del_flag("action_backup")
                 # Give the AP back if team returned early:
                 char.AP = round_int(now*.01*char.setAP)
 
@@ -569,7 +569,7 @@ init -6 python: # Guild, Tracker and Log.
             for char in team:
                 # We effectively remove char from the game so this is prolly ok.
                 char.action = "Exploring"
-                char.set_flag("loc_backup", char.location)
+                char.set_flag("action_backup", char.action)
                 for t in hero.teams:
                     if char in t:
                         t.remove(char)
