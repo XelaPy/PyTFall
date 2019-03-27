@@ -24,7 +24,8 @@ init -9 python:
     class PytCharacter(Flags, Tier, JobsLogger, Pronouns):
         """Base Character class for PyTFall.
         """
-        def __init__(self, arena=False, inventory=False, effects=False, is_worker=True):
+        def __init__(self, arena=False, inventory=False,
+                     effects=False, is_worker=True):
             super(PytCharacter, self).__init__()
             self.img = ""
             self.portrait = ""
@@ -46,8 +47,8 @@ init -9 python:
             self.baseAP = 3
             self.reservedAP = 0
             self.setAP = 1 # This is set to the AP calculated for that day.
-            self.jobpoints = 0
-
+            self._jobpoints = 0
+            self.jp_spent = 0
 
             # Locations and actions, most are properties with setters and getters.
             self._location = None # Present Location.
@@ -394,6 +395,27 @@ init -9 python:
             if isinstance(value, HabitableLocation):
                 value.inhabitants.add(self)
             self._home = value
+
+        # TODO Remove hasaattrs on release!!!
+        @property
+        def jobpoints(self):
+            if not hasattr(self, "_jobpoints"):
+                self._jobpoints = 0
+            if not hasattr(self, "jp_spent"):
+                self.jp_spent = 0
+                
+            return self._jobpoints
+        @jobpoints.setter
+        def jobpoints(self, value):
+            if not hasattr(self, "_jobpoints"):
+                self._jobpoints = 0
+            if not hasattr(self, "jp_spent"):
+                self.jp_spent = 0
+
+            temp = self._jobpoints - value
+            if temp > 0:
+                self.jp_spent += temp
+            self._jobpoints = value
 
         # Alternative Method for modding first layer of stats:
         def add_exp(self, value, adjust=True):
@@ -2095,7 +2117,8 @@ init -9 python:
                 self.origin = choice(["Alkion", "PyTFall", "Crossgate"])
 
         def next_day(self):
-            self.jobpoints = 0
+            self._jobpoints = 0
+            self.jp_spent = 0
             self.clear_img_cache()
 
             self.del_flag("food_poison_counter")

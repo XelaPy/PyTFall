@@ -60,7 +60,7 @@ init -5 python:
 
         cheered_up_workers = set()
 
-        while 1:
+        while manager.jobpoints > 0 and env.now < 105:
             yield env.timeout(5)
             simpy_debug("Entering manager_process at %s", env.now)
             # Special direct bonus to tired/sad characters
@@ -109,6 +109,36 @@ init -5 python:
 
             simpy_debug("Exiting manager_process at %s", env.now)
 
+        # Stats:
+        max_jp = manager.setAP*100
+        spent_jp = max_jp - manager.jp_spent
+        spent_ap = spent_jp/100.0
+
+        exp = exp_reward(manager,
+                         building.tier,
+                         value=None,
+                         ap_adjust=True,
+                         ap_used=spent_ap,
+                         char_tier_override=False,
+                         final_mod=None)
+        manager.logws("exp", exp)
+
+        # TODO: Implement AP management in the function!
+        stats_skills = {"management": randint(2, 4),
+                        "refinement": randint(1, 2),
+                        "character": randint(0, 1),
+                        "intelligence": randint(1, 2)}
+
+        temp = ss_reward(manager,
+                         building.tier,
+                         stats_skills,
+                         ap_adjust=True,
+                         ap_used=1,
+                         char_tier_override=False,
+                         final_mod=None,
+                         apply=False)
+        for s, v in temp.items():
+             manager.logws(s, v)
 
     def mp_init_jp_bonus(manager, building, effectiveness, log):
         # Special bonus to JobPoints (aka pep talk) :D
