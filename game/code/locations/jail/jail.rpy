@@ -109,17 +109,13 @@ label city_jail:
 
                                 $ char.disposition += 400
 
-                                show screen message_screen("{} was released from Jail! You might meet her in the city one day!".format(char.name))
+                                $ temp = "{} was released from Jail! You might meet her in the city one day!".format(char.name)
+                                $ renpy.show_screen("message_screen", temp)
                     "Walk away":
                         $ pass
 
                 hide expression chars_sprite
-
-                if not jail.chars_list or not hero.AP:
-                    hide screen slave_shopping
-                    $ Return(("control", "return"))()
-                else:
-                    show screen slave_shopping
+                jump city_jail
         elif result[0] == "control":
             if result[1] == "return":
                 hide screen city_jail
