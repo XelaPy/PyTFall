@@ -46,7 +46,7 @@
             "defence":4,
             "magic": 0,
             "agility": 6,
-            "luck": -50,
+            "luck": -40,
             "charisma": 0,
             "constitution": 10,
             "intelligence": 5
@@ -76,7 +76,7 @@
             "defence":1,
             "magic": 0,
             "agility": 9,
-            "luck": -48,
+            "luck": -35,
             "charisma": 0,
             "constitution": 5,
             "intelligence": 5
@@ -106,7 +106,7 @@
             "defence":6,
             "magic": 10,
             "agility": 8,
-            "luck": -46,
+            "luck": -35,
             "charisma": 8,
             "constitution": 5,
             "intelligence": 10
@@ -136,7 +136,7 @@
             "defence":7,
             "magic": 0,
             "agility": 7,
-            "luck": -49,
+            "luck": -40,
             "charisma": 5,
             "constitution": 10,
             "intelligence": 5
@@ -196,7 +196,7 @@
             "defence":20,
             "magic": 10,
             "agility": 30,
-            "luck":-40,
+            "luck":-20,
             "charisma":10,
             "constitution": 30,
             "intelligence": 15
@@ -256,7 +256,7 @@
             "defence":10,
             "magic": 0,
             "agility": 80,
-            "luck":45,
+            "luck":40,
             "charisma": 30,
             "constitution": 15,
             "intelligence": 5
@@ -406,7 +406,7 @@
             "defence":10,
             "magic": 0,
             "agility": 10,
-            "luck":-50,
+            "luck":-30,
             "charisma":0,
             "constitution": 10,
             "intelligence": 4
@@ -436,7 +436,7 @@
             "defence":15,
             "magic": 0,
             "agility": 20,
-            "luck":-40,
+            "luck":-20,
             "charisma":5,
             "constitution": 15,
             "intelligence": 6
@@ -496,7 +496,7 @@
             "defence":15,
             "magic": 15,
             "agility": 15,
-            "luck":-20,
+            "luck":10,
             "charisma":15,
             "constitution": 20,
             "intelligence": 25
@@ -526,7 +526,7 @@
             "defence":20,
             "magic": 0,
             "agility": 15,
-            "luck":-35,
+            "luck":-30,
             "charisma":0,
             "constitution": 25,
             "intelligence": 6
@@ -556,7 +556,7 @@
             "defence":60,
             "magic": 70,
             "agility": 50,
-            "luck":-40,
+            "luck":-30,
             "charisma":20,
             "constitution": 25,
             "intelligence": 15
@@ -586,7 +586,7 @@
             "defence":30,
             "magic": 60,
             "agility": 70,
-            "luck":-30,
+            "luck":-25,
             "charisma":30,
             "constitution": 15,
             "intelligence": 5
@@ -616,7 +616,7 @@
             "defence":70,
             "magic": 20,
             "agility": 10,
-            "luck":-40,
+            "luck":-30,
             "charisma":10,
             "constitution": 70,
             "intelligence": 45
@@ -646,7 +646,7 @@
             "defence":30,
             "magic": 60,
             "agility": 70,
-            "luck":-30,
+            "luck":0,
             "charisma":30,
             "constitution": 15,
             "intelligence": 5
@@ -767,7 +767,7 @@
             "defence": 35,
             "magic": 10,
             "agility": 20,
-            "luck": -45,
+            "luck": 10,
             "charisma": 20,
             "constitution": 60,
             "intelligence": 5
@@ -798,7 +798,7 @@
             "defence": 20,
             "magic": 30,
             "agility": 10,
-            "luck": -20,
+            "luck": 20,
             "charisma": 50,
             "constitution": 50,
             "intelligence": 15
@@ -829,7 +829,7 @@
             "defence": 50,
             "magic": 30,
             "agility": 40,
-            "luck": 10,
+            "luck": 30,
             "charisma": 40,
             "constitution": 70,
             "intelligence": 20
@@ -952,7 +952,7 @@
             "defence":25,
             "magic": 0,
             "agility": 65,
-            "luck":-40,
+            "luck":-10,
             "charisma":0,
             "constitution": 40,
             "intelligence": 0
@@ -982,7 +982,7 @@
             "defence":80,
             "magic": 50,
             "agility": 90,
-            "luck":-45,
+            "luck":-5,
             "charisma":10,
             "constitution": 20,
             "intelligence": 20
@@ -1012,7 +1012,7 @@
             "defence":40,
             "magic": 50,
             "agility": 25,
-            "luck": -35,
+            "luck": 20,
             "charisma": 25,
             "constitution": 90,
             "intelligence": 40
@@ -1042,7 +1042,7 @@
             "defence":40,
             "magic": 40,
             "agility": 35,
-            "luck":-40,
+            "luck":-20,
             "charisma":0,
             "constitution": 20,
             "intelligence": 60
@@ -1102,7 +1102,7 @@
             "defence": 25,
             "magic": 10,
             "agility": 30,
-            "luck": -20,
+            "luck": 20,
             "charisma": 40,
             "constitution": 75,
             "intelligence": 55
@@ -1132,7 +1132,7 @@
             "defence": 16,
             "magic": 4,
             "agility": 40,
-            "luck": 12,
+            "luck": 25,
             "charisma": 35,
             "constitution": 60,
             "intelligence": 55
@@ -1162,7 +1162,7 @@
             "defence": 55,
             "magic": 40,
             "agility": 30,
-            "luck": -10,
+            "luck": 10,
             "charisma": 30,
             "constitution": 80,
             "intelligence": 35
@@ -1192,7 +1192,7 @@
             "defence":40,
             "magic": 20,
             "agility": 60,
-            "luck":-20,
+            "luck":10,
             "charisma":35,
             "constitution": 40,
             "intelligence": 25
@@ -1222,7 +1222,7 @@
             "defence":40,
             "magic": 20,
             "agility": 60,
-            "luck":-20,
+            "luck":10,
             "charisma":35,
             "constitution": 40,
             "intelligence": 25
@@ -1432,7 +1432,7 @@
             "defence":20,
             "magic": 10,
             "agility": 40,
-            "luck":-30,
+            "luck":-10,
             "charisma":10,
             "constitution": 30,
             "intelligence": 5
@@ -1492,7 +1492,7 @@
             "defence":60,
             "magic": 0,
             "agility": 60,
-            "luck":0,
+            "luck":10,
             "charisma": 10,
             "constitution": 30,
             "intelligence": 3
@@ -1732,7 +1732,7 @@
             "defence":45,
             "magic": 61,
             "agility": 35,
-            "luck": 0,
+            "luck": 10,
             "charisma": 35,
             "constitution": 50,
             "intelligence": 35
@@ -1912,7 +1912,7 @@
             "defence":55,
             "magic": 5,
             "agility": 30,
-            "luck":-5,
+            "luck":5,
             "charisma":30,
             "constitution": 65,
             "intelligence": 20
@@ -1942,7 +1942,7 @@
             "defence":55,
             "magic": 5,
             "agility": 30,
-            "luck":-5,
+            "luck":5,
             "charisma":30,
             "constitution": 65,
             "intelligence": 20
@@ -2002,7 +2002,7 @@
             "defence":60,
             "magic": 10,
             "agility": 10,
-            "luck":-40,
+            "luck":10,
             "charisma":10,
             "constitution": 50,
             "intelligence": 50
@@ -2032,7 +2032,7 @@
             "defence":80,
             "magic": 10,
             "agility": 40,
-            "luck":-30,
+            "luck":-10,
             "charisma":30,
             "constitution": 70,
             "intelligence": 5
@@ -2122,7 +2122,7 @@
             "defence":50,
             "magic": 0,
             "agility": 30,
-            "luck":-50,
+            "luck":0,
             "charisma":0,
             "constitution": 40,
             "intelligence": 20
@@ -2152,7 +2152,7 @@
             "defence": 70,
             "magic": 80,
             "agility": 25,
-            "luck":-30,
+            "luck":0,
             "charisma": 60,
             "constitution": 25,
             "intelligence": 70
@@ -2182,7 +2182,7 @@
             "defence":30,
             "magic": 20,
             "agility": 25,
-            "luck": -45,
+            "luck": -30,
             "charisma": 5,
             "constitution": 60,
             "intelligence": 20
@@ -2303,7 +2303,7 @@
             "defence": 90,
             "magic": 90,
             "agility": 55,
-            "luck":0,
+            "luck":20,
             "constitution": 65,
             "intelligence": 80
         },
@@ -2332,7 +2332,7 @@
             "defence":70,
             "magic": 40,
             "agility": 8,
-            "luck": -50,
+            "luck": -10,
             "charisma": 15,
             "constitution": 86,
             "intelligence": 20
@@ -2392,7 +2392,7 @@
             "defence": 28,
             "magic": 10,
             "agility": 34,
-            "luck": -20,
+            "luck": 20,
             "charisma": 10,
             "constitution": 40,
             "intelligence": 25
@@ -2422,7 +2422,7 @@
             "defence":34,
             "magic": 0,
             "agility": 19,
-            "luck": -10,
+            "luck": 10,
             "charisma": 5,
             "constitution": 65,
             "intelligence": 10
@@ -2452,7 +2452,7 @@
             "defence":50,
             "magic": 0,
             "agility": 30,
-            "luck":-30,
+            "luck":10,
             "charisma":20,
             "constitution": 35,
             "intelligence": 20
@@ -2512,7 +2512,7 @@
             "defence": 39,
             "magic": 10,
             "agility": 34,
-            "luck": -25,
+            "luck": -15,
             "charisma": 20,
             "constitution": 100,
             "intelligence": 20
@@ -2542,7 +2542,7 @@
             "defence":100,
             "magic": 0,
             "agility": 10,
-            "luck":-45,
+            "luck":-30,
             "charisma":5,
             "constitution": 80,
             "intelligence": 5
@@ -2632,7 +2632,7 @@
             "defence":30,
             "magic": 60,
             "agility": 70,
-            "luck":-35,
+            "luck":15,
             "charisma":85,
             "constitution": 50,
             "intelligence": 45
@@ -2662,7 +2662,7 @@
             "defence":40,
             "magic": 35,
             "agility": 15,
-            "luck":-10,
+            "luck":20,
             "charisma":20,
             "constitution": 25,
             "intelligence": 45
@@ -2692,7 +2692,7 @@
             "defence":20,
             "magic": 80,
             "agility": 95,
-            "luck":10,
+            "luck":30,
             "charisma":85,
             "constitution": 30,
             "intelligence": 40
@@ -2722,7 +2722,7 @@
             "defence":90,
             "magic": 20,
             "agility": 0,
-            "luck":-50,
+            "luck":-40,
             "charisma":10,
             "constitution": 60,
             "intelligence": 0
@@ -2811,7 +2811,7 @@
             "defence":10,
             "magic": 10,
             "agility": 95,
-            "luck":0,
+            "luck":20,
             "charisma":60,
             "constitution": 30,
             "intelligence": 40
@@ -2871,7 +2871,7 @@
             "defence": 8,
             "magic": 2,
             "agility": 20,
-            "luck": -6,
+            "luck": -15,
             "charisma": 12,
             "constitution": 20,
             "intelligence": 25
@@ -2931,7 +2931,7 @@
             "defence": 25,
             "magic": 0,
             "agility": 20,
-            "luck": -8,
+            "luck": -5,
             "charisma": 17,
             "constitution": 45,
             "intelligence": 25
@@ -2961,7 +2961,7 @@
             "defence":60,
             "magic": 20,
             "agility": 35,
-            "luck":-40,
+            "luck":-30,
             "charisma":0,
             "constitution": 30,
             "intelligence": 20
@@ -2991,7 +2991,7 @@
             "defence": 17,
             "magic": 0,
             "agility": 25,
-            "luck": 16,
+            "luck": 15,
             "charisma": 0,
             "constitution": 50,
             "intelligence": 10
@@ -3051,7 +3051,7 @@
             "defence": 25,
             "magic": 20,
             "agility": 30,
-            "luck": 35,
+            "luck": 40,
             "charisma": 25,
             "constitution": 30,
             "intelligence": 85
@@ -3141,7 +3141,7 @@
             "defence":60,
             "magic": 0,
             "agility": 20,
-            "luck":-40,
+            "luck":0,
             "charisma":10,
             "constitution": 60,
             "intelligence": 40
@@ -3171,7 +3171,7 @@
             "defence":40,
             "magic": 50,
             "agility": 80,
-            "luck":-5,
+            "luck":0,
             "charisma":30,
             "constitution": 30,
             "intelligence": 40
@@ -3231,7 +3231,7 @@
             "defence":40,
             "magic": 60,
             "agility": 60,
-            "luck":-10,
+            "luck":0,
             "charisma":30,
             "constitution": 40,
             "intelligence": 35
@@ -3261,7 +3261,7 @@
             "defence":60,
             "magic": 20,
             "agility": 35,
-            "luck":-40,
+            "luck":40,
             "charisma":0,
             "constitution": 100,
             "intelligence": 50
@@ -3381,7 +3381,7 @@
             "defence":40,
             "magic": 50,
             "agility": 40,
-            "luck":-20,
+            "luck":20,
             "charisma": 30,
             "constitution": 85,
             "intelligence": 75
@@ -3591,7 +3591,7 @@
             "defence":70,
             "magic": 20,
             "agility": 20,
-            "luck":-40,
+            "luck":-30,
             "charisma":80,
             "constitution": 70,
             "intelligence": 10
@@ -3621,7 +3621,7 @@
             "defence":20,
             "magic": 0,
             "agility": 25,
-            "luck":-40,
+            "luck":-30,
             "charisma":25,
             "constitution": 40,
             "intelligence": 15
@@ -3651,7 +3651,7 @@
             "defence":20,
             "magic": 0,
             "agility": 25,
-            "luck":-40,
+            "luck":-30,
             "charisma":25,
             "constitution": 55,
             "intelligence": 20
@@ -3681,7 +3681,7 @@
             "defence":25,
             "magic": 0,
             "agility": 15,
-            "luck":-40,
+            "luck":-20,
             "charisma":15,
             "constitution": 20,
             "intelligence": 15
@@ -3711,7 +3711,7 @@
             "defence":25,
             "magic": 0,
             "agility": 15,
-            "luck":-30,
+            "luck":-20,
             "charisma":15,
             "constitution": 40,
             "intelligence": 15
@@ -3741,7 +3741,7 @@
             "defence":70,
             "magic": 10,
             "agility": 20,
-            "luck":-30,
+            "luck":30,
             "charisma":30,
             "constitution": 95,
             "intelligence": 55
@@ -3771,7 +3771,7 @@
             "defence":25,
             "magic": 0,
             "agility": 5,
-            "luck":-30,
+            "luck":20,
             "charisma":15,
             "constitution": 60,
             "intelligence": 25
@@ -3801,7 +3801,7 @@
             "defence":10,
             "magic": 40,
             "agility": 15,
-            "luck":-10,
+            "luck":10,
             "charisma":25,
             "constitution": 40,
             "intelligence": 65
@@ -3831,7 +3831,7 @@
             "defence":55,
             "magic": 0,
             "agility": 5,
-            "luck":-20,
+            "luck":-10,
             "charisma":0,
             "constitution": 90,
             "intelligence": 5
@@ -3891,7 +3891,7 @@
             "defence":30,
             "magic": 100,
             "agility": 25,
-            "luck":-10,
+            "luck":20,
             "charisma":45,
             "constitution": 60,
             "intelligence": 85
@@ -4041,7 +4041,7 @@
             "defence":20,
             "magic": 45,
             "agility": 15,
-            "luck":-30,
+            "luck":30,
             "charisma":30,
             "constitution": 100,
             "intelligence": 50
@@ -4071,7 +4071,7 @@
             "defence":60,
             "magic": 20,
             "agility": 35,
-            "luck":-40,
+            "luck":30,
             "charisma":0,
             "constitution": 90,
             "intelligence": 10
@@ -4101,7 +4101,7 @@
             "defence":40,
             "magic": 60,
             "agility": 30,
-            "luck":0,
+            "luck":20,
             "charisma":70,
             "constitution": 30,
             "intelligence": 35
@@ -4131,7 +4131,7 @@
             "defence":65,
             "magic": 80,
             "agility": 40,
-            "luck":-20,
+            "luck":10,
             "charisma": 60,
             "constitution": 30,
             "intelligence": 70
@@ -4161,7 +4161,7 @@
             "defence":90,
             "magic": 85,
             "agility": 40,
-            "luck":-25,
+            "luck":-5,
             "charisma":40,
             "constitution": 100,
             "intelligence": 50
@@ -4191,7 +4191,7 @@
             "defence":90,
             "magic": 85,
             "agility": 40,
-            "luck":-25,
+            "luck":-5,
             "charisma":40,
             "constitution": 100,
             "intelligence": 50
@@ -4221,7 +4221,7 @@
             "defence":90,
             "magic": 80,
             "agility": 65,
-            "luck":-40,
+            "luck":10,
             "charisma":40,
             "constitution": 75,
             "intelligence": 30
@@ -4251,7 +4251,7 @@
             "defence":80,
             "magic": 20,
             "agility": 90,
-            "luck":-10,
+            "luck":10,
             "charisma":60,
             "constitution": 50,
             "intelligence": 30
@@ -4281,7 +4281,7 @@
             "defence":60,
             "magic": 40,
             "agility": 70,
-            "luck":-10,
+            "luck":10,
             "charisma":0,
             "constitution": 90,
             "intelligence": 5
@@ -4371,7 +4371,7 @@
             "defence":40,
             "magic": 60,
             "agility": 40,
-            "luck":-40,
+            "luck":0,
             "charisma":10,
             "constitution": 50,
             "intelligence": 20
@@ -4401,7 +4401,7 @@
             "defence":40,
             "magic": 70,
             "agility": 45,
-            "luck":-40,
+            "luck":10,
             "charisma":20,
             "constitution": 75,
             "intelligence": 80
@@ -4431,7 +4431,7 @@
             "defence":40,
             "magic": 70,
             "agility": 45,
-            "luck":-40,
+            "luck":10,
             "charisma":20,
             "constitution": 75,
             "intelligence": 80
@@ -4461,7 +4461,7 @@
             "defence":40,
             "magic": 80,
             "agility": 35,
-            "luck":-30,
+            "luck":10,
             "charisma":25,
             "constitution": 65,
             "intelligence": 55
@@ -4491,7 +4491,7 @@
             "defence":40,
             "magic": 80,
             "agility": 35,
-            "luck":-30,
+            "luck":10,
             "charisma":25,
             "constitution": 65,
             "intelligence": 55
@@ -4521,7 +4521,7 @@
             "defence":40,
             "magic": 80,
             "agility": 35,
-            "luck":-30,
+            "luck":10,
             "charisma":25,
             "constitution": 65,
             "intelligence": 55
@@ -4551,7 +4551,7 @@
             "defence":40,
             "magic": 80,
             "agility": 35,
-            "luck":-30,
+            "luck":10,
             "charisma":25,
             "constitution": 65,
             "intelligence": 55
@@ -4581,7 +4581,7 @@
             "defence":40,
             "magic": 80,
             "agility": 35,
-            "luck":-30,
+            "luck":10,
             "charisma":25,
             "constitution": 65,
             "intelligence": 55
