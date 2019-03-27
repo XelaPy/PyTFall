@@ -1448,7 +1448,7 @@ init -6 python: # Guild, Tracker and Log.
                 for fighter in dead:
                     result = kill_char(fighter)
                     if result:
-                        temp = "{} died..."
+                        temp = "{} died...".format(fighter.name)
                         temp = set_font_color(temp, "red")
                         tracker.log(temp)
 
