@@ -61,10 +61,15 @@
                 self.team = None
                 self.charmod = charmod
                 self.team_charmod = None
-            elif char or len(team) == 1:
+            elif team and len(team) == 1:
+                self.char = list(team)[0]
+                self.charmod = charmod[self.char]
+                self.team_charmod = None
+                self.team = None
+            elif char:
                 self.charmod = charmod.copy()
                 self.team_charmod = None
-                self.char = char or list(team)[0]
+                self.char = char
                 self.team = None
             else:
                 self.team_charmod = charmod.copy()
