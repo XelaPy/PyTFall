@@ -169,13 +169,20 @@ init python:
             source = self.source
 
             if source.status == "free":
-                msg = "{} skips a turn. ".format(source.nickname)
+                temp = []
+                temp.append("{} skips a turn:".format(source.nickname))
 
-                # Restoring Vitality:
-                temp = int(source.get_max("vitality") * uniform(.03, .06))
-                source.vitality += temp
-                msg = msg + "Restored: {color=[green]}%d vitality{/color} points!"%(temp)
-                battle.log(msg)
+                # Restoring stats:
+                vp = round_int(source.get_max("vitality") * uniform(.03, .06))
+                source.vitality += vp
+                temp.append("{color=[green]}+%d VP{/color}" % vp)
+
+                mp = round_int(source.get_max("mp") * uniform(.03, .06))
+                source.mp += mp
+                temp.append("{color=[gold]}+%d MP{/color}" % mp)
+
+                temp = " ".join(temp)
+                battle.log(temp)
             else: # Slaves case...
                 msg = "{} stands still.".format(source.nickname)
                 battle.log(msg)

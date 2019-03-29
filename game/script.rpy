@@ -402,12 +402,13 @@ label after_load:
 
     python hide: # TODO DELETE AFTER TEST PHASE!!!!!!!!!!!!!!
         fg_areas["Deep Northern Forest"].travel_time = .7
+        fg_areas["Elven Forest"].mobs = ["Griffin", "Boros", "Bats", "Link Wolf", "Wild Dryad"]
 
         for area in fg_areas.values():
             for tracker in area.trackers:
                 if not hasattr(tracker, "unlocked_areas"):
                     tracker.unlocked_areas = []
-        fg_areas["Elven Forest"].mobs = ["Griffin", "Boros", "Bats", "Link Wolf", "Wild Dryad"]
+
 
     # Resets:
     python:
