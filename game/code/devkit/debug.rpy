@@ -11,6 +11,11 @@ init -999 python:
     DEBUG_PROFILING = False # Loading time of various game elements.
     DEBUG_INTERACTIONS = False
 
+    def dlog(msg, mode="info"):
+        if DEBUG_LOG:
+            func = getattr(devlog, mode)
+            func("{}".format(msg))
+
     DEBUG_CHARS = False
     def char_debug(msg, mode="warning"):
         if DEBUG_CHARS:

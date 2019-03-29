@@ -7,30 +7,21 @@ init 100 python:
     mobs = load_mobs()
     tl.end("Loading: Mobs")
 
-    def update_object(obj_dest, obj_src, prefix):
-        for attr, v in vars(obj_dest).items():
-            if hasattr(obj_src, attr):
-                v2 = getattr(obj_src, attr)
-                if v2 != v:
-                    try:
-                        devlog.info("{} - Modified Attr {}: {} -> {} in {}".format(prefix, attr, str(v), str(v2), str(obj_dest)))
-                    except:
-                        pass
-                    setattr(obj_dest, attr, v2)
+    def update_object(old, new, kind):
+        for key, value in vars(old).iteritems():
+            if hasattr(new, key):
+                updated = getattr(new, key)
+                if value != updated:
+                    dlog("{} {}: {} Updated: {} -> {}".format(kind, str(old), key, str(value), str(updated)))
+                setattr(old, key, updated)
             else:
-                try:
-                    devlog.info("{} - Attr Removed: {} from {}".format(prefix, attr, str(obj_dest)))
-                except:
-                    pass
-                delattr(obj_dest, attr)
+                dlog("{} {}: Deleted: {}: {}".format(kind, str(old), key, str(value)))
+                delattr(old, key)
 
-        for attr, v2 in vars(obj_src).items():
-            if not hasattr(obj_dest, attr):
-                try:
-                    devlog.info("{} - New Attr {} for {} with value {}".format(prefix, attr, str(obj_dest), str(v2)))
-                except:
-                    pass
-                setattr(obj_dest, attr, v2)
+        for key, updated in vars(new).iteritems():
+            if not hasattr(old, key):
+                dlog("{} {}: New Attr: {}: {}".format(kind, str(old), key, str(updated)))
+                setattr(old, key, updated)
 
 default defeated_mobs = {}
 default gazette = Gazette()
@@ -448,8 +439,7 @@ label after_load:
                 if curr_item is None:
                     # Add new item
                     store.items[id] = item
-                    if DEBUG:
-                        devlog.info("New Item: {}".format(id))
+                    dlog("New Item: {}".format(id))
                 else:
                     # Update the existing item
                     update_object(curr_item, item, "Item")
@@ -471,8 +461,7 @@ label after_load:
                 if curr_trait is None:
                     # Add new trait
                     store.traits[id] = trait
-                    if DEBUG:
-                        devlog.info("New Trait: {}".format(id))
+                    dlog("New Trait: {}".format(id))
                 else:
                     # Update the existing trait
                     update_object(curr_trait, trait, "Trait")
@@ -481,6 +470,19 @@ label after_load:
             tl.end("Updating traits")
             global_flags.set_flag("last_modified_traits", last_modified)
             renpy.call("sort_traits_for_gameplay")
+
+    # SE Areas:
+    python hide:
+        tl.start("Updating: Exploration Areas")
+        updated = load_se_areas()
+        for id, area in updated.iteritems():
+            old = store.fg_areas.get(id, None)
+            if old is None:
+                store.fg_areas[id] = area
+                dlog("New SE Area: {}".format(id))
+            else:
+                update_object(old, area, "SE Area")
+        tl.end("Updating: Exploration Areas")
 
     # All kinds of chars:
     python hide:
