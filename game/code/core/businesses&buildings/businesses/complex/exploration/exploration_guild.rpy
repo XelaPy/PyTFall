@@ -170,7 +170,7 @@ init -6 python: # Guild, Tracker and Log.
             self.found_items = list()
             self.captured_chars = list()
             self.cash = list()
-            self.unlocked_areas = list()
+            self._unlocked_areas = list()
 
             self.daily_items = None
 

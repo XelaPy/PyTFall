@@ -35,6 +35,7 @@ label city_jail:
         "Temporary home of miscreants and lawbreakers."
         "Not to mention an occasional escaped slave."
 
+    $ jail.set_focus()
     show screen city_jail
 
     $ pytfall.world_quests.run_quests("auto")
@@ -56,6 +57,7 @@ label city_jail:
 
                     $ hero.AP -= 1
                     $ hero.add_char(char)
+                    $ jail.set_focus()
 
                     call screen message_screen("You've retrieved {} from jail!".format(char.name))
                 else:
@@ -96,6 +98,7 @@ label city_jail:
 
                                 $ hero.AP -= 1
                                 $ hero.add_char(char)
+                                $ jail.set_focus()
 
                                 $ char.disposition += 200
 
