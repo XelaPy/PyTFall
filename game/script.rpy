@@ -407,7 +407,7 @@ label after_load:
             for tracker in area.trackers:
                 if not hasattr(tracker, "unlocked_areas"):
                     tracker.unlocked_areas = []
-
+        fg_areas["Elven Forest"].mobs = ["Griffin", "Boros", "Bats", "Link Wolf", "Wild Dryad"]
 
     # Resets:
     python:
