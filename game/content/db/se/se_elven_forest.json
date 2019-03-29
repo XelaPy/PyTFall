@@ -14,7 +14,7 @@
         "area": "Elven Forest",
         "unlocked": true,
         "rchars": {"Rena_Elsword": [50, 15]},
-        "mobs": ["Griffin", "Boros", "Bats", "Link Wolf", "Dryad"],
+        "mobs": ["Griffin", "Boros", "Bats", "Link Wolf", "Wild Dryad"],
         "unlocks": {"Elven Village": 80, "Fairy Forest": 50},
         "cash_limit": 100,
         "items_limit": 900,

@@ -134,3 +134,62 @@ init -11 python:
             return value
         else:
             return string + value
+            
+    def cheats_function(mode="gold"):
+        global cheats_were_used
+        cheats_were_used = True
+        if mode == "gold":
+            if renpy.get_screen("char_profile") and char != None:
+                char.gold += 10000
+                renpy.notify("[char.name] got 10000 coins!")
+            else:
+                hero.gold += 10000
+                renpy.notify("[hero.name] got 10000 coins!")
+        elif mode == "level":
+            if renpy.get_screen("char_profile") and char != None:
+                char.exp += (char.goal - char.exp)
+                renpy.notify("[char.name] leveled up!")
+            else:
+                hero.exp += (hero.goal - hero.exp)
+                renpy.notify("[hero.name] leveled up!")
+        elif mode == "items":
+            if renpy.get_screen("char_profile") and char != None:
+                for i in items.values():
+                    char.inventory.append(i, 1)
+                renpy.notify("[char.name] got all items!")
+            else:
+                for i in items.values():
+                    hero.inventory.append(i, 1)
+                renpy.notify("[hero.name] got all items!")
+        elif mode == "stats":
+            if renpy.get_screen("char_profile") and char != None:
+                for i in char.stats.max.keys():
+                    setattr(char, i, char.stats.max[i])
+                renpy.notify("[char.name] stats maxed out!")
+            else:
+                for i in hero.stats.max.keys():
+                    setattr(hero, i, hero.stats.max[i])
+                renpy.notify("[hero.name] stats maxed out!")
+        elif mode == "disp":
+            if char == None:
+                renpy.notify("No character detected.")
+            else:
+                char.disposition = 1000
+                renpy.notify("[char.name] disposition is maxed out!")
+        elif mode == "heal":
+            if renpy.get_screen("char_profile") and char != None:
+                char.health += 100000
+                char.mp += 100000
+                char.vitality += 100000
+                char.AP = char.baseAP
+                renpy.notify("[char.name] was healed.")
+            else:
+                hero.health += 100000
+                hero.mp += 100000
+                hero.vitality += 100000
+                hero.AP = hero.baseAP
+                renpy.notify("[hero.name] was healed.")
+        elif mode == "arena":
+            hero.arena_permit = True
+            hero.arena_rep += 10000
+            renpy.notify("[hero.name] arena reputation was increased.")

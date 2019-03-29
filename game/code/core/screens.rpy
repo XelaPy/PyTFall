@@ -466,7 +466,11 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                 tooltip "QuickLoad"
                 action QuickLoad()
                 keysym "K_F9"
-
+            imagebutton:
+                idle Image("content/gfx/interface/buttons/Journal.png")
+                hover im.MatrixColor("content/gfx/interface/buttons/Journal.png", im.matrix.brightness(.15))
+                tooltip "Cheats"
+                action Show("cheats_screen")
 
         if show_return_button:
             default special_screens = ["girl_interactions",
@@ -1340,3 +1344,52 @@ screen digital_keyboard(line=""):
 
     key "mousedown_3" action Return(0)
     key "K_ESCAPE" action Return(0)
+    
+screen cheats_screen:
+    zorder 10000
+    modal True
+    frame:
+        align (.5, .5)
+        background "content/gfx/frame/hp_1long.png"
+        xysize (155, 390)
+        text "Cheats" size 20 color goldenrod outlines [(2, "#3a3a3a", 0, 0)] align 0.4, 0
+        imagebutton:
+            align 1.0, 0 offset 2, -2
+            idle ProportionalScale("content/gfx/interface/buttons/close4.png", 20, 24)
+            hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24)
+            insensitive im.Sepia(ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24))
+            action Hide("cheats_screen")
+            
+        vbox:
+            style_group "wood"
+            xsize 155
+            spacing 5
+            ypos 50
+            button:
+                xysize (150, 40)
+                action Function(cheats_function, "gold")
+                text "Gold"
+            button:
+                xysize (150, 40)
+                action Function(cheats_function, "level")
+                text "Level Up"
+            button:
+                xysize (150, 40)
+                action Function(cheats_function, "stats")
+                text "Max Stats"
+            button:
+                xysize (150, 40)
+                action Function(cheats_function, "items")
+                text "Items"
+            button:
+                xysize (150, 40)
+                action Function(cheats_function, "disp")
+                text "Disposition"
+            button:
+                xysize (150, 40)
+                action Function(cheats_function, "heal")
+                text "Heal"
+            button:
+                xysize (150, 40)
+                action Function(cheats_function, "arena")
+                text "Arena"

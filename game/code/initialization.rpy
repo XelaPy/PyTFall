@@ -502,6 +502,7 @@ init:
     default eq_target = None
     default the_chosen = None
     default focus = None
+    default cheats_were_used = False
 
     # We use a global here because checking for the eye is slow and complicated
     default the_eye_upgrade_active = False
