@@ -46,20 +46,20 @@ label time_temple:
                 for i in hero.team:
                     if any([i.health < i.get_max("health"), i.mp< i.get_max("mp"), i.vitality < i.get_max("vitality"), "Food Poisoning" in i.effects, "Poisoned" in i.effects, "Down with Cold" in i.effects, "Injured" in i.effects]):
                         if i.health < i.get_max("health"):
-                            temp_charcters += i.get_max("health") - i.health
+                            temp_charcters += (i.get_max("health") - i.health) * (1+i.tier)
                         if i.mp < i.get_max("mp"):
-                            temp_charcters += i.get_max("mp") - i.mp
+                            temp_charcters += (i.get_max("mp") - i.mp) * (1+i.tier)
                         if i.vitality < i.get_max("vitality"):
-                            temp_charcters += i.get_max("vitality") - i.vitality
+                            temp_charcters += (i.get_max("vitality") - i.vitality) * (1+i.tier)
 
                         if "Food Poisoning" in i.effects:
-                            temp_charcters += 100
+                            temp_charcters += 100 + 100*i.tier
                         if "Poisoned" in i.effects:
-                            temp_charcters += 100
+                            temp_charcters += 100 + 100*i.tier
                         if "Down with Cold" in i.effects:
-                            temp_charcters += 50
+                            temp_charcters += 50 + 50*i.tier
                         if "Injured" in i.effects:
-                            temp_charcters += 150
+                            temp_charcters += 150 + 150*i.tier
 
 
 
@@ -153,7 +153,7 @@ label time_temple:
                 $ global_flags.set_flag("asked_miel_about_wounds")
                 t "I can remove injures from everyone who works for you. It's a common problem among adventurers these days."
             $ temp_charcters = list(c for c in hero.chars if (c.is_available and "Injured" in c.effects))
-            $ p = len(temp_charcters)*150
+            $ p = len(temp_charcters)*300
             if len(temp_charcters) <= 0:
                 t "I don't think you need this service at the moment."
             elif hero.gold < p:

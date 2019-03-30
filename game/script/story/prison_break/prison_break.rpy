@@ -351,11 +351,11 @@ label storyi_search_items:
         if dice(hero.luck):
             $ give_to_mc_item_reward("weapon", price=1000)
     elif storyi_prison_location == 13:
-        "Most of the food is spoiled, but some of it is still edible."
-        $ give_to_mc_item_reward("food", price=500)
-        $ give_to_mc_item_reward("food", price=500)
+        "The food is spoiled, but alcohol is still good.."
+        $ give_to_mc_item_reward("alcohol", price=500)
+        $ give_to_mc_item_reward("alcohol", price=500)
         if dice(hero.luck):
-            $ give_to_mc_item_reward("food", price=500)
+            $ give_to_mc_item_reward("alcohol", price=500)
     elif storyi_prison_location == 10:
         "There is a pile of clothes in the corner, probably remained from the former prisoners."
         $ give_to_mc_item_reward("dress", price=500)

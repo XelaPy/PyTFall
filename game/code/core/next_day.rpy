@@ -81,6 +81,7 @@ init python:
 
 
 label next_day:
+    $ hero.del_flag("storyi_items_room_1") # resets some drop in forest ruins
     scene
 
     $ next_day_local = None
