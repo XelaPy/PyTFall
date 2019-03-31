@@ -62,17 +62,12 @@ label mainscreen:
                 renpy.hide_screen("mainscreen")
                 pytfall.arena.seen_report = True
                 jump(result[1])
-        elif result[0] == "city":
-            $ global_flags.set_flag("keep_playing_music")
-            $ renpy.hide_screen("mainscreen")
+        if result[0] == "jump":
+            hide screen mainscreen
             $ pytfall.arena.seen_report = True
-            scene bg pytfall
-            $ jump(result[0])
-        else:
-            python:
-                renpy.hide_screen("mainscreen")
-                pytfall.arena.seen_report = True
-                jump(result[0])
+            if result[1] == "city":
+                $ global_flags.set_flag("keep_playing_music")
+            jump expression result[1]
 
 screen mainscreen():
     key "mousedown_3" action Show("s_menu", transition=dissolve)
@@ -81,9 +76,9 @@ screen mainscreen():
     add im.Scale("content/gfx/bg/main_brothel.webp", config.screen_width, config.screen_height-40) at fade_from_to(.0, 1.0, 2.0) ypos 40
 
     frame:
-        align (.995, .88)
+        align .995, .88
         background Frame("content/gfx/frame/window_frame2.webp", 30, 30)
-        xysize (255, 670)
+        xysize 255, 670
         xfill True
         yfill True
 
@@ -102,11 +97,11 @@ screen mainscreen():
                 action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
                 tooltip "A list of all of your workers"
             textbutton "Buildings":
-                action Return(["building_management"])
+                action Return(["jump", "building_management"])
                 sensitive hero.buildings
                 tooltip "Manage here your properties and businesses"
             textbutton "Go to the City":
-                action Return(["city"])
+                action Return(["jump", "city"])
                 tooltip 'Explore the city'
 
             null height 50
