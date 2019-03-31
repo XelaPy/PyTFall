@@ -257,10 +257,14 @@ screen top_stripe(show_return_button=True, return_button_action=None,
             key "з" action Function(renpy.scene, "screens"), Jump("main_street")
             key "З" action Function(renpy.scene, "screens"), Jump("main_street")
 
-        key "i" action Function(renpy.scene, "screens"), Return(["hero_eq"])
-        key "I" action Function(renpy.scene, "screens"), Return(["hero_eq"])
-        key "ш" action Function(renpy.scene, "screens"), Return(["hero_eq"])
-        key "Ш" action Function(renpy.scene, "screens"), Return(["hero_eq"])
+        $ temp = [clear_screens,
+                  SetVariable("came_to_equip_from", "mainscreen"),
+                  SetVariable("eqtarget", hero),
+                  Jump("char_equip")]
+        key "i" action temp
+        key "I" action temp
+        key "ш" action temp
+        key "Ш" action temp
 
         key "b" action Return(["building_management"])
         key "B" action Return(["building_management"])
@@ -1344,7 +1348,7 @@ screen digital_keyboard(line=""):
 
     key "mousedown_3" action Return(0)
     key "K_ESCAPE" action Return(0)
-    
+
 screen cheats_screen:
     zorder 10000
     modal True
@@ -1359,7 +1363,7 @@ screen cheats_screen:
             hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24)
             insensitive im.Sepia(ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24))
             action Hide("cheats_screen")
-            
+
         vbox:
             style_group "wood"
             xsize 155

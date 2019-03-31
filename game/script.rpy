@@ -409,7 +409,6 @@ label after_load:
                 if not hasattr(tracker, "unlocked_areas"):
                     tracker.unlocked_areas = []
 
-
     # Resets:
     python:
         config.mouse = None
