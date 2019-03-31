@@ -59,28 +59,15 @@ label mainscreen:
 
         if len(result) > 1:
             python:
-                pytfall.sm.set_index()
                 renpy.hide_screen("mainscreen")
                 pytfall.arena.seen_report = True
                 jump(result[1])
-        elif result[0] == "chars_list":
-            stop world
-            $ renpy.hide_screen("mainscreen")
-            $ pytfall.arena.seen_report = True
-            # scene bg gallery
-            # with irisin
-            $ jump(result[0])
         elif result[0] == "city":
             $ global_flags.set_flag("keep_playing_music")
             $ renpy.hide_screen("mainscreen")
             $ pytfall.arena.seen_report = True
             scene bg pytfall
-            # with irisin
             $ jump(result[0])
-        elif result[0] == "hero_eq":
-            $ came_to_equip_from = "mainscreen"
-            $ eqtarget = hero
-            jump char_equip
         else:
             python:
                 renpy.hide_screen("mainscreen")
