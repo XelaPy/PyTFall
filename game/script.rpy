@@ -576,36 +576,5 @@ label after_load:
                 store.tiered_items[0].append(item)
             del store.tiered_items[None]
 
-        # Not sure why we do this:
-        if hero.controller == "player":
-            hero.controller = None
-
-            for girl in itertools.chain(chars.values(), hero.chars, npcs.values()):
-                if girl.controller == "player":
-                    girl.controller = None
-
-            arena = pytfall.arena
-            for fighter in itertools.chain(arena.ladder, arena.arena_fighters.values()):
-                if fighter.controller == "player":
-                    fighter.controller = None
-
-            for team in itertools.chain(arena.teams_2v2, arena.teams_3v3,\
-                 arena.dogfights_1v1, arena.dogfights_2v2, arena.dogfights_3v3,\
-                 arena.lineup_1v1, arena.lineup_2v2, arena.lineup_3v3):
-                    for fighter in team:
-                        if fighter.controller == "player":
-                            fighter.controller = None
-
-            for setup in itertools.chain(arena.matches_1v1, arena.matches_2v2, arena.matches_3v3):
-                for fighter in itertools.chain(setup[0].members, setup[1].members):
-                    if fighter.controller == "player":
-                        fighter.controller = None
-
-            for b in hero.buildings:
-                if isinstance(b, UpgradableBuilding):
-                    for client in b.all_clients:
-                        if client.controller == "player":
-                            client.controller = None
-
     stop music
     return

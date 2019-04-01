@@ -632,7 +632,7 @@ screen hero_team():
                         action None
 
                     python:
-                        if member.front_row:
+                        if member.be.front_row:
                             img = ProportionalScale("content/gfx/interface/buttons/row_switch.png", 40, 20)
                         else:
                             img = im.Flip(ProportionalScale("content/gfx/interface/buttons/row_switch.png", 40, 20), horizontal=True)
@@ -642,8 +642,8 @@ screen hero_team():
                         idle Transform(img, alpha=.9)
                         hover Transform(img, alpha=1.05)
                         insensitive im.Sepia(img)
-                        action If(hasattr(member, "front_row"), true=[ToggleField(member, "front_row")])
-                        if member.front_row:
+                        action If(hasattr(member.be, "front_row"), true=[ToggleField(member.be, "front_row")])
+                        if member.be.front_row:
                             tooltip "Toggle between rows in battle, currently character fights from the front row"
                         else:
                             tooltip "Toggle between rows in battle, currently character fights from the back row"

@@ -905,18 +905,18 @@ screen char_control():
 
             null height 30
             button:
-                action ToggleField(char, "front_row")
+                action ToggleField(char.be, "front_row")
                 xysize (200, 32)
                 text "Front Row" align (.0, .5)
-                if char.front_row:
+                if char.be.front_row:
                     tooltip "{} fights in the front row!".format(char.name)
                 else:
                     tooltip "{} fights in the back row!".format(char.name)
-                if isinstance(char.front_row, list):
+                if isinstance(char.be.front_row, list):
                     add cb_some_checked align (1.0, .5)
-                elif char.front_row:
+                elif char.be.front_row:
                     add cb_checked align (1.0, .5)
-                elif not char.front_row:
+                elif not char.be.front_row:
                     add cd_unchecked align (1.0, .5)
 
             button:

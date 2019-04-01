@@ -144,23 +144,7 @@ init -9 python:
                 self.effects = _dict()
 
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
-            self.besprite = None # Used to keep track of sprite displayable in the BE.
-            self.beinx = 0 # Passes index from logical execution to SFX setup.
-            self.beteampos = None # This manages team position bound to target (left or right on the screen).
-            self.row = 1 # row on the battlefield, used to calculate range of weapons.
-            self.front_row = True # 1 for front row and 0 for back row.
-            self.betag = None # Tag to keep track of the sprite.
-            self.dpos = None # Default position based on row + team.
-            self.sopos = () # Status underlay position, which should be fixed.
-            self.cpos = None # Current position of a sprite.
-            self.besk = None # BE Show **Kwargs!
-            # self.besprite_size = None # Sprite size in pixels. THIS IS NOW A PROPERTY!
-            self.allegiance = None # BE will default this to the team name.
-            self.controller = None # by default the player is in control
-            self.beeffects = []
-            self.can_die = False
-            self.dmg_font = "red"
-            self.status_overlay = [] # This is something I wanted to test out, trying to add tiny status icons somehow.
+            self._be = CharBEData()
 
             self.attack_skills = SmartTracker(self)  # Attack Skills
             self.magic_skills = SmartTracker(self)  # Magic Skills
@@ -237,6 +221,12 @@ init -9 python:
             self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
 
         # Properties:
+        @property
+        def be(self):
+            if not hasattr(self, "_be"):
+                self._be = CharBEData(front_row=self.front_row)
+            return self._be
+
         @property
         def obfuscated_name(self):
             if not getattr(self, "_obfuscated_name", None):
@@ -403,7 +393,7 @@ init -9 python:
                 self._jobpoints = 0
             if not hasattr(self, "jp_spent"):
                 self.jp_spent = 0
-                
+
             return self._jobpoints
         @jobpoints.setter
         def jobpoints(self, value):
@@ -464,7 +454,7 @@ init -9 python:
         # Show to mimic girls method behavior:
         @property
         def besprite_size(self):
-            return get_size(self.besprite)
+            return get_size(self.be.sprite)
 
         def get_sprite_size(self, tag="vnsprite"):
             # First, lets get correct sprites:
@@ -2206,14 +2196,12 @@ init -9 python:
             self.battle_sprite = ""
             self.combat_img = ""
 
-            self.controller = None
-
         @property
         def besprite_size(self):
             webm_spites = mobs[self.id].get("be_webm_sprites", None)
             if webm_spites:
                 return webm_spites["idle"][1]
-            return get_size(self.besprite)
+            return get_size(self.be.sprite)
 
         def has_image(self, *tags):
             """

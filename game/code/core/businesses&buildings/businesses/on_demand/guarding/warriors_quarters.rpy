@@ -330,14 +330,14 @@ init -5 python:
                                  last_name="{}".format(e+1),
                                  pattern=["Combatant"], tier=building.tier+2.0)
                                  # Tier + 1.5 cause we don't give them any items so it's a brawl!
-                enemy.front_row = True
+                enemy.be.front_row = True
                 enemy.apply_trait("Fire")
-                enemy.controller = BE_AI(enemy)
+                enemy.be.controller = BE_AI(enemy)
                 enemy_team.add(enemy)
 
             defence_team = Team(name="Guardians Of The Galaxy", max_size=len(defenders))
             for i in defenders:
-                i.controller = BE_AI(i)
+                i.be.controller = BE_AI(i)
                 defence_team.add(i)
 
             # ImageReference("chainfights")

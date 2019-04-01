@@ -1279,11 +1279,11 @@ init -6 python: # Guild, Tracker and Log.
             # raise Exception(mob, tracker.area.mobs)
             for i in xrange(opfor_team_size):
                 temp = build_mob(id=mob, level=level)
-                temp.controller = BE_AI(temp)
+                temp.be.controller = BE_AI(temp)
                 opfor.add(temp)
 
             for i in team:
-                i.controller = BE_AI(i)
+                i.be.controller = BE_AI(i)
 
             # Logical battle scenario:
             battle = BE_Core(logical=True)

@@ -66,7 +66,7 @@ label special_items_slime_bottle:
                 new_slime.say "AAAAGHHHHHH!"
                 "She attacks you!"
 
-                $ new_slime.front_row = True
+                $ new_slime.be.front_row = True
                 $ enemy_team = Team(name="Enemy Team", max_size=3)
                 $ enemy_team.add(new_slime)
                 $ result = run_default_be(enemy_team, slaves=True,
@@ -160,7 +160,7 @@ label special_items_one_for_all:
         $ renpy.show_screen('message_screen', "This item can't be used on undead girls.")
         $ inv_source.add_item("One For All")
         jump char_equip
-        
+
     if eqtarget.status <> "slave":
         $ renpy.show_screen('message_screen', "It would be unwise to use it on a free girl, unless you'd like to spend the rest of your live in prison.")
         $ inv_source.add_item("One For All")

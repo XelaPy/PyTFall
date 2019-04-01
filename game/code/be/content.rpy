@@ -167,7 +167,7 @@ init python:
 
         def __call__(self, *args, **kwargs):
             source = self.source
-            if source.controller == None:
+            if source.be.controller == None:
                 modifier = 1
             else:
                 modifier = 2
@@ -252,7 +252,7 @@ init python:
 
             if not store.battle.logical:
                 if self.death_effect == "dissolve":
-                    renpy.hide(self.target.betag)
+                    renpy.hide(self.target.be.tag)
                     if self.death_effect == "dissolve":
                         renpy.with_statement(dissolve)
 
@@ -280,50 +280,50 @@ init python:
 
         def kill(self):
             if not self.counter:
-                self.target.status_overlay.remove(self.icon)
+                self.target.be.status_overlay.remove(self.icon)
                 return True
 
         def apply_effects(self):
-            t = self.target
-            s = self.source
+            target = self.target
+            attacker = self.source
 
             # Damage Calculations:
-            damage = t.get_max("health") * self.effect
+            damage = target.get_max("health") * self.effect
             damage = max(randint(5, 10), int(damage) + randint(-2, 2))
 
             # Take care of modifiers:
-            damage = round_int(self.apply_damage_modifier(attacker, targets, damage, self.type))
+            damage = round_int(self.apply_damage_modifier(attacker, target, damage, self.type))
 
             # GFX:
             if not battle.logical:
                 gfx = Transform("poison_2", zoom=1.5)
-                renpy.show("poison", what=gfx, at_list=[Transform(pos=battle.get_cp(t, type="center"), anchor=(.5, .5))], zorder=t.besk["zorder"]+1)
+                renpy.show("poison", what=gfx, at_list=[Transform(pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.be.show_kwargs["zorder"]+1)
                 renpy.play("content/sfx/sound/be/poisoned.mp3", channel="audio")
                 txt = Text("%d"%damage, style="content_label", color=red, size=15)
-                renpy.show("bb", what=txt, at_list=[battle_bounce(store.battle.get_cp(t, type="tc", yo=-10))], zorder=t.besk["zorder"]+2)
+                renpy.show("bb", what=txt, at_list=[battle_bounce(store.battle.get_cp(target, type="tc", yo=-10))], zorder=target.be.show_kwargs["zorder"]+2)
                 renpy.pause(1.5)
                 renpy.hide("poison")
                 renpy.pause(.2)
                 renpy.hide("bb")
 
-            if t.health - damage > 0:
-                t.mod_stat("health", -damage)
-                msg = "%s is poisoned! {color=[green]}☠: %d{/color}" % (t.name, damage)
+            if target.health - damage > 0:
+                target.mod_stat("health", -damage)
+                msg = "%s is poisoned! {color=[green]}☠: %d{/color}" % (target.name, damage)
                 battle.log(msg)
             else:
-                t.health = 1
-                death = RPG_Death(t,
-                                  msg="{color=[red]}Poison took out %s!\n{/color}" % t.name,
+                target.health = 1
+                death = RPG_Death(target,
+                                  msg="{color=[red]}Poison took out %s!\n{/color}" % target.name,
                                   death_effect="dissolve")
                 death.apply_effects()
 
             if not battle.logical:
-                t.stats.update_delayed()
+                target.stats.update_delayed()
 
             self.counter -= 1
 
             if self.counter <= 0:
-                msg = "{color=[teal]}Poison effect on %s has ran it's course...{/color}" % (t.name)
+                msg = "{color=[teal]}Poison effect on %s has ran it's course...{/color}" % (target.name)
                 battle.log(msg)
 
 
@@ -342,7 +342,7 @@ init python:
             self.activated_this_turn = False # Flag used to pass to gfx methods that this buff was triggered.
             self.group = group # No two buffs from the same group can be applied twice.
             # We also add the icon to targets status overlay:
-            target.status_overlay.append(self.icon)
+            target.be.status_overlay.append(self.icon)
 
             if bonus:
                 self.defence_bonus = bonus
@@ -364,7 +364,7 @@ init python:
 
         def kill(self):
             if not self.counter:
-                self.target.status_overlay.remove(self.icon)
+                self.target.be.status_overlay.remove(self.icon)
                 return True
 
         def apply_effects(self):
@@ -414,7 +414,7 @@ init python:
 
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
-                    renpy.show(gfxtag, what=what, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
+                    renpy.show(gfxtag, what=what, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.be.show_kwargs["zorder"]+1)
 
 
     class ArealSkill(BE_Action):
@@ -446,7 +446,7 @@ init python:
                     what = Transform(what, xzoom=-1)
 
                 target = targets[0]
-                teampos = target.beteampos
+                teampos = target.be.teampos
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
                 anchor = aim.get("anchor", (.5, .5))
@@ -492,7 +492,7 @@ init python:
                 aimpos = battle.get_cp(target, type="center")
                 renpy.show("launch" + str(index), what=missle,
                         at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=pause),
-                        Transform(anchor=(.5, .5))], zorder=target.besk["zorder"]+50)
+                        Transform(anchor=(.5, .5))], zorder=target.be.show_kwargs["zorder"]+50)
 
             renpy.pause(pause)
 
@@ -527,7 +527,7 @@ init python:
                     gfxtag = "attack" + str(index)
                     renpy.show(gfxtag, what=what,
                         at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)],
-                        zorder=target.besk["zorder"]+51)
+                        zorder=target.be.show_kwargs["zorder"]+51)
 
         def hide_main_gfx(self, targets):
             for i in xrange(len(targets)):
@@ -558,13 +558,13 @@ init python:
             if pro_sfx:
                 renpy.sound.play(pro_sfx)
 
-            aimpos = BDP["perfect_middle_right"] if target.beteampos == "l" else BDP["perfect_middle_left"]
+            aimpos = BDP["perfect_middle_right"] if target.be.teampos == "l" else BDP["perfect_middle_left"]
 
             renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos,
                                                        end_pos=aimpos,
                                                        t=pause),
                        Transform(anchor=(.5, .5))],
-                       zorder=target.besk["zorder"]+1000)
+                       zorder=target.be.show_kwargs["zorder"]+1000)
             renpy.pause(pause)
             renpy.hide("launch")
 
@@ -587,7 +587,7 @@ init python:
                 xo = aim.get("xo", 0)
                 yo = aim.get("yo", 0)
 
-                renpy.show("projectile", what=what, at_list=[Transform(pos=aimpos, anchor=anchor)], zorder=target.besk["zorder"]+1001)
+                renpy.show("projectile", what=what, at_list=[Transform(pos=aimpos, anchor=anchor)], zorder=target.be.show_kwargs["zorder"]+1001)
 
         def hide_main_gfx(self, targets):
             renpy.hide("projectile")
@@ -615,7 +615,7 @@ init python:
 
             castpos = battle.get_cp(attacker, type="fc", xo=30)
 
-            renpy.show("casting", what=bow, at_list=[Transform(pos=castpos, yanchor=.5)], zorder=attacker.besk["zorder"]+50)
+            renpy.show("casting", what=bow, at_list=[Transform(pos=castpos, yanchor=.5)], zorder=attacker.be.show_kwargs["zorder"]+50)
             if pause > .6:
                 renpy.pause(pause)
             else:
@@ -639,7 +639,7 @@ init python:
                 renpy.show("launch" + str(index), what=missle, at_list=[
                            move_from_to_pos_with_easeout(start_pos=castpos, end_pos=aimpos, t=pause),
                            Transform(anchor=(.5, .5))],
-                           zorder=target.besk["zorder"]+51)
+                           zorder=target.be.show_kwargs["zorder"]+51)
 
             renpy.pause(pause)
 
@@ -668,7 +668,7 @@ init python:
 
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
-                    renpy.show(gfxtag, what=what, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+52)
+                    renpy.show(gfxtag, what=what, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.be.show_kwargs["zorder"]+52)
 
         def hide_main_gfx(self, targets):
             renpy.hide("casting")
@@ -749,7 +749,7 @@ init python:
                 restore = round_int(self.apply_damage_modifier(attacker, target, base_restore, "healing"))
                 effects.append(("healing", restore))
 
-                target.dmg_font = "lawngreen" # Color the battle bounce green!
+                target.be.damage_font = "lawngreen" # Color the battle bounce green!
 
                 # String for the log:
                 temp = "%s used %s to restore HP of %s!" % (source.nickname, self.name, target.name)
@@ -757,7 +757,7 @@ init python:
 
         def apply_effects(self, targets):
             for t in targets:
-                t.mod_stat("health", t.beeffects[0])
+                t.mod_stat("health", t.be.damage_effects[0])
 
             self.settle_cost()
 
@@ -804,18 +804,18 @@ init python:
 
                 effects = list()
                 effects.append(revive)
-                target.beeffects = effects
+                target.be.damage_effects = effects
 
                 # String for the log:
                 s = ("{color=[green]}%s brings %s back!{/color}" % (char.nickname, target.name))
-                target.dmg_font = "lawngreen" # Color the battle bounce green!
+                target.be.damage_font = "lawngreen" # Color the battle bounce green!
 
                 battle.log(s)
 
         def apply_effects(self, targets):
             for t in targets:
                 battle.corpses.remove(t)
-                t.health = t.beeffects[0]
+                t.health = t.be.damage_effects[0]
 
             self.settle_cost()
 
@@ -823,7 +823,7 @@ init python:
 
         def show_main_gfx(self, battle, attacker, targets):
             for target in targets:
-                renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos), fade_from_to(start_val=0, end_val=1.0, t=1.0, wait=.5)], zorder=target.besk["zorder"])
+                renpy.show(target.be.tag, what=target.be.sprite, at_list=[Transform(pos=target.be.current_pos), fade_from_to(start_val=0, end_val=1.0, t=1.0, wait=.5)], zorder=target.be.show_kwargs["zorder"])
             super(ReviveSpell, self).show_main_gfx(battle, attacker, targets)
 
 

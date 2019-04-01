@@ -127,16 +127,16 @@ init -1 python: # Core classes:
 
                 # If the controller was killed off during the mid_turn_events:
                 if fighter not in self.corpses:
-                    if fighter.controller is not None:
+                    if fighter.be.controller is not None:
                         # This character is not controlled by the player so we call the (AI) controller:
-                        fighter.controller()
+                        fighter.be.controller()
                     else: # Controller is the player:
                         # making known whose turn it is:
                         w, h = fighter.besprite_size
                         renpy.show("its_my_turn", at_list=[Transform(additive=.6, alpha=.7, size=(int(w*1.5), h/3),
                                                            pos=battle.get_cp(fighter, type="bc", yo=20),
                                                            anchor=(.5, 1.0))],
-                                                           zorder=fighter.besk["zorder"]+1)
+                                                           zorder=fighter.be.show_kwargs["zorder"]+1)
 
                         while 1:
                             skill = None
@@ -263,17 +263,17 @@ init -1 python: # Core classes:
                 size = len(team)
                 for idx, char in enumerate(team.members):
                     # Position:
-                    char.beteampos = pos
+                    char.be.teampos = pos
                     if size == 3 and idx < 2:
                         idx = 1 - idx
-                    char.beinx = idx
+                    char.be.index = idx
                     if pos == "l":
-                        char.row = int(char.front_row)
+                        char.be.row = int(char.be.front_row)
                     else: # Case "r"
-                        char.row = 2 if char.front_row else 3
+                        char.be.row = 2 if char.be.front_row else 3
 
                     # Allegiance:
-                    char.allegiance = team.name or team
+                    char.be.allegiance = team.name or team
 
                     if not self.logical:
                         char.stats.update_delayed()
@@ -306,10 +306,10 @@ init -1 python: # Core classes:
                 for s in list(f.magic_skills)+list(f.attack_skills):
                     s.source = None
 
-                f.betag = None
-                f.besk = None
-                f.dmg_font = "red"
-                f.status_overlay = []
+                f.be.tag = None
+                f.be.show_kwargs = None
+                f.be.damage_font = "red"
+                f.be.status_overlay = []
 
         def next_turn(self):
             """
@@ -332,9 +332,9 @@ init -1 python: # Core classes:
             Positions should always be retrieved using this method or errors may occur.
             """
             # We want different behavior for 3 member teams putting the leader in the middle:
-            char.besk = dict()
+            char.be.show_kwargs = dict()
             # Supplied to the show method.
-            char.betag = str(random.random())
+            char.be.tag = str(random.random())
             # First, lets get correct sprites:
             if "Grim Reaper" in char.traits:
                 sprite = Image("content/gfx/images/reaper.png")
@@ -344,54 +344,54 @@ init -1 python: # Core classes:
 
             # We'll assign "indexes" from 0 to 3 from left to right [0, 1, 3, 4] to help calculating attack ranges.
             team_index = team.position
-            char_index = char.beinx
+            char_index = char.be.index
             # Sprite Flips:
             if team_index == "r":
                 if char.__class__ != Mob:
                     if isinstance(sprite, ProportionalScale):
-                        char.besprite = im.Flip(sprite, horizontal=True)
+                        char.be.sprite = im.Flip(sprite, horizontal=True)
                     else:
-                        char.besprite = Transform(sprite, xzoom=-1)
+                        char.be.sprite = Transform(sprite, xzoom=-1)
                 else:
-                    char.besprite = sprite
+                    char.be.sprite = sprite
             else:
                 if char.__class__ == Mob:
                     if isinstance(sprite, ProportionalScale):
-                        char.besprite = im.Flip(sprite, horizontal=True)
+                        char.be.sprite = im.Flip(sprite, horizontal=True)
                     else:
-                        char.besprite = Transform(sprite, xzoom=-1)
+                        char.be.sprite = Transform(sprite, xzoom=-1)
                 else:
-                    char.besprite = sprite
+                    char.be.sprite = sprite
 
             # We're going to land the character at the default position from now on,
             # with centered bottom of the image landing directly on the position!
             # This makes more sense for all purposes:
-            x, y = self.row_pos[team_index + str(int(char.front_row))][char_index]
+            x, y = self.row_pos[team_index + str(int(char.be.front_row))][char_index]
             w, h = char.besprite_size
             xpos = round_int(x-w*.5)
             ypos = round_int(y-h)
-            char.dpos = char.cpos = (xpos, ypos)
+            char.be.default_pos = char.be.current_pos = (xpos, ypos)
 
-            char.besk["what"] = char.besprite
+            char.be.show_kwargs["what"] = char.be.sprite
             # Zorder defaults to characters (index + 1) * 100
-            char.besk["zorder"] = (char_index + 1) * 100
+            char.be.show_kwargs["zorder"] = (char_index + 1) * 100
 
             # ---------------------------------------------------->>>
-            return char.dpos
+            return char.be.default_pos
 
         def show_char(self, char, *args, **kwargs):
-            for key in char.besk:
+            for key in char.be.show_kwargs:
                 if key not in kwargs: # We do not want to overwrite!
-                    kwargs[key] = char.besk[key]
-            renpy.show(char.betag, *args, **kwargs)
+                    kwargs[key] = char.be.show_kwargs[key]
+            renpy.show(char.be.tag, *args, **kwargs)
 
         def move(self, char, pos, t, pause=True):
             """
             Move character to new position...
             """
-            renpy.hide(char.betag)
-            renpy.show(char.betag, what=char.besprite, at_list=[move_from_to_pos_with_ease(start_pos=char.cpos, end_pos=pos, t=t)], zorder=char.besk["zorder"])
-            char.cpos = pos
+            renpy.hide(char.be.tag)
+            renpy.show(char.be.tag, what=char.be.sprite, at_list=[move_from_to_pos_with_ease(start_pos=char.be.current_pos, end_pos=pos, t=t)], zorder=char.be.show_kwargs["zorder"])
+            char.be.current_pos = pos
             if pause:
                 renpy.pause(t)
 
@@ -414,32 +414,32 @@ init -1 python: # Core classes:
             absolute: convert to absolute for subpixel positioning.
             """
             if not override:
-                if not char.cpos or not char.besprite_size:
-                    raise Exception([char.cpos, char.besprite_size])
+                if not char.be.current_pos or not char.besprite_size:
+                    raise Exception([char.be.current_pos, char.besprite_size])
 
                 if type == "sopos":
-                    xpos = char.dpos[0] + char.besprite_size[0] / 2
-                    ypos = char.dpos[1] + yo
+                    xpos = char.be.default_pos[0] + char.besprite_size[0] / 2
+                    ypos = char.be.default_pos[1] + yo
 
                 if type == "pos":
-                    xpos = char.cpos[0]
-                    ypos = char.cpos[1] + yo
+                    xpos = char.be.current_pos[0]
+                    ypos = char.be.current_pos[1] + yo
                 elif type == "center":
-                    xpos = char.cpos[0] + char.besprite_size[0] / 2
-                    ypos = char.cpos[1] + char.besprite_size[1] / 2 + yo
+                    xpos = char.be.current_pos[0] + char.besprite_size[0] / 2
+                    ypos = char.be.current_pos[1] + char.besprite_size[1] / 2 + yo
                 elif type == "tc":
-                    xpos = char.cpos[0] + char.besprite_size[0] / 2
-                    ypos = char.cpos[1] + yo
+                    xpos = char.be.current_pos[0] + char.besprite_size[0] / 2
+                    ypos = char.be.current_pos[1] + yo
                 elif type == "bc":
-                    xpos = char.cpos[0] + char.besprite_size[0] / 2
-                    ypos = char.cpos[1] + char.besprite_size[1] + yo
+                    xpos = char.be.current_pos[0] + char.besprite_size[0] / 2
+                    ypos = char.be.current_pos[1] + char.besprite_size[1] + yo
                 elif type == "fc":
-                    if char.row in [0, 1]:
-                        xpos = char.cpos[0] + char.besprite_size[0]
-                        ypos = char.cpos[1] + char.besprite_size[1] / 2 + yo
+                    if char.be.row in [0, 1]:
+                        xpos = char.be.current_pos[0] + char.besprite_size[0]
+                        ypos = char.be.current_pos[1] + char.besprite_size[1] / 2 + yo
                     else:
-                        xpos = char.cpos[0]
-                        ypos = char.cpos[1] + char.besprite_size[1] / 2 + yo
+                        xpos = char.be.current_pos[0]
+                        ypos = char.be.current_pos[1] + char.besprite_size[1] / 2 + yo
 
             # in case we do not care about position of a target/caster and just provide "overwrite" we should use instead:
             else:
@@ -448,7 +448,7 @@ init -1 python: # Core classes:
                     ypos = ypos + yo # Same as for comment below (Maybe I just forgot how offsets work and why...)
 
             # While yoffset is the same, x offset depends on the team position: @REVIEW: AM I TOO WASTED OR DOES THIS NOT MAKE ANY SENSE???
-            if char.row in [0, 1]:
+            if char.be.row in [0, 1]:
                 xpos = xpos + xo
             else:
                 xpos = xpos - xo # Is this a reasonable approach instead of providing correct (negative/positive) offsets? Something to consider during the code review...
@@ -475,7 +475,7 @@ init -1 python: # Core classes:
                 l = list(self.corpses)
 
             if rows:
-                l = list(i for i in l if i.row in rows)
+                l = list(i for i in l if i.be.row in rows)
 
             return l
 
@@ -496,7 +496,7 @@ init -1 python: # Core classes:
             team0 = len(self.teams[0])
             team1 = len(self.teams[1])
             for c in self.corpses:
-                if c.row < 2:
+                if c.be.row < 2:
                     team0 -= 1
                 else:
                     team1 -= 1
@@ -682,7 +682,7 @@ init -1 python: # Core classes:
 
             # Clear data
             for f in battle.get_fighters(state="all"):
-                f.beeffects= []
+                f.be.damage_effects= []
 
         # Targeting/Conditioning.
         def get_targets(self, source=None):
@@ -695,24 +695,24 @@ init -1 python: # Core classes:
             # First figure out all targets within the range:
             # We calculate this by assigning.
             all_targets = battle.get_fighters(self.target_state)
-            left_front_row_empty = not any(f for f in all_targets if f.row == 1)
-            right_front_row_empty = not any(f for f in all_targets if f.row == 2)
+            left_front_row_empty = not any(f for f in all_targets if f.be.row == 1)
+            right_front_row_empty = not any(f for f in all_targets if f.be.row == 2)
             range = self.range
             if left_front_row_empty:
                 # 'move' closer because of an empty row
                 range += 1
-            elif char.row == 0 and self.range == 1:
+            elif char.be.row == 0 and self.range == 1:
                 # allow to reach over a teammate
                 range += 1
             if right_front_row_empty:
                 # 'move' closer because of an empty row
                 range += 1
-            elif char.row == 3 and self.range == 1:
+            elif char.be.row == 3 and self.range == 1:
                 # allow to reach over a teammate
                 range += 1
 
-            rows_from, rows_to = char.row - range, char.row + range
-            in_range = [f for f in all_targets if rows_from <= f.row <= rows_to]
+            rows_from, rows_to = char.be.row - range, char.be.row + range
+            in_range = [f for f in all_targets if rows_from <= f.be.row <= rows_to]
 
             #if DEBUG_BE:
             #    if any(t for t in in_range if isinstance(t, basestring)):
@@ -720,22 +720,22 @@ init -1 python: # Core classes:
 
             # Lets handle the piercing (Or not piercing since piercing attacks include everyone in range already):
             if not self.piercing:
-                if char.row < 2:
+                if char.be.row < 2:
                     # Source is on left team:
                     # We need to check if there is at least one member on the opposing front row and if true, remove everyone in the back.
                     if not right_front_row_empty:
                         # opfor has a defender:
                         # we need to remove everyone from the back row:
-                        in_range = [f for f in in_range if f.row != 3]
+                        in_range = [f for f in in_range if f.be.row != 3]
                 else:
                     if not left_front_row_empty:
-                        in_range = [f for f in in_range if f.row != 0]
+                        in_range = [f for f in in_range if f.be.row != 0]
 
             # Now the type, we just care about friends and enemies:
             if self.type in ("all_enemies", "se"):
-                in_range = [f for f in in_range if char.allegiance != f.allegiance]
+                in_range = [f for f in in_range if char.be.allegiance != f.be.allegiance]
             elif self.type in ("all_allies", "sa"):
-                in_range = [f for f in in_range if char.allegiance == f.allegiance]
+                in_range = [f for f in in_range if char.be.allegiance == f.be.allegiance]
 
             # In a perfect world, we're done, however we have to overwrite normal
             # rules if no targets are found and backrow can hit over it's own range (for example):
@@ -777,7 +777,7 @@ init -1 python: # Core classes:
             # @Review: Prevent AI from casting the same Buffs endlessly:
             # Note that we do not have a concrete setup for buffs yet so this
             # is coded to be safe.
-            if char.controller is not None:
+            if char.be.controller is not None:
                 # a character controller by an AI
                 buff_group = getattr(self, "buff_group", None)
                 if buff_group is not None:
@@ -845,7 +845,7 @@ init -1 python: # Core classes:
 
             for target in targets:
                 # effect list must be cleared here first thing... preferably in the future, at the end of each skill execution...
-                effects = target.beeffects
+                effects = target.be.damage_effects
 
                 defense = self.get_defense(target)
                 if self.damage:
@@ -956,7 +956,7 @@ init -1 python: # Core classes:
                             temp = self.event_class(attacker, target, self.effect, duration=duration)
                             battle.mid_turn_events.append(temp)
                             # We also add the icon to targets status overlay:
-                            target.status_overlay.append(temp.icon)
+                            target.be.status_overlay.append(temp.icon)
 
                 # Finally, log to battle:
                 self.log_to_battle(effects, total_damage, attacker, target, message=None)
@@ -969,10 +969,10 @@ init -1 python: # Core classes:
             (unless everyone in the front row are dead).
             Account for true_piece here as well.
             """
-            if target.row == 3:
+            if target.be.row == 3:
                 if battle.get_fighters(rows=[2]) and not self.true_pierce:
                     return True
-            elif target.row == 0:
+            elif target.be.row == 0:
                 if battle.get_fighters(rows=[1]) and not self.true_pierce:
                     return True
 
@@ -1103,7 +1103,7 @@ init -1 python: # Core classes:
                         event.activated_this_turn = True
 
             if d or m != 1.0:
-                target.beeffects.append("magic_shield")
+                target.be.damage_effects.append("magic_shield")
                 defense += d
                 defense *= m
 
@@ -1154,7 +1154,7 @@ init -1 python: # Core classes:
             effects.insert(0, total_damage)
 
             # Log the effects:
-            t.beeffects = effects
+            t.be.damage_effects = effects
 
             # String for the log:
             s = list()
@@ -1195,10 +1195,10 @@ init -1 python: # Core classes:
             - We assume that all tuples in effects are damages by type!
             """
             # String for the log:
-            effects = t.beeffects
+            effects = t.be.damage_effects
             attributes = self.attributes
             s = list()
-            value = t.beeffects[0]
+            value = t.be.damage_effects[0]
 
             str_effects = list()
             type_effects = list()
@@ -1251,8 +1251,8 @@ init -1 python: # Core classes:
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
             for t in targets:
-                if t.health - t.beeffects[0] > 0:
-                    t.mod_stat("health", -t.beeffects[0])
+                if t.health - t.be.damage_effects[0] > 0:
+                    t.mod_stat("health", -t.be.damage_effects[0])
                 else:
                     t.health = 1
                     battle.end_turn_events.append(RPG_Death(t))
@@ -1421,7 +1421,7 @@ init -1 python: # Core classes:
 
         def hide_attackers_first_action(self, battle, attacker):
             if self.attacker_action["gfx"] == "step_forward":
-                battle.move(attacker, attacker.dpos, .5, pause=False)
+                battle.move(attacker, attacker.be.default_pos, .5, pause=False)
 
         # First attacker effect (usually casting animation or similar)
         def time_attackers_first_effect(self, battle, attacker, targets):
@@ -1465,7 +1465,7 @@ init -1 python: # Core classes:
                     what = Transform(what, xzoom=-1)
                     align = (1.0 - align[0], align[1])
 
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type=point, xo=xo, yo=yo), align=align)], zorder=attacker.besk["zorder"]+zorder)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type=point, xo=xo, yo=yo), align=align)], zorder=attacker.be.show_kwargs["zorder"]+zorder)
 
             sfx = self.attacker_effects["sfx"]
             if sfx:
@@ -1554,7 +1554,7 @@ init -1 python: # Core classes:
 
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
-                    renpy.show(gfxtag, what=what, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
+                    renpy.show(gfxtag, what=what, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.be.show_kwargs["zorder"]+1)
 
         def hide_main_gfx(self, targets):
             for i in xrange(len(targets)):
@@ -1582,10 +1582,10 @@ init -1 python: # Core classes:
             gfx = self.target_sprite_damage_effect["gfx"]
 
             if gfx:
-                for target in [t for t in targets if not "missed_hit" in t.beeffects]:
+                for target in [t for t in targets if not "missed_hit" in t.be.damage_effects]:
                     at_list = []
 
-                    what = target.besprite
+                    what = target.be.sprite
                     if gfx == "shake":
                         at_list = [damage_shake(.05, (-10, 10))]
                     elif gfx == "true_dark": # not used atm! will need decent high level spells for this one!
@@ -1660,7 +1660,7 @@ init -1 python: # Core classes:
                         be_debug("Unknown target_sprite_damage_effect-gfx '%s' defined in %s" % (gfx, self.name))
                         continue
 
-                    renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
+                    renpy.show(target.be.tag, what=what, at_list=at_list, zorder=target.be.show_kwargs["zorder"])
 
             if self.target_sprite_damage_effect.get("master_shake", False):
                 renpy.layer_at_list([damage_shake(.05, (-5, 5))], layer='master')
@@ -1674,17 +1674,17 @@ init -1 python: # Core classes:
             if type == "frozen":
                 for target in targets:
                     if target not in died:
-                        renpy.hide(target.betag)
-                        renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos), fade_from_to(.3, 1, .3)], zorder=target.besk["zorder"])
+                        renpy.hide(target.be.tag)
+                        renpy.show(target.be.tag, what=target.be.sprite, at_list=[Transform(pos=target.be.current_pos), fade_from_to(.3, 1, .3)], zorder=target.be.show_kwargs["zorder"])
             elif type == "shake" and self.target_death_effect["gfx"] == "shatter":
                 for target in targets:
-                    renpy.hide(target.betag)
-                    renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
+                    renpy.hide(target.be.tag)
+                    renpy.show(target.be.tag, what=target.be.sprite, at_list=[Transform(pos=target.be.current_pos)], zorder=target.be.show_kwargs["zorder"])
             else:
                 for target in targets:
                     if target not in died:
-                        renpy.hide(target.betag)
-                        renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
+                        renpy.hide(target.be.tag)
+                        renpy.show(target.be.tag, what=target.be.sprite, at_list=[Transform(pos=target.be.current_pos)], zorder=target.be.show_kwargs["zorder"])
 
         # This is the effect of damage amount or similar
         # Number bouncing is the usual default
@@ -1713,19 +1713,19 @@ init -1 python: # Core classes:
                 for index, target in enumerate(targets):
                     if target not in died or force:
                         tag = "bb" + str(index)
-                        value = target.beeffects[0]
+                        value = target.be.damage_effects[0]
 
-                        if "missed_hit" in target.beeffects:
+                        if "missed_hit" in target.be.damage_effects:
                             gfx = self.dodge_effect.get("gfx", "dodge")
                             if gfx == "dodge":
                                 s = "Missed"
-                                color = getattr(store, target.dmg_font)
+                                color = getattr(store, target.be.damage_font)
                             else:
                                 s = "▼ "+"%s" % value
-                                color = getattr(store, target.dmg_font)
+                                color = getattr(store, target.be.damage_font)
                         else:
                             effects = []
-                            for effect in target.beeffects:
+                            for effect in target.be.damage_effects:
                                 if isinstance(effect, tuple):
                                     effects.append(effect)
 
@@ -1739,9 +1739,9 @@ init -1 python: # Core classes:
                                     color = store.lightgreen
                                 else:
                                     s = "%s" % value
-                                    color = getattr(store, target.dmg_font)
+                                    color = getattr(store, target.be.damage_font)
 
-                        if "critical_hit" in target.beeffects:
+                        if "critical_hit" in target.be.damage_effects:
                             s = "\n".join([s, "Critical hit!"])
                         txt = Text(s, style="TisaOTM", min_width=200,
                                    text_align=.5, color=color, size=18)
@@ -1749,9 +1749,9 @@ init -1 python: # Core classes:
                                    at_list=[battle_bounce(battle.get_cp(target,
                                                                         type="tc",
                                                                         yo=-30))],
-                                   zorder=target.besk["zorder"]+2)
+                                   zorder=target.be.show_kwargs["zorder"]+2)
 
-                        target.dmg_font = "red"
+                        target.be.damage_font = "red"
 
         def get_target_damage_effect_duration(self):
             type = self.target_damage_effect.get("gfx", "battle_bounce")
@@ -1800,14 +1800,14 @@ init -1 python: # Core classes:
 
             if gfx == "dissolve":
                 for t in died:
-                    renpy.show(t.betag, what=t.besprite, at_list=[fade_from_to(start_val=1.0, end_val=.0, t=duration)], zorder=t.besk["zorder"])
+                    renpy.show(t.be.tag, what=t.be.sprite, at_list=[fade_from_to(start_val=1.0, end_val=.0, t=duration)], zorder=t.be.show_kwargs["zorder"])
             elif gfx == "shatter":
                 for t in died:
-                    renpy.show(t.betag, what=HitlerKaputt(t.besprite, 20), zorder=t.besk["zorder"])
+                    renpy.show(t.be.tag, what=HitlerKaputt(t.be.sprite, 20), zorder=t.be.show_kwargs["zorder"])
 
         def hide_target_death_effect(self, died):
             for target in died:
-                renpy.hide(target.betag)
+                renpy.hide(target.be.tag)
 
         # Effect over the whole background, like distortion
         def time_bg_main_effect(self, start):
@@ -1884,7 +1884,7 @@ init -1 python: # Core classes:
                 # renpy.sound.play(sfx)
 
             for index, target in enumerate(targets):
-                if "missed_hit" in target.beeffects:
+                if "missed_hit" in target.be.damage_effects:
                     if gfx == "dodge":
                         xoffset = -100 if battle.get_cp(attacker)[0] > battle.get_cp(target)[0] else 100
 
@@ -1895,11 +1895,11 @@ init -1 python: # Core classes:
                         else:
                             pause = pause - .5
 
-                        renpy.show(target.betag, what=target.besprite, at_list=[be_dodge(xoffset, pause)], zorder=target.besk["zorder"])
+                        renpy.show(target.be.tag, what=target.be.sprite, at_list=[be_dodge(xoffset, pause)], zorder=target.be.show_kwargs["zorder"])
 
                 # We need to find out if it's reasonable to show shields at all based on damage effects!
                 # This should ensure that we do not show the shield for major damage effects, it will not look proper.
-                elif "magic_shield" in target.beeffects and self.target_sprite_damage_effect["gfx"] != "fly_away":
+                elif "magic_shield" in target.be.damage_effects and self.target_sprite_damage_effect["gfx"] != "fly_away":
                     # Get GFX:
                     for event in battle.get_all_events():
                         if isinstance(event, DefenceBuff):
@@ -1926,12 +1926,12 @@ init -1 python: # Core classes:
                         be_debug("The defence_gfx '%s' is not recognized. Should be one of ('default', 'gray_shield', 'air_shield', 'solid_shield')" % what)
                         continue
                     tag = "dodge" + str(index)
-                    renpy.show(tag, what=what, at_list=[Transform(size=size, pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
+                    renpy.show(tag, what=what, at_list=[Transform(size=size, pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.be.show_kwargs["zorder"]+1)
 
         def hide_dodge_effect(self, targets):
             # gfx = self.dodge_effect.get("gfx", "dodge")
             for index, target in enumerate(targets):
-                if "magic_shield" in target.beeffects:
+                if "magic_shield" in target.be.damage_effects:
                     tag = "dodge" + str(index)
                     renpy.hide(tag)
 

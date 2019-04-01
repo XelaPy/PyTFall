@@ -269,7 +269,7 @@ init -10 python:
         def reset_controller(self):
             # Resets combat controller
             for m in self.members:
-                m.controller = None
+                m.be.controller = None
 
 
     class JobsLogger(_object):
@@ -1871,3 +1871,30 @@ init -10 python:
                 return
             else:
                 char.effects[self.name] = self
+
+
+    class CharBEData(_object):
+        def __init__(self, front_row=True):
+            # 1 for front row and 0 for back row.
+            self.front_row = front_row
+            self.clear()
+
+        @property
+        def sprite_size(self):
+            return get_size(self.sprite)
+
+
+        def clear(self):
+            self.sprite = None # Used to keep track of sprite displayable in the BE.
+            self.index = 0 # Passes index from logical execution to SFX setup.
+            self.teampos = None # This manages team position bound to target (left or right on the screen).
+            self.row = 1 # row on the battlefield, used to calculate range of weapons.
+            self.tag = None # Tag to keep track of the sprite.
+            self.default_pos = None # Default position based on row + team.
+            self.current_pos = None # Current position of a sprite.
+            self.show_kwargs = None # BE Show **Kwargs!
+            self.allegiance = None # BE will default this to the team name.
+            self.controller = None # by default the player is in control
+            self.damage_effects = []
+            self.damage_font = "red"
+            self.status_overlay = [] # This is something I wanted to test out, trying to add tiny status icons somehow.

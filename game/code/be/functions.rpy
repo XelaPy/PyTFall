@@ -10,7 +10,7 @@ init -11 python:
             temp = dict(what=crosshair_red,
                         at_list=[Transform(pos=battle.get_cp(t, "center",
                                            use_absolute=True),
-                        anchor=(.5, .5))], zorder=t.besk["zorder"]+1)
+                        anchor=(.5, .5))], zorder=t.be.show_kwargs["zorder"]+1)
             renpy.show("enemy__"+str(index), **temp)
 
     def hide_all_targeting_closshairs(targets):
@@ -84,9 +84,9 @@ init -11 python:
 
         for fighter in chained():
             if ai == "simple":
-                fighter.controller = BE_AI(fighter)
+                fighter.be.controller = BE_AI(fighter)
             elif ai == "complex":
-                fighter.controller = Complex_BE_AI(fighter)
+                fighter.be.controller = Complex_BE_AI(fighter)
 
         if DEBUG_BE:
             msg = "\n    Custom Logical Combat Scenario ===================================================>>>>"
@@ -141,13 +141,13 @@ init -11 python:
 
         for member in your_team:
             if member.status == "slave" and slaves:
-                member.controller = BE_AI(member)
+                member.be.controller = BE_AI(member)
             elif member.status == "free":
-                member.controller = None # no AI -> controlled by the player
+                member.be.controller = None # no AI -> controlled by the player
 
         # Controllers:
         for member in enemy_team:
-            member.controller = Complex_BE_AI(member)
+            member.be.controller = Complex_BE_AI(member)
 
         global battle
         battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5),

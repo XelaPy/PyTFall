@@ -40,7 +40,7 @@ screen target_practice(skill, source, targets):
                     $ temp = dict(what=crosshair_red,
                                   at_list=[Transform(pos=battle.get_cp(t, "center",
                                                      use_absolute=True),
-                                  anchor=(.5, .5))], zorder=t.besk["zorder"]+1)
+                                  anchor=(.5, .5))], zorder=t.be.show_kwargs["zorder"]+1)
                     $ hide_action = Function(renpy.hide, "enemy__"+str(index))
                     button:
                         padding 10, 2
@@ -59,7 +59,7 @@ screen target_practice(skill, source, targets):
             $ temp = dict(what=crosshair_red,
                           at_list=[Transform(pos=battle.get_cp(t, "center",
                                              use_absolute=True),
-                          anchor=(.5, .5))], zorder=t.besk["zorder"]+1)
+                          anchor=(.5, .5))], zorder=t.be.show_kwargs["zorder"]+1)
             $ hide_action = Function(renpy.hide, "enemy__"+str(index))
             imagebutton:
                 pos pos
@@ -80,7 +80,7 @@ screen target_practice(skill, source, targets):
 
     for t in targets: # Show killed things for revival..
         if t in battle.corpses:
-            add Transform(t.besprite, pos=t.cpos, alpha=.4)
+            add Transform(t.be.sprite, pos=t.be.current_pos, alpha=.4)
 
         frame:
             style "dropdown_gm_frame"
@@ -449,5 +449,5 @@ screen be_status_overlay():
 
         hbox:
             pos temp xanchor .5
-            for status_icon in fighter.status_overlay:
+            for status_icon in fighter.be.status_overlay:
                 add Text(ProportionalScale(status_icon, 30, 30)) at status_overlay(sv1=.8, ev1=1.0, t1=.9, sv2=1.0, ev2=.8, t2=.9) yalign .5

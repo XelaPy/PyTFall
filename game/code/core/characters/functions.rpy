@@ -274,9 +274,11 @@ init -11 python:
         mob.name = data.get("name", id)
         mob.desc = data.get("desc", "Some Random Monsta!")
 
-        for i in ("battle_sprite", "portrait", "origin", "locations", "base_race", "race", "front_row"):
+        for i in ("battle_sprite", "portrait", "origin", "locations", "base_race", "race"):
             if i in data:
                 setattr(mob, i, data[i])
+
+        mob.be.front_row = data.get("front_row", 1)
 
         for skill, value in data.get("skills", {}).iteritems():
             if mob.stats.is_skill(skill):

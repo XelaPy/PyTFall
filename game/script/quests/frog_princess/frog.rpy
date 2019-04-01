@@ -222,7 +222,7 @@ label missed_frog_deathfight:
     with dissolve
 
     $ menu_extensions.remove_extension("Xeona Main", "Deathfight vs Goblin Champ!")
- 
+
     ax "Well, well, well..."
     ax "It seems that someone forgot something."
     ax "The Goblin Champ was really pissed by the events. If you want to have a fight, you need to pay a compensation of {color=[gold]}2000 Gold{/color}."
@@ -250,13 +250,13 @@ label frog_deathfight:
     ax "Well, I hope that you're ready! Best of luck!"
     $ enemy_team = Team(name="Enemy Team", max_size=3)
     $ mob = build_mob("Goblin Warrior", level=50)
-    $ mob.controller = Complex_BE_AI(mob)
+    $ mob.be.controller = Complex_BE_AI(mob)
     $ enemy_team.add(mob)
 
     python:
         for i in xrange(2):
             mob = build_mob("Goblin Archer", level=20)
-            mob.controller = Complex_BE_AI(mob)
+            mob.be.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
     $ result = run_default_be(enemy_team,

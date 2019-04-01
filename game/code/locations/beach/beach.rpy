@@ -223,7 +223,7 @@ label city_beach_monsters_fight:
         enemy_team = Team(name="Enemy Team", max_size=3)
         for i in range(randint(2, 3)):
             mob = build_mob(id="Skyfish", level=randint(5, 15))
-            mob.front_row = True
+            mob.be.front_row = True
             enemy_team.add(mob)
         back = interactions_pick_background_for_fight("beach")
         result = run_default_be(enemy_team, background=back, give_up="escape",
@@ -277,7 +277,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
 label mc_action_city_beach_diving_checks:
     if not global_flags.has_flag('vitality_bonus_from_diving_at_beach'):
          $ hero.set_flag("vitality_bonus_from_diving_at_beach", value=0)
-         
+
     if not global_flags.flag('diving_city_beach'):
         $ global_flags.set_flag('diving_city_beach')
         "With high enough swimming skill you can try diving. The amount of oxygen is based on your swimming skill."
@@ -358,5 +358,5 @@ label mc_action_city_beach_diving_checks:
         $ hero.mod_stat("vitality", 1)
         $ hero.set_flag("vitality_bonus_from_diving_at_beach", value=hero.flag("vitality_bonus_from_diving_at_beach")+1)
         $ narrator ("You feel more endurant than before {color=[green]}(max vitality +1){/color}.")
-    
+
     jump city_beach

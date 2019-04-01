@@ -3,13 +3,13 @@ label test_be:
         h = chars["Hinata"]
         if h.level < 40:
             initial_levelup(h, 50, True)
-        h.front_row = True
+        h.be.front_row = True
         h.status = "free"
 
         n = chars["Sakura"]
         if n.level < 40:
             initial_levelup(n, 50, True)
-        n.front_row = True
+        n.be.front_row = True
         n.status = "free"
 
         for skill in battle_skills.values():
@@ -28,18 +28,18 @@ label test_be:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
         mob = build_mob(id="Slime", level=1)
-        mob.front_row = True
+        mob.be.front_row = True
 
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
         mob = build_mob(id="Blazing Star", level=1)
-        mob.front_row = True
+        mob.be.front_row = True
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
         mob = build_mob(id="Blazing Star", level=1)
-        mob.front_row = True
+        mob.be.front_row = True
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
@@ -91,39 +91,39 @@ label test_be_logical:
         enemy_team = Team(name="Enemy Team", max_size=3)
         if len(enemy_team) != 3:
             mob = build_mob(id="Goblin Shaman", level=120)
-            mob.controller = BE_AI(mob)
-            mob.front_row = True
+            mob.be.controller = BE_AI(mob)
+            mob.be.front_row = True
             mob.apply_trait("Fire")
             enemy_team.add(mob)
         if len(enemy_team) != 3:
             mob = build_mob(id="Goblin Archer", level=100)
-            mob.controller = BE_AI(mob)
-            mob.front_row = False
+            mob.be.controller = BE_AI(mob)
+            mob.be.front_row = False
             mob.attack_skills.append("Sword Slash")
             enemy_team.add(mob)
         if len(enemy_team) != 3:
             mob = build_mob(id="Goblin Archer", level=100)
-            mob.controller = BE_AI(mob)
-            mob.front_row = False
+            mob.be.controller = BE_AI(mob)
+            mob.be.front_row = False
             mob.attack_skills.append("Bow Shot")
             mob.apply_trait("Air")
             enemy_team.add(mob)
 
-        hero.controller = BE_AI(hero)
+        hero.be.controller = BE_AI(hero)
         h = chars["Hinata"]
         h.status = "free"
-        h.controller = BE_AI(h)
+        h.be.controller = BE_AI(h)
         initial_levelup(h, 50, True)
-        h.front_row = True
+        h.be.front_row = True
         n = chars["Sakura"]
         n.status = "free"
-        n.controller = BE_AI(n)
+        n.be.controller = BE_AI(n)
         n.apply_trait("Air")
-        n.front_row = True
+        n.be.front_row = True
         initial_levelup(n, 50, True)
 
         for i in hero.team:
-            i.besk = None
+            i.be.show_kwargs = None
 
         if len(hero.team) != 3 and h not in hero.team:
             hero.team.add(h)
@@ -141,7 +141,7 @@ label test_be_logical:
         tl.end("Logical BE Scenario without Setup!")
 
         # Reset Controller:
-        hero.controller = None
+        hero.be.controller = None
         enemy_team.reset_controller()
 
     $ tl.end("Logical BE Scenario with Setup!")

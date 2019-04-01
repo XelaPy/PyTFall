@@ -127,7 +127,7 @@ label storyi_bossroom:
         mob.stats.lvl_max["mp"] += 100
         mob.stats.max["mp"] += 100
         mob.mod_stat("mp", 100)
-        mob.controller = Complex_BE_AI(mob)
+        mob.be.controller = Complex_BE_AI(mob)
         enemy_team.add(mob)
         result = run_default_be(enemy_team,
                                 background="content/gfx/bg/story/p_b.webp",
@@ -179,7 +179,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
 
         for j in range(randint(1, 3)):
             mob = build_mob(id=random.choice(enemies), level=15)
-            mob.controller = Complex_BE_AI(mob)
+            mob.be.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
         result = run_default_be(enemy_team,
