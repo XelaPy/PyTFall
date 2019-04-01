@@ -561,20 +561,15 @@ init -1 python: # Core classes:
             a = self.source
             m = 1.0
 
-            # Get multiplier from traits:
-            # We decided that any trait could influence this:
-            # damage = 0
-            # defence = 0
-
+            # Get multiplier from traits
+            # We decided that any trait could influence this
             # Damage first:
             for trait in a.traits:
-                if type in trait.el_damage:
-                    m += trait.el_damage[type]
+                m += trait.el_damage.get(type, 0)
 
             # Defence next:
             for trait in t.traits:
-                if type in trait.el_defence:
-                     m -= trait.el_defence[type]
+                m -= trait.el_defence.get(type, 0)
 
             damage *= m
 
@@ -845,9 +840,9 @@ init -1 python: # Core classes:
             attack = self.get_attack()
             name = self.name
 
-            # DAMAGE Mods:
+            # Split the attack on damage types:
             if self.damage:
-                attack = attack/len(self.damage)
+                attack /= len(self.damage)
 
             for t in targets:
                 # effect list must be cleared here first thing... preferably in the future, at the end of each skill execution...
@@ -855,7 +850,7 @@ init -1 python: # Core classes:
 
                 defense = self.get_defense(t)
                 if self.damage:
-                    defense = defense/len(self.damage)
+                    defense /= len(self.damage)
 
                 # We get the multiplier and any effects that those may bring.
                 multiplier = 1.0
@@ -1025,9 +1020,9 @@ init -1 python: # Core classes:
             items = a.eq_items()
             for i in items:
                 if hasattr(i, "delivery_bonus"):
-                    attack = attack + i.delivery_bonus.get(delivery, 0)
+                    attack += i.delivery_bonus.get(delivery, 0)
                 if hasattr(i, "delivery_multiplier"):
-                    m = m + i.delivery_multiplier.get(delivery, 0)
+                    m += i.delivery_multiplier.get(delivery, 0)
             attack = attack * m
 
             # Trait Bonuses:
@@ -1044,7 +1039,7 @@ init -1 python: # Core classes:
                         else:
                             attack += max(minv, float(a.level)*maxv/lvl)
                 if hasattr(i, "delivery_multiplier"):
-                    m = m + i.delivery_multiplier.get(self.delivery, 0)
+                    m += i.delivery_multiplier.get(self.delivery, 0)
             attack *= m
 
             # Decreasing based of current health:
@@ -1073,9 +1068,9 @@ init -1 python: # Core classes:
             m = 1.0
             for i in items:
                 if hasattr(i, "defence_bonus"):
-                    defense = defense + i.defence_bonus.get(self.delivery, 0)
+                    defense += i.defence_bonus.get(self.delivery, 0)
                 if hasattr(i, "defence_multiplier"):
-                    m = m + i.defence_multiplier.get(self.delivery, 0)
+                    m += i.defence_multiplier.get(self.delivery, 0)
             defense *= m
 
             # Trait Bonuses:
@@ -1092,10 +1087,10 @@ init -1 python: # Core classes:
                         else:
                             defense += max(minv, float(target.level)*maxv/lvl)
                 if hasattr(i, "defence_multiplier"):
-                    if i in target.traits.basetraits and len(target.traits.basetraits)==1:
-                        m = m + 2*i.defence_multiplier.get(self.delivery, 0)
+                    if i in target.traits.basetraits and len(target.traits.basetraits) == 1:
+                        m += 2*i.defence_multiplier.get(self.delivery, 0)
                     else:
-                        m = m + i.defence_multiplier.get(self.delivery, 0)
+                        m += i.defence_multiplier.get(self.delivery, 0)
             defense *= m
 
             # Testing status mods through be skillz:
@@ -1107,7 +1102,7 @@ init -1 python: # Core classes:
                         d += event.defence_bonus.get(self.delivery, 0)
                         event.activated_this_turn = True
                     if hasattr(event, "defence_multiplier"):
-                        m = m + event.defence_multiplier.get(self.delivery, 0)
+                        m += event.defence_multiplier.get(self.delivery, 0)
                         event.activated_this_turn = True
 
             if d or m != 1.0:
@@ -1130,12 +1125,9 @@ init -1 python: # Core classes:
             if defense == 0:
                 defense = 1
 
-            if not absorbed:
-                # damage = (self.effect + attack)*multiplier/defense + 1
-                # damage = (self.effect + attack)*multiplier * math.log10(damage)
-                damage = (self.effect+attack)*(75.0/(75+defense))
-            else:
-                damage = -attack*(75.0/(75+defense))
+            damage = attack*(75.0/(75+defense))
+            if absorbed:
+                damage = -damage
 
             # backrow/critpower effects, maybe more:
             damage *= multiplier
@@ -1147,14 +1139,14 @@ init -1 python: # Core classes:
             m = 1.0
             for i in attacker_items:
                 if hasattr(i, "damage_multiplier"):
-                    m = m + i.damage_multiplier
+                    m += i.damage_multiplier
             damage *= m
 
             # Traits Bonus:
             m = 1.0
             for i in a.traits:
                 if hasattr(i, "damage_multiplier"):
-                    m = m + i.damage_multiplier
+                    m += i.damage_multiplier
             damage *= m
 
             return round_int(damage)
