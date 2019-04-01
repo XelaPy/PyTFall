@@ -449,7 +449,7 @@ init -9 python:
                 return
 
             if winner in lineup:
-                lineup.insert(winner_index-1, lineup.pop(winner))
+                lineup.insert(winner_index-1, lineup.pop(winner_index))
             else:
                 del lineup[-1]
                 lineup.append(winner)
