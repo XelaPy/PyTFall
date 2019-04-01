@@ -409,7 +409,6 @@ label after_load:
                 if not hasattr(tracker, "unlocked_areas"):
                     tracker.unlocked_areas = []
 
-
     # Resets:
     python:
         config.mouse = None
@@ -473,17 +472,18 @@ label after_load:
             renpy.call("sort_traits_for_gameplay")
 
     # SE Areas:
-    python hide:
-        tl.start("Updating: Exploration Areas")
-        updated = load_se_areas()
-        for id, area in updated.iteritems():
-            old = store.fg_areas.get(id, None)
-            if old is None:
-                store.fg_areas[id] = area
-                dlog("New SE Area: {}".format(id))
-            else:
-                update_object(old, area, "SE Area")
-        tl.end("Updating: Exploration Areas")
+    # Not safe :(
+    # python hide:
+    #     tl.start("Updating: Exploration Areas")
+    #     updated = load_se_areas()
+    #     for id, area in updated.iteritems():
+    #         old = store.fg_areas.get(id, None)
+    #         if old is None:
+    #             store.fg_areas[id] = area
+    #             dlog("New SE Area: {}".format(id))
+    #         else:
+    #             update_object(old, area, "SE Area")
+    #     tl.end("Updating: Exploration Areas")
 
     # All kinds of chars:
     python hide:

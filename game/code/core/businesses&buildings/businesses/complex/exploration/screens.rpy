@@ -404,7 +404,12 @@ screen building_management_midframe_exploration_guild_mode:
                             ypos 50
                             xalign .5
                             has vbox spacing 3
-                            $ source = area.found_items.keys() if not the_eye_upgrade_active else area.found_items.keys() + area.items.keys()
+                            python:
+                                if not the_eye_upgrade_active:
+                                    source = area.found_items.keys()
+                                else:
+                                    source = set(area.found_items.keys() + area.items.keys())
+                                source = sorted(list(source))
                             for i in source:
                                 $ item = items[i]
                                 fixed:

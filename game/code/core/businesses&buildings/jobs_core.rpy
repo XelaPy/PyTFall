@@ -63,7 +63,7 @@
                 self.team_charmod = None
             elif team and len(team) == 1:
                 self.char = list(team)[0]
-                self.charmod = charmod[self.char]
+                self.charmod = charmod.get(self.char, {})
                 self.team_charmod = None
                 self.team = None
             elif char:

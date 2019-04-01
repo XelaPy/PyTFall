@@ -319,8 +319,8 @@ init -11 python:
 
         return True
 
-    def give_to_mc_item_reward(types, price=None, locations=["Exploration"]):
-        item = get_item_drops(types=types, price=price, tier=hero.tier, locations=locations)
+    def give_to_mc_item_reward(types, price=None, tier=2, locations=None):
+        item = get_item_drops(types=types, price=price, tier=tier, locations=locations)
         if item:
             hero.add_item(item)
             gfx_overlay.random_find(item, 'items')
@@ -369,7 +369,7 @@ init -11 python:
                 continue
 
             if "consumable" in types:
-                if item.slot == "consumable" and item.type != "food":
+                if item.slot == "consumable" and not(item.type in ["food", "alcohol"]):
                     picked.add(item)
                     continue
 

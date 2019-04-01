@@ -422,7 +422,7 @@ init -9 python:
 
         def update_setups(self, winner, loser):
             """
-            Resonsible for repositioning winners + losers in setups!
+            Responsible for repositioning winners + losers in setups!
             """
             team_size = len(winner)
             if team_size == 1:
@@ -434,28 +434,25 @@ init -9 python:
             else:
                 raise Exception("Invalid team size for Automatic Arena Combat Resolver: %d" % team_size)
 
-            if winner in lineup:
-                index = lineup.index(winner)
-                if index:
-                    lineup.insert(index-1, winner)
-                    del lineup[index+1]
-            else:
-                # check if the hero has an another team in the lineup
-                if winner == hero.team:
-                    for idx, t in enumerate(lineup):
-                         if t.leader == hero:
-                             # another team in the lineup -> replace it with the current one
-                             lineup[idx] = winner
-                             winner_added = True
-                             break
-                if not "winner_added" in locals():
-                    del lineup[-1]
-                    lineup.append(winner)
+            lineup_len = len(lineup)
+            try:
+                winner_index = lineup.index(winner)
+            except:
+                winner_index = lineup_len
+            try:
+                loser_index = lineup.index(loser)
+            except:
+                loser_index = lineup_len
 
-            if loser in lineup:
-                index = lineup.index(loser)
-                lineup.insert(index+2, loser)
-                del lineup[index]
+            # Make sure that winner cannot advance by beating lower teams:
+            if winner_index < loser_index:
+                return
+
+            if winner in lineup:
+                lineup.insert(winner_index-1, lineup.pop(winner_index))
+            else:
+                del lineup[-1]
+                lineup.append(winner)
 
         def find_opfor(self):
             """

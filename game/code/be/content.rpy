@@ -167,6 +167,10 @@ init python:
 
         def __call__(self, *args, **kwargs):
             source = self.source
+            if source.controller == None:
+                modifier = 1
+            else:
+                modifier = 2
 
             if source.status == "free":
                 temp = []
@@ -174,11 +178,11 @@ init python:
 
                 # Restoring stats:
                 vp = round_int(source.get_max("vitality") * uniform(.03, .06))
-                source.vitality += vp
+                source.vitality += vp*modifier
                 temp.append("{color=[green]}+%d VP{/color}" % vp)
 
                 mp = round_int(source.get_max("mp") * uniform(.03, .06))
-                source.mp += mp
+                source.mp += mp*modifier
                 temp.append("{color=[gold]}+%d MP{/color}" % mp)
 
                 temp = " ".join(temp)

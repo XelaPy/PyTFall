@@ -99,7 +99,7 @@ init -5 python:
                         bonus_str = "(+30% Vitality)"
                         mod_by_max(worker, "vitality", .3)
 
-                    temp1 = " Your manager cheered her up. {}".format(
+                    temp1 = " Your manager cheered {} up. {}".format(worker.op,
                         set_font_color("{}".format(bonus_str), "lawngreen"))
                     log.append(temp0+temp1)
 

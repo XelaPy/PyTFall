@@ -165,8 +165,8 @@
         "attributes": ["melee", "ice", "physical"],
         "effect": 50,
         "multiplier": 0.95,
-        "vitality_cost": 12,
-        "mp_cost": 4,
+        "vitality_cost": 6,
+        "mp_cost": 1,
         "desc": "An attack with an ice axe.",
         "item_only": true,
         "main_effect": {
