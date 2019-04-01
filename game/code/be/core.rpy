@@ -1047,9 +1047,6 @@ init -1 python: # Core classes:
                     m = m + i.delivery_multiplier.get(self.delivery, 0)
             attack *= m
 
-            # Simple randomization factor?:
-            # attack *= uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this? Dark: we make damage calculations unpredictable (within reasonable limits); many games use much more harsh ways to add randomness to BE.
-
             # Decreasing based of current health:
             # healthlevel=(1.0*a.health)/(1.0*a.get_max("health"))*.5 # low health decreases attack power, down to 50% at close to 0 health.
             # attack *= (.5+healthlevel)
@@ -1124,7 +1121,7 @@ init -1 python: # Core classes:
                               attacker_items=[], absorbed=False):
             """
             - Called from the effects resolver controller.
-            
+
             Used to calc damage of the attack.
             Before multipliers and effects are applied.
             """
