@@ -825,10 +825,12 @@ init -1 python: # Core classes:
         def effects_resolver(self, targets):
             """Logical effect of the action.
 
+            - This is basically the controller that calls other methods.
             - For normal attacks, it calculates the damage.
             Expects a list or tuple with targets.
-            This should return it's results through PytCharacters property called damage so the show_gfx method can be adjusted accordingly.
-            But it is this method that writes to the log to be displayed later... (But you can change even this :D)
+            This should return it's results through PytCharacters property called
+                damage so the show_gfx method can be adjusted accordingly.
+            But it is this method that writes to the log to be displayed later...
             """
             # prepare the variables:
             if not isinstance(targets, (list, tuple, set)):
@@ -928,7 +930,7 @@ init -1 python: # Core classes:
                         effects.append((type, "resisted"))
                         continue
 
-                    # We also check for absorbtion:
+                    # We also check for absorption:
                     absorb_ratio = self.check_absorbtion(t, type)
                     if absorb_ratio:
                         result = absorb_ratio*result
@@ -966,8 +968,13 @@ init -1 python: # Core classes:
                 self.log_to_battle(effects, total_damage, a, t, message=None)
 
         def row_penalty(self, t):
-            # It's always the normal damage except for rows 0 and 3 (unless everyone in the front row are dead :) ).
-            # Adding true_piece there as well:
+            """
+            - Called from the effects resolver controller.
+
+            It's always the normal damage except for rows 0 and 3
+            (unless everyone in the front row are dead).
+            Account for true_piece here as well.
+            """
             if t.row == 3:
                 if battle.get_fighters(rows=[2]) and not self.true_pierce:
                     return True
@@ -976,7 +983,11 @@ init -1 python: # Core classes:
                     return True
 
         def check_absorbtion(self, t, type):
-            # Get all absorption capable traits:
+            """
+            - Called from the effects resolver controller.
+
+            Check all absorption capable traits.
+            """
             l = list(trait for trait in t.traits if trait.el_absorbs)
 
             # # Get ratio:
@@ -992,6 +1003,8 @@ init -1 python: # Core classes:
 
         def get_attack(self):
             """
+            - Called from the effects resolver controller.
+
             Very simple method to get to attack power.
             """
             a = self.source
@@ -1045,6 +1058,8 @@ init -1 python: # Core classes:
 
         def get_defense(self, target):
             """
+            - Called from the effects resolver controller.
+
             A method to get defence value vs current attack.
             """
             if "melee" in self.attributes:
@@ -1105,8 +1120,12 @@ init -1 python: # Core classes:
 
             return defense if defense > 0 else 1
 
-        def damage_calculator(self, t, attack, defense, multiplier, attacker_items=[], absorbed=False):
-            """Used to calc damage of the attack.
+        def damage_calculator(self, t, attack, defense, multiplier,
+                              attacker_items=[], absorbed=False):
+            """
+            - Called from the effects resolver controller.
+            
+            Used to calc damage of the attack.
             Before multipliers and effects are applied.
             """
             a = self.source
