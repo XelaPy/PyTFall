@@ -6,6 +6,44 @@
         "stage": 5,
         "img": "content/gfx/bg/locations/waste_1.webp"
     },
+    {
+        "id": "Old Fortress",
+        "main": true,
+        "unlocked": false,
+        "stage": 5,
+        "img": "content/gfx/bg/locations/dw_fortress.webp"
+    },
+    {
+        "id": "Fortress Entrance",
+        "stage": 1,
+        "tier": 0.75,
+        "exploration_multiplier": 0.5,
+        "area": "Old Fortress",
+        "desc": "This old fortress was used as a command post during the last war. It's nearly destroyed, but countless underground passages lead deep into the cliff.",
+        "unlocked": true,
+        "mobs": [],
+        "unlocks": {
+            "Fortress Dungeon": 30
+        },
+        "travel_time": 0.25,
+        "cash_limit": 150,
+        "items_limit": 400
+    },
+    {
+        "id": "Fortress Dungeon",
+        "stage": 1,
+        "tier": 1.0,
+        "exploration_multiplier": 0.5,
+        "area": "Old Fortress",
+        "desc": "THe dungeon is filled with provisions stocks, sadly mostly spoiled.",
+        "unlocked": false,
+        "mobs": [],
+        "unlocks": {
+        },
+        "travel_time": 0.26,
+        "cash_limit": 200,
+        "items_limit": 500
+    },
     
     {
         "id": "Vast Wasteland",
@@ -17,7 +55,7 @@
         "unlocked": true,
         "mobs": ["Slime", "Alkaline Slime", "Acid Slime", "Thug"],
         "unlocks": {
-            "Abnormal Sands": 90
+            "Abnormal Sands": 60, "Old Fortress": 90
         },
         "travel_time": 0.2,
         "cash_limit": 50,
@@ -25,7 +63,7 @@
     },
     {
         "id": "Abnormal Sands",
-        "desc": "Heavily damaged by abnormal weapons during the last war, over time fertile meadows became a small desert.",
+        "desc": "Heavily damaged by anomalistic weapons during the last war, over time fertile meadows became a small desert.",
         "stage": 2,
         "tier": 1.0,
         "travel_time": 1.0,
