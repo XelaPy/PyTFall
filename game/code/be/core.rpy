@@ -1391,6 +1391,7 @@ init -1 python: # Core classes:
             if self.main_effect["gfx"]:
                 renpy.stop_predict(self.get_main_gfx())
 
+        # First attacker action (usually step forward)
         def time_attackers_first_action(self, battle, attacker):
             # Lets start with the very first part (attacker_action):
             self.timestamps[0] = renpy.curry(self.show_attackers_first_action)(battle, attacker)
@@ -1417,6 +1418,7 @@ init -1 python: # Core classes:
             if self.attacker_action["gfx"] == "step_forward":
                 battle.move(attacker, attacker.dpos, .5, pause=False)
 
+        # First attacker effect (usually casting animation or similar)
         def time_attackers_first_effect(self, battle, attacker, targets):
             start = self.get_show_attackers_first_action_initial_pause()
             if start in self.timestamps:
@@ -1470,6 +1472,7 @@ init -1 python: # Core classes:
             # For now we just hide the tagged image here:
             renpy.hide("casting")
 
+        # Main graphics, the effects of the skill
         def time_main_gfx(self, battle, attacker, targets, start):
             if start in self.timestamps:
                 start = start + uniform(.001, .002)
@@ -1553,6 +1556,7 @@ init -1 python: # Core classes:
                 gfxtag = "attack" + str(i)
                 renpy.hide(gfxtag)
 
+        # Effect of the main attack on the target(s), like shaking
         def time_target_sprite_damage_effect(self, targets, died, start):
             # We take previous start as basepoint for execution:
             damage_effect_start = start + self.target_sprite_damage_effect["initial_pause"]
@@ -1677,6 +1681,8 @@ init -1 python: # Core classes:
                         renpy.hide(target.betag)
                         renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
 
+        # This is the effect of damage amount or similar
+        # Number bouncing is the usual default
         def time_target_damage_effect(self, targets, died, start):
             # Used to be .2 but it is a better idea to show
             # it after the attack gfx effects are finished
@@ -1765,6 +1771,7 @@ init -1 python: # Core classes:
                     tag = "bb" + str(index)
                     renpy.hide(tag)
 
+        # Death effect...
         def time_target_death_effect(self, died, start):
             death_effect_start = start + self.target_death_effect["initial_pause"]
 
@@ -1797,6 +1804,7 @@ init -1 python: # Core classes:
             for target in died:
                 renpy.hide(target.betag)
 
+        # Effect over the whole background, like distortion
         def time_bg_main_effect(self, start):
             effect_start = start + self.bg_main_effect["initial_pause"]
 
@@ -1834,6 +1842,7 @@ init -1 python: # Core classes:
                 renpy.show("bg", what=battle.bg)
                 renpy.with_statement(dissolve)
 
+        # Dodging effect usually movement of the target sprite.
         def time_dodge_effect(self, targets, attacker, start):
             # effect_start = start - .3
             # if effect_start < 0:
@@ -1949,6 +1958,7 @@ init -1 python: # Core classes:
 
             allskills = list(self.source.attack_skills) + list(self.source.magic_skills)
             return [s for s in allskills if s.check_conditions(self.source)]
+
 
     class Complex_BE_AI(BE_AI):
         """This one does a lot more "thinking".
