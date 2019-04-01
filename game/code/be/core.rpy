@@ -168,7 +168,9 @@ init -1 python: # Core classes:
 
                         # This actually executes the skill!
                         if skill is not None:
-                            skill(t=targets)
+                            if isinstance(targets, PytCharacter):
+                                targets = [targets]
+                            skill(targets=targets)
 
                         if not self.logical:
                             renpy.show_screen("be_status_overlay")
@@ -660,21 +662,25 @@ init -1 python: # Core classes:
             if self.bg_main_effect["duration"] is None:
                 self.bg_main_effect["duration"] = self.main_effect["duration"]
 
-        def __call__(self, ai=False, t=None):
-            self.effects_resolver(t)
-            died = self.apply_effects(t)
+        def __call__(self, ai=False, targets=None):
+            if not isinstance(targets, (list, tuple, set)):
+                targets = [targets]
+            attacker = self.source
+
+            self.effects_resolver(attacker, targets)
+            died = self.apply_effects(targets)
 
             if not isinstance(died, (list, set, tuple)):
                 died = list()
 
             if not battle.logical:
-                self.time_gfx(t, died)
+                self.time_gfx(targets, died)
 
                 for tag in self.tags_to_hide:
                     renpy.hide(tag)
                 self.tags_to_hide = list()
 
-            # Clear (maybe move to separate method if this ever gets complicated), should be moved to core???
+            # Clear data
             for f in battle.get_fighters(state="all"):
                 f.beeffects= []
 
@@ -814,7 +820,7 @@ init -1 python: # Core classes:
                     return True
 
         # Logical Effects:
-        def effects_resolver(self, targets):
+        def effects_resolver(self, attacker, targets):
             """Logical effect of the action.
 
             - This is basically the controller that calls other methods.
@@ -825,10 +831,6 @@ init -1 python: # Core classes:
             But it is this method that writes to the log to be displayed later...
             """
             # prepare the variables:
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-
-            attacker = self.source
             attributes = self.attributes
 
             attacker_items = attacker.eq_items()
@@ -1950,7 +1952,7 @@ init -1 python: # Core classes:
                 targets = skill.get_targets() # Get all targets in range.
                 targets = targets if "all" in skill.type else choice(targets) # We get a correct amount of targets here.
 
-                skill(ai=True, t=targets)
+                skill(ai=True, targets=targets)
             else:
                 skip()
 
@@ -1998,7 +2000,7 @@ init -1 python: # Core classes:
                     if targets:
                         skill.source = self.source
                         targets = targets if "all" in skill.type else choice(targets)
-                        skill(ai=True, t=targets)
+                        skill(ai=True, targets=targets)
                         return
 
             healing_skills = skills.get("healing", None)
@@ -2009,7 +2011,7 @@ init -1 python: # Core classes:
                         if t.health < t.get_max("health")*.5:
                             skill.source = self.source
                             targets = targets if "all" in skill.type else t
-                            skill(ai=True, t=targets)
+                            skill(ai=True, targets=targets)
                             return
 
             buffs = skills.get("buffs", None)
@@ -2019,7 +2021,7 @@ init -1 python: # Core classes:
                     if targets:
                         skill.source = self.source
                         targets = targets if "all" in skill.type else random.choice(targets)
-                        skill(ai=True, t=targets)
+                        skill(ai=True, targets=targets)
                         return
 
             attack_skills = skills.get("assault", None)
@@ -2034,7 +2036,7 @@ init -1 python: # Core classes:
                         skill.source = self.source
                         targets = skill.get_targets()
                         targets = targets if "all" in skill.type else random.choice(targets)
-                        skill(ai=True, t=targets)
+                        skill(ai=True, targets=targets)
                         return
 
             # In case we did not pick any specific skill:

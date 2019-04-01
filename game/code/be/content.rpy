@@ -292,7 +292,7 @@ init python:
             damage = max(randint(5, 10), int(damage) + randint(-2, 2))
 
             # Take care of modifiers:
-            damage = round_int(self.damage_modifier(t, damage, self.type))
+            damage = round_int(self.apply_damage_modifier(attacker, targets, damage, self.type))
 
             # GFX:
             if not battle.logical:
@@ -736,30 +736,26 @@ init python:
         def __init__(self):
             super(BasicHealingSpell, self).__init__()
 
-        def effects_resolver(self, targets):
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-            source = self.source
+        def effects_resolver(self, attacker, targets):
+            source = attacker
             attributes = self.attributes
-            base_restore = self.get_attack()
+            base_restore = self.get_attack(attacker)
 
-            for t in targets:
-                base_restore = t.get_max("health") * self.effect
+            for target in targets:
+                base_restore = target.get_max("health") * self.effect
                 effects = []
 
                 # We get the multi and any effects that those may bring:
-                restore = round_int(self.damage_modifier(t, base_restore, "healing"))
+                restore = round_int(self.apply_damage_modifier(attacker, target, base_restore, "healing"))
                 effects.append(("healing", restore))
 
-                t.dmg_font = "lawngreen" # Color the battle bounce green!
+                target.dmg_font = "lawngreen" # Color the battle bounce green!
 
                 # String for the log:
-                temp = "%s used %s to restore HP of %s!" % (source.nickname, self.name, t.name)
-                self.log_to_battle(effects, restore, source, t, message=temp)
+                temp = "%s used %s to restore HP of %s!" % (source.nickname, self.name, target.name)
+                self.log_to_battle(effects, restore, source, target, message=temp)
 
         def apply_effects(self, targets):
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
             for t in targets:
                 t.mod_stat("health", t.beeffects[0])
 
@@ -798,30 +794,25 @@ init python:
                 if self.get_targets(char):
                     return True
 
-        def effects_resolver(self, targets):
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-            char = self.source
+        def effects_resolver(self, attacker, targets):
+            char = attacker
             attributes = self.attributes
 
-            for t in targets:
-                minh, maxh = int(t.get_max("health")*.1), int(t.get_max("health")*.3)
+            for target in targets:
+                minh, maxh = int(target.get_max("health")*.1), int(target.get_max("health")*.3)
                 revive = randint(minh, maxh)
 
                 effects = list()
                 effects.append(revive)
-                t.beeffects = effects
+                target.beeffects = effects
 
                 # String for the log:
-                s = ("{color=[green]}%s brings %s back!{/color}" % (char.nickname, t.name))
-                t.dmg_font = "lawngreen" # Color the battle bounce green!
+                s = ("{color=[green]}%s brings %s back!{/color}" % (char.nickname, target.name))
+                target.dmg_font = "lawngreen" # Color the battle bounce green!
 
                 battle.log(s)
 
         def apply_effects(self, targets):
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-
             for t in targets:
                 battle.corpses.remove(t)
                 t.health = t.beeffects[0]
@@ -847,36 +838,35 @@ init python:
             self.buff_group = self.__class__
             self.defence_gfx = "default"
 
-        def effects_resolver(self, targets):
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-            source = self.source
+        def effects_resolver(self, attacker, targets):
+            source = attacker
             attributes = self.attributes
 
             base_effect = 100
 
-            for t in targets:
+            for target in targets:
                 effects = []
 
                 # We get the multi and any effects that those may bring:
-                effect = round_int(self.damage_modifier(t, base_effect, "status"))
+                effect = round_int(self.apply_damage_modifier(attacker, target, base_effect, "status"))
 
                 if effect:
                     # Check if event is in play already:
                     for event in store.battle.mid_turn_events:
-                        if t == event.target and event.group == self.buff_group:
-                            battle.log("%s is already buffed by %ss spell!" % (t.nickname, event.source.name))
+                        if target == event.target and event.group == self.buff_group:
+                            battle.log("%s is already buffed by %ss spell!" % (target.nickname, event.source.name))
                             break
                     else:
-                        temp = self.event_class(source, t, self.defence_bonus, self.defence_multiplier,
+                        temp = self.event_class(source, target, self.defence_bonus,
+                                                self.defence_multiplier,
                                                 icon=self.buff_icon, group=self.buff_group,
                                                 gfx_effect=self.defence_gfx)
                         battle.mid_turn_events.append(temp)
-                        temp = "%s buffs %ss defence!" % (source.nickname, t.name)
-                        self.log_to_battle(effects, effect, source, t, message=temp)
+                        temp = "%s buffs %ss defence!" % (source.nickname, target.name)
+                        self.log_to_battle(effects, effect, source, target, message=temp)
                 else:
-                    temp = "%s resisted the defence buff!" % (t.name)
-                    self.log_to_battle(effects, effect, source, t, message=temp)
+                    temp = "%s resisted the defence buff!" % (target.name)
+                    self.log_to_battle(effects, effect, source, target, message=temp)
 
         def apply_effects(self, targets):
             self.settle_cost()
@@ -899,19 +889,15 @@ init python:
 
             super(ConsumeItem, self).init()
 
-        def effects_resolver(self, targets):
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
-            source = self.source
+        def effects_resolver(self, attacker, targets):
+            source = attacker
             attributes = self.attributes
             item = self.item
 
-            for t in targets:
+            for target in targets:
                 battle.log("%s uses a %s!" % (source.nickname, item.id))
 
         def apply_effects(self, targets):
-            if not isinstance(targets, (list, tuple, set)):
-                targets = [targets]
             item = self.item
 
             self.source.remove_item(item)
