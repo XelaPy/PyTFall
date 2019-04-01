@@ -306,10 +306,7 @@ init -1 python: # Core classes:
                 for s in list(f.magic_skills)+list(f.attack_skills):
                     s.source = None
 
-                f.be.tag = None
-                f.be.show_kwargs = None
-                f.be.damage_font = "red"
-                f.be.status_overlay = []
+                f.be.clear()
 
         def next_turn(self):
             """
