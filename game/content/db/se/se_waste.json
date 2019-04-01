@@ -10,8 +10,15 @@
         "id": "Old Fortress",
         "main": true,
         "unlocked": false,
-        "stage": 5,
+        "stage": 6,
         "img": "content/gfx/bg/locations/dw_fortress.webp"
+    },
+    {
+        "id": "Flooded Lowlands",
+        "main": true,
+        "unlocked": false,
+        "stage": 7,
+        "img": "content/gfx/bg/locations/swamp.webp"
     },
     {
         "id": "Fortress Entrance",
@@ -19,7 +26,7 @@
         "tier": 0.75,
         "exploration_multiplier": 0.5,
         "area": "Old Fortress",
-        "desc": "This old fortress was used as a command post during the last war. It's nearly destroyed, but countless underground passages lead deep into the cliff.",
+        "desc": "This old fortress was used as a command post during the last war. It's nearly destroyed, but underground passage leads deep into the cliff.",
         "unlocked": true,
         "mobs": [],
         "unlocks": {
@@ -35,15 +42,99 @@
         "tier": 1.0,
         "exploration_multiplier": 0.5,
         "area": "Old Fortress",
-        "desc": "THe dungeon is filled with provisions stocks, sadly mostly spoiled.",
+        "desc": "The dungeon is filled with provisions stocks and weird equipment fragments.",
         "unlocked": false,
         "mobs": [],
-        "unlocks": {
+        "unlocks": {"Deep Caves": 35, "Crystal Caves": 65
         },
         "travel_time": 0.26,
         "cash_limit": 200,
         "items_limit": 500
     },
+    {
+        "id": "Deep Caves",
+        "stage": 2,
+        "tier": 1.4,
+        "exploration_multiplier": 1.25,
+        "area": "Old Fortress",
+        "desc": "A big network of semi flooded caves permeates the cliff.",
+        "unlocked": false,
+        "mobs": [],
+        "unlocks": {
+        },
+        "travel_time": 0.3,
+        "cash_limit": 250,
+        "items_limit": 500
+    },
+    {
+        "id": "Crystal Caves",
+        "stage": 3,
+        "tier": 2.0,
+        "exploration_multiplier": 1.0,
+        "area": "Old Fortress",
+        "desc": "These caves are filled with sparkling crystals charged with electricity, and the air itself is abuzz with the power.",
+        "unlocked": false,
+        "mobs": [],
+        "unlocks": {
+        },
+        "travel_time": 0.35,
+        "cash_limit": 400,
+        "items_limit": 600
+    },
+    {
+        "id": "Old Swamp",
+        "stage": 4,
+        "tier": 2.2,
+        "exploration_multiplier": 2.0,
+        "area": "Flooded Lowlands",
+        "desc": "Numerous underground rivers turned this area into a deadly swamp.",
+        "unlocked": true,
+        "mobs": [],
+        "unlocks": {"Hidden Lake": 50
+        },
+        "travel_time": 0.5,
+        "cash_limit": 500,
+        "items_limit": 700
+    },
+    {
+        "id": "Hidden Lake",
+        "stage": 5,
+        "tier": 2.5,
+        "exploration_multiplier": 0.8,
+        "area": "Flooded Lowlands",
+        "desc": "Remote little-known lake fed by underground springs. Due to its location and origin the water is incredibly clean, attracting elemental water creatures.",
+        "unlocked": false,
+        "mobs": [],
+        "unlocks": {"Underwater Caves": 90
+        },
+        "travel_time": 0.6,
+        "cash_limit": 500,
+        "items_limit": 700
+    },
+    {
+        "id": "Underwater Caves",
+        "stage": 6,
+        "tier": 3.0,
+        "exploration_multiplier": 2.5,
+        "area": "Flooded Lowlands",
+        "desc": "The bottom of the lake is dotted with numerous miniature caves. They are hard to reach and explore, but can provide exceptional reward.",
+        "unlocked": false,
+        "mobs": [],
+        "unlocks": {
+        },
+        "travel_time": 0.7,
+        "cash_limit": 1000,
+        "items_limit": 1000
+    },
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     {
         "id": "Vast Wasteland",

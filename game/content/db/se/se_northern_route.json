@@ -174,12 +174,33 @@
             "mp": 0,
             "vitality": 5
         },
-        "unlocks": {"Frozen Caverns": 60},
+        "unlocks": {"Frozen Caverns": 60, "Rose of Wind": 90},
         "cash_limit": 20,
         "items_limit": 250,
         "items": {
             "Stone": 100, "Victory Charm": 15
         }
+    },
+    {
+        "id": "Rose of Wind",
+        "stage": 8,
+        "tier": 2.5,
+        "area": "Northern Route",
+        "desc": "The windswept mountain peak attracts creatures from the dimension of Wind, reliably driving away common travelers.",
+        "unlocked": false,
+        "travel_time": 2.5,
+        "exploration_multiplier": 1.5,
+        "mobs": [],
+        "hazard": {
+            "health": 0,
+            "mp": 0,
+            "vitality": 10
+        },
+        "unlocks": {},
+        "cash_limit": 250,
+        "items_limit": 400,
+        "items": {
+                    }
     },
     {
         "id": "Frozen Passage Entrance",
