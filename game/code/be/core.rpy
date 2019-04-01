@@ -548,27 +548,24 @@ init -1 python: # Core classes:
             pass
 
         # ported from Action class as we need this for Events as well:
-        def damage_modifier(self, t, damage, type):
+        def apply_damage_modifier(self, attacker, target, damage, type):
             """
             This calculates the multiplier to use with effect of the skill.
-            t: target
             damage: Damage (number per type)
             type: Damage Type
             """
-            if type in t.resist:
+            if type in target.resist:
                 return 0
-
-            a = self.source
-            m = 1.0
 
             # Get multiplier from traits
             # We decided that any trait could influence this
             # Damage first:
-            for trait in a.traits:
+            m = 1.0
+            for trait in attacker.traits:
                 m += trait.el_damage.get(type, 0)
 
             # Defence next:
-            for trait in t.traits:
+            for trait in target.traits:
                 m -= trait.el_defence.get(type, 0)
 
             damage *= m
@@ -675,7 +672,7 @@ init -1 python: # Core classes:
 
                 for tag in self.tags_to_hide:
                     renpy.hide(tag)
-                self.tags_to_hide= list()
+                self.tags_to_hide = list()
 
             # Clear (maybe move to separate method if this ever gets complicated), should be moved to core???
             for f in battle.get_fighters(state="all"):
@@ -831,24 +828,24 @@ init -1 python: # Core classes:
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
 
-            a = self.source
+            attacker = self.source
             attributes = self.attributes
 
-            attacker_items = a.eq_items()
+            attacker_items = attacker.eq_items()
 
             # Get the attack power:
-            attack = self.get_attack()
+            attack = self.get_attack(attacker)
             name = self.name
 
             # Split the attack on damage types:
             if self.damage:
                 attack /= len(self.damage)
 
-            for t in targets:
+            for target in targets:
                 # effect list must be cleared here first thing... preferably in the future, at the end of each skill execution...
-                effects = t.beeffects
+                effects = target.beeffects
 
-                defense = self.get_defense(t)
+                defense = self.get_defense(target)
                 if self.damage:
                     defense /= len(self.damage)
 
@@ -859,7 +856,7 @@ init -1 python: # Core classes:
                 # Critical Strike and Evasion checks:
                 if self.delivery in ["melee", "ranged"]:
                     # Critical Hit Chance:
-                    ch = max(0, min((a.luck - t.luck), 20)) # No more than 20% chance based on luck
+                    ch = max(0, min((attacker.luck - target.luck), 20)) # No more than 20% chance based on luck
 
                     # Items bonuses:
                     m = .0
@@ -870,7 +867,7 @@ init -1 python: # Core classes:
 
                     # Traits bonuses:
                     m = .0
-                    for i in a.traits:
+                    for i in attacker.traits:
                         if hasattr(i, "ch_multiplier"):
                             m += i.ch_multiplier
                     ch += 100*m
@@ -879,46 +876,46 @@ init -1 python: # Core classes:
                         multiplier += 1.1 + self.critpower
                         effects.append("critical_hit")
                     elif ("inevitable" not in attributes): # inevitable attribute makes skill/spell undodgeable/unresistable
-                        ev = max(0, min(t.agility*.05-a.agility*.05, 15) + min(t.luck-a.luck, 15)) # Max 15 for agility and luck each...
+                        ev = max(0, min(target.agility*.05-attacker.agility*.05, 15) + min(target.luck-attacker.luck, 15)) # Max 15 for agility and luck each...
 
                         # Items bonuses:
                         temp = 0
-                        for i in t.eq_items():
+                        for i in target.eq_items():
                             if hasattr(i, "evasion_bonus"):
                                 temp += i.evasion_bonus
                         ev += temp
 
                         # Traits Bonuses:
                         temp = 0
-                        for i in t.traits:
+                        for i in target.traits:
                             if hasattr(i, "evasion_bonus"):
                                 # Reference: (minv, maxv, lvl)
                                 minv, maxv, lvl = i.evasion_bonus
                                 if lvl <= 0:
                                     lvl = 1
-                                if lvl <= t.level:
+                                if lvl <= target.level:
                                     temp += maxv
                                 else:
-                                    temp += max(minv, float(t.level)*maxv/lvl)
+                                    temp += max(minv, float(target.level)*maxv/lvl)
                         ev += temp
 
-                        if t.health <= t.get_max("health")*.25:
+                        if target.health <= target.get_max("health")*.25:
                             if ev < 0:
                                 ev = 0 # Even when weighed down adrenaline takes over and allows for temporary superhuman movements
                             ev += randint(1,5) # very low health provides additional random evasion, 1-5%
 
                         if dice(ev):
                             effects.append("missed_hit")
-                            self.log_to_battle(effects, 0, a, t, message=None)
+                            self.log_to_battle(effects, 0, attacker, target, message=None)
                             continue
 
                 # Rows Damage:
-                if self.row_penalty(t):
+                if self.row_penalty(target):
                     multiplier *= .5
                     effects.append("backrow_penalty")
 
                 for type in self.damage:
-                    result = self.damage_modifier(t, attack, type)
+                    result = self.apply_damage_modifier(attacker, target, attack, type)
 
                     # Resisted:
                     if result == 0:
@@ -926,7 +923,7 @@ init -1 python: # Core classes:
                         continue
 
                     # We also check for absorption:
-                    absorb_ratio = self.check_absorbtion(t, type)
+                    absorb_ratio = self.check_absorbtion(target, type)
                     if absorb_ratio:
                         result = absorb_ratio*result
                         # We also set defence to 0, no point in defending against absorption:
@@ -937,7 +934,7 @@ init -1 python: # Core classes:
                         absorbed = False
 
                     # Get the damage:
-                    result = self.damage_calculator(t, result, temp_def, multiplier, attacker_items, absorbed)
+                    result = self.damage_calculator(attacker, target, result, temp_def, multiplier, attacker_items, absorbed)
 
                     effects.append((type, result))
                     total_damage += result
@@ -945,24 +942,24 @@ init -1 python: # Core classes:
                 if self.event_class:
                     # First check resistance, then check if event is already in play:
                     type = self.buff_group
-                    if type in t.resist or self.check_absorbtion(t, type):
+                    if type in target.resist or self.check_absorbtion(target, type):
                         pass
                     else:
                         for event in store.battle.mid_turn_events:
                             if t == event.target and event.type == type:
-                                battle.log("%s is already effected by %s!" % (t.nickname, type))
+                                battle.log("%s is already effected by %s!" % (target.nickname, type))
                                 break
                         else:
                             duration = getattr(self, "event_duration", 3)
-                            temp = self.event_class(a, t, self.effect, duration=duration)
+                            temp = self.event_class(attacker, target, self.effect, duration=duration)
                             battle.mid_turn_events.append(temp)
                             # We also add the icon to targets status overlay:
-                            t.status_overlay.append(temp.icon)
+                            target.status_overlay.append(temp.icon)
 
                 # Finally, log to battle:
-                self.log_to_battle(effects, total_damage, a, t, message=None)
+                self.log_to_battle(effects, total_damage, attacker, target, message=None)
 
-        def row_penalty(self, t):
+        def row_penalty(self, target):
             """
             - Called from the effects resolver controller.
 
@@ -970,20 +967,20 @@ init -1 python: # Core classes:
             (unless everyone in the front row are dead).
             Account for true_piece here as well.
             """
-            if t.row == 3:
+            if target.row == 3:
                 if battle.get_fighters(rows=[2]) and not self.true_pierce:
                     return True
-            elif t.row == 0:
+            elif target.row == 0:
                 if battle.get_fighters(rows=[1]) and not self.true_pierce:
                     return True
 
-        def check_absorbtion(self, t, type):
+        def check_absorbtion(self, target, type):
             """
             - Called from the effects resolver controller.
 
             Check all absorption capable traits.
             """
-            l = list(trait for trait in t.traits if trait.el_absorbs)
+            l = list(trait for trait in target.traits if trait.el_absorbs)
 
             # # Get ratio:
             ratio = []
@@ -991,33 +988,31 @@ init -1 python: # Core classes:
                 if type in trait.el_absorbs:
                     ratio.append(trait.el_absorbs[type])
             if ratio:
-                rv = sum(ratio) / len(ratio)
+                rv = get_mean(ratio)
                 return rv
             else:
                 return None
 
-        def get_attack(self):
+        def get_attack(self, attacker):
             """
             - Called from the effects resolver controller.
 
             Very simple method to get to attack power.
             """
-            a = self.source
-
             if "melee" in self.attributes:
-                attack = (a.attack*.7 + a.agility*.3 + self.effect) * self.multiplier
+                attack = (attacker.attack*.7 + attacker.agility*.3 + self.effect) * self.multiplier
             elif "ranged" in self.attributes:
-                attack = (a.attack*.7 + a.intelligence*.3 + self.effect) * self.multiplier
+                attack = (attacker.attack*.7 + attacker.intelligence*.3 + self.effect) * self.multiplier
             elif "magic" in self.attributes:
-                attack = (a.magic*.7 + a.intelligence*.3 + self.effect) * self.multiplier
+                attack = (attacker.magic*.7 + attacker.intelligence*.3 + self.effect) * self.multiplier
             elif "status" in self.attributes:
-                attack = (a.intelligence*.7 + a.agility*.3 + self.effect) * self.multiplier
+                attack = (attacker.intelligence*.7 + attacker.agility*.3 + self.effect) * self.multiplier
 
             delivery = self.delivery
 
             # Items bonuses:
             m = 1.0
-            items = a.eq_items()
+            items = attacker.eq_items()
             for i in items:
                 if hasattr(i, "delivery_bonus"):
                     attack += i.delivery_bonus.get(delivery, 0)
@@ -1027,23 +1022,23 @@ init -1 python: # Core classes:
 
             # Trait Bonuses:
             m = 1.0
-            for i in a.traits:
+            for i in attacker.traits:
                 if hasattr(i, "delivery_bonus"):
                     # Reference: (minv, maxv, lvl)
                     if self.delivery in i.delivery_bonus:
                         minv, maxv, lvl = i.delivery_bonus[self.delivery]
                         if lvl <= 0:
                             lvl = 1
-                        if lvl <= a.level:
+                        if lvl <= attacker.level:
                             attack += maxv
                         else:
-                            attack += max(minv, float(a.level)*maxv/lvl)
+                            attack += max(minv, float(attacker.level)*maxv/lvl)
                 if hasattr(i, "delivery_multiplier"):
                     m += i.delivery_multiplier.get(self.delivery, 0)
             attack *= m
 
             # Decreasing based of current health:
-            # healthlevel=(1.0*a.health)/(1.0*a.get_max("health"))*.5 # low health decreases attack power, down to 50% at close to 0 health.
+            # healthlevel=(1.0*attacker.health)/(1.0*attacker.get_max("health"))*.5 # low health decreases attack power, down to 50% at close to 0 health.
             # attack *= (.5+healthlevel)
 
             return int(attack) if attack >= 1 else 1
@@ -1112,7 +1107,8 @@ init -1 python: # Core classes:
 
             return defense if defense > 0 else 1
 
-        def damage_calculator(self, t, attack, defense, multiplier,
+        def damage_calculator(self, attacker, target,
+                              attack, defense, multiplier,
                               attacker_items=[], absorbed=False):
             """
             - Called from the effects resolver controller.
@@ -1120,7 +1116,8 @@ init -1 python: # Core classes:
             Used to calc damage of the attack.
             Before multipliers and effects are applied.
             """
-            a = self.source
+            if attacker_items is None:
+                attacker_items = []
 
             if defense == 0:
                 defense = 1
@@ -1138,15 +1135,13 @@ init -1 python: # Core classes:
             # Items Bonus:
             m = 1.0
             for i in attacker_items:
-                if hasattr(i, "damage_multiplier"):
-                    m += i.damage_multiplier
+                m += getattr(i, "damage_multiplier", 0)
             damage *= m
 
             # Traits Bonus:
             m = 1.0
-            for i in a.traits:
-                if hasattr(i, "damage_multiplier"):
-                    m += i.damage_multiplier
+            for t in attacker.traits:
+                m += getattr(t, "damage_multiplier", 0)
             damage *= m
 
             return round_int(damage)
