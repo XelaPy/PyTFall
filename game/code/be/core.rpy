@@ -594,7 +594,6 @@ init -1 python: # Core classes:
                      "electricity": "{image=ele_element_be_size20}", "light": "{image=light_element_be_size20}", "darkness": "{image=darkness_element_be_size20}",
                      "healing": "{image=healing_be_size20}", "poison": "{image=poison_be_size20}"}
 
-
         def __init__(self):
             # Naming/Sorting:
             self.name = self.mn = None
