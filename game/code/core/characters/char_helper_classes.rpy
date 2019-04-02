@@ -1883,7 +1883,6 @@ init -10 python:
         def sprite_size(self):
             return get_size(self.sprite)
 
-
         def clear(self):
             self.sprite = None # Used to keep track of sprite displayable in the BE.
             self.index = 0 # Passes index from logical execution to SFX setup.
@@ -1898,3 +1897,7 @@ init -10 python:
             self.damage_effects = []
             self.damage_font = "red"
             self.status_overlay = [] # This is something I wanted to test out, trying to add tiny status icons somehow.
+
+            # Storing data:
+            self.attack = {}
+            self.defence = {}

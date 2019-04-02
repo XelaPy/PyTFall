@@ -1006,20 +1006,26 @@ init -1 python: # Core classes:
                 attack = (attacker.magic*.7 + attacker.intelligence*.3 + self.effect) * self.multiplier
             elif "status" in self.attributes:
                 attack = (attacker.intelligence*.7 + attacker.agility*.3 + self.effect) * self.multiplier
+            attacker.be.attack["base"] = attack
 
             delivery = self.delivery
 
             # Items bonuses:
+            bonus = 0
             m = 1.0
             items = attacker.eq_items()
             for i in items:
                 if hasattr(i, "delivery_bonus"):
-                    attack += i.delivery_bonus.get(delivery, 0)
+                    bonus += i.delivery_bonus.get(delivery, 0)
                 if hasattr(i, "delivery_multiplier"):
                     m += i.delivery_multiplier.get(delivery, 0)
-            attack = attack * m
+            attacker.be.attack["items_delivery_bonus"] = bonus
+            attacker.be.attack["items_delivery_multiplier"] = m
+            attack += bonus
+            attack *= m
 
             # Trait Bonuses:
+            bonus = 0
             m = 1.0
             for i in attacker.traits:
                 if hasattr(i, "delivery_bonus"):
@@ -1029,11 +1035,14 @@ init -1 python: # Core classes:
                         if lvl <= 0:
                             lvl = 1
                         if lvl <= attacker.level:
-                            attack += maxv
+                            bonus += maxv
                         else:
-                            attack += max(minv, float(attacker.level)*maxv/lvl)
+                            bonus += max(minv, float(attacker.level)*maxv/lvl)
                 if hasattr(i, "delivery_multiplier"):
                     m += i.delivery_multiplier.get(self.delivery, 0)
+            attacker.be.attack["traits_delivery_bonus"] = bonus
+            attacker.be.attack["traits_delivery_multiplier"] = m
+            attack += bonus
             attack *= m
 
             # Decreasing based of current health:
@@ -1049,25 +1058,31 @@ init -1 python: # Core classes:
             A method to get defence value vs current attack.
             """
             if "melee" in self.attributes:
-                defense = round(target.defence*.7 + target.constitution*.3)
+                defence = round(target.defence*.7 + target.constitution*.3)
             elif "ranged" in self.attributes:
-                defense = round(target.defence*.7 + target.agility*.3)
+                defence = round(target.defence*.7 + target.agility*.3)
             elif "magic" in self.attributes:
-                defense = round(target.defence*.4 + target.magic*.2 + target.intelligence*.4)
+                defence = round(target.defence*.4 + target.magic*.2 + target.intelligence*.4)
             elif "status" in self.attributes:
-                defense = round(target.defence*.4 + target.intelligence*.3 + target.constitution*.3)
+                defence = round(target.defence*.4 + target.intelligence*.3 + target.constitution*.3)
+            target.be.defence["base"] = defence
 
             # Items bonuses:
             items = target.eq_items()
+            bonus = 0
             m = 1.0
             for i in items:
                 if hasattr(i, "defence_bonus"):
-                    defense += i.defence_bonus.get(self.delivery, 0)
+                    bonus += i.defence_bonus.get(self.delivery, 0)
                 if hasattr(i, "defence_multiplier"):
                     m += i.defence_multiplier.get(self.delivery, 0)
-            defense *= m
+            target.be.defence["items_defence_bonus"] = bonus
+            target.be.defence["items_defence_multiplier"] = m
+            defence += bonus
+            defence *= m
 
             # Trait Bonuses:
+            bonus = 0
             m = 1.0
             for i in target.traits:
                 if hasattr(i, "defence_bonus"):
@@ -1077,34 +1092,40 @@ init -1 python: # Core classes:
                         if lvl <= 0:
                             lvl = 1
                         if lvl <= target.level:
-                            defense += maxv
+                            bonus += maxv
                         else:
-                            defense += max(minv, float(target.level)*maxv/lvl)
+                            bonus += max(minv, float(target.level)*maxv/lvl)
                 if hasattr(i, "defence_multiplier"):
                     if i in target.traits.basetraits and len(target.traits.basetraits) == 1:
                         m += 2*i.defence_multiplier.get(self.delivery, 0)
                     else:
                         m += i.defence_multiplier.get(self.delivery, 0)
-            defense *= m
+            target.be.defence["traits_defence_bonus"] = bonus
+            target.be.defence["traits_defence_multiplier"] = m
+            defence += bonus
+            defence *= m
+
 
             # Testing status mods through be skillz:
             m = 1.0
-            d = 0
+            bonus = 0
             for event in battle.get_all_events():
                 if event.target == target:
                     if hasattr(event, "defence_bonus"):
-                        d += event.defence_bonus.get(self.delivery, 0)
+                        bonus += event.defence_bonus.get(self.delivery, 0)
                         event.activated_this_turn = True
                     if hasattr(event, "defence_multiplier"):
                         m += event.defence_multiplier.get(self.delivery, 0)
                         event.activated_this_turn = True
 
-            if d or m != 1.0:
+            if bonus or m != 1.0:
                 target.be.damage_effects.append("magic_shield")
-                defense += d
-                defense *= m
+            target.be.defence["events_defence_bonus"] = bonus
+            target.be.defence["events_defence_multiplier"] = m
+            defence += bonus
+            defence *= m
 
-            return defense if defense > 0 else 1
+            return defence if defence > 0 else 1
 
         def damage_calculator(self, attacker, target,
                               attack, defense, multiplier,
