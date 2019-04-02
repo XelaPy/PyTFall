@@ -860,7 +860,7 @@ init -1 python: # Core classes:
                         target.be.critical_hit = True
                         effects.append("critical_hit")
                     elif ("inevitable" not in attributes): # inevitable attribute makes skill/spell undodgeable/unresistable
-                        ev = self.chance_evation(attacker, target)
+                        ev = self.chance_evasion(attacker, target)
                         if dice(ev):
                             target.be.evaded = True
                             effects.append("missed_hit")
@@ -1107,7 +1107,7 @@ init -1 python: # Core classes:
 
             return ch
 
-        def chance_evation(self, attacker, target):
+        def chance_evasion(self, attacker, target):
             ev = max(0, min(target.agility*.05-attacker.agility*.05, 15) + min(target.luck-attacker.luck, 15)) # Max 15 for agility and luck each...
 
             # Items bonuses:
