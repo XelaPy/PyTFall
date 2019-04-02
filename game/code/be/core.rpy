@@ -854,56 +854,15 @@ init -1 python: # Core classes:
 
                 # Critical Strike and Evasion checks:
                 if self.delivery in ["melee", "ranged"]:
-                    # Critical Hit Chance:
-                    ch = max(0, min((attacker.luck - target.luck), 20)) # No more than 20% chance based on luck
-
-                    # Items bonuses:
-                    m = .0
-                    for i in attacker_items:
-                        if hasattr(i, "ch_multiplier"):
-                            m += i.ch_multiplier
-                    ch += 100*m
-
-                    # Traits bonuses:
-                    m = .0
-                    for i in attacker.traits:
-                        if hasattr(i, "ch_multiplier"):
-                            m += i.ch_multiplier
-                    ch += 100*m
-
+                    ch = self.chance_critical_hit(attacker, target, attacker_items)
                     if dice(ch):
                         multiplier += 1.1 + self.critpower
+                        target.be.critical_hit = True
                         effects.append("critical_hit")
                     elif ("inevitable" not in attributes): # inevitable attribute makes skill/spell undodgeable/unresistable
-                        ev = max(0, min(target.agility*.05-attacker.agility*.05, 15) + min(target.luck-attacker.luck, 15)) # Max 15 for agility and luck each...
-
-                        # Items bonuses:
-                        temp = 0
-                        for i in target.eq_items():
-                            if hasattr(i, "evasion_bonus"):
-                                temp += i.evasion_bonus
-                        ev += temp
-
-                        # Traits Bonuses:
-                        temp = 0
-                        for i in target.traits:
-                            if hasattr(i, "evasion_bonus"):
-                                # Reference: (minv, maxv, lvl)
-                                minv, maxv, lvl = i.evasion_bonus
-                                if lvl <= 0:
-                                    lvl = 1
-                                if lvl <= target.level:
-                                    temp += maxv
-                                else:
-                                    temp += max(minv, float(target.level)*maxv/lvl)
-                        ev += temp
-
-                        if target.health <= target.get_max("health")*.25:
-                            if ev < 0:
-                                ev = 0 # Even when weighed down adrenaline takes over and allows for temporary superhuman movements
-                            ev += randint(1,5) # very low health provides additional random evasion, 1-5%
-
+                        ev = self.chance_evation(attacker, target)
                         if dice(ev):
+                            target.be.evaded = True
                             effects.append("missed_hit")
                             self.log_to_battle(effects, 0, attacker, target, message=None)
                             continue
@@ -979,13 +938,14 @@ init -1 python: # Core classes:
 
             Check all absorption capable traits.
             """
-            l = list(trait for trait in target.traits if trait.el_absorbs)
+            absorbs = list(t for t in target.traits if t.el_absorbs)
 
             # # Get ratio:
             ratio = []
-            for trait in l:
+            for trait in absorbs:
                 if type in trait.el_absorbs:
                     ratio.append(trait.el_absorbs[type])
+
             if ratio:
                 rv = get_mean(ratio)
                 return rv
@@ -1126,6 +1086,57 @@ init -1 python: # Core classes:
             defence *= m
 
             return defence if defence > 0 else 1
+
+        def chance_critical_hit(self, attacker, target, attacker_items):
+            # Critical Hit Chance:
+            ch = max(0, min((attacker.luck-target.luck), 20)) # No more than 20% chance based on luck
+
+            # Items bonuses:
+            m = .0
+            for i in attacker_items:
+                if hasattr(i, "ch_multiplier"):
+                    m += i.ch_multiplier
+            ch += 100*m
+
+            # Traits bonuses:
+            m = .0
+            for i in attacker.traits:
+                if hasattr(i, "ch_multiplier"):
+                    m += i.ch_multiplier
+            ch += 100*m
+
+            return ch
+
+        def chance_evation(self, attacker, target):
+            ev = max(0, min(target.agility*.05-attacker.agility*.05, 15) + min(target.luck-attacker.luck, 15)) # Max 15 for agility and luck each...
+
+            # Items bonuses:
+            temp = 0
+            for i in target.eq_items():
+                if hasattr(i, "evasion_bonus"):
+                    temp += i.evasion_bonus
+            ev += temp
+
+            # Traits Bonuses:
+            temp = 0
+            for i in target.traits:
+                if hasattr(i, "evasion_bonus"):
+                    # Reference: (minv, maxv, lvl)
+                    minv, maxv, lvl = i.evasion_bonus
+                    if lvl <= 0:
+                        lvl = 1
+                    if lvl <= target.level:
+                        temp += maxv
+                    else:
+                        temp += max(minv, float(target.level)*maxv/lvl)
+            ev += temp
+
+            if target.health <= target.get_max("health")*.25:
+                if ev < 0:
+                    ev = 0 # Even when weighed down adrenaline takes over and allows for temporary superhuman movements
+                ev += randint(1, 5) # very low health provides additional random evasion, 1-5%
+
+            return ev
 
         def damage_calculator(self, attacker, target,
                               attack, defense, multiplier,

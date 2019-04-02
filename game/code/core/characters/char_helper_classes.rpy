@@ -1898,6 +1898,13 @@ init -10 python:
             self.damage_font = "red"
             self.status_overlay = [] # This is something I wanted to test out, trying to add tiny status icons somehow.
 
+            self.clear_skill_data()
+
+        def clear_skill_data(self):
             # Storing data:
             self.attack = {}
             self.defence = {}
+            self.damage = {}
+
+            self.critical_hit = False
+            self.evaded = False
