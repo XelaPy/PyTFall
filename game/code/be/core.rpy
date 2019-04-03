@@ -842,9 +842,10 @@ init -1 python: # Core classes:
 
             attacker_items = attacker.eq_items()
 
-            # Get the attack power:
+            # Get the attack:
             attack = self.get_attack(attacker)
-            name = self.name
+
+
 
             # Split the attack on damage types:
             if self.damage:
@@ -889,13 +890,15 @@ init -1 python: # Core classes:
 
                     # Resisted:
                     if result == 0:
+                        target.be.damage[type]["resisted"] = True
                         effects.append((type, "resisted"))
                         continue
 
                     # We also check for absorption:
                     absorb_ratio = self.check_absorbtion(target, type)
                     if absorb_ratio:
-                        result = absorb_ratio*result
+                        target.be.damage[type]["absorbs"] = absorb_ratio
+                        result *= absorb_ratio
                         # We also set defence to 0, no point in defending against absorption:
                         temp_def = 0
                         absorbed = True
@@ -904,17 +907,16 @@ init -1 python: # Core classes:
                         absorbed = False
 
                     # Get the damage:
-                    result = self.damage_calculator(attacker, target, result, temp_def, multiplier, attacker_items, absorbed)
-
+                    result = self.damage_calculator(attacker, target, type,
+                                                    result, temp_def, multiplier,
+                                                    attacker_items, absorbed)
                     effects.append((type, result))
                     total_damage += result
 
                 if self.event_class:
                     # First check resistance, then check if event is already in play:
                     type = self.buff_group
-                    if type in target.resist or self.check_absorbtion(target, type):
-                        pass
-                    else:
+                    if not (type in target.resist or target.be.damage[type].get("absorbs", False):
                         for event in store.battle.mid_turn_events:
                             if t == event.target and event.type == type:
                                 battle.log("%s is already effected by %s!" % (target.nickname, type))
@@ -927,7 +929,8 @@ init -1 python: # Core classes:
                             target.be.status_overlay.append(temp.icon)
 
                 # Finally, log to battle:
-                self.log_to_battle(effects, total_damage, attacker, target, message=None)
+                self.log_to_battle(effects, total_damage,
+                                   attacker, target, message=None)
 
         def row_penalty(self, target):
             """
@@ -964,7 +967,7 @@ init -1 python: # Core classes:
             else:
                 return None
 
-        def get_attack(self, attacker):
+        def get_attack(self, attacker, apply=False):
             """
             - Called from the effects resolver controller.
 
@@ -1150,9 +1153,10 @@ init -1 python: # Core classes:
 
             return ev
 
-        def damage_calculator(self, attacker, target,
+        def damage_calculator(self, attacker, target, type,
                               attack, defense, multiplier,
-                              attacker_items=[], absorbed=False):
+                              attacker_items=None,
+                              absorbed=False):
             """
             - Called from the effects resolver controller.
 
@@ -1173,18 +1177,20 @@ init -1 python: # Core classes:
             damage *= multiplier
 
             # rng factors:
-            damage *= uniform(.90, 1.10)
+            damage *= uniform(.95, 1.05)
 
             # Items Bonus:
             m = 1.0
             for i in attacker_items:
                 m += getattr(i, "damage_multiplier", 0)
+            target.be.damage[type]["items_damage_multiplier"] = m
             damage *= m
 
             # Traits Bonus:
             m = 1.0
             for t in attacker.traits:
                 m += getattr(t, "damage_multiplier", 0)
+            target.be.damage[type]["traits_damage_multiplier"] = m
             damage *= m
 
             return round_int(damage)
