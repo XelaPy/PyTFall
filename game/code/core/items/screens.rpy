@@ -144,7 +144,7 @@ screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=Fals
 
             vbox:
                 align .5, .5
-                label ('{color=#ecc88a}----------------------------------------') xalign .5
+                label ('---You have ' + str(has_items(item, [hero])) + " in your inventory---") xalign .5 text_color "#ecc88a" text_size 14
                 hbox:
                     xalign .5
                     xfill True
@@ -313,6 +313,9 @@ screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=Fals
                         xysize (460, 100)
                         has vbox
                         if item.type == "scroll":
+                            $ battle_skill = store.battle_skills[item.add_be_spells[0]]
+                            if battle_skill in hero.magic_skills:
+                                text "*You already know this spell!*" style "TisaOTM" size 16 color orange
                             for i in item.add_be_spells:
                                 if i in battle_skills.keys():
                                     text battle_skills[i].desc + "\n" style "TisaOTM" size 16 color gold
