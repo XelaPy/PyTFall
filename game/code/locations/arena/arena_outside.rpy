@@ -115,7 +115,7 @@ label xeona_talking:
     if (hero.get_max("health") - hero.health >= 10) and xeona_status.disposition >= 10 and xeona_status.heal_day != day:
         $ xeona_status.heal_day = day
         ax "Wait, you are wounded! That won't do! One second..."
-        $ img = npcs["Xeona_arena"].show('nurse', resize=(590, 600))
+        $ img = npcs["Xeona_arena"].show('nurse', resize=(590, 600), add_mood=False)
         show expression img at truecenter as ddd
         with dissolve
         "She quickly patched your wounds."
@@ -213,7 +213,7 @@ label xeona_talking:
                     $ xeona_status.disposition += 1
                     $ xeona_status.meet_day = day
                     ax "Sure, I have a few hours! Let's go."
-                    $ img = npcs["Xeona_arena"].show('sfw', resize=(590, 600))
+                    $ img = npcs["Xeona_arena"].show('sfw', resize=(590, 600), add_mood=False)
                     show expression img at truecenter as ddd
                     with dissolve
                     "You spent some time with Xeona. She likes you a bit more now."
@@ -221,14 +221,14 @@ label xeona_talking:
                     with dissolve
                     $ del img
                     ax "It wasn't too bad. We should do it again."
-                    if xeona_status.disposition == 15:
+                    if xeona_status.disposition == 10:
                         ax "By the way... We know each other pretty well already, so if you want, we could arrange a more private date... If you know what I mean."
-                        $ xeona_status.disposition = 16
-                    elif xeona_status.disposition >= 30 and xeona_status.stage == 0:
+                        $ xeona_status.disposition = 11
+                    elif xeona_status.disposition >= 20 and xeona_status.stage == 0:
                         ax "Listen... I have a favor to ask. I need a Demonic Blade to enchant my magical capabilities, but I have no idea where to get it."
                         ax "If you bring it to me, I'll make it worth your while."
                         $ xeona_status.stage = 1
-            "Private date" if xeona_status.disposition >= 16:
+            "Private date" if xeona_status.disposition >= 11:
                 if not xeona_status.flirt:
                     ax "Sorry, I can't today. Too busy. I only have some free time every third day."
                 elif xeona_status.meet_day == day:
@@ -237,7 +237,7 @@ label xeona_talking:
                     $ xeona_status.disposition += 1
                     $ xeona_status.meet_day = day
                     ax "In the mood for some kinky stuff today? Me too, hehe."
-                    $ img = npcs["Xeona_arena"].show('nude', resize=(590, 600))
+                    $ img = npcs["Xeona_arena"].show('nude', resize=(590, 600), add_mood=False)
                     show expression img at truecenter as ddd
                     with dissolve
                     "Xeona arranged a small private show for you. You both enjoyed it."
@@ -245,7 +245,7 @@ label xeona_talking:
                     with dissolve
                     $ del img
                     ax "I may be not very good at striptease, but I hope you liked what you saw..."
-                    if xeona_status.disposition >= 30 and xeona_status.stage == 0:
+                    if xeona_status.disposition >= 20 and xeona_status.stage == 0:
                         ax "Listen... I have a favor to ask. I need a Demonic Blade to enchant my magical capabilities, but I have no idea where to get it."
                         ax "If you bring it to me, I'll make it worth your while."
                         $ xeona_status.stage = 1
@@ -272,7 +272,7 @@ label xeona_talking:
                             ax "Hmm, ok."
                 else:
                     ax "Yes, I need a Demonic Blade. Could you bring one to me?"
-            "Sex with Xeona" if xeona_status.stage == 2:
+            "Sex with Xeona" if xeona_status.stage >= 2:
                 if not xeona_status.flirt:
                     ax "Sorry, I can't today. Too busy. I only have some free time every third day."
                 elif xeona_status.meet_day == day:
@@ -281,7 +281,7 @@ label xeona_talking:
                     $ xeona_status.disposition += 1
                     $ xeona_status.meet_day = day
                     ax "Alright, hehe. Come, I know a good place nearby!"
-                    $ img = npcs["Xeona_arena"].show('sex', resize=(590, 600))
+                    $ img = npcs["Xeona_arena"].show('sex', resize=(590, 600), add_mood=False)
                     $ hero.sex += randint(5, 10)
                     show expression img at truecenter as ddd
                     with dissolve

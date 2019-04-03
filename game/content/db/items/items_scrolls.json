@@ -1309,7 +1309,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Revive"],
-    "locations": ["Aine Shop"],
+    "locations": ["Angelica Shop"],
     "pref_class":["Healer"]
     },
     {
