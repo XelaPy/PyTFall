@@ -654,7 +654,7 @@ init -9 python:
                 return ProportionalScale(_path, maxw, maxh)
 
             # Mood will never be checked in auto-mode when that is not sensible
-            add_mood = kwargs.get("add_mood", False)
+            add_mood = kwargs.get("add_mood", True)
             if not STATIC_CHAR.MOOD_TAGS.isdisjoint(set(tags)):
                 add_mood = False
 
