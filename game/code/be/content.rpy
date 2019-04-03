@@ -739,7 +739,8 @@ init python:
         def effects_resolver(self, attacker, targets):
             source = attacker
             attributes = self.attributes
-            base_restore = self.get_attack(attacker)
+            self.assess_attack(attacker)
+            base_restore = self.apply_attack(attacker)
 
             for target in targets:
                 base_restore = target.get_max("health") * self.effect
