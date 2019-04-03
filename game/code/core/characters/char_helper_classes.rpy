@@ -1908,3 +1908,4 @@ init -10 python:
 
             self.critical_hit = False
             self.evaded = False
+            self.row_penalty = False

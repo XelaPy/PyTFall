@@ -552,9 +552,15 @@ init -1 python: # Core classes:
             This calculates the multiplier to use with effect of the skill.
             damage: Damage (number per type)
             type: Damage Type
+
+            Basically:
+                - Resistance
+                - Elemental
             """
             if type in target.resist:
                 return 0
+            if not type in target.be.damage:
+                target.be.damage[type] = {}
 
             # Get multiplier from traits
             # We decided that any trait could influence this
@@ -562,18 +568,22 @@ init -1 python: # Core classes:
             m = 1.0
             for trait in attacker.traits:
                 m += trait.el_damage.get(type, 0)
+            target.be.damage[type]["elemental_damage_multiplier"] = m
+            damage *= m
 
             # Defence next:
+            m = 1.0
             for trait in target.traits:
                 m -= trait.el_defence.get(type, 0)
-
+            target.be.damage[type]["elemental_defence_multiplier"] = m
             damage *= m
 
             return damage
 
 
     class BE_Action(BE_Event):
-        """Basic action class that assumes that there will be targeting of some kind and followup logical and graphical effects.
+        """Basic action class that assumes that there will be targeting
+            of some kind and follow-up logical and graphical effects.
         """
         DELIVERY = set(["magic", "ranged", "melee", "status"]) # Damage/Effects Delivery Methods!
         DAMAGE = {"physical": "{image=physical_be_viewport}", "fire": "{image=fire_element_be_viewport}", "water": "{image=water_element_be_viewport}",
@@ -870,9 +880,11 @@ init -1 python: # Core classes:
                 # Rows Damage:
                 if self.row_penalty(target):
                     multiplier *= .5
+                    target.be.row_penalty = True
                     effects.append("backrow_penalty")
 
                 for type in self.damage:
+                    target.be.damage[type] = {}
                     result = self.apply_damage_modifier(attacker, target, attack, type)
 
                     # Resisted:
