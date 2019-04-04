@@ -860,7 +860,7 @@ init -1 python: # Core classes:
 
                 # Critical Strike and Evasion checks:
                 if self.delivery in ["melee", "ranged"]:
-                    self.assess_critical_hit(attacker, attacker_items)
+                    self.assess_critical_hit(attacker, target, attacker_items)
                     self.assess_evasion(attacker, target)
 
                 for type in self.damage:
@@ -1100,7 +1100,7 @@ init -1 python: # Core classes:
 
             target.be.damage[type]["absorbed"] = rv
 
-        def assess_critical_hit(self, attacker, attacker_items):
+        def assess_critical_hit(self, attacker, target, attacker_items):
             # Stats base:
             base = max(0, min((attacker.luck-target.luck), 20))
             attacker.be.critical_hit["base"] = base
@@ -1171,7 +1171,7 @@ init -1 python: # Core classes:
                 target.be.evasion["result"] = False
                 target.be.evasion["inevitable"] = True
             else:
-                target.be.evasion["result"] = dice(rv)
+                target.be.evasion["result"] = dice(ev)
 
         # To String methods:
         def log_to_battle(self, a, t, message=None):
