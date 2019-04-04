@@ -1119,8 +1119,8 @@ init -1 python: # Core classes:
 
             # Finally:
             ch = base
-            a = attacker.be.attack["items_multiplier"]
-            b = attacker.be.attack["traits_multiplier"]
+            a = attacker.be.critical_hit["items_multiplier"]
+            b = attacker.be.critical_hit["traits_multiplier"]
             ch += 100*(a+b)
 
             attacker.be.critical_hit["result"] = dice(ch)
