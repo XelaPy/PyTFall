@@ -914,7 +914,7 @@ init -1 python: # Core classes:
                 attack = (attacker.magic*.7 + attacker.intelligence*.3 + self.effect) * self.multiplier
             elif "status" in self.attributes:
                 attack = (attacker.intelligence*.7 + attacker.agility*.3 + self.effect) * self.multiplier
-            attacker.be.attack["base"] = attack
+            attacker.be.attack["base"] = round(attack, 1)
 
             # Items bonuses:
             bonus = 0
@@ -961,7 +961,7 @@ init -1 python: # Core classes:
             multi = sum([1.0, a, b])
             rv *= multi
 
-            rv = max(1, rv)
+            rv = max(1, round(rv, 1))
             attacker.be.attack["result"] = rv
 
         def assess_defence(self, target):
@@ -978,7 +978,7 @@ init -1 python: # Core classes:
                 defence = round(target.defence*.4 + target.magic*.2 + target.intelligence*.4)
             elif "status" in self.attributes:
                 defence = round(target.defence*.4 + target.intelligence*.3 + target.constitution*.3)
-            target.be.defence["base"] = defence
+            target.be.defence["base"] = round(defence, 1)
 
             # Items bonuses:
             items = target.eq_items()
@@ -1046,7 +1046,7 @@ init -1 python: # Core classes:
             multi = sum([1.0, a, b, c])
             rv *= multi
 
-            rv = max(1, rv)
+            rv = max(1, round(rv, 1))
             target.be.defence["result"] = rv
 
         def assess_damage(self, attacker, target, type):
@@ -1267,12 +1267,6 @@ init -1 python: # Core classes:
             # And finally, combined damage for multi-type attacks:
             if len(damage) > 1:
                 temp = self.color_string_by_DAMAGE_type("DGM", total_damage)
-                # if total_damage < 0:
-                #     total_damage = -total_damage
-                #     color = battle.type_to_color_map["healing"]
-                # else:
-                #     color = "red"
-                # temp = "{color=[%s]} %d{/color}" % (color, total_damage)
                 rv.append(temp)
 
             return rv
