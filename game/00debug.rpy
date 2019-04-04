@@ -49,7 +49,7 @@ init -998 python:
             devlog.info("|AEQ DEBUG| {}".format(msg), *args)
 
     # Battle Engine:
-    DEBUG_BE = False
+    DEBUG_BE = True
     def be_debug(msg):
         if DEBUG_BE:
             devlog.info("|BE DEBUG| {}".format(msg))

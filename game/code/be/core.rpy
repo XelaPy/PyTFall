@@ -95,7 +95,7 @@ init -1 python: # Core classes:
             self.type_to_color_map = type_to_color_map
 
         def log(self, report, delayed=False):
-            be_debug(report)
+            # be_debug(report)
             if delayed:
                 self.delayed_log.append(report)
             else:
@@ -874,6 +874,30 @@ init -1 python: # Core classes:
                 if log:
                     self.log_to_battle(attacker, target)
 
+                # Write data:
+                if DEBUG_BE:
+                    devlog.info("======>")
+                    devlog.info("{} attacks {} with {}.".format(attacker.name, target.name, self.name))
+                    if attacker.be.attack:
+                        temp = {k: v for k, v in attacker.be.attack.items() if v is not 0}
+                        devlog.info("Attack: {}".format(temp))
+                    if target.be.defence:
+                        temp = {k: v for k, v in target.be.defence.items() if v is not 0}
+                        devlog.info("Defence: {}".format(temp))
+                    if attacker.be.critical_hit:
+                        temp = {k: v for k, v in attacker.be.critical_hit.items() if v is not 0}
+                        devlog.info("Critical: {}".format(temp))
+                    if target.be.evasion:
+                        temp = {k: v for k, v in target.be.evasion.items() if v is not 0}
+                        devlog.info("Evasion: {}".format(temp))
+                    if target.be.damage:
+                        devlog.info("Damage:")
+                        for type, data in target.be.damage.items():
+                            data = {k: v for k, v in data.items() if v is not 0}
+                            devlog.info("{}: {}".format(type, temp))
+                    devlog.info("Row Penalty: {}".format(target.be.row_penalty))
+                    devlog.info("Total Damage: {}".format(target.be.total_damage))
+
         def assess_attack(self, attacker):
             """
             - Called from the effects resolver controller.
@@ -1106,13 +1130,13 @@ init -1 python: # Core classes:
             attacker.be.critical_hit["base"] = base
 
             # Items bonuses:
-            m = .0
+            m = 0
             for i in attacker_items:
                 m += getattr(i, "ch_multiplier", 0)
             attacker.be.critical_hit["items_multiplier"] = m
 
             # Traits bonuses:
-            m = .0
+            m = 0
             for i in attacker.traits:
                 m += getattr(i, "ch_multiplier", 0)
             attacker.be.critical_hit["traits_multiplier"] = m
