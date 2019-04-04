@@ -287,12 +287,20 @@ init python:
             target = self.target
             attacker = self.source
 
+            target.be.damage[type] = {}
+
             # Damage Calculations:
             damage = target.get_max("health") * self.effect
             damage = max(randint(5, 10), int(damage) + randint(-2, 2))
 
-            # Take care of modifiers:
-            damage = round_int(self.apply_damage_modifier(attacker, target, damage, self.type))
+            self.assess_resistance(target, self.type)
+
+            # Base:
+            target.be.damage[type]["base"] = damage
+
+            # Resistance:
+            if target.be.damage[type]["resisted"]:
+                damage = 0
 
             # GFX:
             if not battle.logical:
@@ -325,6 +333,8 @@ init python:
             if self.counter <= 0:
                 msg = "{color=[teal]}Poison effect on %s has ran it's course...{/color}" % (target.name)
                 battle.log(msg)
+
+            target.be.clear_skill_data()
 
 
     class DefenceBuff(BE_Event):
@@ -740,6 +750,8 @@ init python:
             type = "healing"
 
             for target in targets:
+                target.be.damage[type] = {}
+
                 restore = target.get_max("health") * self.effect
 
                 self.assess_resistance(target, type)
@@ -854,6 +866,8 @@ init python:
 
         def assess_logical_effects(self, source, targets):
             for target in targets:
+                target.be.damage[type] = {}
+
                 self.assess_resistance(target, type)
 
                 if target.be.damage[type]["resisted"]:
