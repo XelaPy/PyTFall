@@ -897,7 +897,7 @@ init -1 python: # Core classes:
                         devlog.info("Damage:")
                         for type, data in target.be.damage.items():
                             data = {k: v for k, v in data.items() if v is not 0}
-                            devlog.info("{}: {}".format(type, temp))
+                            devlog.info("{}: {}".format(type, data))
                     devlog.info("Row Penalty: {}".format(target.be.row_penalty))
                     devlog.info("Total Damage: {}".format(target.be.total_damage))
 
