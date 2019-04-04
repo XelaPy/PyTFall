@@ -591,6 +591,8 @@ init -1 python: # Core classes:
             m = 0
             for t in attacker.traits:
                 m += getattr(t, "damage_multiplier", 0)
+            if m != 0:
+                m = round(m, 3)
             target.be.damage[type]["traits_damage_multiplier"] = m
 
 
@@ -1059,6 +1061,7 @@ init -1 python: # Core classes:
 
             # Base:
             damage = attack*(75.0/(75+defence))
+            damage = round(damage, 1)
             target.be.damage[type]["base"] = damage
 
             # Direct and Elemental multipliers:
@@ -1086,7 +1089,7 @@ init -1 python: # Core classes:
                 damage *= .5
 
             # Resistance:
-            if target.be.damage[type]["resisted"]:
+            if target.be.damage[type].get("resisted", False):
                 damage = 0
 
             damage = round_int(damage)
@@ -1130,6 +1133,8 @@ init -1 python: # Core classes:
         def assess_critical_hit(self, attacker, target, attacker_items):
             # Stats base:
             base = max(0, min((attacker.luck-target.luck), 20))
+            if base != 0:
+                base = round(base, 3)
             attacker.be.critical_hit["base"] = base
 
             # Items bonuses:
@@ -1157,6 +1162,8 @@ init -1 python: # Core classes:
             agility = min(15, target.agility*.05-attacker.agility*.05)
             luck = min(15, target.luck-attacker.luck)
             base = max(0, agility+luck)
+            if base != 0:
+                base = round(base, 3)
             target.be.evasion["base"] = base
 
             # Items bonuses:
@@ -1279,6 +1286,7 @@ init -1 python: # Core classes:
                   attacks are being dished out on the objects.
             """
             died = list()
+            attacker = self.source
             if not isinstance(targets, (list, tuple, set)):
                 targets = [targets]
 

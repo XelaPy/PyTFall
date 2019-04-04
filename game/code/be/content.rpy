@@ -286,6 +286,7 @@ init python:
         def apply_effects(self):
             target = self.target
             attacker = self.source
+            type = self.type
 
             target.be.damage[type] = {}
 
@@ -293,7 +294,7 @@ init python:
             damage = target.get_max("health") * self.effect
             damage = max(randint(5, 10), int(damage) + randint(-2, 2))
 
-            self.assess_resistance(target, self.type)
+            self.assess_resistance(target, type)
 
             # Base:
             target.be.damage[type]["base"] = damage
@@ -865,6 +866,8 @@ init python:
             self.defence_gfx = "default"
 
         def assess_logical_effects(self, source, targets):
+            type = "status"
+            
             for target in targets:
                 target.be.damage[type] = {}
 
