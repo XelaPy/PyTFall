@@ -1264,7 +1264,7 @@ init -1 python: # Core classes:
 
             # Next damage by type:
             for type, data in damage.items():
-                temp = self.color_string_by_DAMAGE_type(type, data["result"])
+                temp = self.color_string_by_DAMAGE_type(type, data.get("result", 0))
                 rv.append(temp)
 
             # And finally, combined damage for multi-type attacks:
