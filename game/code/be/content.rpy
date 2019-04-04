@@ -740,7 +740,7 @@ init python:
             source = attacker
             attributes = self.attributes
             self.assess_attack(attacker)
-            base_restore = self.apply_attack(attacker)
+            base_restore = self.calculate_attack(attacker)
 
             for target in targets:
                 base_restore = target.get_max("health") * self.effect

@@ -1894,7 +1894,6 @@ init -10 python:
             self.show_kwargs = None # BE Show **Kwargs!
             self.allegiance = None # BE will default this to the team name.
             self.controller = None # by default the player is in control
-            self.damage_effects = []
             self.damage_font = "red"
             self.status_overlay = [] # This is something I wanted to test out, trying to add tiny status icons somehow.
 
@@ -1905,7 +1904,8 @@ init -10 python:
             self.attack = {}
             self.defence = {}
             self.damage = {}
+            self.evasion = {}
+            self.critical_hit = {}
 
-            self.critical_hit = False
-            self.evaded = False
             self.row_penalty = False
+            self.total_damage = 0
