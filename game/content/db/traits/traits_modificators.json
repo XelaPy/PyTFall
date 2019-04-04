@@ -2,7 +2,7 @@
     {
     "id": "Nerd",
     "desc": "Bookish and sometimes unsocial, but overly intellectual.",
-    "mod_stats": {"intelligence": [1, 1], "magic": [1, 3], "character": [-1, 1], "constitution": [-1, 1], "upkeep": [5,1]},
+    "mod_stats": {"intelligence": [1, 1], "magic": [1, 3], "character": [-1, 1], "constitution": [-1, 1], "upkeep": [-5,1]},
     "max": {"intelligence": 10, "magic": 5, "character": -10, "constitution": -5},
     "mod_skills": {"refinement": [-0.05, 0.05, -0.1]},
     "character_trait": true
@@ -10,7 +10,7 @@
     {
     "id": "Psychic",
     "desc": "This girl always seems to know what people want.",
-    "mod_stats": {"upkeep": [10, 1]},
+    "mod_stats": {"upkeep": [-10, 1]},
     "min": {"luck": 5},
     "max": {"intelligence": 5},
     "mod_skills": {"refinement": [0.05, 0, 0.05], "service": [0.05, 0, 0.05], "vaginal": [0, 0, 0.05], "anal": [0, 0, 0.05], "oral": [0, 0, 0.05], "strip": [0, 0, 0.05], "management": [0.02, 0.01, 0.05]},
