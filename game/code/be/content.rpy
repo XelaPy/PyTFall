@@ -736,29 +736,46 @@ init python:
         def __init__(self):
             super(BasicHealingSpell, self).__init__()
 
-        def effects_resolver(self, attacker, targets):
-            source = attacker
-            attributes = self.attributes
-            self.assess_attack(attacker)
-            base_restore = self.calculate_attack(attacker)
+        def assess_logical_effects(self, source, targets):
+            type = "healing"
 
             for target in targets:
-                base_restore = target.get_max("health") * self.effect
-                effects = []
+                restore = target.get_max("health") * self.effect
 
-                # We get the multi and any effects that those may bring:
-                restore = round_int(self.apply_damage_modifier(attacker, target, base_restore, "healing"))
-                effects.append(("healing", restore))
+                self.assess_resistance(target, type)
+                self.assess_elemental(source, target, type)
+                self.assess_damage_multipliers(source, target, type)
+
+                # Base:
+                target.be.damage[type]["base"] = restore
+
+                # Direct and Elemental multipliers:
+                a = target.be.damage[type]["items_damage_multiplier"]
+                b = target.be.damage[type]["traits_damage_multiplier"]
+                c = target.be.damage[type]["elemental_damage_multiplier"]
+                multi = sum([1.0, a, b, c])
+                restore *= multi
+
+                # rng factors:
+                restore *= uniform(.95, 1.05)
+
+                # Resistance:
+                if target.be.damage[type]["resisted"]:
+                    restore = 0
+
+                restore = round_int(restore)
+                target.be.damage[type]["result"] = restore
+                target.be.total_damage += restore
 
                 target.be.damage_font = "lawngreen" # Color the battle bounce green!
 
                 # String for the log:
-                temp = "%s used %s to restore HP of %s!" % (source.nickname, self.name, target.name)
-                self.log_to_battle(effects, restore, source, target, message=temp)
+                temp = "%s used %s to heal %s!" % (source.nickname, self.name, target.name)
+                self.log_to_battle(source, target, message=temp)
 
         def apply_effects(self, targets):
             for t in targets:
-                t.mod_stat("health", t.be.damage_effects[0])
+                t.mod_stat("health", t.be.total_damage)
 
             self.settle_cost()
 
@@ -769,6 +786,7 @@ init python:
             self.event_class = PoisonEvent
             self.buff_group = self.__class__
             self.event_duration = 3
+
 
     class ReviveSpell(BE_Action):
         def __init__(self):
@@ -795,22 +813,17 @@ init python:
                 if self.get_targets(char):
                     return True
 
-        def effects_resolver(self, attacker, targets):
-            char = attacker
-            attributes = self.attributes
-
+        def assess_logical_effects(self, source, targets):
             for target in targets:
                 minh, maxh = int(target.get_max("health")*.1), int(target.get_max("health")*.3)
                 revive = randint(minh, maxh)
 
-                effects = list()
-                effects.append(revive)
-                target.be.damage_effects = effects
+                t.be.total_damage = revive
 
-                # String for the log:
-                s = ("{color=[green]}%s brings %s back!{/color}" % (char.nickname, target.name))
                 target.be.damage_font = "lawngreen" # Color the battle bounce green!
 
+                # String for the log:
+                s = ("{color=[green]}%s revives %s!{/color}" % (source.nickname, target.name))
                 battle.log(s)
 
         def apply_effects(self, targets):
@@ -839,19 +852,14 @@ init python:
             self.buff_group = self.__class__
             self.defence_gfx = "default"
 
-        def effects_resolver(self, attacker, targets):
-            source = attacker
-            attributes = self.attributes
-
-            base_effect = 100
-
+        def assess_logical_effects(self, source, targets):
             for target in targets:
-                effects = []
+                self.assess_resistance(target, type)
 
-                # We get the multi and any effects that those may bring:
-                effect = round_int(self.apply_damage_modifier(attacker, target, base_effect, "status"))
-
-                if effect:
+                if target.be.damage[type]["resisted"]:
+                    temp = "%s resisted the defence buff!" % (target.name)
+                    self.log_to_battle(source, target, message=temp)
+                else:
                     # Check if event is in play already:
                     for event in store.battle.mid_turn_events:
                         if target == event.target and event.group == self.buff_group:
@@ -864,10 +872,7 @@ init python:
                                                 gfx_effect=self.defence_gfx)
                         battle.mid_turn_events.append(temp)
                         temp = "%s buffs %ss defence!" % (source.nickname, target.name)
-                        self.log_to_battle(effects, effect, source, target, message=temp)
-                else:
-                    temp = "%s resisted the defence buff!" % (target.name)
-                    self.log_to_battle(effects, effect, source, target, message=temp)
+                        self.log_to_battle(source, target, message=temp)
 
         def apply_effects(self, targets):
             self.settle_cost()
@@ -890,9 +895,8 @@ init python:
 
             super(ConsumeItem, self).init()
 
-        def effects_resolver(self, attacker, targets):
+        def assess_logical_effects(self, attacker, targets):
             source = attacker
-            attributes = self.attributes
             item = self.item
 
             for target in targets:

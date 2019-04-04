@@ -571,6 +571,25 @@ init -1 python: # Core classes:
                 m -= trait.el_defence.get(type, 0)
             target.be.damage[type]["elemental_defence_multiplier"] = m
 
+        def assess_damage_multipliers(self, attacker, target, type, attacker_items=None):
+            if not type in target.be.damage:
+                target.be.damage[type] = {}
+
+            if attacker_items is None:
+                attacker_items = attacker.eq_items()
+
+            # Items Bonus:
+            m = 0
+            for i in attacker_items:
+                m += getattr(i, "damage_multiplier", 0)
+            target.be.damage[type]["items_damage_multiplier"] = m
+
+            # Traits Bonus:
+            m = 0
+            for t in attacker.traits:
+                m += getattr(t, "damage_multiplier", 0)
+            target.be.damage[type]["traits_damage_multiplier"] = m
+
 
     class BE_Action(BE_Event):
         """Basic action class that assumes that there will be targeting
@@ -849,44 +868,11 @@ init -1 python: # Core classes:
                     self.assess_resistance(target, type)
                     self.assess_elemental(attacker, target, type)
                     self.assess_absorbtion(target, type)
-                    self.assess_damage(attacker, target, attacker_items, type)
+                    self.assess_damage_multipliers(attacker, target, type, attacker_items=attacker_items)
+                    self.assess_damage(attacker, target, type)
 
                 if log:
                     self.log_to_battle(attacker, target)
-
-        def assess_row_penalty(self, target):
-            """
-            It's always the normal damage except for rows 0 and 3
-            (unless everyone in the front row are dead).
-            Account for true_piece here as well.
-            """
-            if target.be.row == 3:
-                if battle.get_fighters(rows=[2]) and not self.true_pierce:
-                    target.be.row_penalty = True
-            elif target.be.row == 0:
-                if battle.get_fighters(rows=[1]) and not self.true_pierce:
-                    target.be.row_penalty = True
-
-        def assess_absorbtion(self, target, type):
-            """
-            - Called from the effects resolver controller.
-
-            Check all absorption capable traits.
-            """
-            absorbs = list(t for t in target.traits if t.el_absorbs)
-
-            # # Get ratio:
-            ratio = []
-            for trait in absorbs:
-                if type in trait.el_absorbs:
-                    ratio.append(trait.el_absorbs[type])
-
-            if ratio:
-                rv = get_mean(ratio)
-            else:
-                rv = False
-
-            target.be.damage[type]["absorbed"] = rv
 
         def assess_attack(self, attacker):
             """
@@ -1039,6 +1025,81 @@ init -1 python: # Core classes:
             rv = max(1, rv)
             target.be.defence["result"] = rv
 
+        def assess_damage(self, attacker, target, type):
+            # Calculations:
+            attack = attacker.be.attack["result"] / max(1, len(self.damage))
+            defence = target.be.defence["result"] / max(1, len(self.damage))
+
+            # Base:
+            damage = attack*(75.0/(75+defence))
+            target.be.damage[type]["base"] = damage
+
+            # Direct and Elemental multipliers:
+            a = target.be.damage[type]["items_damage_multiplier"]
+            b = target.be.damage[type]["traits_damage_multiplier"]
+            c = target.be.damage[type]["elemental_damage_multiplier"]
+            d = target.be.damage[type]["elemental_defence_multiplier"]
+            multi = sum([1.0, a, b, c, d])
+            damage *= multi
+
+            # Critical Hit:
+            if attacker.be.critical_hit.get("result", False):
+                damage *= 1.1+self.critpower
+
+            # rng factors:
+            damage *= uniform(.95, 1.05)
+
+            # Absorption:
+            absorbed = target.be.damage[type]["absorbed"]
+            if absorbed:
+                damage = -damage*absorbed
+
+            # Row:
+            if target.be.row_penalty:
+                damage *= .5
+
+            # Resistance:
+            if target.be.damage[type]["resisted"]:
+                damage = 0
+
+            damage = round_int(damage)
+            target.be.damage[type]["result"] = damage
+            target.be.total_damage += damage
+
+        def assess_row_penalty(self, target):
+            """
+            It's always the normal damage except for rows 0 and 3
+            (unless everyone in the front row are dead).
+            Account for true_piece here as well.
+            """
+            if target.be.row == 3:
+                if battle.get_fighters(rows=[2]) and not self.true_pierce:
+                    target.be.row_penalty = True
+            elif target.be.row == 0:
+                if battle.get_fighters(rows=[1]) and not self.true_pierce:
+                    target.be.row_penalty = True
+
+        def assess_absorbtion(self, target, type):
+            """
+            - Called from the effects resolver controller.
+
+            Check all absorption capable traits.
+            """
+            absorbs = list(t for t in target.traits if t.el_absorbs)
+
+            # # Get ratio:
+            ratio = []
+            for trait in absorbs:
+                if type in trait.el_absorbs:
+                    ratio.append(trait.el_absorbs[type])
+
+            if ratio:
+                rv = get_mean(ratio)
+            else:
+                rv = False
+
+            target.be.damage[type]["absorbed"] = rv
+
         def assess_critical_hit(self, attacker, attacker_items):
             # Stats base:
             base = max(0, min((attacker.luck-target.luck), 20))
@@ -1111,59 +1172,6 @@ init -1 python: # Core classes:
                 target.be.evasion["inevitable"] = True
             else:
                 target.be.evasion["result"] = dice(rv)
-
-        def assess_damage(self, attacker, target, attacker_items, type):
-            # Items Bonus:
-            m = 0
-            for i in attacker_items:
-                m += getattr(i, "damage_multiplier", 0)
-            target.be.damage[type]["items_damage_multiplier"] = m
-
-            # Traits Bonus:
-            m = 0
-            for t in attacker.traits:
-                m += getattr(t, "damage_multiplier", 0)
-            target.be.damage[type]["traits_damage_multiplier"] = m
-
-            # Calculations:
-            attack = attacker.be.attack["result"] / max(1, len(self.damage))
-            defence = target.be.defence["result"] / max(1, len(self.damage))
-
-            # Base:
-            damage = attack*(75.0/(75+defence))
-            target.be.damage[type]["base"] = damage
-
-            # Direct and Elemental multipliers:
-            a = target.be.damage[type]["items_damage_multiplier"]
-            b = target.be.damage[type]["traits_damage_multiplier"]
-            c = target.be.damage[type]["elemental_damage_multiplier"]
-            d = target.be.damage[type]["elemental_defence_multiplier"]
-            multi = sum([1.0, a, b, c, d])
-            damage *= multi
-
-            # Critical Hit:
-            if attacker.be.critical_hit.get("result", False):
-                damage *= 1.1+self.critpower
-
-            # rng factors:
-            damage *= uniform(.95, 1.05)
-
-            # Absorption:
-            absorbed = target.be.damage[type]["absorbed"]
-            if absorbed:
-                damage = -damage*absorbed
-
-            # Row:
-            if target.be.row_penalty:
-                damage *= .5
-
-            # Resistance:
-            if target.be.damage[type]["resisted"]:
-                damage = 0
-
-            damage = round_int(damage)
-            target.be.damage[type]["result"] = damage
-            target.be.total_damage += damage
 
         # To String methods:
         def log_to_battle(self, a, t, message=None):
