@@ -174,7 +174,7 @@
             "mp": 0,
             "vitality": 5
         },
-        "unlocks": {"Frozen Caverns": 60, "Rose of Wind": 90},
+        "unlocks": {"Frozen Caverns": 60, "Rose of Winds": 90},
         "cash_limit": 20,
         "items_limit": 250,
         "items": {
@@ -182,7 +182,7 @@
         }
     },
     {
-        "id": "Rose of Wind",
+        "id": "Rose of Winds",
         "stage": 8,
         "tier": 2.5,
         "area": "Northern Route",
@@ -199,9 +199,32 @@
         "unlocks": {},
         "cash_limit": 250,
         "items_limit": 400,
-        "items": {
+        "items": {"Northern Peak": 90
                     }
     },
+    {
+        "id": "Northern Peak",
+        "stage": 9,
+        "tier": 3.0,
+        "area": "Northern Route",
+        "desc": "The highest mountain in the area. Due to rarefied air only the most powerful creatures can live here.",
+        "unlocked": false,
+        "travel_time": 2.8,
+        "exploration_multiplier": 1.0,
+        "mobs": [],
+        "hazard": {
+            "health": 5,
+            "mp": 0,
+            "vitality": 10
+        },
+        "unlocks": {},
+        "cash_limit": 500,
+        "items_limit": 800,
+        "items": {"Gardens of Eden": 80
+                    }
+    },
+    
+    
     {
         "id": "Frozen Passage Entrance",
         "stage": 1,

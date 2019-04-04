@@ -63,7 +63,7 @@
     "id": "Kamidere",
     "desc": "Bossy and commanding personality with a superiority complex. Proud and arrogant, and takes no shame in stating what she believes she is best at.",
     "max": {"character": 10},
-    "mod_stats": {"character": [1, 1], "upkeep": [20, 1]},
+    "mod_stats": {"character": [1, 1], "upkeep": [5, 1]},
     "mod_skills": {"management": [0.1, 0.1, 0.2], "bartending": [0, 0, -0.05], "cleaning": [-0.25, -0.1, -0.2], "refinement": [0.2, 0.1, 0.1], "service": [-0.05, -0.05, -0.1], "security": [0, 0, 0.1]},
     "personality": true,
     "effects": ["Assertive"]

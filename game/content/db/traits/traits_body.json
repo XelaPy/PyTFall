@@ -46,7 +46,7 @@
     {
     "id": "Not Human",
     "desc": "This girl doesn't look like a normal human being.",
-    "mod_stats": {"upkeep": [10,1]},
+    "mod_stats": {"upkeep": [5,1]},
     "mod_skills": {"strip": [0, 0, 0.05], "refinement": [-0.03, -0.03, 0.03]},
     "permanent": true,
     "market": true
@@ -156,7 +156,7 @@
     {
     "id": "Scars",
     "desc": "This poor girl has some scars.",
-    "mod_stats": {"constitution": [1, 2], "upkeep": [5, 1], "charisma": [-1, 2]},
+    "mod_stats": {"constitution": [1, 2], "upkeep": [2, 1], "charisma": [-1, 2]},
     "max": {"charisma": -5, "constitution": 10},
     "mod_skills": {"strip": [0, 0, -0.2]},
     "permanent": true,
@@ -173,7 +173,7 @@
    {
     "id": "Alien",
     "desc": "This girl has come from a distant dimension with very different laws of physics, magic, and society (+magic and status defence).",
-    "mod_stats": {"magic": [-1, 5], "constitution": [-1, 5], "upkeep": [50, 1]},
+    "mod_stats": {"magic": [-1, 5], "constitution": [-1, 5], "upkeep": [10, 1]},
     "max": {"magic": 25, "attack": 15, "defence": 15, "constitution": 15},
     "mod_skills": {"refinement": [-0.05, -0.05, 0.1], "service": [0, -0.05, -0.05]},
     "permanent": true,
