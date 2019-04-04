@@ -1234,7 +1234,7 @@ init -1 python: # Core classes:
 
             # And finally, combined damage for multi-type attacks:
             if len(damage) > 1:
-                temp = color_string_by_DAMAGE_type("DGM:", total_damage)
+                temp = self.color_string_by_DAMAGE_type("DGM", total_damage)
                 # if total_damage < 0:
                 #     total_damage = -total_damage
                 #     color = battle.type_to_color_map["healing"]
@@ -1264,17 +1264,17 @@ init -1 python: # Core classes:
                     if self.event_class:
                         # First check resistance, then check if event is already in play:
                         type = self.buff_group
-                        if not (type in target.resist or target.be.damage[type].get("absorbs", False)):
+                        if not (type in t.resist or t.be.damage[type].get("absorbs", False)):
                             for event in store.battle.mid_turn_events:
                                 if t == event.target and event.type == type:
-                                    battle.log("%s is already effected by %s!" % (target.nickname, type))
+                                    battle.log("%s is already effected by %s!" % (t.nickname, type))
                                     break
                             else:
                                 duration = getattr(self, "event_duration", 3)
-                                temp = self.event_class(attacker, target, self.effect, duration=duration)
+                                temp = self.event_class(attacker, t, self.effect, duration=duration)
                                 battle.mid_turn_events.append(temp)
                                 # We also add the icon to targets status overlay:
-                                target.be.status_overlay.append(temp.icon)
+                                t.be.status_overlay.append(temp.icon)
                 else:
                     t.health = 1
                     battle.end_turn_events.append(RPG_Death(t))
