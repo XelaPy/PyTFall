@@ -262,6 +262,9 @@ init -1 python: # Core classes:
                 team.position = pos
                 size = len(team)
                 for idx, char in enumerate(team.members):
+                    # Clear the data (to be safe):
+                    char.be.clear_skill_data()
+
                     # Position:
                     char.be.teampos = pos
                     if size == 3 and idx < 2:
