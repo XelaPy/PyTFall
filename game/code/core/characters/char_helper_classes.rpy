@@ -1883,7 +1883,7 @@ init -10 python:
         def sprite_size(self):
             return get_size(self.sprite)
 
-        def clear(self):
+        def clear(self, controller=True):
             self.sprite = None # Used to keep track of sprite displayable in the BE.
             self.index = 0 # Passes index from logical execution to SFX setup.
             self.teampos = None # This manages team position bound to target (left or right on the screen).
@@ -1893,9 +1893,11 @@ init -10 python:
             self.current_pos = None # Current position of a sprite.
             self.show_kwargs = None # BE Show **Kwargs!
             self.allegiance = None # BE will default this to the team name.
-            self.controller = None # by default the player is in control
             self.damage_font = "red"
             self.status_overlay = [] # This is something I wanted to test out, trying to add tiny status icons somehow.
+
+            if controller:
+                self.controller = None # by default the player is in control
 
             self.clear_skill_data()
 
