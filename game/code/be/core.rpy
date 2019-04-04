@@ -842,9 +842,9 @@ init -1 python: # Core classes:
 
             attacker_items = attacker.eq_items()
 
-            # Get the attack power:
-            attack = self.get_attack(attacker)
-            name = self.name
+            # Get the attack:
+            self.assess_attack(attacker)
+            attack = self.apply_attack(attacker)
 
             # Split the attack on damage types:
             if self.damage:
@@ -854,7 +854,8 @@ init -1 python: # Core classes:
                 # effect list must be cleared here first thing... preferably in the future, at the end of each skill execution...
                 effects = target.be.damage_effects
 
-                defense = self.get_defense(target)
+                self.assess_defense(target)
+                defense = self.apply_defence(target)
                 if self.damage:
                     defense /= len(self.damage)
 
@@ -889,13 +890,15 @@ init -1 python: # Core classes:
 
                     # Resisted:
                     if result == 0:
+                        target.be.damage[type]["resisted"] = True
                         effects.append((type, "resisted"))
                         continue
 
                     # We also check for absorption:
                     absorb_ratio = self.check_absorbtion(target, type)
                     if absorb_ratio:
-                        result = absorb_ratio*result
+                        target.be.damage[type]["absorbs"] = absorb_ratio
+                        result *= absorb_ratio
                         # We also set defence to 0, no point in defending against absorption:
                         temp_def = 0
                         absorbed = True
@@ -904,17 +907,16 @@ init -1 python: # Core classes:
                         absorbed = False
 
                     # Get the damage:
-                    result = self.damage_calculator(attacker, target, result, temp_def, multiplier, attacker_items, absorbed)
-
+                    result = self.damage_calculator(attacker, target, type,
+                                                    result, temp_def, multiplier,
+                                                    attacker_items, absorbed)
                     effects.append((type, result))
                     total_damage += result
 
                 if self.event_class:
                     # First check resistance, then check if event is already in play:
                     type = self.buff_group
-                    if type in target.resist or self.check_absorbtion(target, type):
-                        pass
-                    else:
+                    if not (type in target.resist or target.be.damage[type].get("absorbs", False)):
                         for event in store.battle.mid_turn_events:
                             if t == event.target and event.type == type:
                                 battle.log("%s is already effected by %s!" % (target.nickname, type))
@@ -927,7 +929,8 @@ init -1 python: # Core classes:
                             target.be.status_overlay.append(temp.icon)
 
                 # Finally, log to battle:
-                self.log_to_battle(effects, total_damage, attacker, target, message=None)
+                self.log_to_battle(effects, total_damage,
+                                   attacker, target, message=None)
 
         def row_penalty(self, target):
             """
@@ -964,12 +967,14 @@ init -1 python: # Core classes:
             else:
                 return None
 
-        def get_attack(self, attacker):
+        def assess_attack(self, attacker):
             """
             - Called from the effects resolver controller.
 
             Very simple method to get to attack power.
             """
+            delivery = self.delivery
+
             if "melee" in self.attributes:
                 attack = (attacker.attack*.7 + attacker.agility*.3 + self.effect) * self.multiplier
             elif "ranged" in self.attributes:
@@ -980,11 +985,9 @@ init -1 python: # Core classes:
                 attack = (attacker.intelligence*.7 + attacker.agility*.3 + self.effect) * self.multiplier
             attacker.be.attack["base"] = attack
 
-            delivery = self.delivery
-
             # Items bonuses:
             bonus = 0
-            m = 1.0
+            m = 0
             items = attacker.eq_items()
             for i in items:
                 if hasattr(i, "delivery_bonus"):
@@ -993,17 +996,15 @@ init -1 python: # Core classes:
                     m += i.delivery_multiplier.get(delivery, 0)
             attacker.be.attack["items_delivery_bonus"] = bonus
             attacker.be.attack["items_delivery_multiplier"] = m
-            attack += bonus
-            attack *= m
 
             # Trait Bonuses:
             bonus = 0
-            m = 1.0
+            m = 0
             for i in attacker.traits:
                 if hasattr(i, "delivery_bonus"):
                     # Reference: (minv, maxv, lvl)
-                    if self.delivery in i.delivery_bonus:
-                        minv, maxv, lvl = i.delivery_bonus[self.delivery]
+                    if delivery in i.delivery_bonus:
+                        minv, maxv, lvl = i.delivery_bonus[delivery]
                         if lvl <= 0:
                             lvl = 1
                         if lvl <= attacker.level:
@@ -1011,19 +1012,28 @@ init -1 python: # Core classes:
                         else:
                             bonus += max(minv, float(attacker.level)*maxv/lvl)
                 if hasattr(i, "delivery_multiplier"):
-                    m += i.delivery_multiplier.get(self.delivery, 0)
+                    m += i.delivery_multiplier.get(delivery, 0)
             attacker.be.attack["traits_delivery_bonus"] = bonus
             attacker.be.attack["traits_delivery_multiplier"] = m
-            attack += bonus
-            attack *= m
 
-            # Decreasing based of current health:
-            # healthlevel=(1.0*attacker.health)/(1.0*attacker.get_max("health"))*.5 # low health decreases attack power, down to 50% at close to 0 health.
-            # attack *= (.5+healthlevel)
+        def apply_attack(self, attacker):
+            # Base value (stats + skill effect + skill multiplier)
+            rv = attacker.be.attack["base"]
 
-            return int(attack) if attack >= 1 else 1
+            # Direct bonuses from traits and items:
+            rv += attacker.be.attack["items_delivery_bonus"]
+            rv += attacker.be.attack["traits_delivery_bonus"]
 
-        def get_defense(self, target):
+            # Multipliers from traits and items:
+            a = attacker.be.attack["items_delivery_multiplier"]
+            b = attacker.be.attack["traits_delivery_multiplier"]
+            multi = sum([1.0, a, b])
+            rv *= multi
+
+            rv = max(1, rv)
+            return rv
+
+        def assess_defense(self, target):
             """
             - Called from the effects resolver controller.
 
@@ -1042,7 +1052,7 @@ init -1 python: # Core classes:
             # Items bonuses:
             items = target.eq_items()
             bonus = 0
-            m = 1.0
+            m = 0
             for i in items:
                 if hasattr(i, "defence_bonus"):
                     bonus += i.defence_bonus.get(self.delivery, 0)
@@ -1050,12 +1060,10 @@ init -1 python: # Core classes:
                     m += i.defence_multiplier.get(self.delivery, 0)
             target.be.defence["items_defence_bonus"] = bonus
             target.be.defence["items_defence_multiplier"] = m
-            defence += bonus
-            defence *= m
 
             # Trait Bonuses:
             bonus = 0
-            m = 1.0
+            m = 0
             for i in target.traits:
                 if hasattr(i, "defence_bonus"):
                     # Reference: (minv, maxv, lvl)
@@ -1074,12 +1082,9 @@ init -1 python: # Core classes:
                         m += i.defence_multiplier.get(self.delivery, 0)
             target.be.defence["traits_defence_bonus"] = bonus
             target.be.defence["traits_defence_multiplier"] = m
-            defence += bonus
-            defence *= m
-
 
             # Testing status mods through be skillz:
-            m = 1.0
+            m = 0
             bonus = 0
             for event in battle.get_all_events():
                 if event.target == target:
@@ -1089,15 +1094,32 @@ init -1 python: # Core classes:
                     if hasattr(event, "defence_multiplier"):
                         m += event.defence_multiplier.get(self.delivery, 0)
                         event.activated_this_turn = True
-
-            if bonus or m != 1.0:
-                target.be.damage_effects.append("magic_shield")
             target.be.defence["events_defence_bonus"] = bonus
             target.be.defence["events_defence_multiplier"] = m
-            defence += bonus
-            defence *= m
 
-            return defence if defence > 0 else 1
+        def apply_defence(self, target):
+            # base value (stats)
+            rv = target.be.defence["base"]
+
+            # Direct bonus and multiplier from applied event (like magic shield):
+            bonus = target.be.defence["events_defence_bonus"]
+            multi = target.be.defence["events_defence_multiplier"]
+            if bonus or multi != 1.0:
+                target.be.damage_effects.append("magic_shield")
+
+            # Direct bonuses from traits and items:
+            rv += target.be.defence["items_defence_bonus"]
+            rv += target.be.defence["traits_defence_bonus"]
+            rv += bonus
+
+            # Multiplier from traits and items:
+            a = target.be.defence["traits_defence_multiplier"]
+            b = target.be.defence["items_defence_multiplier"]
+            multi = sum([1.0, a, b, multi])
+            rv *= multi
+
+            rv = max(1, rv)
+            return rv
 
         def chance_critical_hit(self, attacker, target, attacker_items):
             # Critical Hit Chance:
@@ -1150,9 +1172,10 @@ init -1 python: # Core classes:
 
             return ev
 
-        def damage_calculator(self, attacker, target,
+        def damage_calculator(self, attacker, target, type,
                               attack, defense, multiplier,
-                              attacker_items=[], absorbed=False):
+                              attacker_items=None,
+                              absorbed=False):
             """
             - Called from the effects resolver controller.
 
@@ -1173,18 +1196,20 @@ init -1 python: # Core classes:
             damage *= multiplier
 
             # rng factors:
-            damage *= uniform(.90, 1.10)
+            damage *= uniform(.95, 1.05)
 
             # Items Bonus:
             m = 1.0
             for i in attacker_items:
                 m += getattr(i, "damage_multiplier", 0)
+            target.be.damage[type]["items_damage_multiplier"] = m
             damage *= m
 
             # Traits Bonus:
             m = 1.0
             for t in attacker.traits:
                 m += getattr(t, "damage_multiplier", 0)
+            target.be.damage[type]["traits_damage_multiplier"] = m
             damage *= m
 
             return round_int(damage)

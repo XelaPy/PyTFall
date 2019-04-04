@@ -45,22 +45,37 @@
         "desc": "The dungeon is filled with provisions stocks and weird equipment fragments.",
         "unlocked": false,
         "mobs": [],
-        "unlocks": {"Deep Caves": 35, "Crystal Caves": 65
+        "unlocks": {"Deep Caves": 35, "Abandoned Laboratory": 70
         },
         "travel_time": 0.26,
         "cash_limit": 200,
         "items_limit": 500
     },
     {
+        "id": "Abandoned Laboratory",
+        "stage": 1,
+        "tier": 1.2,
+        "exploration_multiplier": 0.5,
+        "area": "Old Fortress",
+        "desc": "A small underground complex filled with magical equipment. Most of it is hopelessly broken.",
+        "unlocked": false,
+        "mobs": [],
+        "unlocks": {
+        },
+        "travel_time": 0.28,
+        "cash_limit": 200,
+        "items_limit": 500
+    },
+    {
         "id": "Deep Caves",
         "stage": 2,
-        "tier": 1.4,
+        "tier": 1.5,
         "exploration_multiplier": 1.25,
         "area": "Old Fortress",
         "desc": "A big network of semi flooded caves permeates the cliff.",
         "unlocked": false,
         "mobs": [],
-        "unlocks": {
+        "unlocks": {"Crystal Caves": 65, "Flooded Lowlands": 90
         },
         "travel_time": 0.3,
         "cash_limit": 250,
