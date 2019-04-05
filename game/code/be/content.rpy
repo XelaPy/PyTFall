@@ -831,7 +831,7 @@ init python:
                 minh, maxh = int(target.get_max("health")*.1), int(target.get_max("health")*.3)
                 revive = randint(minh, maxh)
 
-                t.be.total_damage = revive
+                target.be.total_damage = revive
 
                 target.be.damage_font = "lawngreen" # Color the battle bounce green!
 
@@ -867,7 +867,7 @@ init python:
 
         def assess_logical_effects(self, source, targets):
             type = "status"
-            
+
             for target in targets:
                 target.be.damage[type] = {}
 
