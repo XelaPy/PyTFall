@@ -187,15 +187,16 @@ init -8 python:
             remedy = {
                 ".eqslots{}": self._ordered_on_abundance, ".equip_for()": self._list_for_caller, ".home": ".home",
                 ".status": "various", ".location": "various", ".workplace": "various", ".action": "Several jobs", ".disposition": min,
-                ".autobuy": [], ".be.front_row": [], ".autoequip": [],
+                ".autobuy": [], ".autoequip": [],
                 ".autocontrol{}": [], ".sex_acts{}": [], ".miscblock": [],
                 ".flag()": False, ".has_flag()": False,
                 "flatten": [".traits", ".attack_skills", ".magic_skills"]
             }
             super(PytGroup, self).__init__(l=chars, remedy=remedy, at="")
-            self._attrs.extend(['_inventory', 'img', 'portrait', 'nickname', 'effects', '_stats',
+            self._attrs.extend(["be", '_inventory', 'img', 'portrait', 'nickname', 'effects', '_stats',
                                 'unselected'])
 
+            self.be = Delegator(l=[c.be for c in self.lst], at=".be")
             self._inventory = PytGInv([c.inventory for c in self.lst])
             self.img = "content/gfx/interface/images/group.png"
             self.portrait = "content/gfx/interface/images/group_portrait.png"
