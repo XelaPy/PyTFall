@@ -842,7 +842,7 @@ init python:
         def apply_effects(self, targets):
             for t in targets:
                 battle.corpses.remove(t)
-                t.health = t.be.damage_effects[0]
+                t.health = t.be.total_damage
 
             self.settle_cost()
 
