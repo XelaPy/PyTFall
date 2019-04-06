@@ -56,7 +56,7 @@ init -9 python:
 
             # BE attributes:
             # self.evasion_bonus = 0 # Needs a int, will be used a percentage (1 = 1%)
-            # self.ch_multiplier = 0 # Critical hit multi...
+            # self.ch_multiplier = 0 # Chance of critical hit multi...
             # self.damage_multiplier = 0
 
             # self.defence_bonus = {} # Delivery! Not damage types!

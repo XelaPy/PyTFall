@@ -412,7 +412,7 @@ init -10 python:
 
             # Special BE Fields:
             # self.evasion_bonus = () # Bonuses in traits work differently from item bonuses, a tuple of (min_value, max_value, max_value_level) is expected (as a value in dict below) instead!
-            # self.ch_multiplier = 0 # Critical hit multi...
+            # self.ch_multiplier = 0 # Chance of critical hit multi...
             # self.damage_multiplier = 0
 
             # self.defence_bonus = {} # Delivery! Not damage types!

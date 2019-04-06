@@ -9,7 +9,7 @@
         "range": 4,
         "vitality_cost": 1,
         "menu_pos": 0,
-        "desc": "Shot a bolt.",
+        "desc": "Shoots a bolt.",
         "item_only": true,
         "piercing": true,
         "main_effect": {

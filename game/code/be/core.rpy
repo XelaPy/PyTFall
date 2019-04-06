@@ -914,7 +914,7 @@ init -1 python: # Core classes:
             if "melee" in self.attributes:
                 attack = (attacker.attack*.7 + attacker.agility*.3 + self.effect) * self.multiplier
             elif "ranged" in self.attributes:
-                attack = (attacker.attack*.7 + attacker.intelligence*.3 + self.effect) * self.multiplier
+                attack = (attacker.agility*.7 + attacker.attack*.3 + self.effect) * self.multiplier
             elif "magic" in self.attributes:
                 attack = (attacker.magic*.7 + attacker.intelligence*.3 + self.effect) * self.multiplier
             elif "status" in self.attributes:
