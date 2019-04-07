@@ -934,8 +934,8 @@ init -1 python: # Core classes:
             attacker.be.attack["items_delivery_multiplier"] = m
 
             # Trait Bonuses:
-            bonus = 0
-            m = 0
+            bonus = bt_bonus = 0
+            m = bt_m = 0
             for i in attacker.traits:
                 if hasattr(i, "delivery_bonus"):
                     # Reference: (minv, maxv, lvl)
@@ -944,13 +944,23 @@ init -1 python: # Core classes:
                         if lvl <= 0:
                             lvl = 1
                         if lvl <= attacker.level:
-                            bonus += maxv
+                            value = maxv
                         else:
-                            bonus += max(minv, float(attacker.level)*maxv/lvl)
+                            value = max(minv, float(attacker.level)*maxv/lvl)
+
+                        if i in attacker.basetraits:
+                            bt_bonus += value
+                        else:
+                            bonus += value
                 if hasattr(i, "delivery_multiplier"):
-                    m += i.delivery_multiplier.get(delivery, 0)
-            attacker.be.attack["traits_delivery_bonus"] = bonus
-            attacker.be.attack["traits_delivery_multiplier"] = m
+                    if i in attacker.basetraits:
+                        bt_m += i.delivery_multiplier.get(delivery, 0)
+                    else:
+                        m += i.delivery_multiplier.get(delivery, 0)
+            bt_m /= len(attacker.basetraits)
+            bt_bonus /= len(attacker.basetraits)
+            attacker.be.attack["traits_delivery_bonus"] = bonus + bt_bonus
+            attacker.be.attack["traits_delivery_multiplier"] = m + bt_m
 
             # Finally:
             # Base value (stats + skill effect + skill multiplier)
@@ -975,6 +985,8 @@ init -1 python: # Core classes:
 
             A method to get defence value vs current attack.
             """
+            delivery = self.delivery
+
             if "melee" in self.attributes:
                 defence = round(target.defence*.7 + target.constitution*.3)
             elif "ranged" in self.attributes:
@@ -991,33 +1003,40 @@ init -1 python: # Core classes:
             m = 0
             for i in items:
                 if hasattr(i, "defence_bonus"):
-                    bonus += i.defence_bonus.get(self.delivery, 0)
+                    bonus += i.defence_bonus.get(delivery, 0)
                 if hasattr(i, "defence_multiplier"):
-                    m += i.defence_multiplier.get(self.delivery, 0)
+                    m += i.defence_multiplier.get(delivery, 0)
             target.be.defence["items_defence_bonus"] = bonus
             target.be.defence["items_defence_multiplier"] = m
 
             # Trait Bonuses:
-            bonus = 0
-            m = 0
+            bonus = bt_bonus = 0
+            m = bt_m = 0
             for i in target.traits:
                 if hasattr(i, "defence_bonus"):
                     # Reference: (minv, maxv, lvl)
-                    if self.delivery in i.defence_bonus:
-                        minv, maxv, lvl = i.defence_bonus[self.delivery]
+                    if delivery in i.defence_bonus:
+                        minv, maxv, lvl = i.defence_bonus[delivery]
                         if lvl <= 0:
                             lvl = 1
                         if lvl <= target.level:
-                            bonus += maxv
+                            value = maxv
                         else:
-                            bonus += max(minv, float(target.level)*maxv/lvl)
+                            value = max(minv, float(target.level)*maxv/lvl)
+
+                        if i in target.basetraits:
+                            bt_bonus += value
+                        else:
+                            bonus += value
                 if hasattr(i, "defence_multiplier"):
-                    if i in target.traits.basetraits and len(target.traits.basetraits) == 1:
-                        m += 2*i.defence_multiplier.get(self.delivery, 0)
+                    if i in target.basetraits:
+                        bt_m += i.defence_multiplier.get(delivery, 0)
                     else:
-                        m += i.defence_multiplier.get(self.delivery, 0)
-            target.be.defence["traits_defence_bonus"] = bonus
-            target.be.defence["traits_defence_multiplier"] = m
+                        m += i.defence_multiplier.get(delivery, 0)
+            bt_m /= len(target.basetraits)
+            bt_bonus /= len(target.basetraits)
+            target.be.defence["traits_defence_bonus"] = bonus + bt_bonus
+            target.be.defence["traits_defence_multiplier"] = m + bt_m
 
             # Testing status mods through be skillz:
             m = 0
