@@ -28,7 +28,7 @@
         "area": "Old Fortress",
         "desc": "This old fortress was used as a command post during the last war. It's nearly destroyed, but underground passage leads deep into the cliff.",
         "unlocked": true,
-        "mobs": [],
+        "mobs": ["Goblin Warrior", "Seeker", "Barbarian", "Barbarian Maiden"],
         "unlocks": {
             "Fortress Dungeon": 30
         },
@@ -44,7 +44,7 @@
         "area": "Old Fortress",
         "desc": "The dungeon is filled with provisions stocks and weird equipment fragments.",
         "unlocked": false,
-        "mobs": [],
+        "mobs": ["Mimic", "Alarmer", "Electrificator", "Mud Elemental"],
         "unlocks": {"Deep Caves": 35, "Abandoned Laboratory": 70
         },
         "travel_time": 0.26,
@@ -59,7 +59,7 @@
         "area": "Old Fortress",
         "desc": "A small underground complex filled with magical equipment. Most of it is hopelessly broken.",
         "unlocked": false,
-        "mobs": [],
+        "mobs": ["Mimicess", "Treasure Slime", "Earth Elemental", "Ogress"],
         "unlocks": {
         },
         "travel_time": 0.28,
@@ -74,7 +74,7 @@
         "area": "Old Fortress",
         "desc": "A big network of semi flooded caves permeates the cliff.",
         "unlocked": false,
-        "mobs": [],
+        "mobs": ["Seductive Slime", "Gargoyle", "Foggy Knight", "Thunder Spirit"],
         "unlocks": {"Crystal Caves": 65, "Flooded Lowlands": 90
         },
         "travel_time": 0.3,
@@ -89,7 +89,7 @@
         "area": "Old Fortress",
         "desc": "These caves are filled with sparkling crystals charged with electricity, and the air itself is abuzz with the power.",
         "unlocked": false,
-        "mobs": [],
+        "mobs": ["King Slime", "Undine", "Energized Undine", "Stoner", "Stone Eater", "Thunderous Cloud", "Thunderous Shadow"],
         "unlocks": {
         },
         "travel_time": 0.35,
@@ -104,7 +104,7 @@
         "area": "Flooded Lowlands",
         "desc": "Numerous underground rivers turned this area into a deadly swamp.",
         "unlocked": true,
-        "mobs": [],
+        "mobs": ["Sahagin", "Skyfish", "Dark Undine", "Horny Medusa", "Ogre", "Steam Cloud"],
         "unlocks": {"Hidden Lake": 50
         },
         "travel_time": 0.5,
@@ -119,7 +119,7 @@
         "area": "Flooded Lowlands",
         "desc": "Remote little-known lake fed by underground springs. Due to its location and origin the water is incredibly clean, attracting elemental water creatures.",
         "unlocked": false,
-        "mobs": [],
+        "mobs": ["Sahagin", "Sky Jellyfish", "Insect Queen", "Water Spirit"],
         "unlocks": {"Underwater Caves": 90
         },
         "travel_time": 0.6,
@@ -134,23 +134,13 @@
         "area": "Flooded Lowlands",
         "desc": "The bottom of the lake is dotted with numerous miniature caves. They are hard to reach and explore, but can provide exceptional reward.",
         "unlocked": false,
-        "mobs": [],
+        "mobs": ["Cetus", "Shy Rabber", "Angry Rabber", "Naiad", "Aqueous Spirit"],
         "unlocks": {
         },
         "travel_time": 0.7,
         "cash_limit": 1000,
         "items_limit": 1000
     },
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     {
         "id": "Vast Wasteland",
         "stage": 1,
@@ -159,7 +149,7 @@
         "area": "Wastelands",
         "desc": "A large barren area. Most animals and monsters avoid it, only slimes and occasional bandits can be encountered here.",
         "unlocked": true,
-        "mobs": ["Slime", "Alkaline Slime", "Acid Slime", "Thug"],
+        "mobs": ["Slime", "Alkaline Slime", "Acid Slime", "Thug", "Malicious Stone"],
         "unlocks": {
             "Abnormal Sands": 60, "Old Fortress": 90
         },
@@ -175,7 +165,7 @@
         "travel_time": 1.0,
         "area": "Wastelands",
         "unlocked": false,
-        "mobs": ["Amazon Thief", "Amazon Warrior", "Amazon Archer", "Boros"],
+        "mobs": ["Amazon Thief", "Amazon Warrior", "Amazon Archer", "Boros", "Lamia", "Gluttony", "Fiery Shadow"],
         "unlocks": {"Melted Sands": 50, "Big Crater": 90},
         "cash_limit": 100,
         "items_limit": 500,
@@ -193,7 +183,7 @@
         "travel_time": 1.0,
         "area": "Wastelands",
         "unlocked": false,
-        "mobs": ["Lava Elemental", "Fire Spirit"],
+        "mobs": ["Lava Elemental", "Fire Spirit", "Giant Scorpion", "Lava Elemental", "Fire Spirit", "Ifrit", "Flame Spirit"],
         "cash_limit": 200,
         "items_limit": 700,
         "hazard": {
@@ -210,7 +200,7 @@
         "travel_time": 2.0,
         "area": "Wastelands",
         "unlocked": false,
-        "mobs": ["Shadowman", "Horny Mummy", "Undead Unicorn", "Skeleton Warrior"],
+        "mobs": ["Undead Unicorn", "Chimera", "Quick Silver", "Flaming Fox", "Vortex"],
         "cash_limit": 300,
         "items_limit": 1000,
         "hazard": {

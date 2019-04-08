@@ -25,7 +25,7 @@
         "area": "Dark Forest",
         "desc": "Sinister trees form an ever changing massive maze, as if preventing travelers from going deeper into the forest.",
         "unlocked": true,
-        "mobs": ["Black Butterfly", "Black Wolf", "Link Wolf", "Bear"],
+        "mobs": ["Black Butterfly", "Black Wolf", "Link Wolf", "Bear", "Minotaur", "Minotauress", "Bemoth"],
         "unlocks": {
             "Cursed Forest": 100
         },
@@ -41,7 +41,7 @@
         "travel_time": 1.0,
         "area": "Cursed Forest",
         "unlocked": false,
-        "mobs": ["Werewolf", "Weregirl", "Werecat", "Undead Rat"],
+        "mobs": ["Werewolf", "Weregirl", "Werecat", "Undead Rat", "Arachna"],
         "unlocks": {"Black Woods": 80, "Dead Forest": 40},
         "cash_limit": 100,
         "items_limit": 500
@@ -54,7 +54,7 @@
         "travel_time": 1.0,
         "area": "Cursed Forest",
         "unlocked": false,
-        "mobs": ["Undead Rat", "Undead Werecat", "Undead Unicorn"],
+        "mobs": ["Undead Rat", "Undead Werecat", "Undead Unicorn", "Naga Archer", "Naga Warrior"],
         "unlocks": {"Elven Burial Grounds": 80},
         "cash_limit": 200,
         "items_limit": 700
@@ -80,7 +80,7 @@
         "travel_time": 3.0,
         "area": "Forest Catacombs",
         "unlocked": true,
-        "mobs": ["Shadowman", "Dark Spirit", "Crawler", "Spectre"],
+        "mobs": ["Shadowman", "Horny Mummy", "Dark Spirit", "Crawler", "Spectre"],
         "unlocks": {"The Bottom": 80, "Treasures Rooms": 50},
         "cash_limit": 400,
         "items_limit": 1500,
@@ -100,7 +100,7 @@
         "exploration_multiplier": 0.5,
         "area": "Forest Catacombs",
         "unlocked": false,
-        "mobs": ["Phantasm", "Spectre"],
+        "mobs": ["Phantasm", "Spectre", "Woolman", "Cyclop"],
         "unlocks": {},
         "cash_limit": 5000,
         "items_limit": 0,
