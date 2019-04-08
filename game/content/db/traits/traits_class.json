@@ -470,6 +470,12 @@
             "magic": 0.1,
             "ranged": 0.05
         },
+        "delivery_bonus": {
+          "magic": [10, 2000, 200]
+        },
+        "delivery_multiplier": {
+          "magic": 0.5
+        },
         "mod_skills": {
             "security": [
                 0.2,
@@ -808,7 +814,7 @@
             "status": 0.2
         },
         "delivery_multiplier": {"status": 0.2},
-        
+
         "base_skills": {
             "security": 150
         },
