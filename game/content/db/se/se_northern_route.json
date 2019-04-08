@@ -50,7 +50,7 @@
         "unlocked": false,
         "travel_time": 1,
         "exploration_multiplier": 1.0,
-        "mobs": ["Undead Rat", "Thug", "Wolf"],
+        "mobs": ["Undead Rat", "Thug", "Wolf", "Orc"],
         "cash_limit": 30,
         "items_price_limit": 100,
         "unlocks": {
@@ -71,7 +71,7 @@
         "unlocked": false,
         "travel_time": 1,
         "exploration_multiplier": 0.75,
-        "mobs": ["Bats", "Goblin", "Goblin Archer", "Goblin Shaman"],
+        "mobs": ["Bats", "Goblin", "Goblin Archer", "Goblin Shaman", "Malicious Stone", "Harpy"],
         "hazard": {
             "health": 0,
             "mp": 0,
@@ -168,7 +168,7 @@
         "unlocked": false,
         "travel_time": 2,
         "exploration_multiplier": 0.8,
-        "mobs": ["Yeti", "Wadding", "Cannon Turtle"],
+        "mobs": ["Yeti", "Wadding", "Cannon Turtle", "Malicious Stone", "Vixen"],
         "hazard": {
             "health": 5,
             "mp": 0,
@@ -190,7 +190,7 @@
         "unlocked": false,
         "travel_time": 2.5,
         "exploration_multiplier": 1.5,
-        "mobs": [],
+        "mobs": ["Blast Beetle", "Hag", "Wind Spirit", "Storm Spirit"],
         "hazard": {
             "health": 0,
             "mp": 0,
@@ -211,7 +211,7 @@
         "unlocked": false,
         "travel_time": 2.8,
         "exploration_multiplier": 1.0,
-        "mobs": [],
+        "mobs": ["Harpy Queen", "Titan", "Garuda"],
         "hazard": {
             "health": 5,
             "mp": 0,
@@ -234,7 +234,7 @@
         "unlocked": true,
         "exploration_multiplier": 0.4,
         "travel_time": 2.2,
-        "mobs": ["Yeti", "Polar Bear", "Tundra Wolf", "Wadding"],
+        "mobs": ["Yeti", "Polar Bear", "Tundra Wolf", "Wadding", "Frozen Undine"],
         "hazard": {
             "health": 5,
             "mp": 0,
@@ -256,7 +256,7 @@
         "desc": "An unnaturally cold complex of caverns bellow the mountains.",
         "unlocked": false,
         "travel_time": 2.3,
-        "mobs": ["Frozen Heart", "Frost Giant", "Ice Golem"],
+        "mobs": ["Frozen Heart", "Frost Giant", "Ice Golem", "Blast Beetle"],
         "hazard": {
             "health": 1,
             "mp": 0,
