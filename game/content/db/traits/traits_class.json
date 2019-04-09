@@ -467,11 +467,8 @@
             "intelligence": [1, 1]
         },
         "defence_multiplier": {
-            "magic": 0.1,
-            "ranged": 0.05
-        },
-        "delivery_bonus": {
-          "magic": [10, 2000, 200]
+            "magic": 0.5,
+            "ranged": 0.25
         },
         "delivery_multiplier": {
           "magic": 0.5
@@ -534,11 +531,11 @@
             "security": 50
         },
         "el_damage": {
-            "healing": 0.5
+            "healing": 1.0
         },
         "defence_multiplier": {
-            "magic": 0.05,
-            "ranged": 0.1
+            "magic": 0.25,
+            "ranged": 0.25
         },
         "mod_stats": {
             "magic": [1, 1],
@@ -585,9 +582,10 @@
             "agility": [1, 2]
         },
         "defence_multiplier": {
-            "melee": 0.1,
-            "ranged": 0.1
+            "melee": 0.25,
+            "ranged": 0.25
         },
+        "delivery_multiplier": {"melee": 0.25, "ranged": 0.25},
         "evasion_bonus": [1, 10, 40],
         "ch_multiplier": 0.1,
         "base_stats": {
@@ -672,8 +670,9 @@
             "security": 150
         },
         "defence_multiplier": {
-            "melee": 0.25,
-            "ranged": 0.15
+            "melee": 0.75,
+            "ranged": 0.5,
+            "magic": 0.25
         },
         "init_lvlmax": {
             "attack": 15,
@@ -730,10 +729,10 @@
             "defence": [1, 2]
         },
         "defence_multiplier": {
-            "ranged": 0.25,
+            "ranged": 0.5,
             "melee": -0.25
         },
-        "delivery_multiplier": {"ranged": 0.2},
+        "delivery_multiplier": {"ranged": 1.0},
         "ch_multiplier": 0.15,
         "base_stats": {
             "attack": 10,
@@ -811,9 +810,9 @@
             "agility": 20
         },
         "defence_multiplier": {
-            "status": 0.2
+            "status": 1.0
         },
-        "delivery_multiplier": {"status": 0.2},
+        "delivery_multiplier": {"status": 1.0},
 
         "base_skills": {
             "security": 150
