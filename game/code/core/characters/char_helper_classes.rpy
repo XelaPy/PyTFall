@@ -48,7 +48,9 @@ init -10 python:
             We will aim at specific values and interpolate.
             In case of one basetrait, we multiply result by 2!
             """
-            if self.tier >= 10:
+            if self.status == "slave" and self.tier >= 4:
+                return False
+            elif self.tier >= 10:
                 return False
 
             target_tier = self.tier+1.0 # To get a float for Py2.7
