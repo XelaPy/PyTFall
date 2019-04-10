@@ -446,7 +446,7 @@ init -6 python: # Guild, Tracker and Log.
         COMPATIBILITY = []
         MATERIALS = {"Wood": 70, "Bricks": 50, "Glass": 5}
         NAME = "Exploration Guild"
-        IMG = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.webp"
+        IMG = "content/gfx/bg/buildings/the_guild.webp"
         DESC = "Travel to exotic places, meet new monsters and people... and take their shit!"
 
         CAPACITY = 0

@@ -516,7 +516,7 @@
 		"mod": 1,
 
 		"adverts": [],
-		"img": "content/gfx/bg/buildings/Chorrol_Fighters_Guild.webp",
+		"img": "content/gfx/bg/buildings/the_guild.webp",
 
 		"build_businesses": [{
 			"class": "ExplorationGuild",
