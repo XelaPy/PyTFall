@@ -338,7 +338,7 @@ init -10 python:
             elif self.location == "Richford":
                 threat = -1
             else:
-                raise Exception("{} Building with an unknown location detected!".format(str(self)))
+                threat = 0
 
             return threat
 

@@ -501,7 +501,7 @@
 	{
 		"name": "Exploration Guild",
 		"desc": "A rare building hosting one of the few authorized Exploration Guilds.",
-		"location": "Richford",
+		"location": "Undisclosed",
 		"price": 1001,
 
 		"in_slots_max": 120,
