@@ -41,7 +41,8 @@
         "items": {
             "Maid Fairy": 30,
             "Nymph Fairy": 20, 
-            "Frost Fairy": 5
+            "Frost Fairy": 10,
+            "Faerie Gown": 5
         }
     },
     {
@@ -70,7 +71,8 @@
             "Elven Bow": 5,
             "Elven Gloves": 5,
             "Elven Ranger Armbands": 5,
-            "Elven Sage Armbands": 5
+            "Elven Sage Armbands": 5,
+            "Elven Brigantine": 4
         }
     }
     ]

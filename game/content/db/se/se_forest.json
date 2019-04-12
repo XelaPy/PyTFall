@@ -145,7 +145,8 @@
         "mobs": ["Dark Elf Archer", "Undead Unicorn", "Secateuris"],
         "unlocks": {"Dark Elves Settlement": 70},
         "cash_limit": 500,
-        "items_limit": 900
+        "items_limit": 900,
+        "items": {"Mithril Armor": 20}
     },
     {
         "id": "Dark Elves Settlement",
@@ -160,6 +161,7 @@
         "mobs": ["Dark Elf Archer", "Undead Unicorn", "Giant Spider"],
         "unlocks": {},
         "cash_limit": 500,
-        "items_limit": 900
+        "items_limit": 900,
+        "items": {"Organic Lingerie": 30}
     }
 ]

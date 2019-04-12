@@ -196,10 +196,10 @@
             "mp": 0,
             "vitality": 10
         },
-        "unlocks": {},
+        "items": {"Draconic Leather Armor": 10},
         "cash_limit": 250,
         "items_limit": 400,
-        "items": {"Northern Peak": 90
+        "unlocks": {"Northern Peak": 90
                     }
     },
     {

@@ -139,7 +139,8 @@
         },
         "travel_time": 0.7,
         "cash_limit": 1000,
-        "items_limit": 1000
+        "items_limit": 1000,
+        "items": {"Godward Shell": 20}
     },
     {
         "id": "Vast Wasteland",

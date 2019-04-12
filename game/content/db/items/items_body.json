@@ -15,7 +15,7 @@
     "max": {"defence": 2},
     "mod": {"defence": 2},
     "mod_skills": {"refinement": [0, 0, -0.1, 0, 0]},
-    "locations": ["Tailor Store", "Look around"],
+    "locations": ["Look around"],
     "tier": 0,
     "pref_class": ["Slave", "Casual"]
     },
@@ -448,7 +448,7 @@
     "defence_bonus": {"ranged": 40, "magic": 60},
     "defence_multiplier": {"melee": 0.1, "magic": 0.1, "ranged": 0.1},
     "evasion_bonus": 5,
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
     },
@@ -809,7 +809,7 @@
     "defence_multiplier": {"magic": 0.25, "status": 0.25, "ranged": 0.1},
     "delivery_multiplier": {"magic": 0.25},
     "mod_skills": {"refinement": [0.15, 0.15, 0.2, 0, 0], "dancing": [0.4, 0.4, 0.5, 0, 0]},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "goodtraits": ["Alien"],
     "tier": 4,
     "pref_class":["Mage", "Healer"]
@@ -854,7 +854,7 @@
     "mod": {"constitution": 150, "defence": 350, "agility": -50, "magic": -150},
     "defence_multiplier": {"melee": 0.3, "ranged": 0.3, "status": -0.5},
     "mod_skills": {"refinement": [0, 0, -0.3, 0, 0], "dancing": [0, 0, -0.3, 0, 0], "bartending": [0, 0, -0.3, 0, 0]},
-    "locations": ["Exploration", "Arena"],
+    "locations": [],
     "tier": 3,
     "pref_class":["Warrior"]
     },
@@ -915,7 +915,7 @@
     "max": {"charisma": -20},
     "mod": {"agility": -30, "attack": -50, "defence": -50},
     "mod_skills": {"strip": [0, 0, -0.5, 0, 0], "refinement": [0, 0, -0.5, 0, 0], "management": [0, 0, -0.5, 0, 0], "security": [0, 0, -0.5, 0, 0], "vaginal": [0.15, 0.15, 0.25, 0, 0], "anal": [0.15, 0.15, 0.25, 0, 0], "oral": [0.15, 0.15, 0.25, 0, 0], "sex": [0.15, 0.15, 0.25, 0, 0]},
-    "locations": ["Exploration", "Arena"],
+    "locations": [],
     "goodtraits": ["Nymphomaniac"],
     "badtraits": ["Frigid"],
     "tier": 2,
@@ -939,7 +939,7 @@
     "mod_skills": {"strip": [0.15, 0.15, 0.3, 0, 0], "vaginal": [0.15, 0.15, 0.3, 0, 0], "anal": [0.15, 0.15, 0.3, 0, 0], "oral": [0.15, 0.15, 0.3, 0, 0], "sex": [0.15, 0.15, 0.3, 0, 0]},
     "defence_multiplier": {"melee": 0.2, "ranged": 0.2, "magic": 0.1},
     "removetraits": ["Frigid"],
-    "locations": ["Exploration", "Arena"],
+    "locations": [],
     "tier": 3,
     "pref_class":["SIW"]
     },
@@ -960,7 +960,7 @@
     "mod": {"magic": 100, "charisma": 25, "character": 50, "intelligence": 40},
     "addtraits": ["Psychic", "Sadist"],
     "mod_skills": {"service": [-0.3, -0.3, 0, 0, 0]},
-    "locations": ["Exploration", "Arena"],
+    "locations": [],
     "goodtraits": ["Vicious"],
     "badtraits": ["Virtuous"],
     "tier": 4,
