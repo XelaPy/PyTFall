@@ -27,7 +27,7 @@
     "infinite": true,
     "slot": "resources",
     "type": "building",
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop", "Look around"]
     },
     {
     "id": "Green Marble",
@@ -162,7 +162,7 @@
     "infinite": true,
     "slot": "resources",
     "type": "building",
-    "locations": ["Work Shop", "Look around"]
+    "locations": ["Work Shop"]
     },
     {
     "id": "Steel",
@@ -177,7 +177,7 @@
     "infinite": true,
     "slot": "resources",
     "type": "building",
-    "locations": ["Work Shop", "Look around"]
+    "locations": ["Work Shop"]
     },
     {
     "id": "Wood",
