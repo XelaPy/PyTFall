@@ -18,7 +18,7 @@
         "unlocks": {"White City": 50, "Infinite Tower": 90},
         "cash_limit": 1000,
         "items_limit": 2000,
-        "items": {}
+        "items": {"Shimmering Cape": 25}
     },
     {
         "id": "White City",

@@ -64,7 +64,8 @@
         },
         "travel_time": 0.28,
         "cash_limit": 200,
-        "items_limit": 500
+        "items_limit": 500,
+        "items": {"Fireproof Cape": 25}
     },
     {
         "id": "Deep Caves",
@@ -79,7 +80,8 @@
         },
         "travel_time": 0.3,
         "cash_limit": 250,
-        "items_limit": 500
+        "items_limit": 500,
+        "items": {"Weighted Cape": 25}
     },
     {
         "id": "Crystal Caves",
@@ -94,7 +96,8 @@
         },
         "travel_time": 0.35,
         "cash_limit": 400,
-        "items_limit": 600
+        "items_limit": 600,
+        "items": {"Grounded Cape": 25}
     },
     {
         "id": "Old Swamp",
@@ -109,7 +112,8 @@
         },
         "travel_time": 0.5,
         "cash_limit": 500,
-        "items_limit": 700
+        "items_limit": 700,
+        "items": {"Snowstorm Cape": 25}
     },
     {
         "id": "Hidden Lake",

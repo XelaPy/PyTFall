@@ -199,8 +199,8 @@
         "items": {"Draconic Leather Armor": 10},
         "cash_limit": 250,
         "items_limit": 400,
-        "unlocks": {"Northern Peak": 90
-                    }
+        "unlocks": {"Northern Peak": 90},
+        "items": {"Stillness Cape": 25}
     },
     {
         "id": "Northern Peak",
@@ -245,7 +245,7 @@
         },
         "cash_limit": 20,
         "items_limit": 600,
-        "items": {"Ice Daggers": 40, "Ice Axe": 40, "Icy Sword": 20}
+        "items": {"Ice Daggers": 40, "Ice Axe": 40, "Icy Sword": 20, "Frost Cape": 25}
     },
     {
         "id": "Frozen Passage",
@@ -290,7 +290,6 @@
         "items_limit": 1000,
         "items": {
             "Icicle Staff": 20,
-            "Frost Cape": 20,
             "Ice Shoes": 50
         }
     }
