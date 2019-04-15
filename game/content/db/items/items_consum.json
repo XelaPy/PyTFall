@@ -32,7 +32,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"mp": 100},
-    "locations": ["Witches Hut"],
+    "locations": ["Witches Hut", "Diving"],
     "pref_class":["Mage", "Healer"],
     "be": true
     },
@@ -51,7 +51,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"mp": 200},
-    "locations": ["Witches Hut", "Exploration"],
+    "locations": ["Witches Hut", "Arena"],
     "pref_class":["Mage", "Healer"],
     "be": true
     },
@@ -73,7 +73,7 @@
     "cblock": 5,
     "max": {"mp": 200, "magic": 100},
     "mod": {"mp": 10000, "constitution": -35, "vitality": -60, "defence": -25, "magic": 100},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "pref_class":["Mage", "Healer"]
     },
     {
@@ -110,7 +110,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"health": 100},
-    "locations": ["Witches Hut"],
+    "locations": ["Witches Hut", "Diving"],
     "pref_class":["Healer", "Shooter", "Warrior", "Knight"],
     "removeeffects": ["Injured"],
     "be": true
@@ -130,7 +130,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"health": 200},
-    "locations": ["Witches Hut", "Exploration"],
+    "locations": ["Witches Hut", "Arena"],
     "pref_class":["Healer", "Shooter", "Warrior", "Knight"],
     "removeeffects": ["Injured"],
     "be": true
@@ -154,7 +154,7 @@
     "max": {"health": 50},
     "mod": {"health": 10000, "constitution": 50, "vitality": 200, "defence": 10},
     "removeeffects": ["Injured", "Food Poisoning"],
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "pref_class":["Healer", "Shooter", "Warrior", "Knight"]
     },
     {
@@ -173,7 +173,7 @@
     "type": "restore",
     "cblock": 1,
     "mod": {"vitality": 25},
-    "locations": ["Witches Hut", "Look around", "Fishing"],
+    "locations": ["Witches Hut", "Fishing"],
     "pref_class":["Any"],
     "be": true
     },
@@ -193,7 +193,7 @@
     "type": "restore",
     "cblock": 1,
     "mod": {"vitality": 50, "mp": 10},
-    "locations": ["Witches Hut"],
+    "locations": ["Witches Hut", "Diving"],
     "be": true
     },
     {
@@ -213,7 +213,7 @@
     "cblock": 1,
     "mod": {"vitality": 100, "mp": 20},
     "removeeffects": ["Exhausted"],
-    "locations": ["Witches Hut", "Exploration"],
+    "locations": ["Witches Hut", "Arena"],
     "be": true
     },
     {
@@ -253,7 +253,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"health": 250, "mp": -50, "vitality": -50},
-    "locations": ["Fishing", "Exploration"],
+    "locations": ["Diving", "Arena"],
     "removeeffects": ["Injured"]
     },
     {
@@ -289,7 +289,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"mp": 300, "vitality": -100},
-    "locations": ["Exploration", "Fishing", "Arena"]
+    "locations": ["Diving", "Arena", "Exploration"]
     },
     {
     "id": "Aromatic Dust",
@@ -306,7 +306,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"vitality": 200, "health": -50, "mp": -50},
-    "locations": ["Exploration", "Fishing", "Arena"]
+    "locations": ["Exploration", "Diving"]
     },
     {
     "id": "Cold Medicine",
@@ -345,7 +345,7 @@
     "cblock": 7,
     "mod": {"charisma": 10, "character": 5},
     "max": {"charisma": 10},
-    "locations": ["Witches Hut", "Look around"],
+    "locations": ["General Store", "Look around"],
     "badtraits": ["Bokukko", "Impersonal"],
     "pref_class":["SIW", "Barmaid"]
     },
@@ -389,7 +389,7 @@
     "cblock": 10,
     "mod": {"charisma": 90, "character": 20, "joy": 15},
     "max": {"charisma": 80},
-    "locations": ["General Store"],
+    "locations": ["Witches Hut"],
     "badtraits": ["Bokukko", "Impersonal"],
     "pref_class":["SIW", "Barmaid"]
     },
@@ -539,7 +539,7 @@
     "cblock": 6,
     "mod": {"character": -50},
     "mod_skills": {"vaginal": [0, 0, 0.1, 0, 0], "anal": [0, 0, 0.1, 0, 0], "oral": [0, 0, 0.1, 0, 0], "sex": [0, 0, 0.1, 0, 0]},
-    "locations": ["Exploration", "Fishing", "Arena"],
+    "locations": ["Exploration"],
     "goodtraits": ["Curious"],
     "addeffects": ["Horny"],
     "badtraits": ["Frigid"]
@@ -562,7 +562,7 @@
     "cblock": 2,
     "max": {"defence": 60},
     "mod": {"defence": 40, "attack": -30, "agility": -10},
-    "locations": ["Witches Hut", "Ninja Shop"]
+    "locations": ["Witches Hut", "Arena"]
     },
     {
     "id": "Potion of Lightning Speed",
@@ -582,7 +582,7 @@
     "cblock": 2,
     "max": {"attack": 60},
     "mod": {"defence": -15, "attack": 40, "agility": 20, "constitution": -20},
-    "locations": ["Witches Hut", "Ninja Shop"]
+    "locations": ["Witches Hut", "Arena"]
     },
     {
     "id": "Chatty Flowers",
@@ -620,7 +620,7 @@
     "mod": {"health": 10000, "joy": -25, "vitality": -400},
     "removeeffects": ["Poisoned", "Down with Cold", "Injured", "Drunk", "Food Poisoning"],
     "removetraits": ["Lactation"],
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Leprechaun Pills",
@@ -637,7 +637,7 @@
     "slot": "consumable",
     "type": "upgrade",
     "mod": {"luck": 10},
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Exploration", "Witches Hut"]
     },
     {
     "id": "Lolita Wand",
@@ -656,7 +656,7 @@
     "removetraits": ["MILF"],
     "addtraits": ["Virgin"],
     "mod_skills": {"vaginal": [0, 0, 0, -25, 0], "anal": [0, 0, 0, -25, 0], "oral": [0, 0, 0, -25, 0], "sex": [0, 0, 0, -25, 0]},
-    "locations": ["Exploration", "Fishing"]
+    "locations": ["Fishing"]
     },
     {
     "id": "Nostalgia Extract",
@@ -674,7 +674,7 @@
     "addtraits": ["Homebody"],
     "slot": "consumable",
     "type": "permanent",
-    "locations": ["Exploration", "Fishing"]
+    "locations": ["Diving"]
     },
     {
     "id": "Potion of Redemption",
@@ -693,7 +693,7 @@
     "mod": {"joy": -40, "mp": -10000, "disposition": -50},
     "removetraits": ["Vicious", "Ill-mannered"],
     "addtraits": ["Virtuous", "Well-mannered"],
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Diving", "Witches Hut"]
     },
     {
     "id": "Potion of the Fallen",
@@ -712,7 +712,7 @@
     "mod": {"joy": -40, "mp": -10000, "disposition": -50},
     "removetraits": ["Virtuous", "Well-mannered"],
     "addtraits": ["Vicious", "Ill-mannered"],
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Diving", "Witches Hut"]
     },
     {
     "id": "Potion of the Sex Elemental",
@@ -732,7 +732,7 @@
     "removetraits": ["Nerd", "Psychic", "Frigid", "Lesbian", "Smart"],
     "addtraits": ["Bisexual", "Nymphomaniac", "Stupid", "Open Minded"],
     "mod_skills": {"vaginal": [0, 0, 0, 200, 0], "anal": [0, 0, 0, 200, 0], "oral": [0, 0, 0, 200, 0], "sex": [0, 0, 0, 200, 0]},
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Exploration"]
     },
     {
     "id": "Berserker Potion",
@@ -750,7 +750,7 @@
     "type": "permanent",
     "max": {"attack": 25, "defence": -10, "charisma": -10, "character": 10},
     "mod": {"attack": 25, "defence": -10, "charisma": -10, "character": 10},
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Witches Hut", "Arena"]
     },
     {
     "id": "Elixir of Abstinence",
@@ -768,7 +768,7 @@
     "addtraits": ["Frigid"],
     "slot": "consumable",
     "type": "permanent",
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Fishing", "Witches Hut"]
     },
     {
     "id": "Brainwashing Oil",
@@ -786,7 +786,7 @@
     "addtraits": ["Natural Follower"],
     "slot": "consumable",
     "type": "permanent",
-    "locations": ["Exploration", "Witches Hut"]
+    "locations": ["Diving", "Witches Hut"]
     },
     {
     "id": "Love Potion",
@@ -804,7 +804,7 @@
     "type": "permanent",
     "mod": {"disposition": 200, "intelligence": -25, "character": -25},
     "addeffects": ["Food Poisoning"],
-    "locations": ["Exploration", "Witches Hut"]
+    "locations": ["Witches Hut"]
     },
     {
     "id": "Virus of Telepathy",
@@ -823,7 +823,7 @@
     "mod": {"joy": -40},
     "addeffects": ["Down with Cold"],
     "addtraits": ["Psychic"],
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Exploration", "Diving"]
     },
     {
     "id": "Liquid Magic",
@@ -1140,7 +1140,7 @@
     "type": "food",
     "cblock": 2,
     "mod": {"exp": 200, "vitality": 20},
-    "locations": ["Cafe", "Fishing"],
+    "locations": ["Cafe", "Diving"],
     "pref_class":["Any"]
     },
     {
@@ -1175,7 +1175,7 @@
     "slot": "consumable",
     "type": "special",
     "jump_to_label": "special_items_empty_extractor",
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut"]
     },
     {
     "id": "Full Extractor",
@@ -1192,7 +1192,7 @@
     "slot": "consumable",
     "type": "special",
     "jump_to_label": "special_items_full_extractor",
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut"]
     },
     {
     "id": "Golden Luck",
@@ -1209,7 +1209,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "special",
-    "locations": ["Exploration", "Fishing"]
+    "locations": ["Exploration", "Diving"]
     },
     {
     "id": "One For All",
@@ -1226,7 +1226,7 @@
     "slot": "consumable",
     "type": "special",
     "jump_to_label": "special_items_one_for_all",
-    "locations": ["Exploration", "Fishing"]
+    "locations": ["Fishing"]
     },
     {
     "id": "Flashing Extract",
@@ -1261,7 +1261,7 @@
     "addeffects": ["Small Regeneration"],
     "ctemp": 20,
     "type": "special",
-    "locations": ["Exploration", "Witches Hut"],
+    "locations": ["Arena", "Witches Hut"],
     "pref_class":["Healer"]
     },
     {
@@ -1455,7 +1455,7 @@
     "slot": "consumable",
     "type": "special",
     "jump_to_label": "special_items_puke_cola",
-    "locations": ["Fishing", "Exploration"]
+    "locations": ["Fishing", "Tavern"]
     },
     {
     "id": "Red Star",
@@ -1486,7 +1486,7 @@
     "slot": "consumable",
     "type": "special",
     "jump_to_label": "special_items_cleaning_cloud",
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut"]
     },
     {
     "id": "Milk Pills",
@@ -1505,6 +1505,6 @@
     "max": {"health": -10},
     "mod": {"vitality": -25},
     "addtraits": ["Lactation"],
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut", "Diving"]
     }
   ]
