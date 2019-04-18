@@ -13,7 +13,7 @@
     "slot": "feet",
     "type": "dress",
     "mod": {"agility": 2, "defence": 1},
-    "locations": ["Tailor Store", "Look around", "Fishing"],
+    "locations": ["Tailor Store", "Look around"],
     "badtraits": ["Not Human"],
     "tier": 0,
     "pref_class":["Casual", "Slave"]
@@ -156,7 +156,7 @@
     "max": {"character": -20, "joy": -10},
     "mod": {"character": -20, "defence": -10, "attack": -10},
     "mod_skills": {"refinement": [0, 0, -0.1, 0, 0]},
-    "locations": ["Work Shop", "Look around"],
+    "locations": ["Work Shop", "Diving"],
     "goodtraits": ["Masochist"],
     "tier": 0,
     "pref_class":["Slave"]
@@ -264,7 +264,7 @@
     "min": {"joy": 5},
     "mod_skills": {"refinement": [0.15, 0, 0.15, 0, 0], "strip": [0.15, 0, 0.1, 0, 0]},
     "addtraits": ["Optimist"],
-    "locations": ["Exploration", "Fishing"],
+    "locations": ["Fishing"],
     "tier": 3,
     "pref_class":["SIW", "Stripper"]
     },
@@ -428,7 +428,7 @@
     "max": {"defence": 25},
     "mod": {"defence": 25, "agility": -10},
     "defence_bonus": {"melee": 10},
-    "locations": ["Exploration", "Arena", "Arena"],
+    "locations": ["Exploration", "Arena"],
     "tier": 1,
     "pref_class":["Warrior"]
     },
@@ -469,7 +469,7 @@
     "max": {"defence": 45, "agility": 15},
     "mod": {"defence": 45, "agility": 15},
     "defence_bonus": {"ranged": 20, "melee": 20},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "tier": 2,
     "pref_class":["Warrior", "Shooter"]
     },
@@ -490,7 +490,7 @@
     "mod": {"defence": 60, "agility": 20},
     "evasion_bonus": 2,
     "defence_bonus": {"ranged": 25, "magic": 20, "melee": 5},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
     },
@@ -512,7 +512,7 @@
     "evasion_bonus": 2,
     "mod_skills": {"refinement": [0, 0, 0.05, 0, 0], "security": [0, 0, 0.05, 0, 0]},
     "defence_bonus": {"magic": 20, "melee": 20},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "goodtraits": ["Not Human"],
     "tier": 4,
     "pref_class":["Warrior"]
@@ -535,7 +535,7 @@
     "defence_bonus": {"magic": 20, "ranged": 20},
     "evasion_bonus": 3,
     "mod_skills": {"refinement": [0, 0, 0.05, 0, 0], "security": [0, 0, 0.05, 0, 0]},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "goodtraits": ["Not Human"],
     "tier": 4,
     "pref_class":["Shooter"]
@@ -557,7 +557,7 @@
     "max": {"mp": 25, "magic": 25, "defence": 25, "agility": 25},
     "mod": {"defence": 25, "agility": 25, "luck": 10, "magic": 25},
     "defence_bonus": {"magic": 35},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "goodtraits": ["Not Human"],
     "tier": 4,
     "pref_class":["Mage"]
@@ -581,7 +581,7 @@
     "mod_skills": {"refinement": [0, 0, 0.05, 0, 0], "dancing": [0.01, 0, 0.01, 0, 0]},
     "defence_multiplier": {"magic": 0.05},
     "delivery_multiplier": {"magic": 0.05},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "goodtraits": ["Alien"],
     "tier": 4,
     "pref_class":["Mage"]
@@ -627,7 +627,7 @@
     "evasion_bonus": 4,
     "defence_multiplier": {"status": 0.05},
     "delivery_multiplier": {"status": 0.05},
-    "locations": ["Exploration", "Ninja Shop", "Arena"],
+    "locations": ["Ninja Shop"],
     "tier": 4,
     "pref_class":["Assassin"]
     },

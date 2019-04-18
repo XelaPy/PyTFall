@@ -543,7 +543,7 @@
     "defence_bonus": {"magic": 20, "melee": 100},
     "defence_multiplier": {"melee": 0.15},
     "delivery_multiplier": {"melee": 0.15},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "goodtraits": ["Not Human"],
     "tier": 4,
     "pref_class":["Warrior"]
@@ -568,7 +568,7 @@
     "defence_multiplier": {"melee": 0.15},
     "delivery_multiplier": {"melee": 0.15},
     "evasion_bonus": 5,
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "tier": 4,
     "pref_class":["Shooter", "Any", "Warrior"]
     },
@@ -593,7 +593,7 @@
     "addeffects": ["Revealing Clothes"],
     "evasion_bonus": 5,
     "mod_skills": {"refinement": [0, 0, 0.3, 0, 0], "security": [0.1, 0.1, 0.3, 0, 0]},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "goodtraits": ["Not Human"],
     "tier": 4,
     "pref_class":["Shooter", "Any", "Warrior"]
@@ -619,7 +619,7 @@
     "defence_bonus": {"magic": 100},
     "defence_multiplier": {"magic": 0.15},
     "delivery_multiplier": {"magic": 0.15},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "goodtraits": ["Not Human"],
     "tier": 4,
     "pref_class":["Mage"]
