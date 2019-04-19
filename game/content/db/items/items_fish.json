@@ -259,7 +259,7 @@
     "chance": 40,
     "slot": "loot",
     "type": "bait",
-    "locations": ["General Store"]
+    "locations": ["General Store", "Diving"]
     },
     {
     "id": "Magic Bait",
