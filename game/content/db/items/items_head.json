@@ -94,7 +94,7 @@
     "type": "armor",
     "max": {"magic": 20, "mp": 20, "defence": 10},
     "mod": {"magic": 20, "defence": 10},
-    "locations": ["Ninja Shop", "Exploration"],
+    "locations": ["Ninja Shop", "Arena"],
     "goodtraits": ["Dandere"],
     "tier": 1,
     "pref_class":["Warrior", "Mage", "Shooter"]
@@ -153,7 +153,7 @@
     "type": "armor",
     "max": {"defence": 30, "health": 50},
     "mod": {"attack": 10, "defence": 30, "agility": -30},
-    "locations": ["Work Shop", "Exploration", "Arena"],
+    "locations": ["Work Shop", "Arena"],
     "tier": 3,
     "pref_class":["Warrior"]
     },
@@ -172,7 +172,7 @@
     "type": "armor",
     "max": {"defence": 15, "health": 20},
     "mod": {"attack": 15, "defence": 15, "agility": -10},
-    "locations": ["Work Shop", "Exploration", "Arena"],
+    "locations": ["Work Shop", "Arena"],
     "tier": 2,
     "pref_class":["Warrior"]
     },
@@ -232,7 +232,7 @@
     "max": {"joy": 10},
     "mod": {"joy": 30},
     "removetraits": ["Pessimist"],
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "goodtraits": ["Optimist"],
     "badtraits": ["Serious"],
     "tier": 2,
@@ -255,7 +255,7 @@
     "mod": {"magic": 30, "agility": 20},
     "delivery_multiplier": {"magic": 0.05},
     "addtraits": ["Nerd"],
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "tier": 4,
     "pref_class":["Mage"]
     },
@@ -294,7 +294,7 @@
     "type": "armor",
     "max": {"vitality": 200, "constitution": 100},
     "mod": {"constitution": 100},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "tier": 4,
     "pref_class":["Warrior", "Shooter", "Assassin"]
     },
@@ -394,7 +394,7 @@
     "type": "dress",
     "mod": {"charisma": 10},
     "mod_skills": {"refinement": [0, 0, 0.1, 0, 0], "management": [0, 0, 0.1, 0, 0]},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration", "Tailor Store"],
     "tier": 3,
     "pref_class":["Manager", "Casual"]
     },
@@ -492,7 +492,7 @@
     "mod": {"luck": 20},
     "mod_skills": {"management": [0.1, 0.1, 0.1, 0, 0]},
     "defence_multiplier": {"magic": 0.05},
-    "locations": ["Exploration", "Tailor Store"],
+    "locations": ["Exploration"],
     "tier": 4,
     "pref_class":["Mage", "Manager"]
     },
@@ -532,7 +532,7 @@
     "max": {"agility": 10, "defence": 30},
     "mod": {"defence": 30, "agility": 10, "luck": 5},
     "mod_skills": {"refinement": [0, 0, 0.1, 0, 0], "security": [0, 0, 0.1, 0, 0]},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "defence_bonus": {"magic": 25},
     "evasion_bonus": 1,
     "goodtraits": ["Not Human"],
@@ -556,7 +556,7 @@
     "max": {"agility": 5, "defence": 30},
     "mod": {"defence": 30, "agility": 5},
     "defence_bonus": {"melee": 25},
-    "locations": ["Exploration", "Arena"],
+    "locations": ["Exploration"],
     "tier": 2,
     "pref_class":["Warrior", "Manager", "Shooter"]
     },
