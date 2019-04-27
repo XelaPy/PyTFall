@@ -1,4 +1,53 @@
 # Old Code that may not be immediately useful any longer but can still be used for referencing or in future development.
+    # class MyTimer(renpy.display.layout.Null):
+    #     """
+    #     To Be Moved to appropriate file and vastly improved later!
+    #     Ren'Py's original timer failed completely for chaining sounds in BE, this seems to be working fine.
+    #     """
+    #     def __init__(self, delay, action=None, repeat=False, args=(), kwargs={}, replaces=None, **properties):
+    #         super(MyTimer, self).__init__(**properties)
+    #
+    #         if action is None:
+    #             raise Exception("A timer must have an action supplied.")
+    #
+    #         if delay <= 0:
+    #             raise Exception("A timer's delay must be > .")
+    #
+    #         self.started = None
+    #
+    #         # The delay.
+    #         self.delay = delay
+    #
+    #         # Should we repeat the event?
+    #         self.repeat = repeat
+    #
+    #         # The time the next event should occur.
+    #         self.next_event = None
+    #
+    #         # The function and its arguments.
+    #         self.function = action
+    #         self.args = args
+    #         self.kwargs = kwargs
+    #
+    #         # Did we start the timer?
+    #         self.started = False
+    #
+    #         # if replaces is not None:
+    #             # self.state = replaces.state
+    #         # else:
+    #             # self.state = TimerState()
+    #
+    #
+    #     def render(self, width, height, st, at):
+    #         if self.started is None:
+    #             self.started = st
+    #             renpy.redraw(self, self.delay)
+    #             return renpy.Render(0, 0)
+    #
+    #         self.function()
+    #         return renpy.Render(0, 0)
+
+
 auto_equip, old:
 # Old code:
     screen building_finances():

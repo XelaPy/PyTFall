@@ -1,53 +1,4 @@
 init python:
-    class MyTimer(renpy.display.layout.Null):
-        """
-        To Be Moved to appropriate file and vastly improved later!
-        Ren'Py's original timer failed completely for chaining sounds in BE, this seems to be working fine.
-        """
-        def __init__(self, delay, action=None, repeat=False, args=(), kwargs={}, replaces=None, **properties):
-            super(MyTimer, self).__init__(**properties)
-
-            if action is None:
-                raise Exception("A timer must have an action supplied.")
-
-            if delay <= 0:
-                raise Exception("A timer's delay must be > .")
-
-            self.started = None
-
-            # The delay.
-            self.delay = delay
-
-            # Should we repeat the event?
-            self.repeat = repeat
-
-            # The time the next event should occur.
-            self.next_event = None
-
-            # The function and its arguments.
-            self.function = action
-            self.args = args
-            self.kwargs = kwargs
-
-            # Did we start the timer?
-            self.started = False
-
-            # if replaces is not None:
-                # self.state = replaces.state
-            # else:
-                # self.state = TimerState()
-
-
-        def render(self, width, height, st, at):
-            if self.started is None:
-                self.started = st
-                renpy.redraw(self, self.delay)
-                return renpy.Render(0, 0)
-
-            self.function()
-            return renpy.Render(0, 0)
-
-
     class ChainedAttack(renpy.Displayable):
         """
         Going to try and chain gfx/sfx for simple BE attacks using a UDD.
@@ -339,11 +290,12 @@ init python:
 
 
     class DefenceBuff(BE_Event):
-        def __init__(self, source, target, bonus={}, multi=0, icon=None, group=None, gfx_effect="default"):
+        def __init__(self, source, target, bonus={}, multi=0,
+                     icon=None, group=None, gfx_effect="default"):
             # bonus and multi both expect dicts if mods are desirable.
             self.target = target
             self.source = source
-            self.type = type
+            self.type = type # TODO This looks like an err :(
             self.buff = True # We may need this for debuffing later on?
 
             self.counter = randint(5, 8) # Active for 5-8 turns
