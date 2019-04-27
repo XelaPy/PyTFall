@@ -478,7 +478,6 @@ init -10 python:
             @ Last review:
             Alex: I've moved everything except adverts and methods from Building class here.
             """
-
             super(UpgradableBuilding, self).__init__(*args, **kwargs)
             ManagerData.__init__(self)
             BuildingStats.__init__(self)

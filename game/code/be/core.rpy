@@ -2120,7 +2120,3 @@ init -1 python: # Core classes:
 
             # In case we did not pick any specific skill:
             skip()
-
-    #def get_char_with_lowest_attr(chars, attr="hp"):
-    #    chars.sort(key=attrgetter(attr))
-    #    return chars[0]
