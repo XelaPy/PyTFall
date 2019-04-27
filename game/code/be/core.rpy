@@ -1319,10 +1319,14 @@ init -1 python: # Core classes:
 
                     if self.event_class:
                         # First check resistance, then check if event is already in play:
-                        type = self.buff_group
+                        type = self.buff_type
+                        group = self.buff_group
+                        if not type in t.be.damage:
+                            self.assess_absorbtion(t, type)
+
                         if not (type in t.resist or t.be.damage[type].get("absorbs", False)):
                             for event in store.battle.mid_turn_events:
-                                if t == event.target and event.type == type:
+                                if t == event.target and event.group == group:
                                     battle.log("%s is already effected by %s!" % (t.nickname, type))
                                     break
                             else:

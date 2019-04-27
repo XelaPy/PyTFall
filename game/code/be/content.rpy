@@ -203,7 +203,7 @@ init python:
             # bonus and multi both expect dicts if mods are desirable.
             self.target = target
             self.source = source
-            self.type = type # TODO This looks like an err :(
+            self.type = "status"
             self.buff = True # We may need this for debuffing later on?
 
             self.counter = randint(5, 8) # Active for 5-8 turns
@@ -650,6 +650,7 @@ init python:
             super(BasicPoisonSpell, self).__init__()
             self.event_class = PoisonEvent
             self.buff_group = self.__class__
+            self.buff_type = "poison"
             self.event_duration = 3
 
 
@@ -715,6 +716,7 @@ init python:
             self.defence_multiplier = {} # This is the def multiplier.
             self.buff_icon = None
             self.buff_group = self.__class__
+            self.buff_type = "status"
             self.defence_gfx = "default"
 
         def assess_logical_effects(self, source, targets):
