@@ -27,18 +27,18 @@ label test_be:
     python:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = build_mob(id="Slime", level=1)
+        mob = build_mob(id="Slime", level=100)
         mob.be.front_row = True
 
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
-        mob = build_mob(id="Blazing Star", level=1)
+        mob = build_mob(id="Blazing Star", level=100)
         mob.be.front_row = True
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
-        mob = build_mob(id="Blazing Star", level=1)
+        mob = build_mob(id="Blazing Star", level=100)
         mob.be.front_row = True
         if len(enemy_team) != 3:
             enemy_team.add(mob)
