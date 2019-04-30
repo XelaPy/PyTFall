@@ -17,7 +17,7 @@ init python:
     class BESkip(BE_Event):
         """
         Simplest possible class that just skips the turn for the player and logs that fact.
-        This can/should be a function but heck :D 
+        This can/should be a function but heck :D
 
         This will now also restore 3 - 6% of Vitality!
         """
