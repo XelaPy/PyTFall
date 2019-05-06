@@ -464,7 +464,7 @@ label mc_action_scene_finish_sex:
         if char.has_image("profile", loc_tag, exclude=excluded):
             $ gm.set_img("profile", loc_tag, "happy", exclude=excluded, type="reduce")
         else:
-            $ gm.set_img("girlmeets", "happy", loc_tag, exclude=excluded, type="reduce")
+            $ gm.set_img("girlmeets", loc_tag, "happy", exclude=excluded, type="reduce")
 
         if not char.has_flag("raped_by_player"):
             $ char.disposition += randint(50, 100)
@@ -615,7 +615,7 @@ label mc_action_scene_finish_sex:
         if char.has_image("profile", loc_tag, exclude=excluded):
             $ gm.set_img("profile", loc_tag, "happy", exclude=excluded, type="reduce")
         else:
-            $ gm.set_img("girlmeets", "happy", loc_tag, exclude=excluded, type="reduce")
+            $ gm.set_img("girlmeets", loc_tag, "happy", exclude=excluded, type="reduce")
 
         if not char.has_flag("raped_by_player"):
             $ char.disposition += randint(30, 60)
