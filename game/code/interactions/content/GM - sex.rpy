@@ -793,7 +793,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         $ get_single_sex_picture(char, act="stripping", location=sex_scene_location, hidden_partner=True)
 
         $ skill_for_checking = char.get_skill("refinement") + char.get_skill("strip")
-        $ male_skill_for_checking = 2 * hero.get_skill("refinement")
+        $ male_skill_for_checking = 2 * hero.get_skill("sex")
         $ temp = randint(1, 5)
         if (male_skill_for_checking - skill_for_checking) > 250 and dice(75):
             $ temp += randint(1, 5)
