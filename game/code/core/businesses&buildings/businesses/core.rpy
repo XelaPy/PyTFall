@@ -78,7 +78,7 @@ init -12 python:
         def can_reduce_capacity(self):
             if not self.expands_capacity:
                 return False
-            if self.capacity == 0:
+            if self.capacity <= 1: # simpy.Resource can not handle capacity == 0...
                 return False
             if hero.gold < self.exp_cap_cost:
                 return False
