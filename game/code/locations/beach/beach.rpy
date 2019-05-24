@@ -275,7 +275,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
         label "Right click or Esc to exit" text_color gold text_size 18 xalign .5 yalign .5
 
 label mc_action_city_beach_diving_checks:
-    if not global_flags.has_flag('vitality_bonus_from_diving_at_beach'):
+    if not hero.has_flag('vitality_bonus_from_diving_at_beach'):
          $ hero.set_flag("vitality_bonus_from_diving_at_beach", value=0)
 
     if not global_flags.flag('diving_city_beach'):
