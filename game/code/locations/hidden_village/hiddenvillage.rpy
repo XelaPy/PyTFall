@@ -28,7 +28,7 @@ label hiddenvillage_entrance:
         $ result = ui.interact()
 
         if result[0] == 'jump':
-            $ gm.start_gm(result[1], img=result[1].show("girlmeets", "suburb", exclude=["beach", "winter", "night", "formal", "indoors", "swimsuit"], type="first_default", label_cache=True, resize=(300, 400), gm_mode=True))
+            $ gm.start_gm(result[1], img=result[1].show("girlmeets", "suburb", exclude=["beach", "winter", "night", "formal", "indoors", "swimsuit"], type="first_default", label_cache=True, resize=I_IMAGE_SIZE, gm_mode=True))
 
         if result[0] == 'control':
             hide screen hiddenvillage_entrance

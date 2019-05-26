@@ -39,7 +39,7 @@ label city_beach_left:
                         $ result = ("girlmeets", "swimsuit")
                 $ tags.extend(result)
 
-            $ gm.start_gm(girl, img=girl.show(*tags, type="reduce", label_cache=True, resize=(300, 400), gm_mode=True))
+            $ gm.start_gm(girl, img=girl.show(*tags, type="reduce", label_cache=True, resize=I_IMAGE_SIZE, gm_mode=True))
 
         if result[0] == 'control':
             if result[1] == 'return':
@@ -113,16 +113,16 @@ label mc_action_city_beach_rest:
                     tags = (["rest", "beach"], ["bathing", "beach"], ["sleeping", "beach"])
                     result = get_simple_act(member, tags, excluded)
                     if result:
-                        picture.append(member.show(*result, exclude=excluded, type="reduce", resize=(300, 400)))
+                        picture.append(member.show(*result, exclude=excluded, type="reduce", resize=I_IMAGE_SIZE))
                         continue
 
                     tags = (["rest", "swimsuit", "no bg"], ["bathing", "swimsuit", "no bg"], ["sleeping", "swimsuit", "no bg"],
                             ["rest", "swimsuit", "simple bg"], ["bathing", "swimsuit", "simple bg"], ["sleeping", "swimsuit", "simple bg"])
                     result = get_simple_act(member, tags, excluded)
                     if result:
-                        picture.append(member.show(*result, exclude=excluded, type="reduce", resize=(300, 400)))
+                        picture.append(member.show(*result, exclude=excluded, type="reduce", resize=I_IMAGE_SIZE))
                     elif member.has_image("beach", exclude=excluded):
-                        picture.append(member.show("beach", "sfw", exclude=excluded, type="reduce", resize=(300, 400)))
+                        picture.append(member.show("beach", "sfw", exclude=excluded, type="reduce", resize=I_IMAGE_SIZE))
 
         if len(picture) == 1:
             show expression picture[0] at truecenter as temp1
@@ -166,7 +166,7 @@ label mc_action_city_beach_rest:
                     # give up
                     $ result = ("beach", "swimsuit")
 
-            show expression char.show(*result, exclude=excluded, type="reduce", resize=(300, 400)) at truecenter with dissolve
+            show expression char.show(*result, exclude=excluded, type="reduce", resize=I_IMAGE_SIZE) at truecenter with dissolve
 
             "Unfortunately [char.name] forgot her sunscreen today, so you had no choice but to provide another liquid as a replacement."
             $ char.sex += 1

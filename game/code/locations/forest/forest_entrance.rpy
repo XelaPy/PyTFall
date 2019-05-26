@@ -33,7 +33,7 @@ label forest_entrance:
         $ result = ui.interact()
 
         if result[0] == 'jump':
-            $ gm.start_gm(result[1], img=result[1].show("girlmeets", "nature", "wildness", type="first_default", label_cache=True, resize=(300, 400), gm_mode=True,
+            $ gm.start_gm(result[1], img=result[1].show("girlmeets", "nature", "wildness", type="first_default", label_cache=True, resize=I_IMAGE_SIZE, gm_mode=True,
                             exclude=["urban", "winter", "night", "beach", "onsen", "dungeon", "stage", "swimsuit", "indoor", "formal"]))
         if result[0] == 'control':
             if result[1] == 'return':

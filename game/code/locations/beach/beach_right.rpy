@@ -33,7 +33,7 @@ label city_beach_right:
                         $ result = ("girlmeets", "swimsuit")
                 $ tags.extend(result)
 
-            $ gm.start_gm(girl, img=girl.show(*tags, type="reduce", label_cache=True, resize=(300, 400), gm_mode=True))
+            $ gm.start_gm(girl, img=girl.show(*tags, type="reduce", label_cache=True, resize=I_IMAGE_SIZE, gm_mode=True))
 
         if result[0] == 'control':
             if result[1] == 'return':

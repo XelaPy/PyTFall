@@ -80,7 +80,7 @@ label arena_outside:
 
         if result[0] == 'jump':
             $ global_flags.set_flag("keep_playing_music")
-            $ gm.start_gm(result[1], img=result[1].show("girlmeets", "armor", exclude=["swimsuit", "beach", "pool", "onsen", "bunny", "indoor", "formal", "wildness"], label_cache=True, gm_mode=True, resize=(300, 400), type="reduce"))
+            $ gm.start_gm(result[1], img=result[1].show("girlmeets", "armor", exclude=["swimsuit", "beach", "pool", "onsen", "bunny", "indoor", "formal", "wildness"], label_cache=True, gm_mode=True, resize=I_IMAGE_SIZE, type="reduce"))
 
         if result[0] == 'control':
             if result[1] == "enter_arena":

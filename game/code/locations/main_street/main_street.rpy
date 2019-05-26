@@ -42,7 +42,7 @@ label main_street:
             $ jump(result[1])
 
         if result[0] == 'jump':
-            $ gm.start_gm(result[1], img=result[1].show("girlmeets", "outdoors", "urban", exclude=["swimsuit", "indoor", "wildness", "suburb", "beach", "pool", "onsen", "nature"], type="reduce", label_cache=True, resize=(300, 400), gm_mode=True))
+            $ gm.start_gm(result[1], img=result[1].show("girlmeets", "outdoors", "urban", exclude=["swimsuit", "indoor", "wildness", "suburb", "beach", "pool", "onsen", "nature"], type="reduce", label_cache=True, resize=I_IMAGE_SIZE, gm_mode=True))
 
 
 screen main_street():

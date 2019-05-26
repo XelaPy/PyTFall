@@ -453,6 +453,7 @@ init -1 python: # Constants:
                              'mood', 'alignment')
     UNBLOCK_OVERLAY_STATS_LABELNAME_SUFFIX = ("cafe_invitation", )
     ND_IMAGE_SIZE = (820, 705)
+    I_IMAGE_SIZE = (600, 515) # Interactions image size (default)
 
     equipSlotsPositions = dict()
     equipSlotsPositions['head'] = [u'Head', .2, .1]
