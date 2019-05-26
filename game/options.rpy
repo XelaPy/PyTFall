@@ -61,7 +61,7 @@ init -5 python hide:
     # disabling rollback as not being compatible with games nature
     config.rollback_enabled = False
     config.hard_rollback_limit = 0
-    config.rollback_length = -1
+    config.rollback_length = 0
 
     # Game may bug out on saving, in such case, comment should be removed
     # config.use_cpickle = False
