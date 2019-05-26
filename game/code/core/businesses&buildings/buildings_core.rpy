@@ -524,12 +524,7 @@ init -10 python:
             self.clients_regen_day = 0
 
             # Chars:
-            # Note: We also use .inhabitants set inherited from all the way over location.
-            self.manager = None
-            self.manager_effectiveness = 0 # Calculated once at start of each working day (performance)
-            self.workers_rule = "normal"
             # Bit of an issue could be that we're using all_workers in SimPy as well? :D
-            # TODO (bb) Look into the above.
             self.all_workers = list() # All workers presently assigned to work in this building.
             self.available_workers = list() # This is built and used during the next day (SimPy).
 

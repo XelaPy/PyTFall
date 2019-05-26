@@ -9,7 +9,11 @@ init -50 python:
             self.help_ineffective_workers = True # Bad performance still may get a payout.
             self.works_other_jobs = False
 
-            # TODO Before some major release that breaks saves, move manager and effectiveness fields here.
+            self.manager = None
+            # Calculated once at start of each working day (performance)
+            self.manager_effectiveness = 0
+            self.workers_rule = "normal"
+
             self.mlog = None # Manager job log
 
         @property
