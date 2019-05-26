@@ -1791,7 +1791,8 @@ init -10 python:
                 char.joy -= 5
             elif self.name == "Exhausted":
                 char.vitality -= int(char.get_max("vitality")*.2)
-            elif self.name == "Lactation": # TODO add milking activities, to use this fetish more widely
+            elif self.name == "Lactation":
+                # TODO add milking activities, to use this fetish more widely
                 if char.health >= 30 and char.vitality >= 30 and char in hero.chars and char.is_available:
                     if char.status == "slave" or check_lovers(char, hero):
                         if "Small Boobs" in char.traits:
@@ -1819,7 +1820,9 @@ init -10 python:
                             if not(has_items("Slime's Milk", [char])):
                                 char.add_item("Slime's Milk")
                         else:
-                            if not(has_items("Bottle of Milk", [char])): # in order to not stack bottles of milk into free chars inventories they get only one, and only if they had 0
+                            # in order to not stack bottles of milk into free chars
+                            # inventories they get only one, and only if they had 0
+                            if not(has_items("Bottle of Milk", [char])):
                                 char.add_item("Bottle of Milk")
             elif self.name == "Silly":
                 if char.intelligence >= 200:
