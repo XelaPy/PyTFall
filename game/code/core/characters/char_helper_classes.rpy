@@ -1359,8 +1359,9 @@ init -10 python:
                     if isinstance(char, Player):
                         jump("game_over")
                     elif isinstance(char, Char):
-                        kill_char(char)
-                        return
+                        result = kill_char(char)
+                        if result:
+                            return
 
                 maxval = self.get_max(key)
                 minval = self.min[key]

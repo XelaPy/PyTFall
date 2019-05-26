@@ -193,6 +193,8 @@ init -11 python:
         if "Undead" in char.traits:
             char.health = 1
             return False
+        if isinstance(char, Player):
+            jump("game_over")
         atfer_life = locations["After Life"]
         char.home = atfer_life
         set_location(char, atfer_life)
