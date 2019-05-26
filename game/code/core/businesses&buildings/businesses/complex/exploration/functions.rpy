@@ -11,7 +11,9 @@ init python:
         # from teams when we change their locations!
         idle_explorers = set(bm_mid_frame_mode.idle_explorers())
         for worker in BUILDING.get_workers():
-            if worker in idle_explorers:
+            if isinstance(worker, Player):
+                continue
+            elif worker in idle_explorers:
                 continue
             elif worker.status != "free":
                 continue
