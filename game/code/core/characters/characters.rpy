@@ -386,14 +386,8 @@ init -9 python:
                 value.inhabitants.add(self)
             self._home = value
 
-        # TODO Remove hasaattrs on release!!!
         @property
         def jobpoints(self):
-            if not hasattr(self, "_jobpoints"):
-                self._jobpoints = 0
-            if not hasattr(self, "jp_spent"):
-                self.jp_spent = 0
-
             return self._jobpoints
         @jobpoints.setter
         def jobpoints(self, value):

@@ -394,21 +394,7 @@ label sort_traits_for_gameplay:
         gen_occ_basetraits = dict(gen_occ_basetraits)
     return
 
-default se_testing_boost = True # TODO Kill before release!!!
 label after_load:
-    if se_testing_boost:
-        $ se_testing_boost = False
-        $ hero.gold += 20000
-
-    python hide: # TODO DELETE AFTER TEST PHASE!!!!!!!!!!!!!!
-        fg_areas["Deep Northern Forest"].travel_time = .7
-        fg_areas["Elven Forest"].mobs = ["Griffin", "Boros", "Bats", "Link Wolf", "Wild Dryad"]
-
-        for area in fg_areas.values():
-            for tracker in area.trackers:
-                if not hasattr(tracker, "unlocked_areas"):
-                    tracker.unlocked_areas = []
-
     # Resets:
     python:
         config.mouse = None
