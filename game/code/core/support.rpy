@@ -174,7 +174,7 @@ init -9 python:
             for key, value in wanted_distibution_perc.items():
                 distibution[key] = round_int(required*value/total)
 
-            # We are done with distibution, now tiers:
+            # We are done with distribution, now tiers:
             for bt_group, amount in distibution.items():
                 for i in range(amount):
                     if dice(1): # Super char!
