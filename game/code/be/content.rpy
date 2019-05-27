@@ -239,6 +239,97 @@ init python:
 
 
     # Actions:
+    class ChainedAttack(renpy.Displayable):
+        """
+        Going to try and chain gfx/sfx for simple BE attacks using a UDD.
+        """
+        def __init__(self, gfx, sfx, chain_sfx=True, times=2, delay=.35,
+                     sd_duration=.5, alpha_fade=.0, webm_size=(), **properties):
+            """
+            chain_sfx: Do we play the sound and do we chain it?
+                True = Play and Chain.
+                False = Play once and don't play again.
+                None = Do not play SFX at all.
+            times = how many times we run the animation in a sequence.
+            delay = time between showing displayables.
+            sd_duration = single frame (displayable) duration.
+            alpha_fade = Do we want alpha fade for each frame or not. 1.0 means not,
+                .0 means yes and everything in between is partial fade.
+            """
+            super(ChainedAttack, self).__init__(**properties)
+
+            self.gfx = gfx
+            self.sfx = sfx
+            self.chain_sfx = chain_sfx
+            self.times = times
+            self.delay = delay
+            self.count = 0
+            if webm_size:
+                self.size = webm_size
+            else:
+                self.size = get_size(self.gfx)
+            # raise Exception(self.size)
+            self.last_flip = None # This is meant to make sure that we don't get two exactly same flips in the row!
+
+            # Timing controls:
+            self.next = 0
+            self.displayable = [] # List of dict bindings if (D, st) to kill.
+            self.single_displayable_duration = sd_duration
+            self.alpha_fade = alpha_fade
+
+        def render(self, width, height, st, at):
+            # if self.count > self.times:
+                # return renpy.Render(0, 0)
+
+            if self.count < self.times and st >= self.next:
+                # Prep the data:
+
+                # get the "flip":
+                flips = [{"zoom": 1}, {"xzoom": -1}, {"yzoom": -1}, {"zoom": -1}]
+
+                if self.last_flip is None:
+                    flip = choice(flips)
+                    self.last_flip = flip
+                else:
+                    flips.remove(self.last_flip)
+                    flip = choice(flips)
+                    self.last_flip = flip
+
+                # Offset:
+                # Adjusting to UDD feature that I do not completely understand...
+                offx, offy = choice(range(0, 15) + range(30, 60)), choice(range(0, 15) + range(30, 60))
+
+                # GFX:
+                gfx = Transform(self.gfx, **flip)
+                gfx = multi_strike(gfx, (offx, offy), st,
+                                   self.single_displayable_duration, self.alpha_fade)
+
+                # Calc when we add the next gfx and remove the old one from the list.
+                # Right now it's a steady stream of ds but I'll prolly change it in the future.
+                next_disp = uniform(self.delay*.85, self.delay)
+                self.next = st + next_disp
+                self.count += 1
+                self.displayable.append((gfx, st + self.single_displayable_duration))
+
+                # We can just play the sound here:
+                if self.chain_sfx is None:
+                    pass
+                elif self.chain_sfx is False and self.count == 0 and len(self.displayable) == 1:
+                    renpy.play(self.sfx, channel="audio")
+                else:
+                    renpy.play(self.sfx, channel="audio")
+
+            # Render everything else:
+            render = renpy.Render(self.size[0] + 60, self.size[1] + 60)
+            for d, t in self.displayable[:]:
+                if st <= t:
+                    render.place(d)
+                else: # Remove if we're done with this displayable:
+                    self.displayable.remove((d, t))
+
+            renpy.redraw(self, .1)
+            return render
+
     class MultiAttack(BE_Action):
         """
         Base class for multi attack skills, which basically show the same displayable and play sounds (conditioned),
