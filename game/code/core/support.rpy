@@ -537,7 +537,7 @@ init -9 python:
         """
         def __init__(self, reset_callable, container=None):
             """
-            reset_callable: a funcion to be called without arguments that would return a full, unfiltered list of items to be used as a default.
+            reset_callable: a function to be called without arguments that would return a full, unfiltered list of items to be used as a default.
             container: If not None, we set this contained to self.sorted every time we update. We expect a list with an object and a field to be used with setattr.
             """
             self.reset_callable = reset_callable
