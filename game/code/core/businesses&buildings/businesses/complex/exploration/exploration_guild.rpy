@@ -35,6 +35,7 @@ init -9 python: # FG Area
             self.chars = dict() # id: [explored, chance_per_day]
             self.rchars = dict() # id can be 'any' here, meaning any rChar.
 
+            # All general items tagged with "Exploration" location are cut off by this value.
             self.items_price_limit = 0
 
             # Use dicts instead of sets as we want counters:
@@ -211,10 +212,6 @@ init -6 python: # Guild, Tracker and Log.
         @property
         def cash_limit(self):
             return self.area.cash_limit
-
-        @property
-        def items_limit(self):
-            return self.area.items_limit
 
         @property
         def hazard(self):

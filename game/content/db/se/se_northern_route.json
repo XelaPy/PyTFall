@@ -81,7 +81,7 @@
             "High Pass": 90
         },
         "cash_limit": 50,
-        "items_limit": 200,
+        "items_price_limit": 200,
         "items": {
             "Stone": 50
         }
@@ -101,7 +101,7 @@
             "Inner Burial Grounds": 75
         },
         "cash_limit": 100,
-        "items_limit": 400,
+        "items_price_limit": 400,
         "items": {"Darksome Trophy": 25, "Necklace of Pain Reversal": 50}
     },
     {
@@ -121,7 +121,7 @@
         },
         "unlocks": {"Forest Tomb": 75},
         "cash_limit": 120,
-        "items_limit": 600,
+        "items_price_limit": 600,
         "items": {"Bone Ring": 25}
     },
     {
@@ -141,7 +141,7 @@
         },
         "unlocks": {},
         "cash_limit": 150,
-        "items_limit": 750,
+        "items_price_limit": 750,
         "items": {"Vampire Cape": 20}
     },
     {
@@ -156,7 +156,7 @@
         "mobs": ["Druid", "Black Wolf", "Wild Dryad", "Link Wolf"],
         "unlocks": {"Elven Forest": 95},
         "cash_limit": 200,
-        "items_limit": 800,
+        "items_price_limit": 800,
         "items": {"Watermelon of Knowledge": 25, "Candied Nuts of Knowledge": 60, "Frost Fairy": 20}
     },
     {
@@ -176,7 +176,7 @@
         },
         "unlocks": {"Frozen Caverns": 60, "Rose of Winds": 90},
         "cash_limit": 20,
-        "items_limit": 250,
+        "items_price_limit": 250,
         "items": {
             "Stone": 100, "Victory Charm": 15
         }
@@ -198,7 +198,7 @@
         },
         "items": {"Draconic Leather Armor": 10},
         "cash_limit": 250,
-        "items_limit": 400,
+        "items_price_limit": 400,
         "unlocks": {"Northern Peak": 90},
         "items": {"Stillness Cape": 25}
     },
@@ -219,7 +219,7 @@
         },
         "unlocks": {},
         "cash_limit": 500,
-        "items_limit": 800,
+        "items_price_limit": 800,
         "items": {"Gardens of Eden": 80
                     }
     },
@@ -244,7 +244,7 @@
             "Frozen Passage": 75
         },
         "cash_limit": 20,
-        "items_limit": 600,
+        "items_price_limit": 600,
         "items": {"Ice Daggers": 40, "Ice Axe": 40, "Icy Sword": 20, "Frost Cape": 25}
     },
     {
@@ -266,7 +266,7 @@
             "Frozen Throne": 99
         },
         "cash_limit": 40,
-        "items_limit": 700,
+        "items_price_limit": 700,
         "items": {"Crystal Wand": 30, "Ice Charm": 20, "Winter Ring": 25
         }
     },
@@ -287,7 +287,7 @@
         },
         "unlocks": {},
         "cash_limit": 100,
-        "items_limit": 1000,
+        "items_price_limit": 1000,
         "items": {
             "Icicle Staff": 20,
             "Ice Shoes": 50

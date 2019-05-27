@@ -1,11 +1,13 @@
 # Tagger
 label tagger:
-    call load_json_tags from _call_load_json_tags
+    # call load_json_tags from _call_load_json_tags
+    $ renpy.scene("screens")
+    scene black
     python:
         alltags = list(sorted(tags_dict.values()))
-        all_char = {k:v for k, v in chars.iteritems() if v.__class__ == Char}
+        all_chars = {k:v for k, v in chars.iteritems() if v.__class__ == Char}
         # Broken code? TODO: But this module is not likely to be used ever again.
-        all_chars.update(rchar)
+        # all_chars.update(rchar)
         pic = None
         if not hasattr(store, "tagchar"):
             tagchar = choice(all_chars.values())
@@ -193,7 +195,7 @@ screen tagger():
 
     # Tagz:
     vbox:
-        ysize config.screen_height 
+        ysize config.screen_height
         box_wrap True
         pos (155, 0)
         for tag in alltags:

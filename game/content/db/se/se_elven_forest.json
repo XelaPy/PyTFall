@@ -17,7 +17,7 @@
         "mobs": ["Griffin", "Boros", "Bats", "Link Wolf", "Wild Dryad"],
         "unlocks": {"Elven Village": 80, "Fairy Forest": 50},
         "cash_limit": 100,
-        "items_limit": 900,
+        "items_price_limit": 900,
         "items": {"Aromatic Pendant": 15}
     },
     {
@@ -32,7 +32,7 @@
         "mobs": ["Forest Fairy", "Wild Dryad", "Royal Mantis", "Satyress"],
         "unlocks": {},
         "cash_limit": 100,
-        "items_limit": 900,
+        "items_price_limit": 900,
         "hazard": {
             "health": 0,
             "mp": 50,
@@ -59,7 +59,7 @@
         "mobs": ["Feonix", "Wild Dryad", "Flytrap", "Poison Ivy", "Gazer", "Beargirl"],
         "unlocks": {},
         "cash_limit": 200,
-        "items_limit": 1500,
+        "items_price_limit": 1500,
         "items": {
             "Elven Armor": 5,
             "Elven Ranger Armor": 5, 

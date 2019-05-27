@@ -31,7 +31,7 @@
         },
         "travel_time": 0.2,
         "cash_limit": 20,
-        "items_limit": 200
+        "items_price_limit": 200
     },
     {
         "id": "Cursed Forest",
@@ -44,7 +44,7 @@
         "mobs": ["Werewolf", "Weregirl", "Werecat", "Undead Rat", "Arachna"],
         "unlocks": {"Black Woods": 80, "Dead Forest": 40},
         "cash_limit": 100,
-        "items_limit": 500
+        "items_price_limit": 500
     },
     {
         "id": "Dead Forest",
@@ -57,7 +57,7 @@
         "mobs": ["Undead Rat", "Undead Werecat", "Undead Unicorn", "Naga Archer", "Naga Warrior"],
         "unlocks": {"Elven Burial Grounds": 80},
         "cash_limit": 200,
-        "items_limit": 700
+        "items_price_limit": 700
     },
     {
         "id": "Elven Burial Grounds",
@@ -70,7 +70,7 @@
         "mobs": ["Shadowman", "Horny Mummy", "Undead Unicorn", "Skeleton Warrior"],
         "unlocks": {"Forest Catacombs": 80},
         "cash_limit": 300,
-        "items_limit": 1000
+        "items_price_limit": 1000
     },
     {
         "id": "Ancient Tombs",
@@ -83,7 +83,7 @@
         "mobs": ["Shadowman", "Horny Mummy", "Dark Spirit", "Crawler", "Spectre"],
         "unlocks": {"The Bottom": 80, "Treasures Rooms": 50},
         "cash_limit": 400,
-        "items_limit": 1500,
+        "items_price_limit": 1500,
         "hazard": {
             "health": 0,
             "mp": 20,
@@ -103,7 +103,7 @@
         "mobs": ["Phantasm", "Spectre", "Woolman", "Cyclop"],
         "unlocks": {},
         "cash_limit": 5000,
-        "items_limit": 0,
+        "items_price_limit": 0,
         "hazard": {
             "health": 100,
             "mp": 0,
@@ -123,7 +123,7 @@
         "mobs": ["Undead Cemetery", "Deathling", "Vortex"],
         "unlocks": {},
         "cash_limit": 500,
-        "items_limit": 3000,
+        "items_price_limit": 3000,
         "hazard": {
             "health": 0,
             "mp": 20,
@@ -145,7 +145,7 @@
         "mobs": ["Dark Elf Archer", "Undead Unicorn", "Secateuris"],
         "unlocks": {"Dark Elves Settlement": 70},
         "cash_limit": 500,
-        "items_limit": 900,
+        "items_price_limit": 900,
         "items": {"Mithril Armor": 20}
     },
     {
@@ -161,7 +161,7 @@
         "mobs": ["Dark Elf Archer", "Undead Unicorn", "Giant Spider"],
         "unlocks": {},
         "cash_limit": 500,
-        "items_limit": 900,
+        "items_price_limit": 900,
         "items": {"Organic Lingerie": 30}
     }
 ]

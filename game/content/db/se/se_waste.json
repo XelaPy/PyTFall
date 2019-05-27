@@ -34,7 +34,7 @@
         },
         "travel_time": 0.25,
         "cash_limit": 150,
-        "items_limit": 400
+        "items_price_limit": 400
     },
     {
         "id": "Fortress Dungeon",
@@ -49,7 +49,7 @@
         },
         "travel_time": 0.26,
         "cash_limit": 200,
-        "items_limit": 500
+        "items_price_limit": 500
     },
     {
         "id": "Abandoned Laboratory",
@@ -64,7 +64,7 @@
         },
         "travel_time": 0.28,
         "cash_limit": 200,
-        "items_limit": 500,
+        "items_price_limit": 500,
         "items": {"Fireproof Cape": 25}
     },
     {
@@ -80,7 +80,7 @@
         },
         "travel_time": 0.3,
         "cash_limit": 250,
-        "items_limit": 500,
+        "items_price_limit": 500,
         "items": {"Weighted Cape": 25}
     },
     {
@@ -96,7 +96,7 @@
         },
         "travel_time": 0.35,
         "cash_limit": 400,
-        "items_limit": 600,
+        "items_price_limit": 600,
         "items": {"Grounded Cape": 25}
     },
     {
@@ -112,7 +112,7 @@
         },
         "travel_time": 0.5,
         "cash_limit": 500,
-        "items_limit": 700,
+        "items_price_limit": 700,
         "items": {"Snowstorm Cape": 25}
     },
     {
@@ -128,7 +128,7 @@
         },
         "travel_time": 0.6,
         "cash_limit": 500,
-        "items_limit": 700
+        "items_price_limit": 700
     },
     {
         "id": "Underwater Caves",
@@ -143,7 +143,7 @@
         },
         "travel_time": 0.7,
         "cash_limit": 1000,
-        "items_limit": 1000,
+        "items_price_limit": 1000,
         "items": {"Godward Shell": 20}
     },
     {
@@ -160,7 +160,7 @@
         },
         "travel_time": 0.2,
         "cash_limit": 50,
-        "items_limit": 200
+        "items_price_limit": 200
     },
     {
         "id": "Abnormal Sands",
@@ -173,7 +173,7 @@
         "mobs": ["Amazon Thief", "Amazon Warrior", "Amazon Archer", "Boros", "Lamia", "Gluttony", "Fiery Shadow"],
         "unlocks": {"Melted Sands": 50, "Big Crater": 90},
         "cash_limit": 100,
-        "items_limit": 500,
+        "items_price_limit": 500,
         "hazard": {
             "health": 5,
             "mp": 0,
@@ -190,7 +190,7 @@
         "unlocked": false,
         "mobs": ["Lava Elemental", "Fire Spirit", "Giant Scorpion", "Lava Elemental", "Fire Spirit", "Ifrit", "Flame Spirit"],
         "cash_limit": 200,
-        "items_limit": 700,
+        "items_price_limit": 700,
         "hazard": {
             "health": 10,
             "mp": 0,
@@ -207,7 +207,7 @@
         "unlocked": false,
         "mobs": ["Undead Unicorn", "Chimera", "Quick Silver", "Flaming Fox", "Vortex"],
         "cash_limit": 300,
-        "items_limit": 1000,
+        "items_price_limit": 1000,
         "hazard": {
             "health": 25,
             "mp": 0,
