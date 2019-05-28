@@ -357,18 +357,18 @@ init -1 python: # Core classes:
             # Sprite Flips:
             if team_index == "r":
                 if char.__class__ != Mob:
-                    if isinstance(sprite, ProportionalScale):
-                        char.be.sprite = im.Flip(sprite, horizontal=True)
-                    else:
-                        char.be.sprite = Transform(sprite, xzoom=-1)
+                    # if isinstance(sprite, ProportionalScale):
+                    #     char.be.sprite = im.Flip(sprite, horizontal=True)
+                    # else:
+                    char.be.sprite = Transform(sprite, xzoom=-1)
                 else:
                     char.be.sprite = sprite
             else:
                 if char.__class__ == Mob:
-                    if isinstance(sprite, ProportionalScale):
-                        char.be.sprite = im.Flip(sprite, horizontal=True)
-                    else:
-                        char.be.sprite = Transform(sprite, xzoom=-1)
+                    # if isinstance(sprite, ProportionalScale):
+                    #     char.be.sprite = im.Flip(sprite, horizontal=True)
+                    # else:
+                    char.be.sprite = Transform(sprite, xzoom=-1)
                 else:
                     char.be.sprite = sprite
 
