@@ -40,4 +40,19 @@ init python hide:
         "physical_be_size20",
     ))
 
+    be_predict.extend((
+    "water_overlay_test",
+    "fire_logo",
+    "content/gfx/be/frozen.webp",
+    "be_dark_mask",
+    "be_light_mask",
+    "content/gfx/be/darken.webp",
+    "content/gfx/be/frozen_2.webp",
+    "fire_mask",
+    "be_water_mask",
+    "be_electro_mask",
+
+    ))
+
+
     renpy.start_predict(*be_predict)
