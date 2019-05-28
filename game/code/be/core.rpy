@@ -541,6 +541,10 @@ init -1 python: # Core classes:
                     gfx = skill.main_effect.get("gfx", None)
                     if gfx:
                         force_predict.add(gfx)
+                    gfx = skill.main_effect.get("predict", None)
+                    if gfx:
+                        for i in gfx:
+                            force_predict.add(i)
                     gfx = skill.target_sprite_damage_effect.get("gfx", None)
                     if gfx:
                         force_predict.add(gfx)
