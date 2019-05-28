@@ -1385,6 +1385,13 @@ init python:
 
     pscale = prop_resize
 
+    def scale(d, width, height, **kwargs):
+        """To be used instead of im.Scale where applicable.
+
+        Simplifies image prediction as only the 'real' file needs to be cached.
+        """
+        return Transform(d, size=(width, height))
+
     def gen_randmotion(count, dist, delay):
         args = [ ]
         for i in xrange(count):

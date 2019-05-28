@@ -505,7 +505,7 @@ screen building_management_midframe_exploration_guild_mode:
                     xalign .5
                     padding 5, 5
                     background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                    add im.Scale("content/gfx/bg/buildings/log.webp", 600, 390)
+                    add scale("content/gfx/bg/buildings/log.webp", 600, 390)
     elif bm_exploration_view_mode == "team":
         # Backgrounds:
         frame:
