@@ -260,7 +260,7 @@ screen pick_skill(char):
                             xysize 140, 320
                             vbox:
                                 if e.icon:
-                                    $ img = ProportionalScale(e.icon, 70, 70)
+                                    $ img = pscale(e.icon, 70, 70)
                                     add img align .5, .1
                                 for skill in d[e]:
                                     textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
@@ -278,7 +278,7 @@ screen pick_skill(char):
                         xysize 140, 320
                         default me_icon = build_multi_elemental_icon()
                         vbox:
-                            add ProportionalScale("content/gfx/interface/images/elements/multi.png", 70, 70) align (.5, .1) # xcenter 230 ycenter 58
+                            add pscale("content/gfx/interface/images/elements/multi.png", 70, 70) align (.5, .1) # xcenter 230 ycenter 58
                             for skill in me:
                                 textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
                                     padding 0, 1

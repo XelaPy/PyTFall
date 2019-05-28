@@ -80,6 +80,11 @@ init -1 python: # Core classes:
             self.logical_counter = 0
             self.quotes = quotes # Decide if we run quotes at the start of the battle.
 
+            self.predict = []
+            if not logical:
+                renpy.start_predict(bg)
+                self.predict.append(bg)
+
             self.start_sfx = start_sfx
             self.end_sfx = end_sfx
 
@@ -210,6 +215,8 @@ init -1 python: # Core classes:
 
         def start_battle(self):
 
+            self.predict_battle_skills()
+
             self.prepear_teams()
 
             if not self.logical:
@@ -228,14 +235,14 @@ init -1 python: # Core classes:
                 # First the left team:
                 team = self.teams[0]
                 for i in team:
-                    self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
+                    self.show_char(i, at_list=[Transform(pos=self.set_icp(team, i))])
                     if not i.attack_skills:
                         # we never allow hero team members to have zero attacks
                         i.attack_skills.append("Fist Attack")
 
                 team = self.teams[1]
                 for i in team:
-                    self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
+                    self.show_char(i, at_list=[Transform(pos=self.set_icp(team, i))])
 
                 renpy.show("bg", what=self.bg)
                 renpy.show_screen("battle_overlay", self)
@@ -294,6 +301,8 @@ init -1 python: # Core classes:
                                "outlines": [(1, cyan, 0, 0)]}
                     gfx_overlay.notify("You Lose!", tkwargs=tkwargs)
 
+                renpy.stop_predict(*self.predict)
+
                 renpy.pause(1.0) # Small pause before terminating the engine.
 
                 renpy.scene(layer='screens')
@@ -324,8 +333,8 @@ init -1 python: # Core classes:
                 self.queue = l
             return self.queue.pop()
 
-        def get_icp(self, team, char):
-            """Get Initial Character Position
+        def set_icp(self, team, char):
+            """Set Initial Character Position
 
             Basically this is what sets the characters up at the start of the battle-round.
             Returns initial position of the character based on row/team!
@@ -362,6 +371,10 @@ init -1 python: # Core classes:
                         char.be.sprite = Transform(sprite, xzoom=-1)
                 else:
                     char.be.sprite = sprite
+
+            if not self.logical:
+                renpy.start_predict(char.be.sprite)
+                self.predict.append(char.be.sprite)
 
             # We're going to land the character at the default position from now on,
             # with centered bottom of the image landing directly on the position!
@@ -513,6 +526,38 @@ init -1 python: # Core classes:
 
         def get_all_events(self):
             return itertools.chain(self.start_turn_events, self.mid_turn_events, self.end_turn_events)
+
+        def predict_battle_skills(self):
+            # Auto-Prediction:
+            if not self.logical:
+                skills = set()
+                for team in self.teams:
+                    for fighter in team:
+                        for skill in list(fighter.attack_skills) + list(fighter.magic_skills):
+                            skills.add(skill)
+
+                force_predict = set()
+                for skill in skills:
+                    gfx = skill.main_effect.get("gfx", None)
+                    if gfx:
+                        force_predict.add(gfx)
+                    gfx = skill.target_sprite_damage_effect.get("gfx", None)
+                    if gfx:
+                        force_predict.add(gfx)
+                    gfx = skill.attacker_effects.get("gfx", None)
+                    if gfx:
+                        force_predict.add(gfx)
+                    gfx = getattr(skill, "projectile_effects", {}).get("gfx", None)
+                    if gfx:
+                        force_predict.add(gfx)
+                    gfx = getattr(skill, "firing_effects", {}).get("gfx", None)
+                    if gfx:
+                        force_predict.add(gfx)
+
+                renpy.start_predict(*force_predict)
+
+                force_predict = list(force_predict)
+                self.predict.extend(force_predict)
 
 
     class BE_Event(_object):

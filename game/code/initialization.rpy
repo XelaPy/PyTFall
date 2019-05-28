@@ -424,7 +424,7 @@ init -950 python:
                             renpy.image(tag, bgfname[:-5])
 
     # Auto-Animations are last
-    def load_frame_by_frame_animations_from_dir(folder):
+    def load_frame_by_frame_animations_from_dir(folder, log_to_be_predict=False):
         path = content_path(folder)
         for dir in os.listdir(path):
             split_dir = dir.split(" ")

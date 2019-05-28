@@ -540,8 +540,8 @@ screen hero_profile():
 
     imagebutton:
         pos (900, 7) # (178, 70)
-        idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
-        hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
+        idle scale("content/gfx/interface/buttons/close2.png", 35, 35)
+        hover scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
         action Hide("show_trait_info"), Return(['control', 'return'])
         tooltip "Return to previous screen!"
         keysym "mousedown_3"
@@ -606,8 +606,8 @@ screen hero_team():
 
             imagebutton:
                 align (1.0, .0)
-                idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
-                hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
+                idle scale("content/gfx/interface/buttons/close2.png", 35, 35)
+                hover scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
                 action Hide("hero_team"), With(dissolve)
                 keysym "mousedown_3"
                 tooltip "Close team screen"
@@ -676,8 +676,8 @@ screen hero_team():
                         if not member == hero:
                             imagebutton:
                                 xalign .92
-                                idle ProportionalScale("content/gfx/interface/buttons/close4.png", 24, 30)
-                                hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 24, 30)
+                                idle pscale("content/gfx/interface/buttons/close4.png", 24, 30)
+                                hover pscale("content/gfx/interface/buttons/close4_h.png", 24, 30)
                                 action Return(["remove_from_team", member])
                                 tooltip "Remove %s from %s"%(member.nickname, hero.team.name)
 
@@ -685,8 +685,8 @@ screen hero_team():
                     fixed:
                         ysize 25
                         bar:
-                            left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
-                            right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                            left_bar pscale("content/gfx/interface/bars/hp1.png", 150, 20)
+                            right_bar pscale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
                             value member.health
                             range member.get_max("health")
                             thumb None
@@ -699,8 +699,8 @@ screen hero_team():
                     fixed:
                         ysize 25
                         bar:
-                            left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
-                            right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                            left_bar pscale("content/gfx/interface/bars/mp1.png", 150, 20)
+                            right_bar pscale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
                             value member.mp
                             range member.get_max("mp")
                             thumb None
@@ -713,8 +713,8 @@ screen hero_team():
                     fixed:
                         ysize 25
                         bar:
-                            left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
-                            right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                            left_bar pscale("content/gfx/interface/bars/vitality1.png", 150, 20)
+                            right_bar pscale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
                             value member.vitality
                             range member.get_max("vitality")
                             thumb None

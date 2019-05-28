@@ -245,9 +245,9 @@ screen chars_list(source=None):
                             align 1.0, 1.0 offset 9, -2
                             action ToggleSetMembership(the_chosen, c)
                             if c in the_chosen:
-                                add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align .5, .5
+                                add scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25) align .5, .5
                             else:
-                                add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align .5, .5
+                                add scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25) align .5, .5
                             tooltip 'Select the character'
 
     # Filters:
