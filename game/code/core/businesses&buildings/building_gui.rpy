@@ -467,6 +467,12 @@ screen building_management_leftframe_building_mode:
                                 top_padding 4
                                 action Return(["bm_mid_frame_mode", u])
 
+                        python:
+                            if u in BUILDING._businesses:
+                                yes_action = Function(BUILDING.close_business, u, pay=True)
+                            else:
+                                yes_action = Function(BUILDING.remove_upgrade, u, pay=True)
+
                         imagebutton:
                             align 1.0, 0 offset 2, -2
                             idle ProportionalScale("content/gfx/interface/buttons/close4.png", 20, 24)
@@ -474,7 +480,7 @@ screen building_management_leftframe_building_mode:
                             insensitive im.Sepia(ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24))
                             action Show("yesno_prompt",
                                  message="Are you sure you wish to close this %s for %d Gold?" % (u.name, u.get_price()),
-                                 yes_action=[Function(BUILDING.close_business, u, pay=True), Hide("yesno_prompt")], no_action=Hide("yesno_prompt"))
+                                 yes_action=[yes_action, Hide("yesno_prompt")], no_action=Hide("yesno_prompt"))
                             sensitive u.can_be_sold()
                             tooltip "Close the business"
 

@@ -724,6 +724,17 @@ init -10 python:
             self._upgrades.append(upgrade)
             self._upgrades.sort(key=attrgetter("SORTING_ORDER"), reverse=True)
 
+        def remove_upgrade(self, upgrade, pay=False):
+            cost, materials, in_slots, ex_slots = self.get_extension_cost(upgrade)
+            self.in_slots -= in_slots
+            self.ex_slots -= ex_slots
+
+            if pay:
+                self.pay_for_extension(upgrade.get_price(), None)
+
+            self._upgrades.remove(upgrade)
+            self._upgrades.sort(key=attrgetter("SORTING_ORDER"), reverse=True)
+
         def all_possible_extensions(self):
             # Returns a list of all possible extensions (businesses and upgrades)
             return self.allowed_businesses + self.allowed_upgrades
