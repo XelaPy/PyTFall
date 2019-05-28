@@ -240,19 +240,19 @@ screen main_menu():
                     at patreon_hover
                     xalign .5
                     xysize (100, 100)
-                    background ProportionalScale("content/gfx/interface/icons/credits/x_hole_idle.png", 100, 100)
-                    hover_background ProportionalScale("content/gfx/interface/icons/credits/x_hole_hover.png", 100, 100)
+                    background pscale("content/gfx/interface/icons/credits/x_hole_idle.png", 100, 100)
+                    hover_background pscale("content/gfx/interface/icons/credits/x_hole_hover.png", 100, 100)
                     action OpenURL('https://www.patreon.com/xelapy')
-                    add At(ProportionalScale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
+                    add At(pscale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
                 # null width 10
                 button:
                     at patreon_hover
                     xalign .5
                     xysize (100, 100)
-                    background ProportionalScale("content/gfx/interface/icons/credits/dark_hole_idle.png", 100, 100)
-                    hover_background ProportionalScale("content/gfx/interface/icons/credits/dark_hole_hover.png", 100, 100)
+                    background pscale("content/gfx/interface/icons/credits/dark_hole_idle.png", 100, 100)
+                    hover_background pscale("content/gfx/interface/icons/credits/dark_hole_hover.png", 100, 100)
                     action OpenURL('https://www.patreon.com/darkt')
-                    add At(ProportionalScale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
+                    add At(pscale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
 
     # button:
         # background "content/gfx/interface/logos/gibc.png"
@@ -393,7 +393,7 @@ screen credits():
                                 background ProportionalScale("content/gfx/interface/icons/credits/x_hole_idle.png", 100, 100)
                                 hover_background ProportionalScale("content/gfx/interface/icons/credits/x_hole_hover.png", 100, 100)
                                 action OpenURL('https://www.patreon.com/xelapy')
-                                add At(ProportionalScale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
+                                add At(pscale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
                             null height 3
                             text " XelaPy " xalign .5 size 30 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
                             hbox:
@@ -422,10 +422,10 @@ screen credits():
                             button:
                                 xalign .5
                                 xysize (100, 100)
-                                background ProportionalScale("content/gfx/interface/icons/credits/dark_hole_idle.png", 100, 100)
-                                hover_background ProportionalScale("content/gfx/interface/icons/credits/dark_hole_hover.png", 100, 100)
+                                background pscale("content/gfx/interface/icons/credits/dark_hole_idle.png", 100, 100)
+                                hover_background pscale("content/gfx/interface/icons/credits/dark_hole_hover.png", 100, 100)
                                 action OpenURL('https://www.patreon.com/darkt')
-                                add At(ProportionalScale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
+                                add At(pscale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
                             null height 3
                             text " DarkTl ":
                                 align .5, 1.0

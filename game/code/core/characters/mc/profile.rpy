@@ -570,7 +570,7 @@ screen hero_profile():
     # AP ====================================>
     frame:
         align .5, .95
-        background ProportionalScale("content/gfx/frame/frame_ap2.webp", 190, 80)
+        background pscale("content/gfx/frame/frame_ap2.webp", 190, 80)
         label "[hero.AP]":
             pos (130, -2)
             style "content_label"

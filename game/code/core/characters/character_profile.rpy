@@ -691,7 +691,7 @@ screen char_profile():
             frame:
                 xalign .5 ypos 160
                 xysize 300, 90
-                background ProportionalScale("content/gfx/frame/frame_ap.webp", 300, 100)
+                background pscale("content/gfx/frame/frame_ap.webp", 300, 100)
                 label ("[char.AP]"):
                     pos (200, 0)
                     style "content_label"

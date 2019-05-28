@@ -27,7 +27,7 @@ define config.quicksave_slots = 6
 define config.window_icon = "content/gfx/interface/icons/win_icon.png"
 define config.adjust_view_size = None
 define config.image_cache_size_mb = 1000
-# define config.debug_image_cache = True
+define config.debug_image_cache = True
 
 init -999 python:
     def show_panic_screen_func():
@@ -173,7 +173,7 @@ init -5 python hide:
         ## The background of the game menu. This can be a color
         ## beginning with '#', or an image filename. The latter
         ## should take up the full height and width of the screen.
-        gm_root = "content/gfx/bg/gallery.webp",
+        gm_root = Null(),
 
         ## If this is True, the in-game window is rounded. If False,
         ## the in-game window is square.

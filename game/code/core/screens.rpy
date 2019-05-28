@@ -373,7 +373,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                 xalign .5 ypos 3
                 xysize 170, 50
                 focus_mask True
-                background ProportionalScale("content/gfx/frame/frame_ap.webp", 170, 50)
+                background pscale("content/gfx/frame/frame_ap.webp", 170, 50)
                 action NullAction()
                 tooltip tt_string
                 hbox:
@@ -418,8 +418,8 @@ screen top_stripe(show_return_button=True, return_button_action=None,
 
             if renpy.current_screen().tag not in ["quest_log"]:
                 imagebutton:
-                    idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
-                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(.15))
+                    idle Transform("content/gfx/interface/buttons/journal1.png", size=(36, 40))
+                    hover Transform(im.MatrixColor("content/gfx/interface/buttons/journal1.png", im.matrix.brightness(.15)), size=(36, 40))
                     tooltip "Quest Journal"
                     action ShowMenu("quest_log")
 

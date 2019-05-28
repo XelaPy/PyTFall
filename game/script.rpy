@@ -67,6 +67,9 @@ label start:
         pytfall = PyTFallWorld()
         tl.end("Loading: PyTFallWorld")
 
+    call city_map_predict
+
+    python:
         tl.start("Loading: Menu Extensions")
         menu_extensions = MenuExtension()
         menu_extensions["Abby The Witch Main"] = []
@@ -563,4 +566,8 @@ label after_load:
             del store.tiered_items[None]
 
     stop music
+    return
+
+label before_main_menu:
+    pause 1.0
     return

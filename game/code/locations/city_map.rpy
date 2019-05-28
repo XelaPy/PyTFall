@@ -88,8 +88,8 @@ screen city_screen():
         pos (979, 4)
         spacing 4
         imagebutton:
-            idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
-            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(.15))
+            idle Transform("content/gfx/interface/buttons/journal1.png", size=(36, 40))
+            hover Transform(im.MatrixColor("content/gfx/interface/buttons/journal1.png", im.matrix.brightness(.15)), size=(36, 40))
             tooltip "Quest Journal"
             action ShowMenu("quest_log")
         imagebutton:
@@ -126,7 +126,7 @@ screen city_screen():
         true=[Preference("sound mute", "disable"), Preference("music mute", "disable")],
         false=[Preference("sound mute", "enable"), Preference("music mute", "enable")])]
 
-    add ProportionalScale("content/gfx/frame/frame_ap.webp", 155, 50) pos (1040, 90)
+    add pscale("content/gfx/frame/frame_ap.webp", 155, 50) pos (1040, 90)
     text "[hero.AP]" style "TisaOTM" color "#f1f1e1" size 24 outlines [(1, "#3a3a3a", 0, 0)] pos (1143, 85)
     fixed:
         pos (1202, 99)

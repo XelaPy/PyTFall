@@ -20,35 +20,6 @@ label mainscreen:
         $ persistent.showed_pyp_hint = True
         show screen tutorial
 
-    # Prediction Helpers:
-    # TODO lt: Stop predictions when we've moved to far away from the images!
-    python hide:
-        main_img_predict = [item for sl in (("".join([pytfall.map_pattern, key, ".webp"]),
-                            "".join([pytfall.map_pattern, key, "_hover.webp"]),
-                            "".join(["content/gfx/interface/buttons/locations/", key, ".png"]))
-                              for key in (i["id"] for i in pytfall.maps("pytfall")))
-                            for item in sl]
-        main_img_predict.extend(("bg gallery",
-                                 "content/gfx/frame/h2.webp",
-                                 "content/gfx/frame/p_frame.png",
-                                 "content/gfx/frame/rank_frame.png",
-                                 "content/gfx/images/m_1.webp",
-                                 "content/gfx/images/m_2.webp",
-                                 "content/gfx/images/fishy.png",
-                                 "content/gfx/interface/buttons/compass.png",
-                                 "content/gfx/interface/buttons/IT2.png",
-                                 "content/gfx/interface/buttons/sl_idle.png",
-                                 "content/gfx/interface/icons/exp.webp",
-                                 "content/gfx/interface/icons/gold.png",
-                                 "content/gfx/interface/images/work.webp"))
-        # for i in store.items.values():
-        #     main_img_predict.append(i.icon)
-        renpy.start_predict(*main_img_predict)
-
-        main_scr_predict = ["city_screen", "chars_list"]
-        for scr in main_scr_predict:
-            renpy.start_predict_screen(scr)
-
     $ pytfall.world_events.next_day() # Get new set of active events
     $ pytfall.world_quests.run_quests("auto") # Unsquelch active quests
     $ pytfall.world_events.run_events("auto") # Run current events
@@ -73,7 +44,9 @@ screen mainscreen():
     key "mousedown_3" action Show("s_menu", transition=dissolve)
 
     # Main pic:
-    add im.Scale("content/gfx/bg/main_brothel.webp", config.screen_width, config.screen_height-40) at fade_from_to(.0, 1.0, 2.0) ypos 40
+    add Transform("content/gfx/bg/main_brothel.webp", size=(config.screen_width, config.screen_height-40)):
+        ypos 40
+        # at fade_from_to(.0, 1.0, 2.0)
 
     frame:
         align .995, .88
