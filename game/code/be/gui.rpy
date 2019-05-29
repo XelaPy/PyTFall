@@ -207,6 +207,7 @@ screen pick_skill(char):
                     cols 6
                     spacing 3
                     scrollbars "vertical"
+                    mousewheel True
                     xysize (1280, 380)
                     side_xalign .5
                     $ attacks.sort(key=attrgetter("mn"))
