@@ -10,6 +10,14 @@ label city_map_predict:
         renpy.start_predict(*city_map_predict)
     return
 
+label items_ptedict:
+    python hide:
+        items_predict = []
+        for item in items.values():
+            items_predict.append(item.icon)
+        renpy.start_predict(*items_predict)
+    return
+
 
 init python hide:
     gui_predict = []
