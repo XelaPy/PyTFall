@@ -616,8 +616,8 @@ screen hero_team():
         hbox:
             xalign .5
             for member in hero.team:
-                $ img = member.show("portrait", resize=(120, 120), cache=True)
-                #spacing 7
+                $ img = member.show("portrait", resize=(120, 120), label_cache=True)
+                # spacing 7
                 # Portrait/Button:
                 fixed:
                     align .5, .5
@@ -628,7 +628,7 @@ screen hero_team():
                         style "basic_choice2_button"
                         idle img
                         hover img
-                        selected_idle Transform(img, alpha=1.05)
+                        # selected_idle Transform(img, alpha=1.05)
                         action None
 
                     python:

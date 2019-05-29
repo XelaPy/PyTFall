@@ -310,7 +310,7 @@ screen battle_overlay(be):
         align .5, .01
         for member in battle.teams[0]:
             python:
-                profile_img = member.show('portrait', resize=(93, 93), cache=True)
+                profile_img = member.show('portrait', resize=(93, 93), label_cache=True)
                 if member in battle.corpses:
                     try:
                         profile_img = im.Sepia(profile_img)
