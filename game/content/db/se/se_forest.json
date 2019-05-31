@@ -12,7 +12,7 @@
         "unlocked": true,
         "mobs": ["Black Butterfly", "Black Wolf", "Link Wolf", "Bear", "Minotaur", "Minotauress", "Bemoth"],
         "unlocks": {
-            "Sinister Forest": 100
+            "Cursed Forest": 100
         },
         "travel_time": 0.2,
         "cash_limit": 20,
@@ -25,7 +25,7 @@
         "tier": 1.0,
         "travel_time": 1.0,
         "area": "Cursed Forest",
-        "unlocked": false,
+        "unlocked": true,
         "mobs": ["Werewolf", "Weregirl", "Werecat", "Undead Rat", "Arachna"],
         "unlocks": {"Black Woods": 80, "Dead Forest": 40},
         "cash_limit": 100,
@@ -40,7 +40,7 @@
         "area": "Cursed Forest",
         "unlocked": false,
         "mobs": ["Undead Rat", "Undead Werecat", "Undead Unicorn", "Naga Archer", "Naga Warrior"],
-        "unlocks": {"Elven Burial Grounds": 80, "Cursed Forest": 90},
+        "unlocks": {"Elven Burial Grounds": 80},
         "cash_limit": 200,
         "items_price_limit": 700
     },
