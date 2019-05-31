@@ -29,13 +29,20 @@ init python hide:
     # gui_predict.append()
     # gui_predict.append()
 
-    gui_predict.extend(("content/gfx/frame/h2.webp",
+    gui_predict.extend(("content/gfx/frame/hp_1.png",
+                        "content/gfx/frame/h2.webp",
+                        'content/gfx/frame/ink_box.png',
                          "content/gfx/frame/p_frame.png",
+                         'content/gfx/frame/p_frame2.png',
+                         'content/gfx/frame/p_frame4.png',
+                         'content/gfx/frame/p_frame5.png',
+                         'content/gfx/frame/p_frame6.png',
                          "content/gfx/interface/buttons/sl_idle.png",
                          "content/gfx/frame/rank_frame.png",
                          "content/gfx/images/m_1.webp",
                          "content/gfx/images/m_2.webp",
                          "content/gfx/images/fishy.png",
+                         'content/gfx/frame/base_frame.webp',
                          "content/gfx/interface/buttons/IT2.png",
                          "content/gfx/interface/icons/exp.webp",
                          "content/gfx/interface/icons/gold.png",
@@ -47,6 +54,8 @@ init python hide:
                          'content/gfx/interface/buttons/op3.png',
                          'content/gfx/frame/window_frame2.webp',
                          'content/gfx/interface/buttons/choice_buttons1.png',
+                         'content/gfx/interface/buttons/choice_buttons1h.png',
+                         'content/gfx/interface/buttons/choice_buttons2.png',
                          'content/gfx/interface/buttons/close.png',
                          'content/gfx/interface/icons/checkbox_checked.png',
                          'content/gfx/interface/icons/checkbox_unchecked.png',
@@ -56,7 +65,7 @@ init python hide:
                          "content/gfx/interface/buttons/close4.png",
                          "content/gfx/interface/buttons/close4_h.png",
                          'content/gfx/frame/MC_bg3.png',
-                         'content/gfx/frame/hp_1.png',
+                         'content/gfx/frame/stat_box_proper.png',
                          'content/gfx/frame/settings1.webp',
                          'content/gfx/frame/frame_it1.png',
                          'content/gfx/bg/h_profile.webp',
@@ -67,13 +76,17 @@ init python hide:
                          'content/gfx/interface/images/pentagon1.png',
                          "content/gfx/interface/buttons/row_switch.png",
                          'content/gfx/frame/frame_ap2.webp',
+                         'content/gfx/interface/icons/move15.png',
 
                          'content/gfx/interface/images/atk.png',
                          'content/gfx/interface/images/def.png',
                          'content/gfx/interface/images/agi.png',
                          'content/gfx/interface/images/luck.png',
                          'content/gfx/interface/images/mag.png',
-                         
+
+                         'content/gfx/interface/icons/slave.png',
+                         'content/gfx/interface/icons/free.png',
+
                          'content/gfx/interface/icons/stars/legendary.png'
                          ))
 

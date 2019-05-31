@@ -667,7 +667,7 @@ screen hero_team():
                 frame:
                     xsize 162
                     padding 10, 5
-                    background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 5, 5)
+                    background Frame(Transform("content/gfx/frame/p_frame2.png", alpha=.6), 5, 5)
                     has vbox spacing 4 xfill True
                     fixed:
                         xysize 158, 25

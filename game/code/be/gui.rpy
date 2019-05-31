@@ -345,7 +345,7 @@ screen battle_overlay(be):
                 frame:
                     padding 8, 2
                     xsize 155
-                    background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 5, 5)
+                    background Frame(Transform("content/gfx/frame/p_frame2.png", alpha=.6), 5, 5)
                     has vbox
 
                     label "[member.name]":

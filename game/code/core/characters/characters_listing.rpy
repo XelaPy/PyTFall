@@ -123,7 +123,7 @@ screen chars_list(source=None):
                     frame:
                         xpos 120
                         xysize (335, 110)
-                        background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 10, 10)
+                        background Frame(Transform("content/gfx/frame/p_frame2.png", alpha=.6), 10, 10)
                         label "[c.name]":
                             text_size 18
                             xpos 10
@@ -224,7 +224,7 @@ screen chars_list(source=None):
                                     status_img = "content/gfx/interface/icons/gravestone.png"
                                 else:
                                     status_img = "content/gfx/interface/icons/question.png"
-                            add ProportionalScale(status_img, 40, 40)
+                            add pscale(status_img, 40, 40)
 
                         vbox:
                             align 1.0, .6 xoffset 5

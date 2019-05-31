@@ -878,7 +878,7 @@ screen next_day():
                     yalign .5
                     xpos 178
                     xysize 155, 110
-                    background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame2.png", alpha=.6), 10, 10)
                     vbox:
                         label "[hero.name]":
                             text_size 16
