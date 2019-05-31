@@ -604,8 +604,8 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
             imagebutton:
                 align .99, .01
                 xysize 22, 22
-                idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
-                hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
+                idle pscale("content/gfx/interface/buttons/close4.png", 22, 22)
+                hover pscale("content/gfx/interface/buttons/close4_h.png", 22, 22)
                 action Hide("show_trait_info"), With(dissolve)
                 keysym "mousedown_3"
     else:
@@ -667,7 +667,7 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
             imagebutton:
                 align .99, .01
                 xysize 22, 22
-                idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
-                hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
+                idle pscale("content/gfx/interface/buttons/close4.png", 22, 22)
+                hover pscale("content/gfx/interface/buttons/close4_h.png", 22, 22)
                 action Hide("show_trait_info"), With(dissolve)
                 keysym "mousedown_3"
