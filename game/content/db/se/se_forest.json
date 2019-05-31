@@ -40,7 +40,7 @@
         "area": "Cursed Forest",
         "unlocked": false,
         "mobs": ["Undead Rat", "Undead Werecat", "Undead Unicorn", "Naga Archer", "Naga Warrior"],
-        "unlocks": {"Elven Burial Grounds": 80},
+        "unlocks": {"Elven Burial Grounds": 80, "Cursed Forest": 90},
         "cash_limit": 200,
         "items_price_limit": 700
     },
