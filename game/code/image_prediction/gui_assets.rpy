@@ -1,5 +1,5 @@
 label city_map_predict:
-    python hide:
+    python:
         city_map_predict = [item for sl in (("".join([pytfall.map_pattern, key, ".webp"]),
                                         "".join([pytfall.map_pattern, key, "_hover.webp"]),
                                         "".join(["content/gfx/interface/buttons/locations/", key, ".png"]))
@@ -88,6 +88,8 @@ init python hide:
                          'content/gfx/images/jp2.png',
                          'content/gfx/images/magic2.png',
                          'content/gfx/images/birds1.webp',
+                         'content/gfx/images/bg_gradient2.webp',
+                         'content/gfx/interface/buttons/hp_1s.png',
 
                          'content/gfx/interface/images/atk.png',
                          'content/gfx/interface/images/def.png',
