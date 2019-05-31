@@ -329,7 +329,7 @@ screen building_management_midframe_exploration_guild_mode:
                                     $ item = focused_log.item
                                     vbox:
                                         spacing 10 xfill True
-                                        add ProportionalScale(item.icon, 100, 100) xalign .5
+                                        add pscale(item.icon, 100, 100) xalign .5
                                         text item.desc xalign .5 style "stats_value_text" size 14 color ivory
             elif fg_mid_log_mode == "info":
                 hbox:
@@ -443,9 +443,9 @@ screen building_management_midframe_exploration_guild_mode:
                                         xysize 60, 60
                                         align .99, .5
                                         if i in area.found_items:
-                                            add ProportionalScale(item.icon, 57, 57) align .5, .5
+                                            add pscale(item.icon, 57, 57) align .5, .5
                                         else:
-                                            add ProportionalScale("content/buildings/upgrades/the_eye.webp", 57, 57) align .5, .5
+                                            add pscale("content/buildings/upgrades/the_eye.webp", 57, 57) align .5, .5
 
             # Toggle mode:
             # Launch teams:

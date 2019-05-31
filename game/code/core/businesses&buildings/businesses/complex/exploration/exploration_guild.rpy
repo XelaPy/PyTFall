@@ -560,6 +560,8 @@ init -6 python: # Guild, Tracker and Log.
             for c in team:
                 if check_for_impairments(c):
                     return c
+                if c.workplace == schools["-PyTFall Educators-"]:
+                    return c
 
             # Setup Explorers:
             for char in team:

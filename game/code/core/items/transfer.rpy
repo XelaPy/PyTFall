@@ -272,18 +272,17 @@ screen items_transfer(it_members):
                     xysize(540, 330)
                     #yminimum 330
                     spacing 12
-                    #scrollbars 'vertical' 
+                    #scrollbars 'vertical'
 
                     $ fc = selection[0]
                     for item in selection[1]:
                         frame:
                             background Frame("content/gfx/frame/frame_it2.png", 5, 5)
                             xysize (80, 80)
-                            $ img = ProportionalScale(item.icon, 60, 60)
                             imagebutton:
-                                idle img
-                                hover im.MatrixColor(img, im.matrix.brightness(.10))
+                                idle pscale(item.icon, 60, 60)
+                                hover pscale(im.MatrixColor(item.icon, im.matrix.brightness(.10)), 60, 60)
                                 action Function(it_item_click, selection, None, item)
                                 tooltip "%s" % item.id
-                            $ amount = fc.inventory[item] if (fc and fc.inventory) else 0 
+                            $ amount = fc.inventory[item] if (fc and fc.inventory) else 0
                             text "[amount]" align 1.0, 1.0 style "dropdown_gm2_button_value_text"

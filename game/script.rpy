@@ -67,8 +67,6 @@ label start:
         pytfall = PyTFallWorld()
         tl.end("Loading: PyTFallWorld")
 
-    call city_map_predict
-
     python:
         tl.start("Loading: Menu Extensions")
         menu_extensions = MenuExtension()
@@ -113,6 +111,9 @@ label start:
     call sort_items_for_gameplay from _call_sort_items_for_gameplay
 
     $ tl.end("Loading/Sorting: Items")
+
+    call city_map_predict
+    call items_ptedict
 
     python: # Dungeons (Building (Old))
         tl.start("Loading: Dungeons")

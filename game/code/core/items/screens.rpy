@@ -8,7 +8,11 @@ screen items_inv(char=None, main_size=(553, 282), frame_size=(90, 90), return_va
                 xysize frame_size
                 if char.inventory[item]:
                     background Frame("content/gfx/frame/frame_it2.png", -1, -1)
-                    use r_lightbutton (img=ProportionalScale(item.icon, 70, 70), return_value=return_value+[item], align=(.5, .5))
+                    imagebutton:
+                        align .5, .5
+                        idle pscale(item.icon, 70, 70)
+                        hover pscale(im.MatrixColor(item.icon, im.matrix.brightness(.15)), 70, 70)
+                        action Return(return_value+[item])
                     label (u"{color=#ecc88a}%d" % char.inventory[item]):
                         align (.995, .995)
                         style "stats_label_text"
@@ -17,7 +21,7 @@ screen items_inv(char=None, main_size=(553, 282), frame_size=(90, 90), return_va
                 else:
                     # in groups indicate some have the item
                     background Frame("content/gfx/frame/frame_it1.png", -1, -1)
-                    use r_lightbutton (img=ProportionalScale(im.Sepia(item.icon), 70, 70), return_value=return_value+[item], align=(.5, .5))
+                    use r_lightbutton(img=ProportionalScale(im.Sepia(item.icon), 70, 70), return_value=return_value+[item], align=(.5, .5))
 
 screen eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(.23, .23), return_value=['item', 'get'], txt_size=17, fx_size=(300, 320)):
     # active_mode = Allows equipped item to be focused if true, otherwise just dispayes a picture of an item (when equipped).
@@ -153,7 +157,7 @@ screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=Fals
                         yalign .5
                         background Frame("content/gfx/frame/frame_it2.png", 5, 5)
                         xysize (130, 130)
-                        add (ProportionalScale(item.icon, 110, 110)) align .5, .5
+                        add pscale(item.icon, 110, 110) align .5, .5
                     frame:
                         background Frame("content/gfx/frame/p_frame4.png", 10, 10)
                         padding 15, 15
@@ -309,7 +313,7 @@ screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=Fals
                     xalign .5
                     background Frame("content/gfx/frame/p_frame7.webp", 10, 10)
                     viewport:
-                        mousewheel True 
+                        mousewheel True
                         xysize (460, 100)
                         has vbox
                         if item.type == "scroll":
@@ -319,7 +323,7 @@ screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=Fals
                             for i in item.add_be_spells:
                                 if i in battle_skills.keys():
                                     text battle_skills[i].desc + "\n" style "TisaOTM" size 16 color gold
-                                    
+
                         else:
                             text '[item.desc]' style "TisaOTM" size 16 color gold
 

@@ -1044,7 +1044,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                     align (.5, .5)
                     background Frame("content/gfx/frame/frame_it2.png", 5, 5)
                     xysize (120, 120)
-                    add (ProportionalScale(item.icon, 100, 100)) align(.5, .5)
+                    add (pscale(item.icon, 100, 100)) align(.5, .5)
 
                 if item_direction == 'unequip':
                     $ temp = "Unequip"

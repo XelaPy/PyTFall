@@ -67,7 +67,10 @@ label building_management:
                 elif result[1] == "explore_area":
                     result = bm_mid_frame_mode.launch_team(result[2])
                     if isinstance(result, PytCharacter):
-                        renpy.show_screen("message_screen", "{} is not in shape to explore anything :(".format(result.name))
+                        if result.workplace == schools["-PyTFall Educators-"]:
+                            renpy.show_screen("message_screen", "{} is taking a course in School!".format(result.name))
+                        else:
+                            renpy.show_screen("message_screen", "{} is not in shape to explore anything :(".format(result.name))
                     else:
                         rebuild_se_dd()
                         jump("building_management")
