@@ -1359,9 +1359,9 @@ screen cheats_screen:
         text "Cheats" size 20 color goldenrod outlines [(2, "#3a3a3a", 0, 0)] align 0.4, 0
         imagebutton:
             align 1.0, 0 offset 2, -2
-            idle ProportionalScale("content/gfx/interface/buttons/close4.png", 20, 24)
-            hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24)
-            insensitive im.Sepia(ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24))
+            idle pscale("content/gfx/interface/buttons/close4.png", 20, 24)
+            hover pscale("content/gfx/interface/buttons/close4_h.png", 20, 24)
+            insensitive pscale(im.Sepia("content/gfx/interface/buttons/close4_h.png"), 20, 24)
             action Hide("cheats_screen")
 
         vbox:

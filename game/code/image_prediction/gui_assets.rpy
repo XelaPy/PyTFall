@@ -54,7 +54,27 @@ init python hide:
                          "content/gfx/interface/buttons/close2_h.png",
                          "content/gfx/interface/buttons/blue_arrow.png",
                          "content/gfx/interface/buttons/close4.png",
-                         "content/gfx/interface/buttons/close4_h.png"
+                         "content/gfx/interface/buttons/close4_h.png",
+                         'content/gfx/frame/MC_bg3.png',
+                         'content/gfx/frame/hp_1.png',
+                         'content/gfx/frame/settings1.webp',
+                         'content/gfx/frame/frame_it1.png',
+                         'content/gfx/bg/h_profile.webp',
+                         'content/gfx/frame/h_profile2.webp',
+                         'content/gfx/interface/bars/exp_full.png',
+                         'content/gfx/interface/bars/exp_empty.png',
+                         'content/gfx/interface/images/exp_b.png',
+                         'content/gfx/interface/images/pentagon1.png',
+                         "content/gfx/interface/buttons/row_switch.png",
+                         'content/gfx/frame/frame_ap2.webp',
+
+                         'content/gfx/interface/images/atk.png',
+                         'content/gfx/interface/images/def.png',
+                         'content/gfx/interface/images/agi.png',
+                         'content/gfx/interface/images/luck.png',
+                         'content/gfx/interface/images/mag.png',
+                         
+                         'content/gfx/interface/icons/stars/legendary.png'
                          ))
 
     gui_predict.extend(("content/gfx/interface/images/elements/ice.png",
