@@ -1,10 +1,4 @@
-    [{
-        "id": "Gardens of Eden",
-        "main": true,
-        "unlocked": false,
-        "stage": 10,
-        "img": "content/gfx/bg/locations/edem.webp"
-    },
+    [
     {
         "id": "Floating Islands",
         "desc": "Most holy creatures prefer to live far from land surface to emphasize their importance. Trespassers are attacked without warning.",

@@ -1,20 +1,5 @@
 [
     {
-        "id": "Dark Forest",
-        "main": true,
-        "unlocked": true,
-        "stage": 1,
-        "img": "content/gfx/bg/locations/night_forest.webp"
-    },
-    {
-        "id": "Forest Catacombs",
-        "main": true,
-        "unlocked": false,
-        "stage": 1,
-        "img": "content/gfx/bg/locations/fg_areas_burial_2.webp"
-    },
-    
-    {
         "id": "Forest Maze",
         "stage": 1,
         "tier": 0.7,
@@ -34,7 +19,7 @@
         "items_price_limit": 200
     },
     {
-        "id": "Cursed Forest",
+        "id": "Sinister Forest",
         "desc": "A hunting grounds for countless cursed shapeshifters. Hunters and adventurers avoid this part of the forest.",
         "stage": 2,
         "tier": 1.0,
