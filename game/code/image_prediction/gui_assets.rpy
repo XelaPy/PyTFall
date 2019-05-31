@@ -124,7 +124,7 @@ init python hide:
                         "content/gfx/interface/images/elements/small_ice.png",
                         "content/gfx/interface/images/elements/small_light.png",
                         "content/gfx/interface/images/elements/small_water.png",
-                        "content/gfx/interface/images/elements/water.png",
+                        "content/gfx/interface/images/elements/water.png"
                         ))
 
     renpy.start_predict(*gui_predict)

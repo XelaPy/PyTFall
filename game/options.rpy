@@ -26,8 +26,8 @@ python early:
 define config.quicksave_slots = 6
 define config.window_icon = "content/gfx/interface/icons/win_icon.png"
 define config.adjust_view_size = None
-define config.image_cache_size_mb = 1000
-define config.debug_image_cache = True
+define config.image_cache_size_mb = 1250
+define config.debug_image_cache = False
 
 init -999 python:
     def show_panic_screen_func():
