@@ -389,7 +389,7 @@ screen next_day():
                     xysize (330, 50)
                     background Frame("content/gfx/frame/namebox5.png", 10, 10)
                     label (u"Buildings") text_size 23 text_color ivory align .5, .6
-                    add ProportionalScale("content/gfx/images/birds1.webp", 548, 115) pos (-100, 5)
+                    add pscale("content/gfx/images/birds1.webp", 548, 115) pos (-100, 5)
 
                 null height 80
                 # ALL Buildings/Workers SUMMARY:
@@ -804,7 +804,7 @@ screen next_day():
                     text "Total" xoffset 3 color color
                     text "[total]" style_suffix "value_text" xoffset -3 color color
 
-                add ProportionalScale("content/gfx/images/magic2.png", 120, 120) offset 140, -140
+                add pscale("content/gfx/images/magic2.png", 120, 120) offset 140, -140
 
         # Middle Frames =======================================================================>>>>
         # Middle Top: Game Total
@@ -828,8 +828,8 @@ screen next_day():
                 xysize (414, 150)
                 style_prefix "proper_stats"
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 5, 5)
-                add ProportionalScale("content/gfx/images/jp1.png", 68, 101) pos (330, 20)
-                add ProportionalScale("content/gfx/images/jp2.png", 73, 103) pos (12, 20)
+                add pscale("content/gfx/images/jp1.png", 68, 101) pos (330, 20)
+                add pscale("content/gfx/images/jp2.png", 73, 103) pos (12, 20)
 
                 vbox:
                     align .5, .3
@@ -891,8 +891,8 @@ screen next_day():
                             xanchor -8
                             bar:
                                 yalign .5
-                                left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
-                                right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                                left_bar pscale("content/gfx/interface/bars/hp1.png", 150, 20)
+                                right_bar pscale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
                                 value hero.health
                                 range hero.get_max("health")
                                 thumb None
@@ -908,8 +908,8 @@ screen next_day():
                             xanchor -5
                             bar:
                                 yalign .2
-                                left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
-                                right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                                left_bar pscale("content/gfx/interface/bars/mp1.png", 150, 20)
+                                right_bar pscale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
                                 value hero.mp
                                 range hero.get_max("mp")
                                 thumb None
@@ -925,8 +925,8 @@ screen next_day():
                             xanchor -2
                             bar:
                                 yalign .5
-                                left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
-                                right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                                left_bar pscale("content/gfx/interface/bars/vitality1.png", 150, 20)
+                                right_bar pscale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
                                 value hero.vitality
                                 range hero.get_max("vitality")
                                 thumb None
@@ -936,7 +936,7 @@ screen next_day():
                                 text "[hero.vitality]" size 14 color red bold True style_suffix "value_text" yoffset 2 xpos 99
                             else:
                                 text "[hero.vitality]" size 14 color ivory bold True style_suffix "value_text" yoffset 2 xpos 99
-                            add ProportionalScale("content/gfx/images/c1.png", 123, 111) pos (-42, 55)
+                            add pscale("content/gfx/images/c1.png", 123, 111) pos (-42, 55)
 
                 # MC (extra info) -------------------------------------------->>>
                 # Preparing info:
@@ -1077,7 +1077,7 @@ screen next_day():
                 vbox:
                     spacing 5
                     yalign .5
-                    add ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
+                    add pscale("content/gfx/interface/icons/slave.png", 50, 50)
                     text "[slaves]" xalign .5 style "agrevue"
 
                 frame:
@@ -1110,7 +1110,7 @@ screen next_day():
                 vbox:
                     spacing 5
                     yalign .5
-                    add ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
+                    add pscale("content/gfx/interface/icons/free.png", 50, 50)
                     text "[free]" xalign .5 style "agrevue"
 
             # Data:

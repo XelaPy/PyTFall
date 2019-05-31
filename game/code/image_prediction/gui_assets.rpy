@@ -82,6 +82,12 @@ init python hide:
                          'content/gfx/interface/icons/move15.png',
                          'content/buildings/upgrades/the_eye.webp',
                          'content/gfx/frame/namebox5.png',
+                         'content/gfx/interface/buttons/girls_reports.png',
+                         'content/gfx/images/c1.png',
+                         'content/gfx/images/jp1.png',
+                         'content/gfx/images/jp2.png',
+                         'content/gfx/images/magic2.png',
+                         'content/gfx/images/birds1.webp',
 
                          'content/gfx/interface/images/atk.png',
                          'content/gfx/interface/images/def.png',
