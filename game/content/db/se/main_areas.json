@@ -51,7 +51,7 @@
     {
         "id": "Wastelands",
         "main": true,
-        "unlocked": false,
+        "unlocked": true,
         "stage": 8,
         "img": "content/gfx/bg/locations/waste_1.webp"
     },
