@@ -12,7 +12,7 @@
         "unlocked": true,
         "mobs": ["Black Butterfly", "Black Wolf", "Link Wolf", "Bear", "Minotaur", "Minotauress", "Bemoth"],
         "unlocks": {
-            "Cursed Forest": 100
+            "Sinister Forest": 100
         },
         "travel_time": 0.2,
         "cash_limit": 20,
