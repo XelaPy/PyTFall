@@ -1,26 +1,5 @@
 [
     {
-        "id": "Wastelands",
-        "main": true,
-        "unlocked": false,
-        "stage": 5,
-        "img": "content/gfx/bg/locations/waste_1.webp"
-    },
-    {
-        "id": "Old Fortress",
-        "main": true,
-        "unlocked": false,
-        "stage": 6,
-        "img": "content/gfx/bg/locations/dw_fortress.webp"
-    },
-    {
-        "id": "Flooded Lowlands",
-        "main": true,
-        "unlocked": false,
-        "stage": 7,
-        "img": "content/gfx/bg/locations/swamp.webp"
-    },
-    {
         "id": "Fortress Entrance",
         "stage": 1,
         "tier": 0.75,

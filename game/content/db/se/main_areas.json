@@ -1,0 +1,79 @@
+[
+    {
+        "id": "Dark Forest",
+        "main": true,
+        "unlocked": true,
+        "stage": 1,
+        "img": "content/gfx/bg/locations/night_forest.webp"
+    },
+    {
+        "id": "Forest Catacombs",
+        "main": true,
+        "unlocked": false,
+        "stage": 2,
+        "img": "content/gfx/bg/locations/fg_areas_burial_2.webp"
+    },
+    {
+        "id": "Cursed Forest",
+        "main": true,
+        "unlocked": false,
+        "stage": 3,
+        "img": "content/gfx/bg/locations/fg_areas_northern_deep.webp"
+    },
+    {
+        "id": "Gardens of Eden",
+        "main": true,
+        "unlocked": false,
+        "stage": 11,
+        "img": "content/gfx/bg/locations/edem.webp"
+    },
+    {
+        "id": "Northern Route",
+        "main": true,
+        "unlocked": true,
+        "stage": 4,
+        "img": "content/gfx/bg/locations/fg_areas_northern.webp"
+    },
+    {
+        "id": "Burial Grounds",
+        "main": true,
+        "unlocked": false,
+        "stage": 5,
+        "img": "content/gfx/bg/locations/fg_areas_burial_1.webp"
+    },
+    {
+        "id": "Frozen Caverns",
+        "main": true,
+        "unlocked": false,
+        "stage": 6,
+        "img": "content/gfx/bg/locations/fg_areas_frozen_1.webp"
+    },
+    {
+        "id": "Wastelands",
+        "main": true,
+        "unlocked": true,
+        "stage": 8,
+        "img": "content/gfx/bg/locations/waste_1.webp"
+    },
+    {
+        "id": "Old Fortress",
+        "main": true,
+        "unlocked": false,
+        "stage": 9,
+        "img": "content/gfx/bg/locations/dw_fortress.webp"
+    },
+    {
+        "id": "Flooded Lowlands",
+        "main": true,
+        "unlocked": false,
+        "stage": 10,
+        "img": "content/gfx/bg/locations/swamp.webp"
+    },
+    {
+        "id": "Elven Forest",
+        "main": true,
+        "unlocked": false,
+        "stage": 7,
+        "img": "content/gfx/bg/locations/forest_1.webp"
+    }
+]
