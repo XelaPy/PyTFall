@@ -569,6 +569,7 @@ label after_load:
     stop music
     return
 
-label before_main_menu:
-    pause 1.0
+label splashscreen:
+    show expression Image("presplash.png")
+    pause 1.5
     return
