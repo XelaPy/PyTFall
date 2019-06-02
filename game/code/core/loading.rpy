@@ -553,7 +553,7 @@ init -11 python:
         content = list()
         folder = content_path('db/se')
         for file in os.listdir(folder):
-            if file.startswith("se_") and file.endswith(".json"):
+            if file.endswith(".json"):
                 in_file = content_path("".join(["db/se/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
