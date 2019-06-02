@@ -1,0 +1,82 @@
+[{
+		"id": "Forest Catacombs",
+		"main": true,
+		"unlocked": false,
+		"stage": 2,
+		"img": "content/gfx/bg/locations/fg_areas_burial_2.webp"
+	},
+	{
+		"id": "Ancient Tombs",
+		"desc": "Ancient races built these massive underground tombs many centuries ago. Creatures of death and darkness populate it now.",
+		"stage": 1,
+		"tier": 3.5,
+		"travel_time": 3.0,
+		"area": "Forest Catacombs",
+		"unlocked": true,
+		"mobs": ["Shadowman", "Horny Mummy", "Dark Spirit", "Crawler", "Spectre"],
+		"unlocks": {
+			"The Bottom": 80,
+			"Treasures Rooms": 50
+		},
+		"cash_limit": 400,
+		"items_price_limit": 1500,
+		"hazard": {
+			"health": 0,
+			"mp": 20,
+			"vitality": 0
+		},
+		"items": {
+			"Earthquake Charm": 25
+		}
+	},
+	{
+		"id": "Treasures Rooms",
+		"desc": "Dark underground rooms are filled with gold... and deadly traps.",
+		"stage": 1,
+		"tier": 4.0,
+		"travel_time": 3.3,
+		"exploration_multiplier": 0.5,
+		"area": "Forest Catacombs",
+		"unlocked": false,
+		"mobs": ["Phantasm", "Spectre", "Woolman", "Cyclop"],
+		"unlocks": {},
+		"cash_limit": 5000,
+		"items_price_limit": 0,
+		"hazard": {
+			"health": 100,
+			"mp": 0,
+			"vitality": 50
+		},
+		"items": {
+			"Old Chest": 90,
+			"One For All": 20,
+			"Golden Mask": 30,
+			"Ultimate Healing Potion": 10,
+			"Ultimate Mana Potion": 10
+		}
+	},
+	{
+		"id": "The Bottom",
+		"desc": "Deep under countless floors filled with bones lie unbelievable treasures of the past... and unspeakable monstrosities.",
+		"stage": 1,
+		"tier": 5.0,
+		"travel_time": 3.5,
+		"exploration_multiplier": 1.5,
+		"area": "Forest Catacombs",
+		"unlocked": false,
+		"mobs": ["Undead Cemetery", "Deathling", "Vortex"],
+		"unlocks": {},
+		"cash_limit": 500,
+		"items_price_limit": 3000,
+		"hazard": {
+			"health": 0,
+			"mp": 20,
+			"vitality": 20
+		},
+		"items": {
+			"Scythe of Death": 5,
+			"Mantle of the Keeper": 10
+		}
+
+	}
+]

@@ -1,0 +1,21 @@
+[{
+		"id": "Dark Forest",
+		"main": true,
+		"unlocked": true,
+		"stage": 1,
+		"img": "content/gfx/bg/locations/night_forest.webp"
+	},
+	{
+		"area": "-Dark Forest-",
+		"desc": "Sinister trees form an ever changing massive maze, as if preventing travelers from going deeper into the forest.",
+		"unlocked": true,
+		"mobs": ["Black Butterfly", "Black Wolf", "Link Wolf", "Bear", "Minotaur", "Minotauress", "Bemoth"],
+		"unlocks": {
+			"Cursed Forest": 100
+		},
+		"travel_time": 0.2,
+		"cash_limit": 20,
+		"items_price_limit": 200
+	}
+
+]
