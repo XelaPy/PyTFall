@@ -231,6 +231,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
 
     # Hotkeys:
     if renpy.get_screen("mainscreen"):
+        text "MAINSCREEN" size 100 align .5, .5
         if global_flags.flag("visited_arena"):
             key "a" action Function(renpy.scene, "screens"), Jump("arena_inside")
             key "A" action Function(renpy.scene, "screens"), Jump("arena_inside")
@@ -266,10 +267,10 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         key "ш" action temp
         key "Ш" action temp
 
-        key "b" action Return(["building_management"])
-        key "B" action Return(["building_management"])
-        key "и" action Return(["building_management"])
-        key "И" action Return(["building_management"])
+        key "b" action Return(["jump", "building_management"])
+        key "B" action Return(["jump", "building_management"])
+        key "и" action Return(["jump", "building_management"])
+        key "И" action Return(["jump", "building_management"])
 
         key "c" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
         key "C" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
