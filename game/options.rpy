@@ -104,6 +104,9 @@ init -5 python hide:
     # Stop middle click hide menus
     config.keymap["hide_windows"] = None
 
+    # kill the new accessibility menu
+    config.keymap["accessibility"] = None
+
     BLOCKED_LABELS = ["after_load", "save_screen",
                       "sort_items_for_gameplay",
                       "sort_traits_for_gameplay"]
