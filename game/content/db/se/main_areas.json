@@ -1,13 +1,7 @@
 [
 
 
-    {
-        "id": "Cursed Forest",
-        "main": true,
-        "unlocked": false,
-        "stage": 3,
-        "img": "content/gfx/bg/locations/fg_areas_northern_deep.webp"
-    },
+
 
     {
         "id": "Northern Route",
