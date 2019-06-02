@@ -1,12 +1,4 @@
-[
-    {
-        "id": "Forest Maze",
-        "stage": 1,
-        "tier": 0.7,
-        "exploration_multiplier": 3,
-        "items": {
-            "Wood": 35
-        },
+[{
         "area": "Dark Forest",
         "desc": "Sinister trees form an ever changing massive maze, as if preventing travelers from going deeper into the forest.",
         "unlocked": true,
@@ -115,7 +107,7 @@
             "vitality": 20
         },
         "items": {"Scythe of Death": 5, "Mantle of the Keeper": 10}
-        
+
     },
     {
         "id": "Black Woods",

@@ -1,4 +1,11 @@
     [
+      {
+          "id": "Elven Forest",
+          "main": true,
+          "unlocked": false,
+          "stage": 7,
+          "img": "content/gfx/bg/locations/forest_1.webp"
+      },
     {
         "id": "Sacred Grove",
         "desc": "A beautiful almost perfect forest maintained by fairies and dryads. Completely safe for forest dwellers, deadly for others.",
@@ -34,7 +41,7 @@
         },
         "items": {
             "Maid Fairy": 30,
-            "Nymph Fairy": 20, 
+            "Nymph Fairy": 20,
             "Frost Fairy": 10,
             "Faerie Gown": 5,
             "Faerie Boots": 5,
@@ -56,7 +63,7 @@
         "items_price_limit": 1500,
         "items": {
             "Elven Armor": 5,
-            "Elven Ranger Armor": 5, 
+            "Elven Ranger Armor": 5,
             "Elven Sage Armor": 5,
             "Elven Cape": 5,
             "Elven Boots": 5,

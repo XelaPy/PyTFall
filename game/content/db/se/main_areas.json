@@ -20,13 +20,7 @@
         "stage": 3,
         "img": "content/gfx/bg/locations/fg_areas_northern_deep.webp"
     },
-    {
-        "id": "Gardens of Eden",
-        "main": true,
-        "unlocked": false,
-        "stage": 11,
-        "img": "content/gfx/bg/locations/edem.webp"
-    },
+
     {
         "id": "Northern Route",
         "main": true,
@@ -68,12 +62,6 @@
         "unlocked": false,
         "stage": 10,
         "img": "content/gfx/bg/locations/swamp.webp"
-    },
-    {
-        "id": "Elven Forest",
-        "main": true,
-        "unlocked": false,
-        "stage": 7,
-        "img": "content/gfx/bg/locations/forest_1.webp"
     }
+
 ]
