@@ -29,7 +29,7 @@ label mainscreen:
         $ result = ui.interact()
 
         if len(result) > 1:
-            hide mainscreen
+            hide screen mainscreen
             $ pytfall.arena.seen_report = True
             $ reset_building_management = True
             jump expression result[1]
