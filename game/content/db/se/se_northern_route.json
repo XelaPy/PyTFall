@@ -199,11 +199,10 @@
         "unlocks": {},
         "cash_limit": 500,
         "items_price_limit": 800,
-        "items": {"Gardens of Eden": 80
-                    }
+        "items": {}
     },
-    
-    
+
+
     {
         "id": "Frozen Passage Entrance",
         "stage": 1,
