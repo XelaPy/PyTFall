@@ -4,20 +4,8 @@
 
 
 
-    {
-        "id": "Burial Grounds",
-        "main": true,
-        "unlocked": false,
-        "stage": 5,
-        "img": "content/gfx/bg/locations/fg_areas_burial_1.webp"
-    },
-    {
-        "id": "Frozen Caverns",
-        "main": true,
-        "unlocked": false,
-        "stage": 6,
-        "img": "content/gfx/bg/locations/fg_areas_frozen_1.webp"
-    },
+
+
     {
         "id": "Wastelands",
         "main": true,
