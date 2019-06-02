@@ -29,13 +29,14 @@ label mainscreen:
         $ result = ui.interact()
 
         if len(result) > 1:
-            python:
-                renpy.hide_screen("mainscreen")
-                pytfall.arena.seen_report = True
-                jump(result[1])
+            hide mainscreen
+            $ pytfall.arena.seen_report = True
+            $ reset_building_management = True
+            jump expression result[1]
         if result[0] == "jump":
             hide screen mainscreen
             $ pytfall.arena.seen_report = True
+            $ reset_building_management = True
             if result[1] == "city":
                 $ global_flags.set_flag("keep_playing_music")
             jump expression result[1]
