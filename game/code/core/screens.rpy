@@ -231,7 +231,6 @@ screen top_stripe(show_return_button=True, return_button_action=None,
 
     # Hotkeys:
     if renpy.get_screen("mainscreen"):
-        text "MAINSCREEN" size 100 align .5, .5
         if global_flags.flag("visited_arena"):
             key "a" action Function(renpy.scene, "screens"), Jump("arena_inside")
             key "A" action Function(renpy.scene, "screens"), Jump("arena_inside")
