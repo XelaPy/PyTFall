@@ -16,6 +16,7 @@
 		},
 		"travel_time": 0.2,
 		"cash_limit": 20,
+    "stage": 1,
 		"items_price_limit": 200
 	}
 
