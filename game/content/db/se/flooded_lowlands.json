@@ -1,0 +1,60 @@
+[{
+		"id": "Flooded Lowlands",
+		"main": true,
+		"unlocked": false,
+		"stage": 10,
+		"img": "content/gfx/bg/locations/swamp.webp"
+	},
+	{
+		"id": "Old Swamp",
+		"stage": 4,
+		"tier": 2.2,
+		"exploration_multiplier": 2.0,
+		"area": "Flooded Lowlands",
+		"desc": "Numerous underground rivers turned this area into a deadly swamp.",
+		"unlocked": true,
+		"mobs": ["Sahagin", "Skyfish", "Dark Undine", "Horny Medusa", "Ogre", "Steam Cloud"],
+		"unlocks": {
+			"Hidden Lake": 50
+		},
+		"travel_time": 0.5,
+		"cash_limit": 500,
+		"items_price_limit": 700,
+		"items": {
+			"Snowstorm Cape": 25
+		}
+	},
+	{
+		"id": "Hidden Lake",
+		"stage": 5,
+		"tier": 2.5,
+		"exploration_multiplier": 0.8,
+		"area": "Flooded Lowlands",
+		"desc": "Remote little-known lake fed by underground springs. Due to its location and origin the water is incredibly clean, attracting elemental water creatures.",
+		"unlocked": false,
+		"mobs": ["Sahagin", "Sky Jellyfish", "Insect Queen", "Water Spirit"],
+		"unlocks": {
+			"Underwater Caves": 90
+		},
+		"travel_time": 0.6,
+		"cash_limit": 500,
+		"items_price_limit": 700
+	},
+	{
+		"id": "Underwater Caves",
+		"stage": 6,
+		"tier": 3.0,
+		"exploration_multiplier": 2.5,
+		"area": "Flooded Lowlands",
+		"desc": "The bottom of the lake is dotted with numerous miniature caves. They are hard to reach and explore, but can provide exceptional reward.",
+		"unlocked": false,
+		"mobs": ["Cetus", "Shy Rabber", "Angry Rabber", "Naiad", "Aqueous Spirit"],
+		"unlocks": {},
+		"travel_time": 0.7,
+		"cash_limit": 1000,
+		"items_price_limit": 1000,
+		"items": {
+			"Godward Shell": 20
+		}
+	}
+]

@@ -1,0 +1,95 @@
+[{
+		"id": "Old Fortress",
+		"main": true,
+		"unlocked": false,
+		"stage": 9,
+		"img": "content/gfx/bg/locations/dw_fortress.webp"
+	},
+	{
+		"id": "Fortress Entrance",
+		"stage": 1,
+		"tier": 0.75,
+		"exploration_multiplier": 0.5,
+		"area": "Old Fortress",
+		"desc": "This old fortress was used as a command post during the last war. It's nearly destroyed, but underground passage leads deep into the cliff.",
+		"unlocked": true,
+		"mobs": ["Goblin Warrior", "Seeker", "Barbarian", "Barbarian Maiden"],
+		"unlocks": {
+			"Fortress Dungeon": 30
+		},
+		"travel_time": 0.25,
+		"cash_limit": 150,
+		"items_price_limit": 400
+	},
+	{
+		"id": "Fortress Dungeon",
+		"stage": 1,
+		"tier": 1.0,
+		"exploration_multiplier": 0.5,
+		"area": "Old Fortress",
+		"desc": "The dungeon is filled with provisions stocks and weird equipment fragments.",
+		"unlocked": false,
+		"mobs": ["Mimic", "Alarmer", "Electrificator", "Mud Elemental"],
+		"unlocks": {
+			"Deep Caves": 35,
+			"Abandoned Laboratory": 70
+		},
+		"travel_time": 0.26,
+		"cash_limit": 200,
+		"items_price_limit": 500
+	},
+	{
+		"id": "Abandoned Laboratory",
+		"stage": 1,
+		"tier": 1.2,
+		"exploration_multiplier": 0.5,
+		"area": "Old Fortress",
+		"desc": "A small underground complex filled with magical equipment. Most of it is hopelessly broken.",
+		"unlocked": false,
+		"mobs": ["Mimicess", "Treasure Slime", "Earth Elemental", "Ogress"],
+		"unlocks": {},
+		"travel_time": 0.28,
+		"cash_limit": 200,
+		"items_price_limit": 500,
+		"items": {
+			"Fireproof Cape": 25
+		}
+	},
+	{
+		"id": "Deep Caves",
+		"stage": 2,
+		"tier": 1.5,
+		"exploration_multiplier": 1.25,
+		"area": "Old Fortress",
+		"desc": "A big network of semi flooded caves permeates the cliff.",
+		"unlocked": false,
+		"mobs": ["Seductive Slime", "Gargoyle", "Foggy Knight", "Thunder Spirit"],
+		"unlocks": {
+			"Crystal Caves": 65,
+			"Flooded Lowlands": 90
+		},
+		"travel_time": 0.3,
+		"cash_limit": 250,
+		"items_price_limit": 500,
+		"items": {
+			"Weighted Cape": 25
+		}
+	},
+	{
+		"id": "Crystal Caves",
+		"stage": 3,
+		"tier": 2.0,
+		"exploration_multiplier": 1.0,
+		"area": "Old Fortress",
+		"desc": "These caves are filled with sparkling crystals charged with electricity, and the air itself is abuzz with the power.",
+		"unlocked": false,
+		"mobs": ["King Slime", "Undine", "Energized Undine", "Stoner", "Stone Eater", "Thunderous Cloud", "Thunderous Shadow"],
+		"unlocks": {},
+		"travel_time": 0.35,
+		"cash_limit": 400,
+		"items_price_limit": 600,
+		"items": {
+			"Grounded Cape": 25
+		}
+	}
+]

@@ -1,0 +1,81 @@
+
+[{
+		"id": "Wastelands",
+		"main": true,
+		"unlocked": true,
+		"stage": 8,
+		"img": "content/gfx/bg/locations/waste_1.webp"
+	},
+	{
+		"id": "Vast Wasteland",
+		"stage": 1,
+		"tier": 0.5,
+		"exploration_multiplier": 2,
+		"area": "Wastelands",
+		"desc": "A large barren area. Most animals and monsters avoid it, only slimes and occasional bandits can be encountered here.",
+		"unlocked": true,
+		"mobs": ["Slime", "Alkaline Slime", "Acid Slime", "Thug", "Malicious Stone"],
+		"unlocks": {
+			"Abnormal Sands": 60,
+			"Old Fortress": 90
+		},
+		"travel_time": 0.2,
+		"cash_limit": 50,
+		"items_price_limit": 200
+	},
+	{
+		"id": "Abnormal Sands",
+		"desc": "Heavily damaged by anomalistic weapons during the last war, over time fertile meadows became a small desert.",
+		"stage": 2,
+		"tier": 1.0,
+		"travel_time": 1.0,
+		"area": "Wastelands",
+		"unlocked": false,
+		"mobs": ["Amazon Thief", "Amazon Warrior", "Amazon Archer", "Boros", "Lamia", "Gluttony", "Fiery Shadow"],
+		"unlocks": {
+			"Melted Sands": 50,
+			"Big Crater": 90
+		},
+		"cash_limit": 100,
+		"items_price_limit": 500,
+		"hazard": {
+			"health": 5,
+			"mp": 0,
+			"vitality": 10
+		}
+	},
+	{
+		"id": "Melting Sands",
+		"desc": "Something in this area keeps temperature unbearably high, attracting creatures from the dimension of Fire.",
+		"stage": 3,
+		"tier": 1.5,
+		"travel_time": 1.0,
+		"area": "Wastelands",
+		"unlocked": false,
+		"mobs": ["Lava Elemental", "Fire Spirit", "Giant Scorpion", "Lava Elemental", "Fire Spirit", "Ifrit", "Flame Spirit"],
+		"cash_limit": 200,
+		"items_price_limit": 700,
+		"hazard": {
+			"health": 10,
+			"mp": 0,
+			"vitality": 20
+		}
+	},
+	{
+		"id": "Big Crater",
+		"desc": "The center of heat zone, where one of ancient weapons was used. This black pitched area lost the ability to support life of any kind.",
+		"stage": 4,
+		"tier": 2.5,
+		"travel_time": 2.0,
+		"area": "Wastelands",
+		"unlocked": false,
+		"mobs": ["Undead Unicorn", "Chimera", "Quick Silver", "Flaming Fox", "Vortex"],
+		"cash_limit": 300,
+		"items_price_limit": 1000,
+		"hazard": {
+			"health": 25,
+			"mp": 0,
+			"vitality": 5
+		}
+	}
+]
