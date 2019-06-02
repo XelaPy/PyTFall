@@ -1,0 +1,168 @@
+[{
+		"id": "Northern Route",
+		"main": true,
+		"unlocked": true,
+		"stage": 4,
+		"img": "content/gfx/bg/locations/fg_areas_northern.webp"
+	},
+	{
+		"id": "Northern Forest",
+		"stage": 1,
+		"tier": 0.25,
+		"area": "Northern Route",
+		"desc": "Outskirts of the Northern Forest, commonly visited by hunters and woodsmen, rich in both game and wolves preying on it.",
+		"unlocked": true,
+		"travel_time": 0.5,
+		"exploration_multiplier": 0.5,
+		"mobs": ["Bear", "Goblin", "Wolf"],
+		"unlocks": {
+			"Deep Northern Forest": 50
+		},
+		"cash_limit": 10,
+		"items_price_limit": 50,
+		"chars": {},
+		"items": {
+			"Wood": 50,
+			"Woodcutting Axe": 20
+		}
+	},
+	{
+		"id": "Deep Northern Forest",
+		"stage": 2,
+		"area": "Northern Route",
+		"tier": 0.75,
+		"desc": "A vast cold forest that must be traveled through to reach the mountain peaks.",
+		"unlocked": false,
+		"travel_time": 1,
+		"exploration_multiplier": 1.0,
+		"mobs": ["Undead Rat", "Thug", "Wolf", "Orc"],
+		"cash_limit": 30,
+		"items_price_limit": 100,
+		"unlocks": {
+			"Mountain Pass": 25,
+			"Burial Grounds": 50,
+			"Hearth of the Forest": 80
+		},
+		"items": {
+			"Wood": 100
+		}
+	},
+	{
+		"id": "Mountain Pass",
+		"stage": 3,
+		"area": "Northern Route",
+		"tier": 0.75,
+		"desc": "A cold, unfriendly passage through the lower mountains. Occasional piles of stones and bones shows that this route is not inhabited.",
+		"unlocked": false,
+		"travel_time": 1,
+		"exploration_multiplier": 0.75,
+		"mobs": ["Bats", "Goblin", "Goblin Archer", "Goblin Shaman", "Malicious Stone", "Harpy"],
+		"hazard": {
+			"health": 0,
+			"mp": 0,
+			"vitality": 5
+		},
+		"unlocks": {
+			"High Pass": 90
+		},
+		"cash_limit": 50,
+		"items_price_limit": 200,
+		"items": {
+			"Stone": 50
+		}
+	},
+	{
+		"id": "Hearth of the Forest",
+		"stage": 5,
+		"tier": 1.5,
+		"area": "Northern Route",
+		"desc": "Mystic, vital place within the forest, watched by the druids. A rumor says, that they guard a magic steam withing the forest, which water makes the spirits of the trees came to life and animals intelligent.",
+		"unlocked": false,
+		"exploration_multiplier": 2.0,
+		"travel_time": 2,
+		"mobs": ["Druid", "Black Wolf", "Wild Dryad", "Link Wolf"],
+		"unlocks": {
+			"Elven Forest": 95
+		},
+		"cash_limit": 200,
+		"items_price_limit": 800,
+		"items": {
+			"Watermelon of Knowledge": 25,
+			"Candied Nuts of Knowledge": 60,
+			"Frost Fairy": 20
+		}
+	},
+	{
+		"id": "High Pass",
+		"stage": 7,
+		"tier": 1.5,
+		"area": "Northern Route",
+		"desc": "Only alternative to the underground passage to reach the secrets beyond the mountains is to climb over the peaks. No safe way is known as the air is deadly cold and the mountains unforgiving.",
+		"unlocked": false,
+		"travel_time": 2,
+		"exploration_multiplier": 0.8,
+		"mobs": ["Yeti", "Wadding", "Cannon Turtle", "Malicious Stone", "Vixen"],
+		"hazard": {
+			"health": 5,
+			"mp": 0,
+			"vitality": 5
+		},
+		"unlocks": {
+			"Frozen Caverns": 60,
+			"Rose of Winds": 90
+		},
+		"cash_limit": 20,
+		"items_price_limit": 250,
+		"items": {
+			"Stone": 100,
+			"Victory Charm": 15
+		}
+	},
+	{
+		"id": "Rose of Winds",
+		"stage": 8,
+		"tier": 2.5,
+		"area": "Northern Route",
+		"desc": "The windswept mountain peak attracts creatures from the dimension of Wind, reliably driving away common travelers.",
+		"unlocked": false,
+		"travel_time": 2.5,
+		"exploration_multiplier": 1.5,
+		"mobs": ["Blast Beetle", "Hag", "Wind Spirit", "Storm Spirit"],
+		"hazard": {
+			"health": 0,
+			"mp": 0,
+			"vitality": 10
+		},
+		"items": {
+			"Draconic Leather Armor": 10,
+			"Stillness Cape": 25
+		},
+		"cash_limit": 250,
+		"items_price_limit": 400,
+		"unlocks": {
+			"Northern Peak": 90
+		}
+	},
+	{
+		"id": "Northern Peak",
+		"stage": 9,
+		"tier": 3.0,
+		"area": "Northern Route",
+		"desc": "The highest mountain in the area. Due to rarefied air only the most powerful creatures can live here.",
+		"unlocked": false,
+		"travel_time": 2.8,
+		"exploration_multiplier": 1.0,
+		"mobs": ["Harpy Queen", "Titan", "Garuda"],
+		"hazard": {
+			"health": 5,
+			"mp": 0,
+			"vitality": 10
+		},
+		"unlocks": {
+			"Gardens of Eden": 80
+		},
+		"cash_limit": 500,
+		"items_price_limit": 800,
+		"items": {}
+	}
+]
