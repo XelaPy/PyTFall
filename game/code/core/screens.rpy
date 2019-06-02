@@ -266,10 +266,10 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         key "ш" action temp
         key "Ш" action temp
 
-        key "b" action Return(["jump", "building_management"])
-        key "B" action Return(["jump", "building_management"])
-        key "и" action Return(["jump", "building_management"])
-        key "И" action Return(["jump", "building_management"])
+        key "b" action Return(["building_management"])
+        key "B" action Return(["building_management"])
+        key "и" action Return(["building_management"])
+        key "И" action Return(["building_management"])
 
         key "c" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
         key "C" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
