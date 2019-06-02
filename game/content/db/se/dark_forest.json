@@ -6,7 +6,8 @@
 		"img": "content/gfx/bg/locations/night_forest.webp"
 	},
 	{
-		"area": "-Dark Forest-",
+    "id": "Deep Forest",
+		"area": "Dark Forest",
 		"desc": "Sinister trees form an ever changing massive maze, as if preventing travelers from going deeper into the forest.",
 		"unlocked": true,
 		"mobs": ["Black Butterfly", "Black Wolf", "Link Wolf", "Bear", "Minotaur", "Minotauress", "Bemoth"],
