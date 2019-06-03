@@ -1880,7 +1880,7 @@ init -10 python:
 
 
     class CharBEData(_object):
-        def __init__(self, front_row=True):
+        def __init__(self, front_row=False):
             # 1 for front row and 0 for back row.
             self.front_row = front_row
             self.clear()
