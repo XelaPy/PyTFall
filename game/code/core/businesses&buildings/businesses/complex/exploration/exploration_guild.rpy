@@ -19,6 +19,8 @@ init -9 python: # FG Area
             self.main = False
             self.area = None
 
+            self.unlocks = {}
+
             self.travel_time = 0
             self.hazard = dict()
             self.items = dict()
