@@ -33,7 +33,7 @@
 		"unlocked": false,
 		"mobs": ["Amazon Thief", "Amazon Warrior", "Amazon Archer", "Boros", "Lamia", "Gluttony", "Fiery Shadow"],
 		"unlocks": {
-			"Melted Sands": 50,
+			"Melting Sands": 50,
 			"Big Crater": 90
 		},
 		"cash_limit": 100,
