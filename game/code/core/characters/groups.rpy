@@ -196,7 +196,7 @@ init -8 python:
             self._attrs.extend(["be", '_inventory', 'img', 'portrait', 'nickname', 'effects', '_stats',
                                 'unselected'])
 
-            be_remedy = {".be.front_row": False}
+            be_remedy = {".be.front_row": self._most_common}
             self.be = Delegator(l=[c.be for c in self.lst], remedy=be_remedy, at=".be")
             self._inventory = PytGInv([c.inventory for c in self.lst])
             self.img = "content/gfx/interface/images/group.png"
