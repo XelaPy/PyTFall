@@ -710,7 +710,8 @@ init -9 python:
                     tier = tiers[index]
                     tier_up_to(member, tier)
                     initial_item_up(member, give_bt_items=True)
-                    give_tiered_magic_skills(member)
+                    if "Caster" in member.gen_occs:
+                        give_tiered_magic_skills(member)
                     member.arena_rep = randint(int(tier*9000), int(tier*11000))
 
                     a_team.add(member)
@@ -777,7 +778,8 @@ init -9 python:
                     char = candidates.pop()
                     tier_up_to(char, 8, **tier_kwargs)
                     initial_item_up(char, give_bt_items=True)
-                    give_tiered_magic_skills(char)
+                    if "Caster" in char.gen_occs:
+                        give_tiered_magic_skills(char)
                 else:
                     char = build_rc(tier=8,
                                     set_status="free",
@@ -816,7 +818,8 @@ init -9 python:
                 else:
                     tier_up_to(fighter, tier)
                     initial_item_up(fighter, give_bt_items=True)
-                    give_tiered_magic_skills(fighter)
+                    if "Caster" in fighter.gen_occs:
+                        give_tiered_magic_skills(fighter)
 
                 fighter.arena_active = True
                 fighter.arena_permit = True
