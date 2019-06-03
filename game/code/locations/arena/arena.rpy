@@ -709,7 +709,7 @@ init -9 python:
 
                     tier = tiers[index]
                     tier_up_to(member, tier)
-                    auto_buy_for_bt(member, casual=False)
+                    initial_item_up(member, give_bt_items=True)
                     give_tiered_magic_skills(member)
                     member.arena_rep = randint(int(tier*9000), int(tier*11000))
 
@@ -775,11 +775,11 @@ init -9 python:
                 tier_kwargs = {"level_bios": (1.0, 1.2), "stat_bios": (1.0, 1.2)}
                 if candidates:
                     char = candidates.pop()
-                    tier_up_to(char, 7, **tier_kwargs)
-                    auto_buy_for_bt(char, casual=None)
+                    tier_up_to(char, 8, **tier_kwargs)
+                    initial_item_up(char, give_bt_items=True)
                     give_tiered_magic_skills(char)
                 else:
-                    char = build_rc(tier=7,
+                    char = build_rc(tier=8,
                                     set_status="free",
                                     tier_kwargs=tier_kwargs,
                                     give_bt_items=True,
@@ -815,7 +815,7 @@ init -9 python:
                     new_candidates.append(fighter)
                 else:
                     tier_up_to(fighter, tier)
-                    auto_buy_for_bt(fighter, casual=None)
+                    initial_item_up(fighter, give_bt_items=True)
                     give_tiered_magic_skills(fighter)
 
                 fighter.arena_active = True

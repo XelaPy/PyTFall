@@ -426,7 +426,12 @@ init -11 python:
             elif "warriors" in path:
                 base = [traits["Warrior"]]
             else:
-                base = [traits["Warrior"]]
+                if dice(40):
+                    base = [traits["Warrior"]]
+                elif dice(40):
+                    base = [traits["Knight"]]
+                else:
+                    base = [traits["Mage"]]
             if not elements:
                 elements = [traits["Neutral"]]
 

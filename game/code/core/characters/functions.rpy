@@ -551,7 +551,7 @@ init -11 python:
             if not gbti_kwargs:
                 gbti_kwargs = {
                     "slots": {slot: 1 for slot in EQUIP_SLOTS},
-                    #"casual": True, - ignored and no necessary anyway
+                    #"casual": True, - ignored and unnecessary
                     "equip": True,
                     "check_money": False,
                     "limit_tier": False, # No need, the items are already limited to limit_tier
