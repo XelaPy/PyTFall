@@ -383,7 +383,7 @@ screen chars_list(source=None):
                 tooltip 'Select all characters'
             button: # deselect all
                 xysize (66, 40)
-                action SetVariable("the_chosen", set())
+                action SetVariable("the_chosen", set([]))
                 sensitive the_chosen
                 text "None"
                 tooltip "Clear Selection"
