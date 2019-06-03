@@ -32,7 +32,7 @@ init python:
                                     tier=tier, tier_kwargs=None,
                                     give_civilian_items=True,
                                     give_bt_items=True,
-                                    spells_to_tier=True)
+                                    spells_to_tier="casters_only")
                     v.append(char)
 
             # Gazette:

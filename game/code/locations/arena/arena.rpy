@@ -672,7 +672,7 @@ init -9 python:
                         member = build_rc(bt_go_patterns=["Combatant"],
                                           tier=uniform(.8, 1.4),
                                           give_bt_items=True,
-                                          spells_to_tier=True)
+                                          spells_to_tier="casters_only")
                     elif member in chars:
                         member = chars[member]
                         if member in hero.chars:
@@ -696,7 +696,7 @@ init -9 python:
                                           bt_go_patterns=["Combatant"],
                                           tier=uniform(.8, 1.4),
                                           give_bt_items=True,
-                                          spells_to_tier=True)
+                                          spells_to_tier="casters_only")
                     else:
                         raise Exception("Team Fighter %s is of unknown origin!" % member)
 
@@ -785,7 +785,7 @@ init -9 python:
                                     set_status="free",
                                     tier_kwargs=tier_kwargs,
                                     give_bt_items=True,
-                                    spells_to_tier=True)
+                                    spells_to_tier="casters_only")
 
                 char.arena_active = True
                 char.arena_permit = True
@@ -812,7 +812,7 @@ init -9 python:
                     break
                 if fighter is None:
                     fighter = build_rc(bt_go_patterns=["Combatant"], tier=tier,
-                           set_status="free", give_bt_items=True, spells_to_tier=True)
+                           set_status="free", give_bt_items=True, spells_to_tier="casters_only")
                     # print("Created Arena RG: {}".format(fighter.name))
                     new_candidates.append(fighter)
                 else:
