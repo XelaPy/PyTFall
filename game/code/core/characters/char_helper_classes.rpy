@@ -537,7 +537,7 @@ init -10 python:
                 # Row:
                 change_row = getattr(trait, "be_row", None)
                 if change_row is not None:
-                    char.be.front_row = change_row
+                    char.be.front_row = bool(change_row)
 
                 multiplier = 2 if len(self.basetraits) == 1 else 1
                 for stat in trait.init_lvlmax: # Mod value setting

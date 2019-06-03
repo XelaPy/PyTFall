@@ -131,13 +131,13 @@ init -8 python:
 
         @property
         def page_content(self):
-            ps = self.page_size
+            ps = 16
             start = self.page*ps
             return list(self.filtered_items)[start : (start+ps)]
 
         @property
         def max_page(self):
-            ps = self.page_size
+            ps = 16
             l = len(self.filtered_items)
             return int(l / ps) + (l % ps > 0)
 
