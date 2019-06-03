@@ -1051,7 +1051,7 @@ init -11 python:
                     value = round_int(value*skill_bios())
                     char.mod_skill(skill, value)
 
-        char.recalculate_tier(tier)
+        char.recalculate_tier()
 
     def exp_reward(char, difficulty, value=None,
                    ap_adjust=True, ap_used=1,
