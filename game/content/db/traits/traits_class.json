@@ -576,7 +576,7 @@
         ],
         "desc": "Doesn't have notable strengths and weaknesses due to balanced combat style, but prefers melee weapons.",
         "basetrait": true,
-        "be_row": 0,
+        "be_row": 1,
         "mod_stats": {
             "defence": [1, 1],
             "attack": [1, 1],
@@ -655,7 +655,7 @@
         "desc": "Specializes in heavy armored combat. Agility and attack are not high, but health and defense compensate it.",
         "higher_tiers": ["Warrior"],
         "basetrait": true,
-        "be_row": 0,
+        "be_row": 1,
         "evasion_bonus": [1, 5, 30],
         "ch_multiplier": 0.05,
         "mod_stats": {
@@ -799,7 +799,7 @@
         "desc": "Specializes in agility and critical hits.",
         "higher_tiers": ["Warrior"],
         "basetrait": true,
-        "be_row": 0,
+        "be_row": 1,
         "mod_stats": {
             "attack": [1, 1],
             "defence": [1, 1],
