@@ -772,15 +772,15 @@ init -1 python: # Core classes:
             if left_front_row_empty:
                 # 'move' closer because of an empty row
                 range += 1
-            elif char.be.row == 0 and self.range == 1:
-                # allow to reach over a teammate
-                range += 1
+            # elif char.be.row == 0 and self.range == 1:
+            #     # allow to reach over a teammate
+            #     range += 1
             if right_front_row_empty:
                 # 'move' closer because of an empty row
                 range += 1
-            elif char.be.row == 3 and self.range == 1:
-                # allow to reach over a teammate
-                range += 1
+            # elif char.be.row == 3 and self.range == 1:
+            #     # allow to reach over a teammate
+            #     range += 1
 
             rows_from, rows_to = char.be.row - range, char.be.row + range
             in_range = [f for f in all_targets if rows_from <= f.be.row <= rows_to]

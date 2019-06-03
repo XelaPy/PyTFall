@@ -330,6 +330,8 @@ label continue_with_start:
         pytfall.sm.populate_chars_list()
         tl.end("Loading: Populating SlaveMarket")
 
+    $ hero.clear_img_cache()
+
     jump mainscreen
 
 label sort_items_for_gameplay:
