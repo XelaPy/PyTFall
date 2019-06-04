@@ -34,7 +34,7 @@
     "tier": 2.6,
     "travel_time": 1.5,
     "area": "Elven Forest",
-    "unlocked": true,
+    "unlocked": false,
     "rchars": {
       "Rena_Elsword": [50, 15]
     },
@@ -63,7 +63,7 @@
     "tier": 3.5,
     "travel_time": 2,
     "area": "Elven Forest",
-    "unlocked": true,
+    "unlocked": false,
     "rchars": {
       "Ranger_Elf": [50, 10],
       "Noble_Elf": [90, 5]
