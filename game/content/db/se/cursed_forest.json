@@ -8,7 +8,7 @@
 	{
 		"id": "Sinister Forest",
 		"desc": "A hunting grounds for countless cursed shapeshifters. Hunters and adventurers avoid this part of the forest.",
-		"stage": 2,
+		"stage": 1,
 		"tier": 1.0,
 		"travel_time": 1.0,
 		"area": "Cursed Forest",
@@ -24,7 +24,7 @@
 	{
 		"id": "Dead Forest",
 		"desc": "An unknown disaster killed this part of the forest long time ago, leaving only dead trees... and undead animals.",
-		"stage": 3,
+		"stage": 2,
 		"tier": 1.5,
 		"travel_time": 1.0,
 		"area": "Cursed Forest",
@@ -39,7 +39,7 @@
 	{
 		"id": "Elven Burial Grounds",
 		"desc": "Ancient elves used to bury their dead ones in this part of the forest. Over time all magic left their bones and became much darker.",
-		"stage": 4,
+		"stage": 3,
 		"tier": 2.5,
 		"travel_time": 2.0,
 		"area": "Cursed Forest",
