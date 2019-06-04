@@ -391,7 +391,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
 
         # Right HBox:
         hbox:
-            align (.8, .5)
+            xpos 740 yalign .5
             spacing 5
             if False:
                 textbutton "F":
