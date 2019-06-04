@@ -510,6 +510,8 @@ init:
     # Used to store some data we obfuscate for the Eye and maybe other places.
     default obfuscated_strings = {"day": 0}
 
+    default CHEATING = False
+
 init 999 python:
     # ensure that all initialization debug messages have been written to disk
     if DEBUG_LOG:

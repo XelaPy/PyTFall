@@ -470,11 +470,14 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                 tooltip "QuickLoad"
                 action QuickLoad()
                 keysym "K_F9"
-            imagebutton:
-                idle Image("content/gfx/interface/buttons/Journal.png")
-                hover im.MatrixColor("content/gfx/interface/buttons/Journal.png", im.matrix.brightness(.15))
-                tooltip "Cheats"
-                action Show("cheats_screen")
+
+            key 'alt_shift_K_a' action ToggleVariable("CHEATING")
+            if CHEATING or DEBUG:
+                imagebutton:
+                    idle Image("content/gfx/interface/buttons/Journal.png")
+                    hover im.MatrixColor("content/gfx/interface/buttons/Journal.png", im.matrix.brightness(.15))
+                    tooltip "Cheats"
+                    action Show("cheats_screen")
 
         if show_return_button:
             default special_screens = ["girl_interactions",
