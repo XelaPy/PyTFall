@@ -111,7 +111,7 @@
 			"Frozen Caverns": 60,
 			"Rose of Winds": 90
 		},
-        "rchars": {"Leafa": [80, 25]},
+        "rchars": {"Leafa": [80, 15]},
 		"cash_limit": 20,
 		"items_price_limit": 250,
 		"items": {

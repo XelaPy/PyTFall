@@ -34,7 +34,7 @@
     "area": "Elven Forest",
     "unlocked": false,
     "rchars": {
-      "Rena_Elsword": [50, 15]
+      "Rena_Elsword": [50, 10]
     },
     "mobs": ["Forest Fairy", "Wild Dryad", "Royal Mantis", "Satyress"],
     "unlocks": {},

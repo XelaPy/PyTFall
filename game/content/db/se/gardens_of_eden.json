@@ -33,7 +33,7 @@
 		"travel_time": 1.5,
 		"area": "Gardens of Eden",
 		"unlocked": false,
-		"rchars": {"Angel": [70, 20]},
+		"rchars": {"Angel": [70, 5]},
 		"mobs": ["Archangel", "Oni"],
 		"unlocks": {
 			"Place of Judgment": 80
