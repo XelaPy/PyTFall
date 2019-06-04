@@ -378,8 +378,8 @@
             bt_bonus = 0
             if matched_base_traits:
                 bt_bonus += 35
-                if len(worker.basetraits) == 2 and matched_base_traits == 1:
-                    bt_bonus *= .5
+                # if len(worker.basetraits) == 2 and matched_base_traits == 1:
+                #     bt_bonus *= .5
             bt_bonus += matched_gen_occ*15
 
             # Tiers:
