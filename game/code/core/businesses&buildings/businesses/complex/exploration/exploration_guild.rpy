@@ -1193,8 +1193,8 @@ init -6 python: # Guild, Tracker and Log.
                                     tier = random.uniform(.1, .3)
                                 else:
                                     tier = random.uniform(area.tier*.8, area.tier*1.2)
-                                tier = min(.1, tier)
-                                tier = max(8, tier) # never build rChars over tier 8?
+                                tier = max(.1, tier)
+                                tier = min(8, tier) # never build rChars over tier 8?
 
                                 kwargs = {"tier": tier, "set_status": True}
                                 if id != "any":
