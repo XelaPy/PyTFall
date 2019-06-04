@@ -13,9 +13,7 @@
     "travel_time": 1.2,
     "area": "Elven Forest",
     "unlocked": true,
-    "rchars": {
-      "Rena_Elsword": [50, 15]
-    },
+    "rchars": {"Dryad": [40, 15]},
     "mobs": ["Griffin", "Boros", "Bats", "Link Wolf", "Wild Dryad"],
     "unlocks": {
       "Elven Village": 80,

@@ -46,6 +46,7 @@
 		"area": "Old Fortress",
 		"desc": "A small underground complex filled with magical equipment. Most of it is hopelessly broken.",
 		"unlocked": false,
+        "rchars": {"2k_tan": [50, 25]},
 		"mobs": ["Mimicess", "Treasure Slime", "Earth Elemental", "Ogress"],
 		"unlocks": {},
 		"travel_time": 0.28,
