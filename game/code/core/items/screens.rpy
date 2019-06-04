@@ -28,13 +28,13 @@ screen eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(.23, 
     # char = source of equipment slots.
     # Slots and the doll ------------------------------------------------------------>
     if char == hero:
-        # add Transform(hero.show("sprofile", resize=(400, 720)), alpha=.8) align(.5, 1.0)
-        add im.Scale("content/gfx/interface/images/doll_male.png", 286, 400) align (.5, .5)
+        add hero.show("profile", resize=(288, 400), cache=True) alpha .9 align .5, 1.0
+        # add im.Scale("content/gfx/interface/images/doll_male.png", 286, 400) align (.5, .5)
     elif not isinstance(char, dict):
         #f rame:
             # align (.5, .5)
             # background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-        add (char.show("vnsprite", resize=(288, 400), cache=True)) alpha .9 align (.5, 1.0)
+        add char.show("vnsprite", resize=(288, 400), cache=True) alpha .9 align .5, 1.0
         # add im.Scale("content/gfx/interface/images/doll_fem.png", 350, 500) align (.25, .23)
 
     fixed:

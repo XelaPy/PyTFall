@@ -1016,7 +1016,6 @@ init -11 python:
                 # devlog.info("Biased Points: {}".format(biosed_sp))
 
                 char.stats.mod_full_skill(skill, biosed_sp)
-
                 # devlog.info("Resulting Skill: {}".format(char.get_skill(skill)))
 
             stats = trait.base_stats
