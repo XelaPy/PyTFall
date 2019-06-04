@@ -61,7 +61,7 @@ init -9 python:
             """
             Sells off captured char from the jail.
             """
-            fee = 1500 - self.get_fees4captured(girl)
+            fee = 1500 - self.get_fees4captured(char)
             if fee > 0:
                 hero.add_money(fee, "Slave Purchase")
                 self.remove_prisoner(char)
