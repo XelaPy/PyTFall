@@ -1,5 +1,5 @@
 label city_map_predict:
-    python hide:
+    python:
         city_map_predict = [item for sl in (("".join([pytfall.map_pattern, key, ".webp"]),
                                         "".join([pytfall.map_pattern, key, "_hover.webp"]),
                                         "".join(["content/gfx/interface/buttons/locations/", key, ".png"]))
@@ -8,6 +8,14 @@ label city_map_predict:
         city_map_predict.append("content/gfx/interface/buttons/compass.png")
 
         renpy.start_predict(*city_map_predict)
+    return
+
+label items_ptedict:
+    python hide:
+        items_predict = []
+        for item in items.values():
+            items_predict.append(item.icon)
+        renpy.start_predict(*items_predict)
     return
 
 
@@ -21,13 +29,22 @@ init python hide:
     # gui_predict.append()
     # gui_predict.append()
 
-    gui_predict.extend(("content/gfx/frame/h2.webp",
+    gui_predict.extend(("content/gfx/frame/hp_1.png",
+                        "content/gfx/frame/h2.webp",
+                        'content/gfx/frame/ink_box.png',
+                        'content/gfx/frame/frame_bg.png',
                          "content/gfx/frame/p_frame.png",
+                         'content/gfx/frame/p_frame2.png',
+                         'content/gfx/frame/p_frame4.png',
+                         'content/gfx/frame/p_frame5.png',
+                         'content/gfx/frame/p_frame6.png',
                          "content/gfx/interface/buttons/sl_idle.png",
                          "content/gfx/frame/rank_frame.png",
+                         'content/gfx/bg/be/battle_arena_1.webp',
                          "content/gfx/images/m_1.webp",
                          "content/gfx/images/m_2.webp",
                          "content/gfx/images/fishy.png",
+                         'content/gfx/frame/base_frame.webp',
                          "content/gfx/interface/buttons/IT2.png",
                          "content/gfx/interface/icons/exp.webp",
                          "content/gfx/interface/icons/gold.png",
@@ -39,6 +56,8 @@ init python hide:
                          'content/gfx/interface/buttons/op3.png',
                          'content/gfx/frame/window_frame2.webp',
                          'content/gfx/interface/buttons/choice_buttons1.png',
+                         'content/gfx/interface/buttons/choice_buttons1h.png',
+                         'content/gfx/interface/buttons/choice_buttons2.png',
                          'content/gfx/interface/buttons/close.png',
                          'content/gfx/interface/icons/checkbox_checked.png',
                          'content/gfx/interface/icons/checkbox_unchecked.png',
@@ -46,7 +65,42 @@ init python hide:
                          "content/gfx/interface/buttons/close2_h.png",
                          "content/gfx/interface/buttons/blue_arrow.png",
                          "content/gfx/interface/buttons/close4.png",
-                         "content/gfx/interface/buttons/close4_h.png"
+                         "content/gfx/interface/buttons/close4_h.png",
+                         'content/gfx/frame/Mc_bg.png',
+                         'content/gfx/frame/MC_bg3.png',
+                         'content/gfx/frame/stat_box_proper.png',
+                         'content/gfx/frame/settings1.webp',
+                         'content/gfx/frame/frame_it1.png',
+                         'content/gfx/bg/h_profile.webp',
+                         'content/gfx/frame/h_profile2.webp',
+                         'content/gfx/interface/bars/exp_full.png',
+                         'content/gfx/interface/bars/exp_empty.png',
+                         'content/gfx/interface/images/exp_b.png',
+                         'content/gfx/interface/images/pentagon1.png',
+                         "content/gfx/interface/buttons/row_switch.png",
+                         'content/gfx/frame/frame_ap2.webp',
+                         'content/gfx/interface/icons/move15.png',
+                         'content/buildings/upgrades/the_eye.webp',
+                         'content/gfx/frame/namebox5.png',
+                         'content/gfx/interface/buttons/girls_reports.png',
+                         'content/gfx/images/c1.png',
+                         'content/gfx/images/jp1.png',
+                         'content/gfx/images/jp2.png',
+                         'content/gfx/images/magic2.png',
+                         'content/gfx/images/birds1.webp',
+                         'content/gfx/images/bg_gradient2.webp',
+                         'content/gfx/interface/buttons/hp_1s.png',
+
+                         'content/gfx/interface/images/atk.png',
+                         'content/gfx/interface/images/def.png',
+                         'content/gfx/interface/images/agi.png',
+                         'content/gfx/interface/images/luck.png',
+                         'content/gfx/interface/images/mag.png',
+
+                         'content/gfx/interface/icons/slave.png',
+                         'content/gfx/interface/icons/free.png',
+
+                         'content/gfx/interface/icons/stars/legendary.png'
                          ))
 
     gui_predict.extend(("content/gfx/interface/images/elements/ice.png",
@@ -70,7 +124,7 @@ init python hide:
                         "content/gfx/interface/images/elements/small_ice.png",
                         "content/gfx/interface/images/elements/small_light.png",
                         "content/gfx/interface/images/elements/small_water.png",
-                        "content/gfx/interface/images/elements/water.png",
+                        "content/gfx/interface/images/elements/water.png"
                         ))
 
     renpy.start_predict(*gui_predict)

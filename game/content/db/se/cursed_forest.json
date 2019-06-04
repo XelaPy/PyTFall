@@ -1,0 +1,96 @@
+[{
+		"id": "Cursed Forest",
+		"main": true,
+		"unlocked": false,
+		"stage": 3,
+		"img": "content/gfx/bg/locations/fg_areas_northern_deep.webp"
+	},
+	{
+		"id": "Sinister Forest",
+		"desc": "A hunting grounds for countless cursed shapeshifters. Hunters and adventurers avoid this part of the forest.",
+		"stage": 1,
+		"tier": 1.0,
+		"travel_time": 1.0,
+		"area": "Cursed Forest",
+		"unlocked": true,
+		"mobs": ["Werewolf", "Weregirl", "Werecat", "Undead Rat", "Arachna"],
+		"unlocks": {
+			"Black Woods": 80,
+			"Dead Forest": 40
+		},
+		"cash_limit": 100,
+		"items_price_limit": 500
+	},
+	{
+		"id": "Dead Forest",
+		"desc": "An unknown disaster killed this part of the forest long time ago, leaving only dead trees... and undead animals.",
+		"stage": 2,
+		"tier": 1.5,
+		"travel_time": 1.0,
+		"area": "Cursed Forest",
+		"unlocked": false,
+		"mobs": ["Undead Rat", "Undead Werecat", "Undead Unicorn", "Naga Archer", "Naga Warrior"],
+		"unlocks": {
+			"Elven Burial Grounds": 80
+		},
+		"cash_limit": 200,
+		"items_price_limit": 700
+	},
+	{
+		"id": "Elven Burial Grounds",
+		"desc": "Ancient elves used to bury their dead ones in this part of the forest. Over time all magic left their bones and became much darker.",
+		"stage": 3,
+		"tier": 2.5,
+		"travel_time": 2.0,
+		"area": "Cursed Forest",
+		"unlocked": false,
+		"mobs": ["Shadowman", "Horny Mummy", "Undead Unicorn", "Skeleton Warrior"],
+		"unlocks": {
+			"Forest Catacombs": 80
+		},
+		"cash_limit": 300,
+		"items_price_limit": 1000
+	},
+	{
+		"id": "Black Woods",
+		"desc": "A forest surrounding a small settlement of Dark Elves. Small but numerous elven patrols attack any strangers on sight.",
+		"stage": 4,
+		"tier": 2.5,
+		"travel_time": 2.0,
+		"exploration_multiplier": 2,
+		"area": "Cursed Forest",
+		"unlocked": false,
+		"rchars": {
+			"Dark_Elf": [50, 5]
+		},
+		"mobs": ["Dark Elf Archer", "Undead Unicorn", "Secateuris"],
+		"unlocks": {
+			"Dark Elves Settlement": 70
+		},
+		"cash_limit": 500,
+		"items_price_limit": 900,
+		"items": {
+			"Mithril Armor": 20
+		}
+	},
+	{
+		"id": "Dark Elves Settlement",
+		"desc": "Dark Elves outcasts built a small village under the roots of trees. They fiercely attack any intrudes, but the village remains a popular place among well equipped slave hunters.",
+		"stage": 5,
+		"tier": 3.5,
+		"exploration_multiplier": 0.5,
+		"travel_time": 2.5,
+		"area": "Cursed Forest",
+		"unlocked": false,
+		"rchars": {
+			"Dark_Elf": [1, 25]
+		},
+		"mobs": ["Dark Elf Archer", "Undead Unicorn", "Giant Spider"],
+		"unlocks": {},
+		"cash_limit": 500,
+		"items_price_limit": 900,
+		"items": {
+			"Organic Lingerie": 30
+		}
+	}
+]

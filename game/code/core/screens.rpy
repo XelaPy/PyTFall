@@ -266,10 +266,10 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         key "ш" action temp
         key "Ш" action temp
 
-        key "b" action Return(["building_management"])
-        key "B" action Return(["building_management"])
-        key "и" action Return(["building_management"])
-        key "И" action Return(["building_management"])
+        key "b" action Return(["jump", "building_management"])
+        key "B" action Return(["jump", "building_management"])
+        key "и" action Return(["jump", "building_management"])
+        key "И" action Return(["jump", "building_management"])
 
         key "c" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
         key "C" action Stop("world"), Hide("mainscreen"), SetVariable("rebuild_chars_listings", True), Jump("chars_list")
@@ -1359,9 +1359,9 @@ screen cheats_screen:
         text "Cheats" size 20 color goldenrod outlines [(2, "#3a3a3a", 0, 0)] align 0.4, 0
         imagebutton:
             align 1.0, 0 offset 2, -2
-            idle ProportionalScale("content/gfx/interface/buttons/close4.png", 20, 24)
-            hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24)
-            insensitive im.Sepia(ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24))
+            idle pscale("content/gfx/interface/buttons/close4.png", 20, 24)
+            hover pscale("content/gfx/interface/buttons/close4_h.png", 20, 24)
+            insensitive pscale(im.Sepia("content/gfx/interface/buttons/close4_h.png"), 20, 24)
             action Hide("cheats_screen")
 
         vbox:

@@ -150,8 +150,8 @@ screen city_screen():
                 if loc["id"] in loc_list and not key.get("hidden", False):
                     button:
                         xysize (160, 28)
-                        idle_background Frame(im.MatrixColor(prefix + loc["id"] + ".png", im.matrix.brightness(.10)), 5, 5)
-                        hover_background Frame(im.MatrixColor(prefix + loc["id"] + "_hover.png", im.matrix.brightness(.15)), 5, 5)
+                        idle_background Frame(prefix + loc["id"] + ".png", 5, 5)
+                        hover_background Frame(prefix + loc["id"] + "_hover.png", 5, 5)
                         hovered SetScreenVariable("selected", loc["id"])
                         unhovered SetScreenVariable("selected", None)
                         action Return(['location', loc["id"]])

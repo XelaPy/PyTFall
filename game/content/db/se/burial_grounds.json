@@ -1,0 +1,75 @@
+[{
+		"id": "Burial Grounds",
+		"main": true,
+		"unlocked": false,
+		"stage": 5,
+		"img": "content/gfx/bg/locations/fg_areas_burial_1.webp"
+	},
+	{
+		"id": "Burial Grounds Entrance",
+		"stage": 1,
+		"tier": 1.0,
+		"area": "Burial Grounds",
+		"desc": "Ancient, long overgrown burial site, where a dark magic linger in the ground and endlessly reanimates the skeletal guards that keep their endless watch over the place for a long forgotten reason.",
+		"unlocked": true,
+		"exploration_multiplier": 1.25,
+		"travel_time": 1.25,
+		"mobs": ["Undead Rat", "Skeleton", "Will-o-wisp"],
+
+		"unlocks": {
+			"Inner Burial Grounds": 75
+		},
+		"cash_limit": 100,
+		"items_price_limit": 400,
+		"items": {
+			"Darksome Trophy": 25,
+			"Necklace of Pain Reversal": 50
+		}
+	},
+	{
+		"id": "Inner Burial Grounds",
+		"stage": 2,
+		"tier": 1.5,
+		"area": "Burial Grounds",
+		"exploration_multiplier": 1.5,
+		"desc": "Inner area of the overgrown burial site, where barely any sunlight reach through the trees and where the dark presence feel the strongest.",
+		"unlocked": false,
+		"travel_time": 1.5,
+		"mobs": ["Spectre", "Phantasm", "Skeleton Warrior"],
+		"hazard": {
+			"health": 0,
+			"mp": 5,
+			"vitality": 0
+		},
+		"unlocks": {
+			"Forest Tomb": 75
+		},
+		"cash_limit": 120,
+		"items_price_limit": 600,
+		"items": {
+			"Bone Ring": 25
+		}
+	},
+	{
+		"id": "Forest Tomb",
+		"stage": 3,
+		"tier": 2.0,
+		"area": "Burial Grounds",
+		"desc": "A small underground tomb filled with old bones and acrid dust. They say something deep inside it prevents the dead ones from resting in piece.",
+		"unlocked": false,
+		"exploration_multiplier": 0.7,
+		"travel_time": 1.8,
+		"mobs": ["Vampire Bats", "Lesser Vampire", "Undead Werecat"],
+		"hazard": {
+			"health": 0,
+			"mp": 5,
+			"vitality": 5
+		},
+		"unlocks": {},
+		"cash_limit": 150,
+		"items_price_limit": 750,
+		"items": {
+			"Vampire Cape": 20
+		}
+	}
+]

@@ -1,0 +1,84 @@
+[{
+		"id": "Frozen Caverns",
+		"main": true,
+		"unlocked": false,
+		"stage": 6,
+		"img": "content/gfx/bg/locations/fg_areas_frozen_1.webp"
+	},
+	{
+		"id": "Frozen Passage Entrance",
+		"stage": 1,
+		"tier": 1.75,
+		"area": "Frozen Caverns",
+		"desc": "Entrance to the frozen passage that is rumored to lead to the other side of the mountains.",
+		"unlocked": true,
+		"exploration_multiplier": 0.4,
+		"travel_time": 2.2,
+		"mobs": ["Yeti", "Polar Bear", "Tundra Wolf", "Wadding", "Frozen Undine"],
+		"hazard": {
+			"health": 5,
+			"mp": 0,
+			"vitality": 5
+		},
+		"unlocks": {
+			"Frozen Passage": 75
+		},
+		"cash_limit": 20,
+		"items_price_limit": 600,
+		"items": {
+			"Ice Daggers": 40,
+			"Ice Axe": 40,
+			"Icy Sword": 20,
+			"Frost Cape": 25
+		}
+	},
+	{
+		"id": "Frozen Passage",
+		"stage": 2,
+		"tier": 2.25,
+		"exploration_multiplier": 0.6,
+		"area": "Frozen Caverns",
+		"desc": "An unnaturally cold complex of caverns bellow the mountains.",
+		"unlocked": false,
+		"travel_time": 2.3,
+		"mobs": ["Frozen Heart", "Frost Giant", "Ice Golem", "Blast Beetle"],
+		"hazard": {
+			"health": 1,
+			"mp": 0,
+			"vitality": 2
+		},
+		"unlocks": {
+			"Frozen Throne": 99
+		},
+		"cash_limit": 40,
+		"items_price_limit": 700,
+		"items": {
+			"Crystal Wand": 30,
+			"Ice Charm": 20,
+			"Winter Ring": 25
+		}
+	},
+	{
+		"id": "Frozen Throne",
+		"stage": 3,
+		"tier": 2.5,
+		"exploration_multiplier": 1.5,
+		"area": "Frozen Caverns",
+		"desc": "An unnaturally cold complex of caverns bellow the mountains attracting creatures from the Ice dimension.",
+		"unlocked": false,
+		"travel_time": 2.5,
+		"mobs": ["Ice Maiden", "Winter Queen", "Ice Golem"],
+		"hazard": {
+			"health": 10,
+			"mp": 5,
+			"vitality": 10
+		},
+		"unlocks": {},
+		"cash_limit": 100,
+		"items_price_limit": 1000,
+		"items": {
+			"Icicle Staff": 20,
+			"Ice Shoes": 50
+		}
+	}
+]

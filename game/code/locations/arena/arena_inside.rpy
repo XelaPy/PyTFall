@@ -248,7 +248,7 @@ init: # Main Screens:
                 # Name + Stats:
                 frame:
                     padding 8, 2
-                    background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 5, 5)
+                    background Frame(Transform("content/gfx/frame/p_frame2.png", alpha=.6), 5, 5)
                     xsize 155
                     has vbox
 

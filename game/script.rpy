@@ -67,8 +67,6 @@ label start:
         pytfall = PyTFallWorld()
         tl.end("Loading: PyTFallWorld")
 
-    call city_map_predict
-
     python:
         tl.start("Loading: Menu Extensions")
         menu_extensions = MenuExtension()
@@ -113,6 +111,9 @@ label start:
     call sort_items_for_gameplay from _call_sort_items_for_gameplay
 
     $ tl.end("Loading/Sorting: Items")
+
+    call city_map_predict
+    call items_ptedict
 
     python: # Dungeons (Building (Old))
         tl.start("Loading: Dungeons")
@@ -328,6 +329,8 @@ label continue_with_start:
         tl.start("Loading: Populating SlaveMarket")
         pytfall.sm.populate_chars_list()
         tl.end("Loading: Populating SlaveMarket")
+
+    $ hero.clear_img_cache()
 
     jump mainscreen
 
@@ -568,6 +571,7 @@ label after_load:
     stop music
     return
 
-label before_main_menu:
-    pause 1.0
+label splashscreen:
+    show expression Image("presplash.png")
+    pause 1.5
     return

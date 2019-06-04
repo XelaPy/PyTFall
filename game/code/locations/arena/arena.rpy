@@ -672,7 +672,7 @@ init -9 python:
                         member = build_rc(bt_go_patterns=["Combatant"],
                                           tier=uniform(.8, 1.4),
                                           give_bt_items=True,
-                                          spells_to_tier=True)
+                                          spells_to_tier="casters_only")
                     elif member in chars:
                         member = chars[member]
                         if member in hero.chars:
@@ -696,7 +696,7 @@ init -9 python:
                                           bt_go_patterns=["Combatant"],
                                           tier=uniform(.8, 1.4),
                                           give_bt_items=True,
-                                          spells_to_tier=True)
+                                          spells_to_tier="casters_only")
                     else:
                         raise Exception("Team Fighter %s is of unknown origin!" % member)
 
@@ -709,8 +709,9 @@ init -9 python:
 
                     tier = tiers[index]
                     tier_up_to(member, tier)
-                    auto_buy_for_bt(member, casual=False)
-                    give_tiered_magic_skills(member)
+                    initial_item_up(member, give_bt_items=True)
+                    if "Caster" in member.gen_occs:
+                        give_tiered_magic_skills(member)
                     member.arena_rep = randint(int(tier*9000), int(tier*11000))
 
                     a_team.add(member)
@@ -775,15 +776,16 @@ init -9 python:
                 tier_kwargs = {"level_bios": (1.0, 1.2), "stat_bios": (1.0, 1.2)}
                 if candidates:
                     char = candidates.pop()
-                    tier_up_to(char, 7, **tier_kwargs)
-                    auto_buy_for_bt(char, casual=None)
-                    give_tiered_magic_skills(char)
+                    tier_up_to(char, 8, **tier_kwargs)
+                    initial_item_up(char, give_bt_items=True)
+                    if "Caster" in char.gen_occs:
+                        give_tiered_magic_skills(char)
                 else:
-                    char = build_rc(tier=7,
+                    char = build_rc(tier=8,
                                     set_status="free",
                                     tier_kwargs=tier_kwargs,
                                     give_bt_items=True,
-                                    spells_to_tier=True)
+                                    spells_to_tier="casters_only")
 
                 char.arena_active = True
                 char.arena_permit = True
@@ -810,13 +812,14 @@ init -9 python:
                     break
                 if fighter is None:
                     fighter = build_rc(bt_go_patterns=["Combatant"], tier=tier,
-                           set_status="free", give_bt_items=True, spells_to_tier=True)
+                           set_status="free", give_bt_items=True, spells_to_tier="casters_only")
                     # print("Created Arena RG: {}".format(fighter.name))
                     new_candidates.append(fighter)
                 else:
                     tier_up_to(fighter, tier)
-                    auto_buy_for_bt(fighter, casual=None)
-                    give_tiered_magic_skills(fighter)
+                    initial_item_up(fighter, give_bt_items=True)
+                    if "Caster" in fighter.gen_occs:
+                        give_tiered_magic_skills(fighter)
 
                 fighter.arena_active = True
                 fighter.arena_permit = True

@@ -99,6 +99,9 @@ init -20 python:
             self._daily_modifier = daily_modifier
             self.desc = desc
 
+        def get_all_chars(self):
+            return list(self.inhabitants)
+
         @property
         def daily_modifier(self):
             return self._daily_modifier

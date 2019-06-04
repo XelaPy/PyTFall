@@ -426,7 +426,12 @@ init -11 python:
             elif "warriors" in path:
                 base = [traits["Warrior"]]
             else:
-                base = [traits["Warrior"]]
+                if dice(40):
+                    base = [traits["Warrior"]]
+                elif dice(40):
+                    base = [traits["Knight"]]
+                else:
+                    base = [traits["Mage"]]
             if not elements:
                 elements = [traits["Neutral"]]
 
@@ -553,7 +558,7 @@ init -11 python:
         content = list()
         folder = content_path('db/se')
         for file in os.listdir(folder):
-            if file.startswith("se_") and file.endswith(".json"):
+            if file.endswith(".json"):
                 in_file = content_path("".join(["db/se/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))

@@ -67,7 +67,10 @@ label building_management:
                 elif result[1] == "explore_area":
                     result = bm_mid_frame_mode.launch_team(result[2])
                     if isinstance(result, PytCharacter):
-                        renpy.show_screen("message_screen", "{} is not in shape to explore anything :(".format(result.name))
+                        if result.workplace == schools["-PyTFall Educators-"]:
+                            renpy.show_screen("message_screen", "{} is taking a course in School!".format(result.name))
+                        else:
+                            renpy.show_screen("message_screen", "{} is not in shape to explore anything :(".format(result.name))
                     else:
                         rebuild_se_dd()
                         jump("building_management")
@@ -475,8 +478,8 @@ screen building_management_leftframe_building_mode:
 
                         imagebutton:
                             align 1.0, 0 offset 2, -2
-                            idle ProportionalScale("content/gfx/interface/buttons/close4.png", 20, 24)
-                            hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24)
+                            idle pscale("content/gfx/interface/buttons/close4.png", 20, 24)
+                            hover pscale("content/gfx/interface/buttons/close4_h.png", 20, 24)
                             insensitive im.Sepia(ProportionalScale("content/gfx/interface/buttons/close4_h.png", 20, 24))
                             action Show("yesno_prompt",
                                  message="Are you sure you wish to close this %s for %d Gold?" % (u.name, u.get_price()),

@@ -94,7 +94,7 @@ screen hero_profile():
                                                               (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 65, 126, 148, green), alpha=.3) align (.5, .5)
         add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
                                                               (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 33, 126, 148, lightgreen), alpha=.2) align (.5, .5)
-        add ProportionalScale("content/gfx/interface/images/pentagon1.png", 250, 250) align (.01, .5)
+        add pscale("content/gfx/interface/images/pentagon1.png", 250, 250) align (.01, .5)
 
     fixed:
         frame:
@@ -616,8 +616,8 @@ screen hero_team():
         hbox:
             xalign .5
             for member in hero.team:
-                $ img = member.show("portrait", resize=(120, 120), cache=True)
-                #spacing 7
+                $ img = member.show("portrait", resize=(120, 120), label_cache=True)
+                # spacing 7
                 # Portrait/Button:
                 fixed:
                     align .5, .5
@@ -628,7 +628,7 @@ screen hero_team():
                         style "basic_choice2_button"
                         idle img
                         hover img
-                        selected_idle Transform(img, alpha=1.05)
+                        # selected_idle Transform(img, alpha=1.05)
                         action None
 
                     python:
@@ -667,7 +667,7 @@ screen hero_team():
                 frame:
                     xsize 162
                     padding 10, 5
-                    background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 5, 5)
+                    background Frame(Transform("content/gfx/frame/p_frame2.png", alpha=.6), 5, 5)
                     has vbox spacing 4 xfill True
                     fixed:
                         xysize 158, 25
@@ -731,11 +731,11 @@ screen hero_team():
                 imagebutton:
                     if hero.team == team:
                         action None
-                        idle ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_right.png", 24, 24)
+                        idle pscale("content/gfx/interface/buttons/arrow_button_metal_gold_right.png", 24, 24)
                     else:
                         action Function(hero.remove_team, team)
-                        idle ProportionalScale("content/gfx/interface/buttons/round_blue.png", 24, 24)
-                        hover ProportionalScale("content/gfx/interface/buttons/round_blue_h.png", 24, 24)
+                        idle pscale("content/gfx/interface/buttons/round_blue.png", 24, 24)
+                        hover pscale("content/gfx/interface/buttons/round_blue_h.png", 24, 24)
                         tooltip "Dissolve"
                 button:
                     xminimum 100
@@ -969,9 +969,6 @@ screen mc_friends_list:
             mousewheel True
             scrollbars "vertical"
             xysize (930, 390)
-
-
-
             for char in temp:
                 frame:
                     background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.6), 5, 5)
@@ -984,17 +981,14 @@ screen mc_friends_list:
                     align (.5, .5)
                     has vbox spacing 1 xalign .5
                     button:
-                        ypadding 1
-                        xpadding 1
-                        xmargin 0
-                        ymargin 0
-                        align (.5, .5)
+                        padding 1, 1 margin 0, 0
+                        align .5, .5
                         style "basic_choice2_button"
                         add char.show("portrait", resize=(120, 120), cache=True) align (.5, .5)
                         action [Hide("mc_friends_list"), Hide("hero_profile"), With(dissolve), Function(friends_list_gms, char)]
 
                     text "{=TisaOTMolxm}[char.nickname]" align (.5, 1.0) yoffset 5 xmaximum 190
                     if char in hero.lovers:
-                        add ProportionalScale("content/gfx/interface/images/love.png", 35, 35) xalign .5
+                        add pscale("content/gfx/interface/images/love.png", 35, 35) xalign .5
                     else:
-                        add ProportionalScale("content/gfx/interface/images/friendship.png", 35, 35) xalign .5
+                        add pscale("content/gfx/interface/images/friendship.png", 35, 35) xalign .5

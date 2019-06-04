@@ -534,6 +534,11 @@ init -10 python:
             stats = char.stats
             # If the trait is a basetrait:
             if trait in self.basetraits:
+                # Row:
+                change_row = getattr(trait, "be_row", None)
+                if change_row is not None:
+                    char.be.front_row = bool(change_row)
+
                 multiplier = 2 if len(self.basetraits) == 1 else 1
                 for stat in trait.init_lvlmax: # Mod value setting
                     if stat in stats:
@@ -1880,7 +1885,7 @@ init -10 python:
 
 
     class CharBEData(_object):
-        def __init__(self, front_row=True):
+        def __init__(self, front_row=False):
             # 1 for front row and 0 for back row.
             self.front_row = front_row
             self.clear()

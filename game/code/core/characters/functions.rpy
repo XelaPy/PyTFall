@@ -350,6 +350,7 @@ init -11 python:
             Give/Equip item sets using auto_buy without paying cash.
             Expects a dict of kwargs or we just take our best guess.
         spells_to_tier/stt_kwargs: Award spells and kwargs for the func
+            "casters_only": Will only give spells to Casters.
         '''
         if tier_kwargs is None:
             tier_kwargs = {}
@@ -509,7 +510,10 @@ init -11 python:
         #     give_tiered_items(rg, **gtt_kwargs) # (old/simle(er) func)
 
         # Spells to Tier:
-        if spells_to_tier:
+        if spells_to_tier == "casters_only" and "Caster" in rg.gen_occs:
+            spells_to_tier = True
+
+        if spells_to_tier is True:
             give_tiered_magic_skills(rg, **stt_kwargs)
 
         # And add to char! :)
@@ -551,7 +555,7 @@ init -11 python:
             if not gbti_kwargs:
                 gbti_kwargs = {
                     "slots": {slot: 1 for slot in EQUIP_SLOTS},
-                    #"casual": True, - ignored and no necessary anyway
+                    #"casual": True, - ignored and unnecessary
                     "equip": True,
                     "check_money": False,
                     "limit_tier": False, # No need, the items are already limited to limit_tier
@@ -1051,7 +1055,7 @@ init -11 python:
                     value = round_int(value*skill_bios())
                     char.mod_skill(skill, value)
 
-        char.tier = round_int(tier) # Makes sure we can use float tiers
+        char.recalculate_tier()
 
     def exp_reward(char, difficulty, value=None,
                    ap_adjust=True, ap_used=1,

@@ -26,8 +26,8 @@ python early:
 define config.quicksave_slots = 6
 define config.window_icon = "content/gfx/interface/icons/win_icon.png"
 define config.adjust_view_size = None
-define config.image_cache_size_mb = 1000
-define config.debug_image_cache = True
+define config.image_cache_size_mb = 1250
+define config.debug_image_cache = False
 
 init -999 python:
     def show_panic_screen_func():
@@ -103,6 +103,9 @@ init -5 python hide:
 
     # Stop middle click hide menus
     config.keymap["hide_windows"] = None
+
+    # kill the new accessibility menu
+    config.keymap["accessibility"] = None
 
     BLOCKED_LABELS = ["after_load", "save_screen",
                       "sort_items_for_gameplay",

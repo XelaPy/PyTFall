@@ -61,7 +61,6 @@ screen city_beach():
         # Jump buttons:
         $ img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
         imagebutton:
-            id "meow"
             align (.99, .5)
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(.15)))

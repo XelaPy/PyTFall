@@ -207,6 +207,7 @@ screen pick_skill(char):
                     cols 6
                     spacing 3
                     scrollbars "vertical"
+                    mousewheel True
                     xysize (1280, 380)
                     side_xalign .5
                     $ attacks.sort(key=attrgetter("mn"))
@@ -310,7 +311,7 @@ screen battle_overlay(be):
         align .5, .01
         for member in battle.teams[0]:
             python:
-                profile_img = member.show('portrait', resize=(93, 93), cache=True)
+                profile_img = member.show('portrait', resize=(93, 93), label_cache=True)
                 if member in battle.corpses:
                     try:
                         profile_img = im.Sepia(profile_img)
@@ -344,7 +345,7 @@ screen battle_overlay(be):
                 frame:
                     padding 8, 2
                     xsize 155
-                    background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 5, 5)
+                    background Frame(Transform("content/gfx/frame/p_frame2.png", alpha=.6), 5, 5)
                     has vbox
 
                     label "[member.name]":

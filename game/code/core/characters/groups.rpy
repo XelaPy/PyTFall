@@ -131,13 +131,13 @@ init -8 python:
 
         @property
         def page_content(self):
-            ps = self.page_size
+            ps = 16
             start = self.page*ps
             return list(self.filtered_items)[start : (start+ps)]
 
         @property
         def max_page(self):
-            ps = self.page_size
+            ps = 16
             l = len(self.filtered_items)
             return int(l / ps) + (l % ps > 0)
 
@@ -196,7 +196,8 @@ init -8 python:
             self._attrs.extend(["be", '_inventory', 'img', 'portrait', 'nickname', 'effects', '_stats',
                                 'unselected'])
 
-            self.be = Delegator(l=[c.be for c in self.lst], at=".be")
+            be_remedy = {".be.front_row": self._most_common}
+            self.be = Delegator(l=[c.be for c in self.lst], remedy=be_remedy, at=".be")
             self._inventory = PytGInv([c.inventory for c in self.lst])
             self.img = "content/gfx/interface/images/group.png"
             self.portrait = "content/gfx/interface/images/group_portrait.png"
@@ -284,6 +285,9 @@ init -8 python:
 
         def _ordered_on_abundance(self, arr):
             return sorted(set(arr), reverse=True, key=lambda e: arr.count(e) if e else -1)
+
+        def _most_common(self, arr):
+            return max(set(arr), key=arr.count)
 
         def _average(self, arr):
             return round(float(sum(arr)) / max(len(arr), 1), 1)

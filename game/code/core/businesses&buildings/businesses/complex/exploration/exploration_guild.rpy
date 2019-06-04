@@ -19,6 +19,8 @@ init -9 python: # FG Area
             self.main = False
             self.area = None
 
+            self.unlocks = {}
+
             self.travel_time = 0
             self.hazard = dict()
             self.items = dict()
@@ -559,6 +561,8 @@ init -6 python: # Guild, Tracker and Log.
 
             for c in team:
                 if check_for_impairments(c):
+                    return c
+                if c.workplace == schools["-PyTFall Educators-"]:
                     return c
 
             # Setup Explorers:
