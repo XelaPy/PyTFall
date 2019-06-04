@@ -73,7 +73,7 @@
 	},
 	{
 		"id": "Hearth of the Forest",
-		"stage": 5,
+		"stage": 4,
 		"tier": 1.5,
 		"area": "Northern Route",
 		"desc": "Mystic, vital place within the forest, watched by the druids. A rumor says, that they guard a magic steam withing the forest, which water makes the spirits of the trees came to life and animals intelligent.",
@@ -94,7 +94,7 @@
 	},
 	{
 		"id": "High Pass",
-		"stage": 7,
+		"stage": 5,
 		"tier": 1.5,
 		"area": "Northern Route",
 		"desc": "Only alternative to the underground passage to reach the secrets beyond the mountains is to climb over the peaks. No safe way is known as the air is deadly cold and the mountains unforgiving.",
@@ -120,7 +120,7 @@
 	},
 	{
 		"id": "Rose of Winds",
-		"stage": 8,
+		"stage": 6,
 		"tier": 2.5,
 		"area": "Northern Route",
 		"desc": "The windswept mountain peak attracts creatures from the dimension of Wind, reliably driving away common travelers.",
@@ -145,7 +145,7 @@
 	},
 	{
 		"id": "Northern Peak",
-		"stage": 9,
+		"stage": 7,
 		"tier": 3.0,
 		"area": "Northern Route",
 		"desc": "The highest mountain in the area. Due to rarefied air only the most powerful creatures can live here.",
