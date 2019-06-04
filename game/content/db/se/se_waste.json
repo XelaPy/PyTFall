@@ -57,6 +57,7 @@
         "tier": 1.2,
         "exploration_multiplier": 0.5,
         "area": "Old Fortress",
+        "rchars": {"2k_tan": [50, 25]},
         "desc": "A small underground complex filled with magical equipment. Most of it is hopelessly broken.",
         "unlocked": false,
         "mobs": ["Mimicess", "Treasure Slime", "Earth Elemental", "Ogress"],
@@ -78,6 +79,7 @@
         "mobs": ["Seductive Slime", "Gargoyle", "Foggy Knight", "Thunder Spirit"],
         "unlocks": {"Crystal Caves": 65, "Flooded Lowlands": 90
         },
+        "rchars": {"Slime": [60, 15]},
         "travel_time": 0.3,
         "cash_limit": 250,
         "items_price_limit": 500,
@@ -91,6 +93,7 @@
         "area": "Old Fortress",
         "desc": "These caves are filled with sparkling crystals charged with electricity, and the air itself is abuzz with the power.",
         "unlocked": false,
+        "rchars": {"Slime": [20, 20]},
         "mobs": ["King Slime", "Undine", "Energized Undine", "Stoner", "Stone Eater", "Thunderous Cloud", "Thunderous Shadow"],
         "unlocks": {
         },

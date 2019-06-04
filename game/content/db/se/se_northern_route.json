@@ -188,6 +188,7 @@
         "area": "Northern Route",
         "desc": "The windswept mountain peak attracts creatures from the dimension of Wind, reliably driving away common travelers.",
         "unlocked": false,
+        "rchars": {"Leafa": [80, 25]},
         "travel_time": 2.5,
         "exploration_multiplier": 1.5,
         "mobs": ["Blast Beetle", "Hag", "Wind Spirit", "Storm Spirit"],

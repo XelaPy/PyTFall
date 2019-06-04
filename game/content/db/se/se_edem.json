@@ -28,7 +28,7 @@
         "travel_time": 1.5,
         "area": "Gardens of Eden",
         "unlocked": false,
-        "rchars": {},
+        "rchars": {"Angel": [70, 20]},
         "mobs": ["Archangel", "Oni"],
         "unlocks": {"Place of Judgment": 80},
         "cash_limit": 1500,
