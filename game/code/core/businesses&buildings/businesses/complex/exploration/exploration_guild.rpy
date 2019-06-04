@@ -1009,7 +1009,7 @@ init -6 python: # Guild, Tracker and Log.
                             min_val=0)
 
             # Exploration speed:
-            exploration_rate = self.rewards_mod(tracker, 2, mb_ability=True,
+            exploration_rate = self.rewards_mod(tracker, 1, mb_ability=True,
                                     mb_risk=True,
                                     mb_exploration_day=False, mb_explored=False,
                                     min_val=.2)
