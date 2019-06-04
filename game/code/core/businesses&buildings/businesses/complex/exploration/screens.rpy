@@ -1,8 +1,7 @@
+default focused_area_index = 0
+
 screen building_management_leftframe_exploration_guild_mode:
     if bm_exploration_view_mode == "explore":
-
-        default focused_area_index = 0
-
         $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked is True], key=attrgetter("stage"))
         vbox:
             xsize 320 spacing 1
@@ -26,7 +25,7 @@ screen building_management_leftframe_exploration_guild_mode:
                     style "paging_green_button_left"
                     yalign .5
                     tooltip "Previous Page"
-                    action SetScreenVariable("focused_area_index", (focused_area_index - 1) % len(temp)), SetScreenVariable("focused_log", None)
+                    action SetVariable("focused_area_index", (focused_area_index - 1) % len(temp)), SetScreenVariable("focused_log", None)
                 null width 5
                 frame:
                     background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
@@ -52,7 +51,7 @@ screen building_management_leftframe_exploration_guild_mode:
                     style "paging_green_button_right"
                     yalign .5
                     tooltip "Next Page"
-                    action SetScreenVariable("focused_area_index", (focused_area_index + 1) % len(temp)), SetScreenVariable("focused_log", None)
+                    action SetVariable("focused_area_index", (focused_area_index + 1) % len(temp)), SetScreenVariable("focused_log", None)
 
             # Sub Areas:
             null height 5
