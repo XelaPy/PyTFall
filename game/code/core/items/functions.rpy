@@ -33,9 +33,9 @@ init -11 python:
         """First level of checks, all items should be equipped through this function!
         """
         if not can_equip(item, char, silent=silent):
-            store.block_say = False
             return
 
+        store.block_say = False # Should be removed in the future:
         char.equip(item)
 
     def transfer_items(source, target, item, amount=1, silent=False, force=False):
