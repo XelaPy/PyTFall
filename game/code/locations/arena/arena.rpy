@@ -260,7 +260,7 @@ init -9 python:
             return True
 
         # -------------------------- Update Methods ---------------------------------------------->
-        def update_ladder(self):
+        def update_reputation_ladder(self):
             # Update top 100 ladder:
             candidates = self.get_arena_fighters(include_hero_girls=True)
             candidates.append(hero)
@@ -698,7 +698,7 @@ init -9 python:
             candidates.sort(key=attrgetter("tier"), reverse=True)
 
             # Populate the reputation ladder:
-            self.update_ladder()
+            self.update_reputation_ladder()
 
             # Populate tournament ladders:
             # 1v1 Ladder lineup:
@@ -986,7 +986,7 @@ init -9 python:
                     defeated_mobs[mob.id] = 1
 
                 # Ladder
-                self.update_ladder()
+                self.update_reputation_ladder()
 
                 self.cf_count += 1
 
@@ -1241,7 +1241,7 @@ init -9 python:
                 renpy.call_screen("arena_aftermatch", enemy_team, hero.team, "Loss")
 
             # Ladder
-            self.update_ladder()
+            self.update_reputation_ladder()
 
             # record the event
             self.df_count += 1
@@ -1333,7 +1333,7 @@ init -9 python:
             self.update_setups(winner, loser)
 
             # Ladder
-            self.update_ladder()
+            self.update_reputation_ladder()
 
             # record the event
             self.hero_match_result = [self.shallow_copy_team(winner), self.shallow_copy_team(loser)]
@@ -1500,7 +1500,7 @@ init -9 python:
             self.daily_report = gazette.arena = txt
 
             # Update top 100 ladder:
-            self.update_ladder()
+            self.update_reputation_ladder()
 
             # Reset daily variables
             self.df_count = 0
