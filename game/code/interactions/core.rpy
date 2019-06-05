@@ -73,7 +73,6 @@ init -1 python:
                     shuffle(local_chars)
                 self.girls.append(local_chars.pop())
 
-
             # Append to the list (1st girl) Best disposition:
             # This whole codebit needs to be rewritten when Interactions are restructured.
             if conditioned_choices and len(self.girls) < 3:

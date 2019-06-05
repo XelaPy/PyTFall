@@ -282,8 +282,11 @@ init -11 python:
 
                 if not item.badtraits.isdisjoint(character.traits):
                     return True
-
             else:
+                # scrolls are always allowed:
+                if item.type == "scroll":
+                    return True
+
                 # Bad Traits:
                 if not item.badtraits.isdisjoint(character.traits):
                     if not silent:
