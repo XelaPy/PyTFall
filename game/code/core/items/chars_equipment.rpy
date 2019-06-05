@@ -91,7 +91,7 @@ label char_equip:
 label char_equip_loop:
     while 1:
         $ result = ui.interact()
-        #$ char = eqtarget
+        $ block_say = False
 
         if not result:
             jump char_equip_loop
@@ -106,6 +106,7 @@ label char_equip_loop:
                 renpy.show_screen("equip_for", renpy.get_mouse_pos())
                 dummy = None
         elif result[0] == "item":
+            $ block_say = True
             if result[1] == 'equip/unequip':
                 $ dummy = None # Must be set here so the items that jump away to a label work properly.
                 python:
@@ -167,7 +168,6 @@ label char_equip_loop:
                 python:
                     focusitem = result[2]
                     if isinstance(inv_source, PytGroup) and inv_source.inventory[focusitem] == 0:
-
                         selected_chars = inv_source.all
                         inv_source.lst = set([c for c in selected_chars if c.inventory[focusitem]])
                         inv_source.unselected = set([c for c in selected_chars if not c.inventory[focusitem]])
@@ -283,6 +283,8 @@ label char_equip_finish:
     hide screen char_equip
 
     python:
+        block_say = False
+
         # Reset all globals so screens that lead here don't get thrown off:
         focusitem = None
         selectedslot = None

@@ -33,6 +33,7 @@ init -11 python:
         """First level of checks, all items should be equipped through this function!
         """
         if not can_equip(item, char, silent=silent):
+            store.block_say = False
             return
 
         char.equip(item)
