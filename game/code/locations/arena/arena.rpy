@@ -260,6 +260,13 @@ init -9 python:
             return True
 
         # -------------------------- Update Methods ---------------------------------------------->
+        def update_ladder(self):
+            # Update top 100 ladder:
+            candidates = self.get_arena_fighters(include_hero_girls=True)
+            candidates.append(hero)
+            candidates.sort(reverse=True, key=attrgetter("arena_rep"))
+            self.ladder = candidates[:len(self.ladder)]
+
         def update_teams(self):
             '''Makes sure that there are enough teams for Arena to function properly.
             If members are removed from teams directly, it is up to the respective method to find a replacement...
@@ -641,12 +648,92 @@ init -9 python:
             self.start_matchfight(battle_setup)
 
         # -------------------------- Setup Methods -------------------------------->
-        def update_ladder(self):
-            # Update top 100 ladder:
-            candidates = self.get_arena_fighters(include_hero_girls=True)
-            candidates.append(hero)
-            candidates.sort(reverse=True, key=attrgetter("arena_rep"))
-            self.ladder = candidates[:len(self.ladder)]
+        def setup_arena(self):
+            """Initial Arena Setup, this will be improved and prolly split several
+            times and I should prolly call it init() as in other classes...
+            """
+            # Team formations!!!: -------------------------------------------------------------->
+            # self.load_special_team_presets()
+
+            self.arena_fighters.update(store.male_fighters)
+            self.arena_fighters.update(store.female_fighters)
+
+            final_candidates = []
+
+            # Do the Arena Fighters/Set KING:
+            candidates = self.arena_fighters.values()
+            shuffle(candidates)
+
+            if not self.king: # Add da King!
+                fighter = candidates.pop()
+                rep = randint(100000, 110000)
+                self.king = self.setup_arena_fighter(fighter, tier=8, set_rep=rep)
+                # final_candidates.append(fighter)
+
+            # Setting up some decent fighters:
+            power_levels = [uniform(4.8, 7.0) for i in range(15)]
+            power_levels.extend([uniform(3.0, 4.9) for i in range(10)])
+            power_levels.extend([uniform(2.7, 3.5) for i in range(10)])
+            power_levels.extend([uniform(1.8, 2.9) for i in range(15)])
+            power_levels.extend([uniform(1.5, 2.3) for i in range(10)])
+            power_levels.extend([uniform(.8, 1.8) for i in range(15)])
+            power_levels.extend([uniform(.4, 1.2) for i in range(20)])
+            power_levels.extend([uniform(.1, .8) for i in range(15)])
+
+            for tier, fighter in izip_longest(power_levels, candidates):
+                if tier is None:
+                    tier = uniform(.5, 3.5)
+
+                rep = randint(int(tier*9000), int(tier*11000))
+                fighter = self.setup_arena_fighter(fighter, tier=tier, set_rep=rep)
+                final_candidates.append(fighter)
+
+            # uChars and rChars:
+            candidates = self.get_arena_candidates_from_chars()
+            for fighter in candidates:
+                self.setup_arena_fighter(fighter, tier_up=False, set_rep=False)
+                final_candidates.append(fighter)
+
+            candidates = final_candidates
+            candidates.sort(key=attrgetter("tier"), reverse=True)
+
+            # Populate the reputation ladder:
+            self.update_ladder()
+
+            # Populate tournament ladders:
+            # 1v1 Ladder lineup:
+            temp = candidates[:30]
+            shuffle(temp)
+            temp.append(self.king)
+
+            for team in self.lineup_1v1:
+                if not team:
+                    f = temp.pop()
+                    team.add(f)
+
+            # 2v2 Ladder lineup:
+            temp = candidates[:50]
+            shuffle(temp)
+            temp.append(self.king)
+
+            for team in self.lineup_2v2:
+                if not team.name:
+                    team.name = get_team_name()
+                while len(team) < 2:
+                    f = temp.pop()
+                    team.add(f)
+
+            # 3v3 Ladder lineup:
+            temp = candidates[:60]
+            shuffle(temp)
+            temp.append(self.king)
+
+            for team in self.lineup_3v3:
+                if not team.name:
+                    team.name = get_team_name()
+                while len(team) < 3:
+                    f = temp.pop()
+                    team.add(f)
 
         def load_special_team_presets(self):
             json_fighters = store.json_fighters
@@ -750,127 +837,29 @@ init -9 python:
                     if teamsize == 3:
                         self.teams_3v3.append(a_team)
 
-        def setup_arena(self):
-            """Initial Arena Setup, this will be improved and prolly split several
-            times and I should prolly call it init() as in other classes...
-            """
-            # Team formations!!!: -------------------------------------------------------------->
-            self.load_special_team_presets()
-            self.arena_fighters.update(store.male_fighters)
-            self.arena_fighters.update(store.female_fighters)
+        def setup_arena_fighter(self, fighter=None, tier=1, tier_up=True,
+                                set_rep=False):
+            if fighter is None:
+                fighter = build_rc(bt_go_patterns=["Combatant"], tier=tier,
+                                   set_status="free", give_bt_items=True,
+                                   spells_to_tier="casters_only")
+            elif tier_up: # Setting up an existing fighter:
+                tier_up_to(fighter, tier)
+                initial_item_up(fighter, give_bt_items=True)
+                if "Caster" in fighter.gen_occs:
+                    give_tiered_magic_skills(fighter)
 
-            # Loading rest of Arena Combatants:
-            candidates = store.male_fighters.values() + store.female_fighters.values()
-            candidates.extend(self.get_arena_candidates_from_chars())
+            fighter.arena_active = True
+            fighter.arena_permit = True
+            fighter.home = locations["City Apartments"]
+            set_location(fighter, self)
+            fighter.action = "Arena Combat"
+            fighter.set_status("free")
 
-            # Bad place to put this, but for now:
-            for c in candidates:
-                c.set_status("free")
+            if set_rep:
+                fighter.arena_rep = set_rep
 
-            shuffle(candidates)
-
-            # print("CANDIDATES: {}".format(len(candidates)))
-
-            # Add da King!
-            if not self.king:
-                tier_kwargs = {"level_bios": (1.0, 1.2), "stat_bios": (1.0, 1.2)}
-                if candidates:
-                    char = candidates.pop()
-                    tier_up_to(char, 8, **tier_kwargs)
-                    initial_item_up(char, give_bt_items=True)
-                    if "Caster" in char.gen_occs:
-                        give_tiered_magic_skills(char)
-                else:
-                    char = build_rc(tier=8,
-                                    set_status="free",
-                                    tier_kwargs=tier_kwargs,
-                                    give_bt_items=True,
-                                    spells_to_tier="casters_only")
-
-                char.arena_active = True
-                char.arena_permit = True
-                char.home = locations["City Apartments"]
-                set_location(char, self)
-                char.action = "Arena Combat"
-
-                char.arena_rep = randint(79000, 81000)
-                self.king = char
-
-            # Setting up some decent fighters:
-            power_levels = [uniform(3.8, 5.2) for i in range(15)]
-            power_levels.extend([uniform(3.0, 4.5) for i in range(15)])
-            power_levels.extend([uniform(2.3, 3.5) for i in range(15)])
-            power_levels.extend([uniform(1.8, 2.6) for i in range(15)])
-            power_levels.extend([uniform(1.5, 2.3) for i in range(15)])
-            power_levels.extend([uniform(.8, 1.8) for i in range(15)])
-            power_levels.extend([uniform(.4, 1.2) for i in range(10)])
-            power_levels.extend([uniform(.2, .8) for i in range(10)])
-            # print("POWER LEVELS: {}".format(len(power_levels)))
-            new_candidates = []
-            for tier, fighter in izip_longest(power_levels, candidates):
-                if tier is None:
-                    break
-                if fighter is None:
-                    fighter = build_rc(bt_go_patterns=["Combatant"], tier=tier,
-                           set_status="free", give_bt_items=True, spells_to_tier="casters_only")
-                    # print("Created Arena RG: {}".format(fighter.name))
-                    new_candidates.append(fighter)
-                else:
-                    tier_up_to(fighter, tier)
-                    initial_item_up(fighter, give_bt_items=True)
-                    if "Caster" in fighter.gen_occs:
-                        give_tiered_magic_skills(fighter)
-
-                fighter.arena_active = True
-                fighter.arena_permit = True
-                fighter.home = locations["City Apartments"]
-                set_location(fighter, self)
-                fighter.action = "Arena Combat"
-
-                fighter.arena_rep = randint(int(tier*9000), int(tier*11000))
-
-            candidates.extend(new_candidates)
-
-            # Populate the reputation ladder:
-            self.update_ladder()
-
-            # Populate tournament ladders:
-            # 1v1 Ladder lineup:
-            temp = candidates[:30]
-            shuffle(temp)
-            temp.append(self.king)
-
-            for team in self.lineup_1v1:
-                if not team:
-                    f = temp.pop()
-                    f.arena_active = True
-                    team.add(f)
-
-            # 2v2 Ladder lineup:
-            temp = candidates[:50]
-            shuffle(temp)
-            temp.append(self.king)
-
-            for team in self.lineup_2v2:
-                if not team.name:
-                    team.name = get_team_name()
-                while len(team) < 2:
-                    f = temp.pop()
-                    f.arena_active = True
-                    team.add(f)
-
-            # 3v3 Ladder lineup:
-            temp = candidates[:60]
-            shuffle(temp)
-            temp.append(self.king)
-
-            for team in self.lineup_3v3:
-                if not team.name:
-                    team.name = get_team_name()
-                while len(team) < 3:
-                    f = temp.pop()
-                    f.arena_active = True
-                    team.add(f)
+            return fighter
 
         # -------------------------- ChainFights vs Mobs ------------------------>
         def update_cf(self):
