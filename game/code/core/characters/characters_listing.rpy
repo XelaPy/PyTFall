@@ -71,6 +71,9 @@ screen chars_list(source=None):
 
     key "mousedown_3" action Return(['control', 'return']) # keep in sync with button - alternate
 
+    if chars_list_last_page_viewed < 0:
+        $ chars_list_last_page_viewed = 0
+
     # Normalize pages.
     default page_size = 10
     default page = chars_list_last_page_viewed
