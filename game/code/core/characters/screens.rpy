@@ -295,6 +295,8 @@ screen finances(obj, mode="logical"):
                 for d in days:
                     if d == store.day:
                         $ temp = "Today"
+                    elif d == -1:
+                        pass
                     elif isinstance(d, int):
                         $ temp = "Day " + str(d)
                     else:
