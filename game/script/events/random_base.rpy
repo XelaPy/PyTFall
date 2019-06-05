@@ -4,7 +4,7 @@ init -1 python:
     register_event("found_item_event", locations=["all"], run_conditions=["dice(max(35, hero.luck+20))"], priority=50, dice=0, restore_priority=0)
 
 label found_money_event(event):
-    $ amount = locked_random("randint", 5, 10) + max(0, hero.luck) + hero.level
+    $ amount = locked_random("randint", 20, 50) + max(0, hero.luck*10) + hero.level*3
     $ hero.add_money(amount, "Luck")
     $ gfx_overlay.random_find(amount, 'gold')
     $ hero.say(choice(["Some money... Excellent.", "Free gold, nice!",
