@@ -457,8 +457,9 @@ init -11 python:
                 fighter.traits.basetraits.add(t)
                 fighter.apply_trait(t)
 
-            for e in random.sample(elements, max(1, len(elements)-randint(0, 7))):
-                fighter.apply_trait(e)
+            if "Caster" in fighter.gen_occs:
+                for e in random.sample(elements, max(1, len(elements)-randint(0, 7))):
+                    fighter.apply_trait(e)
 
             random_traits = [traits[t] for t in random_traits]
             for e in random.sample(random_traits, max(1, randint(1, len(random_traits)))):
