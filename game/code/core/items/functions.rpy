@@ -283,8 +283,8 @@ init -11 python:
                 if not item.badtraits.isdisjoint(character.traits):
                     return True
             else:
-                # scrolls are always allowed:
-                if item.type == "scroll":
+                # scrolls are always allowed for D > 200:
+                if item.type == "scroll" and character.disposition >= 200:
                     return True
 
                 # Bad Traits:
