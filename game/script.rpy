@@ -332,6 +332,9 @@ label continue_with_start:
 
     $ hero.clear_img_cache()
 
+    if DEBUG:
+        call mobs_debug
+
     jump mainscreen
 
 label sort_items_for_gameplay:
