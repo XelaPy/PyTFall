@@ -653,8 +653,6 @@ init -9 python:
             times and I should prolly call it init() as in other classes...
             """
             # Team formations!!!: -------------------------------------------------------------->
-            # self.load_special_team_presets()
-
             self.arena_fighters.update(store.male_fighters)
             self.arena_fighters.update(store.female_fighters)
 
@@ -693,6 +691,10 @@ init -9 python:
             for fighter in candidates:
                 self.setup_arena_fighter(fighter, tier_up=False, set_rep=False)
                 final_candidates.append(fighter)
+
+            # Load the special teams:
+            # Also adds final few Arena Fighters:
+            self.load_special_team_presets()
 
             candidates = final_candidates
             candidates.sort(key=attrgetter("tier"), reverse=True)
@@ -738,6 +740,7 @@ init -9 python:
         def load_special_team_presets(self):
             json_fighters = store.json_fighters
             teams = json.load(renpy.file("content/db/arena_teams.json"))
+
             for team in teams:
                 members = team["members"]
                 name = team["name"]
@@ -755,53 +758,39 @@ init -9 python:
 
                 a_team = Team(name=name, max_size=teamsize)
                 for index, member in enumerate(members):
-                    if member == "random_char":
-                        member = build_rc(bt_go_patterns=["Combatant"],
-                                          tier=uniform(.8, 1.4),
-                                          give_bt_items=True,
-                                          spells_to_tier="casters_only")
+                    try:
+                        tier = tiers[index]
+                    except:
+                        tier = uniform(.8, 1.4)
+                    rep = randint(int(tier*9000), int(tier*11000))
+
+                    if member == "random_char" or member in rchars:
+                        if member in rchars:
+                            id = member
+                        else:
+                            id = None
+
+                        member = self.setup_arena_fighter(fighter=None, tier=tier,
+                                                tier_up=True, set_rep=rep, rchar_id=id)
                     elif member in chars:
                         member = chars[member]
-                        if member in hero.chars:
-                            hero.remove_char(member)
-                        if member in self.get_teams_fighters(teams="2v2"):
-                            raise Exception("You've added unique character %s" \
-                                            " to 2v2 Arena teams twice!" % chars[member].name)
-                        if member in self.get_teams_fighters(teams="3v3"):
-                            raise Exception("You've added unique character %s to 3v3 Arena teams more than once!" % chars[member].name)
+                        member = self.setup_arena_fighter(fighter=member,
+                                                tier_up=False, set_rep=rep)
                     elif member in json_fighters:
                         member = json_fighters[member]
-                        if member in self.get_teams_fighters(teams="2v2"):
-                            raise Exception("You've added an unique Arena" \
-                                            " Fighter %s to 2v2 Arena teams twice!" % member.name)
-                        if member in self.get_teams_fighters(teams="3v3"):
-                            raise Exception("You've added an unique" \
-                                " Arena Fighter %s to 3v3 Arena teams more than once!" % member.name)
+                        member = self.setup_arena_fighter(fighter=member,
+                                                tier_up=True, set_rep=rep)
                         self.arena_fighters[member.id] = member
-                    elif member in rchars:
-                        member = build_rc(id=member,
-                                          bt_go_patterns=["Combatant"],
-                                          tier=uniform(.8, 1.4),
-                                          give_bt_items=True,
-                                          spells_to_tier="casters_only")
                     else:
                         raise Exception("Team Fighter %s is of unknown origin!" % member)
 
-                    member.set_status("free")
-                    member.arena_active = True
-                    member.arena_permit = True
-                    member.home = locations["City Apartments"]
-                    set_location(member, self)
-                    member.action = "Arena Combat"
-
-                    tier = tiers[index]
-                    tier_up_to(member, tier)
-                    initial_item_up(member, give_bt_items=True)
-                    if "Caster" in member.gen_occs:
-                        give_tiered_magic_skills(member)
-                    member.arena_rep = randint(int(tier*9000), int(tier*11000))
-
                     a_team.add(member)
+
+                    if member in self.get_teams_fighters(teams="2v2"):
+                        raise Exception("You've added unique character %s" \
+                                        " to 2v2 Arena teams twice!" % chars[member].name)
+                    if member in self.get_teams_fighters(teams="3v3"):
+                        raise Exception("You've added unique character %s to 3v3 Arena teams more than once!" % chars[member].name)
 
                 if lineups:
                     if teamsize == 1:
@@ -838,9 +827,10 @@ init -9 python:
                         self.teams_3v3.append(a_team)
 
         def setup_arena_fighter(self, fighter=None, tier=1, tier_up=True,
-                                set_rep=False):
+                                set_rep=False, rchar_id=None):
             if fighter is None:
-                fighter = build_rc(bt_go_patterns=["Combatant"], tier=tier,
+                fighter = build_rc(id=rchar_id,
+                                   bt_go_patterns=["Combatant"], tier=tier,
                                    set_status="free", give_bt_items=True,
                                    spells_to_tier="casters_only")
             elif tier_up: # Setting up an existing fighter:
