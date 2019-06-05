@@ -67,9 +67,12 @@ init -1 python:
                     if c in interactive_chars:
                         gm.remove_girl(c)
                     local_chars.append(c)
-            shuffle(local_chars)
+            local_chars.sort(key=attrgetter("disposition"))
             while local_chars and len(self.girls) < 3:
+                if len(self.girls) == 2 and local_chars:
+                    shuffle(local_chars)
                 self.girls.append(local_chars.pop())
+
 
             # Append to the list (1st girl) Best disposition:
             # This whole codebit needs to be rewritten when Interactions are restructured.
