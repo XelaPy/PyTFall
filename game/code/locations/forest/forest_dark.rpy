@@ -64,7 +64,8 @@ screen city_dark_forest():
             button:
                 xysize (120, 40)
                 yalign .5
-                action [Hide("city_dark_forest"), Jump("mc_action_city_dark_forest_rest"), With(dissolve), SensitiveIf(hero.flag("dark_forest_rested_today") != day)]
+                action [Hide("city_dark_forest"), Jump("mc_action_city_dark_forest_rest"), With(dissolve)]
+                sensitive hero.flag("dark_forest_rested_today") != day and hero.AP > 1
                 text "Rest" size 15
             if hero.has_flag("found_old_ruins"):
                 button:
@@ -133,6 +134,7 @@ label mc_action_city_dark_forest_rest:
     $ global_flags.set_flag("keep_playing_music")
 
     python:
+        hero.AP -= 1
         for i in hero.team:
             i.vitality += int(i.get_max("vitality")*.25)
             i.health += int(i.get_max("health")*.05)
