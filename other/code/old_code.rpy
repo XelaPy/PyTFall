@@ -1,4 +1,21 @@
 # Old Code that may not be immediately useful any longer but can still be used for referencing or in future development.
+    # def auto_buy_for_bt(char, slots=None, casual=None, equip=True,
+    #                     check_money=False, limit_tier=False,
+    #                     container=None):
+    #     if slots is None:
+    #         slots = {slot: 1 for slot in EQUIP_SLOTS}
+    #     if casual is None:
+    #         casual = True
+    #     if container is None:
+    #         container = []
+    #         limit_tier = ((char.tier/2)+1)
+    #         for i in range(limit_tier):
+    #             container.extend(store.tiered_items.get(i, []))
+    #
+    #     char.auto_buy(slots=slots, casual=casual, equip=equip,
+    #                   check_money=check_money, limit_tier=limit_tier,
+    #                   container=container)
+
     # def give_tiered_items(char, amount=1, gen_occ=None, occ=None, equip=False):
     #     """Gives items based on tier and class of the character.
     #
