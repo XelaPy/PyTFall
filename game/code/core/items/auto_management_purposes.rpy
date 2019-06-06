@@ -49,7 +49,7 @@ init python:
          "sub_purpose": [],
          "real_weapons": True},
     "Shooter":
-        {"target_stats": ["agility", 'attack', 'defence', "luck"],
+        {"target_stats": ["agility", 'attack', "luck"],
          "exclude_on_stats": ["agility", "luck"],
          "target_skills": [],
          "exclude_on_skills": [],
