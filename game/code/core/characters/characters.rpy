@@ -1129,22 +1129,21 @@ init -9 python:
                 diminished by use of the item *Decreased the chance of picking this item
             exclude_on_skills: items will not be used if stats in this list are being
                 diminished by use of the item *Decreased the chance of picking this item
-            ==>   do not put stats/skills both in target* and in exclude_on_* !
-            *default: All Stats - targetstats
+                do not put the same stats/skills both in target_* and in exclude_on_*!
+                *default: All Stats - targetstats << What does this mean?
             slots: a list of slots, contains just consumables by default
             inv: inventory to draw from.
             real_weapons: Do we equip real weapon types (*Broom is now considered a weapon as well)
             base_purpose: What we're equipping for, used to check vs item.pref_class (list)
-            sub_purpose: Same as above but less weight (list)
+            sub_purpose: Same as above but at less weight (list)
                 If not purpose is matched only 'Any' items will be used.
 
-
             So basically the way this works ATM is like this:
-            We create a dict (weighted) of slot: [].
+            We create a dict (weighted) of slot: [[_weight, item], [_weight, item]].
 
             In the list of values of weighted we add lists of weight values
             which we gather and item we gather them for. That is done in Stats.eval_inventory
-            and pytChar.equip_chance methods. Later we come back here and sort out the results
+            and pytChar.equip_chance methods. Later we come back here and sort out the results.
             """
 
             # Prepare data:
@@ -1229,17 +1228,20 @@ init -9 python:
 
                 if slot in ("consumable", "ring"):
                    # create a list of weight/item pairs for consumables
-                   #  and rings we may want to equip more than one of.
-                   selected = [[sum(_weight), item] for _weight, item in picks if sum(_weight) > 0]
+                   # and rings we may want to equip more than one of.
+                   selected = []
+                   for weights, item in picks:
+                       s = sum(weights)
+                       if s > 0:
+                           selected.append([s, item])
                    selected.sort(key=itemgetter(0), reverse=True)
 
                    rings_to_equip = 3 if slot == "ring" else -1
                    for weight, item in selected:
                        while 1:
                            # Recheck the situation before using an item
-
-                           # consider the effects of Drunk, overeating, etc...
-                           if rings_to_equip == -1:
+                           # consider the effects of Drunk, Overeating, etc...
+                           if rings_to_equip == -1: # (Consumable)
                                result = self.equip_chance(item)
                                if result is None or sum(result) <= 0:
                                    break
@@ -1260,8 +1262,7 @@ init -9 python:
                                for skill in item.mod_skills:
                                    if skill in target_skills:
                                        break # useful
-                               else:
-                                   # not useful for skills either -> next
+                               else: # not useful for skills either -> next
                                    break
 
                            inv.remove(item)

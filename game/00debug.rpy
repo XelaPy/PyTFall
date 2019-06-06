@@ -43,7 +43,7 @@ init -998 python:
             func("|ND DEBUG| {}".format(msg))
 
     # Item systems:
-    DEBUG_AUTO_ITEM = False
+    DEBUG_AUTO_ITEM = True
     def aeq_debug(msg, *args):
         if DEBUG_AUTO_ITEM:
             devlog.info("|AEQ DEBUG| {}".format(msg), *args)
