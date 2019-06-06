@@ -522,13 +522,34 @@ init -11 python:
 
         return rg
 
+    def arena_fighter_iiu(fighter):
+        container = set([])
+        limit_tier = ((fighter.tier/2)+1)
+        for i in range(limit_tier):
+            container = container.union(store.tiered_items.get(i, []))
+
+        gbti_kwargs = {
+            "slots": {slot: 1 for slot in EQUIP_SLOTS},
+            "equip": True,
+            "check_money": False,
+            "limit_tier": False,
+            "container": container,
+            "smart_ownership_limit": False,
+            "purpose": None,
+            "direct_equip": True}
+        gbti_kwargs["slots"]["ring"] = 3
+
+        initial_item_up(fighter, give_bt_items=True,
+                        gbti_kwargs=gbti_kwargs,
+                        set_container=False)
+
     def initial_item_up(char, give_civilian_items=False, give_bt_items=False,
-                        gci_kwargs=None, gbti_kwargs=None):
+                        gci_kwargs=None, gbti_kwargs=None, set_container=True):
         """Gives items to a character as well as equips for a specific task.
 
         Usually ran right after we created the said character.
         """
-        if give_civilian_items or give_bt_items:
+        if set_container:
             container = set([])
             limit_tier = ((char.tier/2)+1)
             for i in range(limit_tier):
@@ -537,13 +558,10 @@ init -11 python:
         if give_civilian_items:
             if not gci_kwargs:
                 default = {
-                    # "slots": {slot: 1 for slot in EQUIP_SLOTS},
-                    #"casual": True,  - ignored and not necessary anyway
                     "equip": not give_bt_items, # Equip only for civ items.
                     "purpose": "Slave" if char.status == "slave" else "Casual",
                     "check_money": False,
                     "limit_tier": False, # No need, the items are already limited to limit_tier
-                    # "container": container,
                     "smart_ownership_limit": False}
                 for slot in EQUIP_SLOTS:
                     container = container.intersection(per_slot_auto_buy_items.get(slot, []))
