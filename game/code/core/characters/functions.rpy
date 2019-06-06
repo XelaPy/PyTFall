@@ -529,40 +529,54 @@ init -11 python:
         Usually ran right after we created the said character.
         """
         if give_civilian_items or give_bt_items:
-            container = []
+            container = set([])
             limit_tier = ((char.tier/2)+1)
             for i in range(limit_tier):
-                container.extend(store.tiered_items.get(i, []))
+                container = container.union(store.tiered_items.get(i, []))
 
         if give_civilian_items:
             if not gci_kwargs:
-                gci_kwargs = {
-                    "slots": {slot: 1 for slot in EQUIP_SLOTS},
+                default = {
+                    # "slots": {slot: 1 for slot in EQUIP_SLOTS},
                     #"casual": True,  - ignored and not necessary anyway
                     "equip": not give_bt_items, # Equip only for civ items.
                     "purpose": "Slave" if char.status == "slave" else "Casual",
                     "check_money": False,
                     "limit_tier": False, # No need, the items are already limited to limit_tier
-                    "container": container,
-                    "smart_ownership_limit": False
-                }
-            char.auto_buy(**gci_kwargs)
+                    # "container": container,
+                    "smart_ownership_limit": False}
+                for slot in EQUIP_SLOTS:
+                    container = container.intersection(per_slot_auto_buy_items.get(slot, []))
+                    gci_kwargs = default.copy()
+                    gci_kwargs["slots"] = {slot: 1}
+                    gci_kwargs["container"] = container
+                    char.auto_buy(**gci_kwargs)
+            else:
+                char.auto_buy(**gci_kwargs)
 
         if give_bt_items:
             if not gbti_kwargs:
-                gbti_kwargs = {
-                    "slots": {slot: 1 for slot in EQUIP_SLOTS},
+                default = {
+                    # "slots": {slot: 1 for slot in EQUIP_SLOTS},
                     #"casual": True, - ignored and unnecessary
                     "equip": True,
                     "check_money": False,
                     "limit_tier": False, # No need, the items are already limited to limit_tier
-                    "container": container,
+                    # "container": container,
                     "smart_ownership_limit": give_civilian_items,
-
                     "purpose": None, # Figure out in auto_buy method.
-                    "direct_equip": True
-                }
-            char.auto_buy(**gbti_kwargs)
+                    "direct_equip": True}
+                for slot in EQUIP_SLOTS:
+                    container = container.intersection(per_slot_auto_buy_items.get(slot, []))
+                    gbti_kwargs = default.copy()
+                    if slot == "ring":
+                        gbti_kwargs["slots"] = {slot: randint(1, 3)}
+                    else:
+                        gbti_kwargs["slots"] = {slot: 1}
+                    gbti_kwargs["container"] = container
+                    char.auto_buy(**gbti_kwargs)
+            else:
+                char.auto_buy(**gbti_kwargs)
 
     def auto_buy_for_bt(char, slots=None, casual=None, equip=True,
                         check_money=False, limit_tier=False,

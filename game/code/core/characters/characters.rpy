@@ -1391,7 +1391,7 @@ init -9 python:
 
         def auto_buy(self, item=None, amount=1, slots=None, casual=False,
                      equip=False, container=None, purpose=None,
-                     check_money=True, inv=None,
+                     check_money=True,
                      limit_tier=False, direct_equip=False,
                      smart_ownership_limit=True):
             """Gives items a char, usually by 'buying' those,
@@ -1422,27 +1422,20 @@ init -9 python:
 
             - Add items class_prefs and Casual.
             - Add casual as attr.
-            - Maybe merge with give_tiered_items somehow!
             """
             if item:
                 return self.auto_buy_item(item, amount, equip)
 
-            if not container: # Pick the container we usually shop from:
-                container = store.all_auto_buy_items
             if slots is None:
                 # add slots with reasonable limits
                 slots = {s: 2 for s in store.EQUIP_SLOTS}
                 slots["ring"] = 5
                 slots["consumable"] = 20
             else:
-                amount = 0
-                for a in slots.values():
-                    amount += a
+                amount = sum(slots.values())
 
             if amount == 0:
                 return []
-
-
 
             if not purpose: # Let's see if we can get a purpose from last known auto equip purpose:
                 purpose = self.guess_aeq_purpose(self.last_known_aeq_purpose)
@@ -1478,7 +1471,6 @@ init -9 python:
                               limit_tier=limit_tier,
                               smart_ownership_limit=smart_ownership_limit,
                               **kwargs)
-
 
             rv = [] # List of item name strings we return in case we need to report
             # what happened in this method to player.
