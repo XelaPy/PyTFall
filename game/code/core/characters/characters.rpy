@@ -1047,7 +1047,7 @@ init -9 python:
             if item.type == "permanent": # Never pick permanent?
                 return None
 
-            chance = []
+            weights = defaultdict(int)
             when_drunk = 30
             appetite = 50
 
@@ -1056,7 +1056,7 @@ init -9 python:
                     return None
 
                 if trait in item.goodtraits:
-                    chance.append(100)
+                    weights["goodtraits"] += 100
 
                 # Other traits:
                 trait = trait.id # never compare trait entity with trait str, it is SLOW
@@ -1064,11 +1064,11 @@ init -9 python:
                     appetite -= 10
                 elif trait == "Kamidere": # Vanity: wants pricy uncommon items, but only lasting ones(especially scrolls should be excluded)
                     if not (item.slot == "consumable"):
-                        chance.append((100 - item.chance + min(item.price/10, 100))/2)
+                        weights["Kamidere"] = (100 - item.chance + min(item.price/10, 100))/2
                 elif trait == "Tsundere": # stubborn: what s|he won't buy, s|he won't wear.
-                    chance.append(100 - item.badness)
+                    weights["Tsundere"] = 100 - item.badness
                 elif trait == "Bokukko": # what the farmer don't know, s|he won't eat.
-                    chance.append(item.chance)
+                    weights["Bokukko"] = item.chance
                 elif trait == "Heavy Drinker":
                     when_drunk = 45
                 elif trait == "Always Hungry":
@@ -1081,12 +1081,12 @@ init -9 python:
                     if self.get_flag("drunk_counter", 0) >= when_drunk:
                         return None
                     if 'Depression' in self.effects:
-                        chance.append(30 + when_drunk)
+                        weights["when_drunk"] = 30 + when_drunk
                 elif item.type == "food":
                     food_poisoning = self.get_flag("food_poison_counter", 0)
                     if food_poisoning:
                         appetite -= food_poisoning * 8
-                    chance.append(appetite)
+                    weights["appetite"] = appetite
 
             if item.tier:
                 # only award tier bonus if it's reasonable.
@@ -1094,12 +1094,12 @@ init -9 python:
                 item_tier = item.tier*2
                 tier_bonus = item_tier - target_tier
                 if tier_bonus > 0:
-                    chance.append(tier_bonus*50)
+                    weights["tiers"] = tier_bonus*50
 
-            chance.append(item.eqchance)
+            weights["eqchance"] = item.eqchance
             if item.badness:
-                chance.append(-int(item.badness*.5))
-            return chance
+                weights["badness"] = -int(item.badness*.5)
+            return weights
 
         def equip_for(self, purpose):
             """
@@ -1194,15 +1194,6 @@ init -9 python:
                 elif t == "Smart":
                     upto_skill_limit = True
 
-            # This looks like a shitty idea! Problem here is that we may care
-            # about some stats more than others and this fucks that up completely.
-            # exclude_on_stats = exclude_on_stats.union(target_stats)
-            # exclude_on_skills = exclude_on_skills.union(target_skills)
-            # self.stats.eval_inventory(container, weighted, chance_func=self.equip_chance,
-            #                           upto_skill_limit=upto_skill_limit,
-            #                           min_value=min_value, check_money=check_money,
-            #                           limit_tier=limit_tier,
-            #                           **kwargs)
             self.stats.eval_inventory(inv, weighted,
                                       target_stats, target_skills,
                                       exclude_on_skills, exclude_on_stats,
@@ -1217,9 +1208,9 @@ init -9 python:
 
             if DEBUG_AUTO_ITEM:
                 for slot, picks in weighted.iteritems():
-                    for _weight, item in picks:
+                    for weights, item in picks:
                         aeq_debug("(A-Eq=> %s) Slot: %s Item: %s ==> Weights: %s",
-                                        self.name, item.slot, item.id, str(_weight))
+                                        self.name, item.slot, item.id, str(weights))
 
             # Actually equip the items on per-slot basis:
             for slot, picks in weighted.iteritems():
@@ -1231,7 +1222,7 @@ init -9 python:
                    # and rings we may want to equip more than one of.
                    selected = []
                    for weights, item in picks:
-                       s = sum(weights)
+                       s = sum(weights.values())
                        if s > 0:
                            selected.append([s, item])
                    selected.sort(key=itemgetter(0), reverse=True)
@@ -1243,7 +1234,7 @@ init -9 python:
                            # consider the effects of Drunk, Overeating, etc...
                            if rings_to_equip == -1: # (Consumable)
                                result = self.equip_chance(item)
-                               if result is None or sum(result) <= 0:
+                               if result is None or sum(result.values()) <= 0:
                                    break
 
                            # test if the item is still useful
@@ -1285,7 +1276,7 @@ init -9 python:
 
                     # Get the total weight for every item:
                     c0 = real_weapons is False and slot in ("weapon", "smallweapon")
-                    for _weight, item in picks:
+                    for weights, item in picks:
                        if c0 and item.type != "tool":
                            if DEBUG_AUTO_ITEM:
                                msg = []
@@ -1297,9 +1288,12 @@ init -9 python:
                                    msg.append("Sub: {}".format(sub_purpose))
                                aeq_debug(" ".join(msg))
                            continue
-                       _weight = sum(_weight)
-                       if _weight > selected[0]:
-                           selected = [_weight, item] # store weight and item for the highest weight
+                       try:
+                           weight = sum(weights.values())
+                       except:
+                           raise Exception(weights)
+                       if weight > selected[0]:
+                           selected = [weight, item] # store weight and item for the highest weight
 
                     # equip one item we selected:
                     item = selected[1]
@@ -1472,14 +1466,20 @@ init -9 python:
                               smart_ownership_limit=smart_ownership_limit,
                               **kwargs)
 
+            if DEBUG_AUTO_ITEM:
+                for slot, picks in weighted.iteritems():
+                    for weights, item in picks:
+                        aeq_debug("(Autobuy=> %s) Slot: %s Item: %s ==> Weights: %s",
+                                        self.name, item.slot, item.id, str(weights))
+
             rv = [] # List of item name strings we return in case we need to report
             # what happened in this method to player.
             selected = []
             for slot, picks in weighted.iteritems():
-                for _weight, item in picks:
-                    _weight = sum(_weight)
-                    if _weight > 0:
-                        selected.append([_weight, slot, item])
+                for weights, item in picks:
+                    weight = sum(weights.values())
+                    if weight > 0:
+                        selected.append([weight, slot, item])
             selected.sort(key=itemgetter(0), reverse=True)
             for w, slot, item in selected:
                 if not (slots[slot] and dice(item.chance)):

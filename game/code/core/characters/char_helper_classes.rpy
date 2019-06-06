@@ -1504,30 +1504,27 @@ init -10 python:
                         aeq_debug("Ignoring item %s on money.", item.id)
                         continue
 
-                #if "Slave" in base_purpose and "Slave" in item.pref_class:
-                #    weights = [200] # As all slave items are shit anyway...
-                #else:
-                weights = chance_func(item) if chance_func else [item.eqchance]
+                weights = chance_func(item) if chance_func else {"eqchance": item.eqchance}
                 if weights is None: # We move to the next item!
                     aeq_debug("Ignoring item %s on weights.", item.id)
                     continue
 
                 # Handle purposes:
-                if not base_purpose.isdisjoint(item.pref_class):
-                    weights.append(200)
-                elif not sub_purpose.isdisjoint(item.pref_class):
-                    weights.append(125)
+                if base_purpose.intersection(item.pref_class):
+                    weights["base_purpose"] = 200
+                elif sub_purpose.intersection(item.pref_class):
+                    weights["sub_purpose"] = 125
                 else: # 'Any'
                     # If no purpose is valid for the item, we want nothing to do with it.
                     if slot not in ("misc", "consumable"):
                         aeq_debug("Ignoring item %s on purpose.", item.id)
                         continue
-                    weights.append(55)
+                    weights["any_purpose"] = 55
 
                 # Stats:
                 for stat, value in item.mod.iteritems():
                     if stat in exclude_on_stats and value < min_value:
-                        weights.append(-100 + value*10)
+                        weights["exclude_on_stats: {}".format(stat)] = -100 + value*10
                         continue
 
                     if stat in _stats_curr:
@@ -1543,11 +1540,11 @@ init -10 python:
                         if curr_stat == new_stat:
                             # the item could help, but not now
                             if value > 0:
-                                weights.append(min(25, value*5))
+                                weights["target_stats: {}".format(stat)] = min(25, value*5)
                         elif curr_stat < new_stat:
                             # add the fraction increase/decrease
                             temp = 100*(new_stat - curr_stat)/new_max
-                            weights.append(50 + temp)
+                            weights["target_stats: {}".format(stat)] = 50 + temp
                         else: # Item lowers the stat for the character
                             if stat not in exclude_on_stats:
                                 change = curr_stat - new_stat
@@ -1564,7 +1561,7 @@ init -10 python:
                 # Max Stats:
                 for stat, value in item.max.iteritems():
                     if stat in exclude_on_stats and value < 0:
-                        weights.append(-50 + value*5)
+                        weights["exclude_on_stats (max): {}".format(stat)] = -50 + value*5
                         continue
 
                     if stat in _stats_max:
@@ -1573,7 +1570,7 @@ init -10 python:
                         if new_max == curr_max:
                             continue
                         elif new_max > curr_max:
-                            weights.append(50 + min(new_max-curr_max, 50))
+                            weights["target_stats (max): {}".format(stat)] = 50 + min(new_max-curr_max, 50)
                         else: # Item lowers max of this stat for the character:
                             if True: #if stat not in exclude_on_stats:
                                 change = curr_max-new_max
@@ -1591,7 +1588,7 @@ init -10 python:
                 for skill, effect in item.mod_skills.iteritems():
                     temp = sum(effect)
                     if skill in exclude_on_skills and temp < 0:
-                        weights.append(-100)
+                        weights["exclude_on_skills: {}".format(stat)] = -100
                         continue
 
                     if skill in skills:
@@ -1612,14 +1609,14 @@ init -10 python:
                             mod_training += mod_action
                             new_skill = mod_training*max(min(mod_skill_multiplier, 2.5), .5)
                             if new_skill < min_value:
-                                weights.append(-111)
+                                weights["skills (reduce): {}".format(stat)] = -111
                                 continue
 
                             saturated_skill = max(value + 100, new_skill)
                             mod_val = 50 + 100*(new_skill - value) / saturated_skill
                             if mod_val > 100 or mod_val < -100:
                                 aeq_debug("Unusual mod value for skill %s: %s", skill, mod_val)
-                            weights.append(mod_val)
+                            weights["skills: {}".format(stat)] = mod_val
 
                 weighted[slot].append([weights, item])
 
