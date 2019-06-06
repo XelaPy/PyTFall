@@ -1442,8 +1442,7 @@ init -9 python:
             if amount == 0:
                 return []
 
-            # Create dict gather data, we gather slot: ([30, 50], item) types:
-            weighted = {s: [] for s in slots}
+
 
             if not purpose: # Let's see if we can get a purpose from last known auto equip purpose:
                 purpose = self.guess_aeq_purpose(self.last_known_aeq_purpose)
@@ -1455,12 +1454,31 @@ init -9 python:
 
             min_value = -10
             upto_skill_limit = False
-            self.stats.eval_inventory(container, weighted, chance_func=self.equip_chance,
-                                      upto_skill_limit=upto_skill_limit,
-                                      min_value=min_value, check_money=check_money,
-                                      limit_tier=limit_tier,
-                                      smart_ownership_limit=smart_ownership_limit,
-                                      **kwargs)
+
+            if not container:
+                weighted = {}
+                for slot in slots:
+                    temp = {slot: []}
+                    container = per_slot_auto_buy_items.get(slot, [])
+                    self.stats.eval_inventory(container, temp,
+                                  chance_func=self.equip_chance,
+                                  upto_skill_limit=upto_skill_limit,
+                                  min_value=min_value, check_money=check_money,
+                                  limit_tier=limit_tier,
+                                  smart_ownership_limit=smart_ownership_limit,
+                                  **kwargs)
+                    weighted.update(temp)
+            else:
+                # Create dict gather data, we gather slot: ([30, 50], item) types:
+                weighted = {s: [] for s in slots}
+                self.stats.eval_inventory(container, weighted,
+                              chance_func=self.equip_chance,
+                              upto_skill_limit=upto_skill_limit,
+                              min_value=min_value, check_money=check_money,
+                              limit_tier=limit_tier,
+                              smart_ownership_limit=smart_ownership_limit,
+                              **kwargs)
+
 
             rv = [] # List of item name strings we return in case we need to report
             # what happened in this method to player.

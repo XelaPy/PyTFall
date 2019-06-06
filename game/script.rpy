@@ -342,6 +342,9 @@ label sort_items_for_gameplay:
         # Items sorting for AutoBuy:
         shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
         all_auto_buy_items = [item for item in shop_items if item.usable and not item.jump_to_label]
+        per_slot_auto_buy_items = defaultdict(list)
+        for item in all_auto_buy_items:
+            per_slot_auto_buy_items[item.slot].append(item)
 
         trait_selections = {"goodtraits": {}, "badtraits": {}}
         auto_buy_items = {k: [] for k in ("body", "restore", "food", "dress", "rest", "warrior", "scroll")}
