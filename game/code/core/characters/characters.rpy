@@ -1034,7 +1034,89 @@ init -9 python:
                 self.apply_item_effects(item, direction=False)
                 self.eqslots[item.slot] = None
 
-        def equip_chance(self, item):
+        def equip_for(self, purpose):
+            """
+            This method will try to auto-equip items for some purpose!
+            """
+            purpose = self.guess_aeq_purpose(purpose)
+
+            self.last_known_aeq_purpose = purpose
+
+            # if self.eqslots["weapon"]:
+            #     self.unequip(self.eqslots["weapon"])
+
+            aeq_debug("Auto Equipping for -- {} --".format(purpose))
+            slots = store.EQUIP_SLOTS
+            kwargs = AEQ_PURPOSES[purpose]
+            aeq_debug("Auto Equipping Real Weapons: {} --!!".format(kwargs["real_weapons"]))
+            return self.auto_equip(slots=slots, **kwargs)
+
+        def guess_aeq_purpose(self, hint=None):
+            """
+            "Fighting": Generic purpose for combat.
+
+            Other Options are:
+             'Combat'
+             'Barbarian'
+             'Shooter'
+             'Battle Mage'
+             'Mage'
+
+             'Casual'
+             'Slave'
+
+             'Striptease'
+             'Sex'
+
+             'Manager'
+             'Service' (Maid)
+             """
+
+            occs = self.gen_occs
+            bt = self.traits.basetraits
+            purpose = None # Needs to be defaulted to something.
+
+            if hint in store.AEQ_PURPOSES:
+                purpose = hint
+            elif hint == "Fighting":
+                if traits["Shooter"] in bt:
+                    purpose = "Shooter"
+                elif "Caster" in occs:
+                    if "Warrior" in occs:
+                        purpose = "Battle Mage"
+                    else:
+                        purpose = "Mage"
+                elif "Combatant" in occs:
+                    purpose = "Barbarian"
+            else: # We just guess...
+                if "Specialist" in occs:
+                    purpose = "Manager"
+                elif traits["Stripper"] in bt:
+                    purpose = "Striptease"
+                elif traits["Maid"] in bt:
+                    purpose = "Service"
+                elif traits["Prostitute"] in bt:
+                    purpose = "Sex"
+                elif "Caster" in occs:
+                    if "Warrior" in occs:
+                        purpose = "Battle Mage"
+                    else:
+                        purpose = "Mage"
+                elif traits["Shooter"] in bt:
+                    purpose = "Shooter"
+                elif "Combatant" in occs:
+                    purpose = "Barbarian"
+                else: # Safe option.
+                    if DEBUG_AUTO_ITEM:
+                        temp = "Supplied unknown aeq purpose: %s for %s, (Class: %s)" % (purpose,
+                                                                    self.name, self.__class__.__name__)
+                        temp += " ~Casual will be used."
+                        aeq_debug(temp)
+                    purpose = "Casual"
+
+            return purpose
+
+        def aeq_chance(self, item):
             """
             return a list of chances, between 0 and 100 if the person has a preference to equip this item.
             If None is returned the item should not be used. This only includes personal preferences,
@@ -1101,23 +1183,6 @@ init -9 python:
                 weights["badness"] = -int(item.badness*.5)
             return weights
 
-        def equip_for(self, purpose):
-            """
-            This method will try to auto-equip items for some purpose!
-            """
-            purpose = self.guess_aeq_purpose(purpose)
-
-            self.last_known_aeq_purpose = purpose
-
-            # if self.eqslots["weapon"]:
-            #     self.unequip(self.eqslots["weapon"])
-
-            aeq_debug("Auto Equipping for -- {} --".format(purpose))
-            slots = store.EQUIP_SLOTS
-            kwargs = AEQ_PURPOSES[purpose]
-            aeq_debug("Auto Equipping Real Weapons: {} --!!".format(kwargs["real_weapons"]))
-            return self.auto_equip(slots=slots, **kwargs)
-
         def auto_equip(self, target_stats, target_skills=None,
                        exclude_on_skills=None, exclude_on_stats=None,
                        slots=None, inv=None, real_weapons=False,
@@ -1143,7 +1208,7 @@ init -9 python:
 
             In the list of values of weighted we add lists of weight values
             which we gather and item we gather them for. That is done in Stats.eval_inventory
-            and pytChar.equip_chance methods. Later we come back here and sort out the results.
+            and pytChar.aeq_chance methods. Later we come back here and sort out the results.
             """
 
             # Prepare data:
@@ -1197,7 +1262,7 @@ init -9 python:
             self.stats.eval_inventory(inv, weighted,
                                       target_stats, target_skills,
                                       exclude_on_skills, exclude_on_stats,
-                                      chance_func=self.equip_chance,
+                                      chance_func=self.aeq_chance,
                                       upto_skill_limit=upto_skill_limit,
                                       min_value=min_value,
                                       base_purpose=base_purpose,
@@ -1234,7 +1299,7 @@ init -9 python:
                            # Recheck the situation before using an item
                            # consider the effects of Drunk, Overeating, etc...
                            if rings_to_equip == -1: # (Consumable)
-                               result = self.equip_chance(item)
+                               result = self.aeq_chance(item)
                                if result is None or sum(result.values()) <= 0:
                                    break
 
@@ -1311,84 +1376,6 @@ init -9 python:
 
             return returns
 
-        def auto_buy_item(self, item, amount=1, equip=False):
-            if isinstance(item, basestring):
-                item = store.items[item]
-            if item in store.all_auto_buy_items:
-                amount = min(amount, round_int(self.gold/item.price))
-                if amount != 0:
-                    self.take_money(item.price*amount, reason="Items")
-                    self.inventory.append(item, amount)
-                    if equip:
-                        self.equip(item)
-                    return [item.id] * amount
-            return []
-
-        def guess_aeq_purpose(self, hint=None):
-            """
-            "Fighting": Generic purpose for combat.
-
-            Other Options are:
-             'Combat'
-             'Barbarian'
-             'Shooter'
-             'Battle Mage'
-             'Mage'
-
-             'Casual'
-             'Slave'
-
-             'Striptease'
-             'Sex'
-
-             'Manager'
-             'Service' (Maid)
-             """
-
-            occs = self.gen_occs
-            bt = self.traits.basetraits
-            purpose = None # Needs to be defaulted to something.
-
-            if hint in store.AEQ_PURPOSES:
-                purpose = hint
-            elif hint == "Fighting":
-                if traits["Shooter"] in bt:
-                    purpose = "Shooter"
-                elif "Caster" in occs:
-                    if "Warrior" in occs:
-                        purpose = "Battle Mage"
-                    else:
-                        purpose = "Mage"
-                elif "Combatant" in occs:
-                    purpose = "Barbarian"
-            else: # We just guess...
-                if "Specialist" in occs:
-                    purpose = "Manager"
-                elif traits["Stripper"] in bt:
-                    purpose = "Striptease"
-                elif traits["Maid"] in bt:
-                    purpose = "Service"
-                elif traits["Prostitute"] in bt:
-                    purpose = "Sex"
-                elif "Caster" in occs:
-                    if "Warrior" in occs:
-                        purpose = "Battle Mage"
-                    else:
-                        purpose = "Mage"
-                elif traits["Shooter"] in bt:
-                    purpose = "Shooter"
-                elif "Combatant" in occs:
-                    purpose = "Barbarian"
-                else: # Safe option.
-                    if DEBUG_AUTO_ITEM:
-                        temp = "Supplied unknown aeq purpose: %s for %s, (Class: %s)" % (purpose,
-                                                                    self.name, self.__class__.__name__)
-                        temp += " ~Casual will be used."
-                        aeq_debug(temp)
-                    purpose = "Casual"
-
-            return purpose
-
         def auto_buy(self, item=None, amount=1, slots=None, casual=False,
                      equip=False, container=None, purpose=None,
                      check_money=True,
@@ -1454,7 +1441,7 @@ init -9 python:
                     temp = {slot: []}
                     container = per_slot_auto_buy_items.get(slot, [])
                     self.stats.eval_inventory(container, temp,
-                                  chance_func=self.equip_chance,
+                                  chance_func=self.aeq_chance,
                                   upto_skill_limit=upto_skill_limit,
                                   min_value=min_value, check_money=check_money,
                                   limit_tier=limit_tier,
@@ -1465,7 +1452,7 @@ init -9 python:
                 # Create dict gather data, we gather slot: ([30, 50], item) types:
                 weighted = {s: [] for s in slots}
                 self.stats.eval_inventory(container, weighted,
-                              chance_func=self.equip_chance,
+                              chance_func=self.aeq_chance,
                               upto_skill_limit=upto_skill_limit,
                               min_value=min_value, check_money=check_money,
                               limit_tier=limit_tier,
@@ -1516,6 +1503,19 @@ init -9 python:
                 self.equip_for(purpose)
 
             return rv
+
+        def auto_buy_item(self, item, amount=1, equip=False):
+            if isinstance(item, basestring):
+                item = store.items[item]
+            if item in store.all_auto_buy_items:
+                amount = min(amount, round_int(self.gold/item.price))
+                if amount != 0:
+                    self.take_money(item.price*amount, reason="Items")
+                    self.inventory.append(item, amount)
+                    if equip:
+                        self.equip(item)
+                    return [item.id] * amount
+            return []
 
         def load_equip(self, eqsave):
             # load equipment from save, if possible

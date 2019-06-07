@@ -1437,8 +1437,8 @@ init -10 python:
             """
             weigh items in inventory based on stats.
 
-            weighted: weights per item will be added to this
-            inventory: the inventory to evaluate items from
+            weighted: weights per item will be added to this dict
+            inventory: an inventory (or container) to evaluate items from
             target_stats: a list of stats to consider for items
             target_skills: similarly, a list of skills
             exclude_on_stats: items will be excluded if stats in this list are negatively affected
@@ -1469,7 +1469,6 @@ init -10 python:
             # if an item has less than the most weights the remaining are imputed with 50 weights
             # Nor sure why????
             # most_weights = {slot: 0 for slot in weighted}
-
             for item in inventory:
                 slot = item.slot
                 if smart_ownership_limit is True:
@@ -1501,7 +1500,7 @@ init -10 python:
                 # Money (conditioned):
                 if check_money is True:
                     if char.gold < item.price:
-                        aeq_debug("Ignoring item %s on money.", item.id)
+                        aeq_debug("Ignoring item %s (not enough Gold).", item.id)
                         continue
 
                 weights = chance_func(item) if chance_func else {"eqchance": item.eqchance}
