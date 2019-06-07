@@ -1130,8 +1130,7 @@ init -9 python:
                 return None
 
             weights = defaultdict(int)
-            when_drunk = 30
-            appetite = 50
+
 
             for trait in self.traits:
                 if trait in item.badtraits:
@@ -1141,22 +1140,27 @@ init -9 python:
                     weights["goodtraits"] += 100
 
                 # Other traits:
+                # elif trait == "Kamidere": # Vanity: wants pricy uncommon items, but only lasting ones(especially scrolls should be excluded)
+                #     if not (item.slot == "consumable"):
+                #         weights["Kamidere"] = (100 - item.chance + min(item.price/10, 100))/2
+                # elif trait == "Tsundere": # stubborn: what s|he won't buy, s|he won't wear.
+                #     weights["Tsundere"] = 100 - item.badness
+                # elif trait == "Bokukko": # what the farmer don't know, s|he won't eat.
+                #     weights["Bokukko"] = item.chance
+
+
+            if item.slot == "consumable": # Special considerations like food poisoning.
+                when_drunk = 30
+                appetite = 50
                 trait = trait.id # never compare trait entity with trait str, it is SLOW
+
                 if trait == "Slim":
                     appetite -= 10
-                elif trait == "Kamidere": # Vanity: wants pricy uncommon items, but only lasting ones(especially scrolls should be excluded)
-                    if not (item.slot == "consumable"):
-                        weights["Kamidere"] = (100 - item.chance + min(item.price/10, 100))/2
-                elif trait == "Tsundere": # stubborn: what s|he won't buy, s|he won't wear.
-                    weights["Tsundere"] = 100 - item.badness
-                elif trait == "Bokukko": # what the farmer don't know, s|he won't eat.
-                    weights["Bokukko"] = item.chance
                 elif trait == "Heavy Drinker":
                     when_drunk = 45
                 elif trait == "Always Hungry":
                     appetite += 20
 
-            if item.slot == "consumable": # Special considerations like food poisoning.
                 if item in self.constemp:
                     return None
                 if item.type == "alcohol":
