@@ -1209,8 +1209,9 @@ init -9 python:
             if DEBUG_AUTO_ITEM:
                 for slot, picks in weighted.iteritems():
                     for weights, item in picks:
-                        aeq_debug("(A-Eq=> %s) Slot: %s Item: %s ==> Weights: %s",
-                                        self.name, item.slot, item.id, str(weights))
+                        temp = "AEQ evaluation: {} item for {}. Total weight: {}\n".format(self.name, item.id, sum(weights.values()))
+                        temp += str(dict(weights))
+                        aeq_debug(temp)
 
             # Actually equip the items on per-slot basis:
             for slot, picks in weighted.iteritems():
@@ -1256,6 +1257,9 @@ init -9 python:
                                else: # not useful for skills either -> next
                                    break
 
+                           if DEBUG_AUTO_ITEM:
+                               temp = "-----> AEQ {} item on {}.".format(self.name, item.id)
+                               aeq_debug(temp)
                            inv.remove(item)
                            self.equip(item, remove=False, aeq_mode=True)
                            returns.append(item.id)
@@ -1280,7 +1284,7 @@ init -9 python:
                        if c0 and item.type != "tool":
                            if DEBUG_AUTO_ITEM:
                                msg = []
-                               msg.append("Skipping AE Weapons!")
+                               msg.append("Skipping AEQ Weapons!")
                                msg.append("Real Weapons: {}".format(real_weapons))
                                if base_purpose:
                                    msg.append("Base: {}".format(base_purpose))
@@ -1298,9 +1302,11 @@ init -9 python:
                     # equip one item we selected:
                     item = selected[1]
                     if item:
+                        if DEBUG_AUTO_ITEM:
+                            temp = "-----> AEQ {} item on {}.".format(self.name, item.id)
+                            aeq_debug(temp)
                         inv.remove(item)
                         self.equip(item, remove=False, aeq_mode=True)
-                        aeq_debug("     --> %s equipped %s to %s.", item.id, self.name, item.slot)
                         returns.append(item.id)
 
             return returns
@@ -1469,8 +1475,9 @@ init -9 python:
             if DEBUG_AUTO_ITEM:
                 for slot, picks in weighted.iteritems():
                     for weights, item in picks:
-                        aeq_debug("(Autobuy=> %s) Slot: %s Item: %s ==> Weights: %s",
-                                        self.name, item.slot, item.id, str(weights))
+                        temp = "AutoBuy evaluation: {} item for {}. Total weight: {}\n".format(self.name, item.id, sum(weights.values()))
+                        temp += str(dict(weights))
+                        aeq_debug(temp)
 
             rv = [] # List of item name strings we return in case we need to report
             # what happened in this method to player.
@@ -1490,8 +1497,14 @@ init -9 python:
                     rv.append(item.id)
 
                     if direct_equip and slot != "consumable":
+                        if DEBUG_AUTO_ITEM:
+                            temp = "-----> AutoBuy direct_equip {} item on {}.".format(self.name, item.id)
+                            aeq_debug(temp)
                         self.equip(item)
                     else:
+                        if DEBUG_AUTO_ITEM:
+                            temp = "-----> AutoBuy to INV {} item on {}.".format(self.name, item.id)
+                            aeq_debug(temp)
                         self.inventory.append(item)
 
                     slots[slot] -= 1
@@ -1516,7 +1529,6 @@ init -9 python:
 
                 # rings can be on other fingers. swapping them is allowed in any case
                 if slot == "ring":
-
                     # if the wanted ring is on the next finger, or the next finger requires current ring, swap
                     if self.eqslots["ring1"] == desired_item or ordered["ring1"] == currently_equipped:
                         (self.eqslots["ring1"], self.eqslots[slot]) = (self.eqslots[slot], self.eqslots["ring1"])
@@ -1526,7 +1538,6 @@ init -9 python:
                             continue
 
                 if slot == "ring" or slot == "ring1":
-
                     if self.eqslots["ring2"] == desired_item or ordered["ring2"] == currently_equipped:
                         (self.eqslots["ring2"], self.eqslots[slot]) = (self.eqslots[slot], self.eqslots["ring2"])
 
