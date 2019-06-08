@@ -30,7 +30,7 @@ init -998 python:
             func("|CHAR DEBUG| {}".format(msg))
 
     # SimPy:
-    DEBUG_SIMPY = True
+    DEBUG_SIMPY = False
     DEBUG_SIMPY_ND_BUILDING_REPORT = DSNBR = False
     def simpy_debug(msg, *args):
         if DEBUG_SIMPY:
@@ -43,19 +43,19 @@ init -998 python:
             func("|ND DEBUG| {}".format(msg))
 
     # Item systems:
-    DEBUG_AUTO_ITEM = True
+    DEBUG_AUTO_ITEM = False
     def aeq_debug(msg, *args):
         if DEBUG_AUTO_ITEM:
             devlog.info("|AEQ DEBUG| {}".format(msg), *args)
 
     # Battle Engine:
-    DEBUG_BE = True
+    DEBUG_BE = False
     def be_debug(msg):
         if DEBUG_BE:
             devlog.info("|BE DEBUG| {}".format(msg))
 
     # Simulated exploration:
-    DEBUG_SE = True
+    DEBUG_SE = False
     def se_debug(msg, mode="warning"):
         if DEBUG_SE:
             func = getattr(devlog, mode)

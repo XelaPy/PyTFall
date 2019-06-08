@@ -524,7 +524,7 @@ init -11 python:
 
     def arena_fighter_iiu(fighter):
         container = set([])
-        limit_tier = ((fighter.tier/2)+1)
+        limit_tier = round_int(fighter.tier*.5 + 1)
         for i in range(limit_tier):
             container = container.union(store.tiered_items.get(i, []))
 
