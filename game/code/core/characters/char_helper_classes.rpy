@@ -1461,9 +1461,9 @@ init -10 python:
                 _stats_max[stat] = self.get_max(stat)   # current stat max
 
             # Add basetraits and occupations to basepurposes:
-            base_purpose.update(bt.id for bt in char.traits.basetraits)
-            base_purpose.update(str(t) for t in char.occupations)
-            base_purpose.add("Any")
+            sub_purpose.update(bt.id for bt in char.traits.basetraits)
+            sub_purpose.update(str(t) for t in char.occupations)
+            sub_purpose.add("Any")
 
             # per item the nr of weighting criteria may vary. At the end all of them are averaged.
             # if an item has less than the most weights the remaining are imputed with 50 weights
@@ -1512,7 +1512,7 @@ init -10 python:
                 if base_purpose.intersection(item.pref_class):
                     weights["base_purpose"] = 200
                 elif sub_purpose.intersection(item.pref_class):
-                    weights["sub_purpose"] = 125
+                    weights["sub_purpose"] = 100
                 else: # 'Any'
                     # If no purpose is valid for the item, we want nothing to do with it.
                     if slot not in ("misc", "consumable"):
