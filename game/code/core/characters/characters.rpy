@@ -1131,7 +1131,6 @@ init -9 python:
 
             weights = defaultdict(int)
 
-
             for trait in self.traits:
                 if trait in item.badtraits:
                     return None
@@ -1147,7 +1146,6 @@ init -9 python:
                 #     weights["Tsundere"] = 100 - item.badness
                 # elif trait == "Bokukko": # what the farmer don't know, s|he won't eat.
                 #     weights["Bokukko"] = item.chance
-
 
             if item.slot == "consumable": # Special considerations like food poisoning.
                 when_drunk = 30
@@ -1176,9 +1174,8 @@ init -9 python:
 
             if item.tier:
                 # only award tier bonus if it's reasonable.
-                target_tier = self.tier
                 item_tier = item.tier*2
-                tier_bonus = item_tier - target_tier
+                tier_bonus = item_tier - self.tier
                 if tier_bonus > 0:
                     weights["tiers"] = tier_bonus*50
 
@@ -1214,7 +1211,6 @@ init -9 python:
             which we gather and item we gather them for. That is done in Stats.eval_inventory
             and pytChar.aeq_chance methods. Later we come back here and sort out the results.
             """
-
             # Prepare data:
             if not slots:
                 slots = ["consumable"]
