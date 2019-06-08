@@ -10,7 +10,7 @@ init python:
     AEQ_PURPOSES = {
     "Combat":
         {"target_stats": ['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck"],
-         "exclude_on_stats": ["luck", 'attack', "defence"],
+         "exclude_on_stats": ['attack', "defence"],
          "target_skills": [],
          "exclude_on_skills": [],
          "base_purpose": ["Warrior"],

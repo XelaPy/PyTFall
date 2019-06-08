@@ -1476,7 +1476,7 @@ init -9 python:
                         selected.append([weight, slot, item])
             selected.sort(key=itemgetter(0), reverse=True)
             for w, slot, item in selected:
-                if not (slots[slot] and not dice(item.badness)):
+                if slots[slot] <= 0:
                     continue
                 c0 = not check_money
                 c1 = check_money and self.take_money(item.price, reason="Items")

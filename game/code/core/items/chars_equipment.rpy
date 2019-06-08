@@ -338,7 +338,7 @@ screen equip_for(pos=()):
         if eq_free and traits["Shooter"] in eqtarget.basetraits:
             specializations.extend(["Shooter"])
         if eq_free and "Combatant" in eqtarget.gen_occs:
-            specializations.extend(["Warrior", "Barbarian"])
+            specializations.extend(["Combat", "Barbarian"])
         if eq_free and "Caster" in eqtarget.gen_occs:
             specializations.extend(["Battle Mage", "Mage"])
         if eq_slave or (eq_free and "SIW" in eqtarget.gen_occs):

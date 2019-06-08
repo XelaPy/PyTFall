@@ -551,9 +551,9 @@ init -11 python:
         """
         if set_container:
             container = set([])
-            limit_tier = ((char.tier/2)+1)
+            limit_tier = round_int(char.tier*.5 + 1)
             for i in range(limit_tier):
-                container = container.union(store.tiered_items.get(i, []))
+                container.update(store.tiered_items.get(i, []))
 
         if give_civilian_items:
             if not gci_kwargs:
@@ -564,10 +564,10 @@ init -11 python:
                     "limit_tier": False, # No need, the items are already limited to limit_tier
                     "smart_ownership_limit": False}
                 for slot in EQUIP_SLOTS:
-                    container = container.intersection(per_slot_auto_buy_items.get(slot, []))
+                    _container = container.intersection(per_slot_auto_buy_items.get(slot, []))
                     gci_kwargs = default.copy()
                     gci_kwargs["slots"] = {slot: 1}
-                    gci_kwargs["container"] = container
+                    gci_kwargs["container"] = _container
                     char.auto_buy(**gci_kwargs)
             else:
                 char.auto_buy(**gci_kwargs)
@@ -585,13 +585,13 @@ init -11 python:
                     "purpose": None, # Figure out in auto_buy method.
                     "direct_equip": True}
                 for slot in EQUIP_SLOTS:
-                    container = container.intersection(per_slot_auto_buy_items.get(slot, []))
+                    _container = container.intersection(per_slot_auto_buy_items.get(slot, []))
                     gbti_kwargs = default.copy()
                     if slot == "ring":
                         gbti_kwargs["slots"] = {slot: randint(1, 3)}
                     else:
                         gbti_kwargs["slots"] = {slot: 1}
-                    gbti_kwargs["container"] = container
+                    gbti_kwargs["container"] = _container
                     char.auto_buy(**gbti_kwargs)
             else:
                 char.auto_buy(**gbti_kwargs)
