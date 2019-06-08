@@ -1476,7 +1476,7 @@ init -9 python:
                         selected.append([weight, slot, item])
             selected.sort(key=itemgetter(0), reverse=True)
             for w, slot, item in selected:
-                if not (slots[slot] and dice(item.chance)):
+                if not (slots[slot] and not dice(item.badness)):
                     continue
                 c0 = not check_money
                 c1 = check_money and self.take_money(item.price, reason="Items")
@@ -1485,7 +1485,7 @@ init -9 python:
 
                     if direct_equip and slot != "consumable":
                         if DEBUG_AUTO_ITEM:
-                            temp = "-----> AutoBuy direct_equip {} item on {}.".format(self.name, item.id)
+                            temp = "-----> AutoBuy +direct_equip {} item on {}.".format(self.name, item.id)
                             aeq_debug(temp)
                         self.equip(item)
                     else:
