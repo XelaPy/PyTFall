@@ -1184,7 +1184,7 @@ init -9 python:
 
             weights["eqchance"] = item.eqchance
             if item.badness:
-                weights["badness"] = -int(item.badness*.5)
+                weights["badness"] = -item.badness
             return weights
 
         def auto_equip(self, target_stats, target_skills=None,
