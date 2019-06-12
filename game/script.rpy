@@ -112,8 +112,8 @@ label start:
 
     $ tl.end("Loading/Sorting: Items")
 
-    call city_map_predict
-    call items_ptedict
+    call city_map_predict from _call_city_map_predict
+    call items_ptedict from _call_items_ptedict
 
     python: # Dungeons (Building (Old))
         tl.start("Loading: Dungeons")
@@ -333,7 +333,7 @@ label continue_with_start:
     $ hero.clear_img_cache()
 
     if DEBUG:
-        call mobs_debug
+        call mobs_debug from _call_mobs_debug
 
     jump mainscreen
 
