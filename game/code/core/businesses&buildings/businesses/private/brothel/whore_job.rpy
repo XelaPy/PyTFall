@@ -402,7 +402,7 @@ init -5 python:
                         {"tags": ["gay", "2c lickanus"], "exclude": ["restrained"]+always_exclude},
                         {"tags": ["gay", "bc lickanus"], "exclude": ["restrained"]+always_exclude},
                         {"tags": ["gay", "2c vaginalfingering"], "exclude": ["restrained"]+always_exclude},
-                        {"tags": ["gay", "bc vagnalhandjob"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "bc vaginalhandjob"], "exclude": ["restrained"]+always_exclude},
                         {"tags": ["gay", "2c analfingering"], "exclude": ["restrained"]+always_exclude},
                         {"tags": ["gay", "bc analhandjob"], "exclude": ["restrained"]+always_exclude},
                         {"tags": ["gay", "2c caresstits"], "exclude": ["restrained"]+always_exclude},
@@ -522,7 +522,7 @@ init -5 python:
                         effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
-                    log.img = worker.show("gay", "bc vagnalhandjob", **kwargs)
+                    log.img = worker.show("gay", "bc vaginalhandjob", **kwargs)
                 elif act == tags[6]:
                     log.append(choice(["In mood for a hot lesbo action, she stuck her fingers in your girls anus. \n",
                                        "She watched %s moan as she stuck fingers in her asshole. \n" % worker.nickname]))
