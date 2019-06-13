@@ -621,19 +621,19 @@ init -9 python:
         man.add(
             PytWhoring("oral", sex_skill="oral",
                        variants=dict(lick_pussy=PytWhoringVariant(("Clearly in the mood for some cunt, she licked %ss pussy clean.\n",
-                                                                   "Hungry for a cunt, she told %s to be still and started licking her soft pussy with her hot tong. \n"),
+                                                                   "Hungry for a cunt, she told %s to be still and started licking her soft pussy with her hot tongue. \n"),
                                                                   tags=["les", "lick pussy"]),
                                      
                                      do_lick_pussy=PytWhoringVariant(("All hot and bothered, she ordered %s to lick her cunt. \n",
-                                                                      "As if she had an itch, she quickly told %s to tong her pussy. \n"),
+                                                                      "As if she had an itch, she quickly told %s to tongue her pussy. \n"),
                                                                      tags=["les", "do lick pussy"]),
                                      
                                      lick_anus=PytWhoringVariant(("She licked %ss anus clean.\n",
-                                                                  "She told %s to be still and started licking her asshole with her hot tong. \n"),
+                                                                  "She told %s to be still and started licking her asshole with her hot tongue. \n"),
                                                                  tags=["les", "lick anus"]),
                                      
                                      do_lick_anus=PytWhoringVariant(("All hot and bothered, she ordered %s to lick her asshole. \n",
-                                                                     "As if she had an itch, she quickly told %s to tong her anus. \n"),
+                                                                     "As if she had an itch, she quickly told %s to tongue her anus. \n"),
                                                                     tags=["les", "do lick anus"]),
                                      
                                      # Put these here as they don't really fit into vaginal/anal/oral, and oral was short
