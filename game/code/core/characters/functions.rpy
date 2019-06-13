@@ -506,9 +506,6 @@ init -11 python:
         initial_item_up(rg, give_civilian_items, give_bt_items,
                             gci_kwargs, gbti_kwargs)
 
-        # if equip_to_tier: # Old (faster but less precise) way of giving items:
-        #     give_tiered_items(rg, **gtt_kwargs) # (old/simle(er) func)
-
         # Spells to Tier:
         if spells_to_tier == "casters_only" and "Caster" in rg.gen_occs:
             spells_to_tier = True
@@ -525,64 +522,79 @@ init -11 python:
 
         return rg
 
+    def arena_fighter_iiu(fighter):
+        container = set([])
+        limit_tier = round_int(fighter.tier*.5 + 1)
+        for i in range(limit_tier):
+            container = container.union(store.tiered_items.get(i, []))
+
+        gbti_kwargs = {
+            "slots": {slot: 1 for slot in EQUIP_SLOTS},
+            "equip": True,
+            "check_money": False,
+            "limit_tier": False,
+            "container": container,
+            "smart_ownership_limit": False,
+            "purpose": None,
+            "direct_equip": True}
+        gbti_kwargs["slots"]["ring"] = 3
+
+        initial_item_up(fighter, give_bt_items=True,
+                        gbti_kwargs=gbti_kwargs,
+                        set_container=False)
+
     def initial_item_up(char, give_civilian_items=False, give_bt_items=False,
-                        gci_kwargs=None, gbti_kwargs=None):
+                        gci_kwargs=None, gbti_kwargs=None, set_container=True):
         """Gives items to a character as well as equips for a specific task.
 
         Usually ran right after we created the said character.
         """
-        if give_civilian_items or give_bt_items:
-            container = []
-            limit_tier = ((char.tier/2)+1)
+        if set_container:
+            container = set([])
+            limit_tier = round_int(char.tier*.5 + 1)
             for i in range(limit_tier):
-                container.extend(store.tiered_items.get(i, []))
+                container.update(store.tiered_items.get(i, []))
 
         if give_civilian_items:
             if not gci_kwargs:
-                gci_kwargs = {
-                    "slots": {slot: 1 for slot in EQUIP_SLOTS},
-                    #"casual": True,  - ignored and not necessary anyway
+                default = {
                     "equip": not give_bt_items, # Equip only for civ items.
                     "purpose": "Slave" if char.status == "slave" else "Casual",
                     "check_money": False,
                     "limit_tier": False, # No need, the items are already limited to limit_tier
-                    "container": container,
-                    "smart_ownership_limit": False
-                }
-            char.auto_buy(**gci_kwargs)
+                    "smart_ownership_limit": False}
+                for slot in EQUIP_SLOTS:
+                    _container = container.intersection(per_slot_auto_buy_items.get(slot, []))
+                    gci_kwargs = default.copy()
+                    gci_kwargs["slots"] = {slot: 1}
+                    gci_kwargs["container"] = _container
+                    char.auto_buy(**gci_kwargs)
+            else:
+                char.auto_buy(**gci_kwargs)
 
         if give_bt_items:
             if not gbti_kwargs:
-                gbti_kwargs = {
-                    "slots": {slot: 1 for slot in EQUIP_SLOTS},
+                default = {
+                    # "slots": {slot: 1 for slot in EQUIP_SLOTS},
                     #"casual": True, - ignored and unnecessary
                     "equip": True,
                     "check_money": False,
                     "limit_tier": False, # No need, the items are already limited to limit_tier
-                    "container": container,
+                    # "container": container,
                     "smart_ownership_limit": give_civilian_items,
-
                     "purpose": None, # Figure out in auto_buy method.
-                    "direct_equip": True
-                }
-            char.auto_buy(**gbti_kwargs)
-
-    def auto_buy_for_bt(char, slots=None, casual=None, equip=True,
-                        check_money=False, limit_tier=False,
-                        container=None):
-        if slots is None:
-            slots = {slot: 1 for slot in EQUIP_SLOTS}
-        if casual is None:
-            casual = True
-        if container is None:
-            container = []
-            limit_tier = ((char.tier/2)+1)
-            for i in range(limit_tier):
-                container.extend(store.tiered_items.get(i, []))
-
-        char.auto_buy(slots=slots, casual=casual, equip=equip,
-                      check_money=check_money, limit_tier=limit_tier,
-                      container=container)
+                    "direct_equip": True}
+                for slot in EQUIP_SLOTS:
+                    _container = container.intersection(per_slot_auto_buy_items.get(slot, []))
+                    gbti_kwargs = default.copy()
+                    if slot == "ring":
+                        gbti_kwargs["slots"] = {slot: randint(1, 3)}
+                    else:
+                        gbti_kwargs["slots"] = {slot: 1}
+                    gbti_kwargs["container"] = _container
+                    char.auto_buy(**gbti_kwargs)
+            else:
+                char.auto_buy(**gbti_kwargs)
 
     def create_traits_base(patterns):
         """Create a pattern with one or two base traits for a character.
@@ -599,81 +611,6 @@ init -11 python:
                 return random.sample(patterns, 1)
         except:
             raise Exception("Cannot create base traits list from patterns: {}".format(patterns))
-
-    def give_tiered_items(char, amount=1, gen_occ=None, occ=None, equip=False):
-        """Gives items based on tier and class of the character.
-
-        amount: Usually 1, this number of items will be awarded per slot.
-            # Note: atm we just work with 1!
-        gen_occ: General occupation that we equip for: ("SIW", "Combatant", "Server", "Specialist")
-            This must always be provided, even if occ is specified.
-        occ: Specific basetrait.
-        equip: Run auto_equip function after we're done.
-        """
-        tier = max(min(round_int(char.tier*.5), 4), 0)
-        if gen_occ is None:
-            try:
-                gen_occ = choice(char.gen_occs)
-            except:
-                raise Exception(char.name, char.__class__)
-        if char.status == "slave" and gen_occ == "Combatant":
-            problem = (char.name, char.__class__)
-            char_debug("Giving tiered items to a Combatant Slave failed: {}".format(problem))
-            return
-        # See if we can get a perfect occupation:
-        if occ is None:
-            basetraits = gen_occ_basetraits[gen_occ]
-            basetraits = char.basetraits.intersection(basetraits)
-            if basetraits:
-                occ = random.sample(basetraits, 1)[0].id
-        if char.status == "slave" and occ in gen_occ_basetraits["Combatant"]:
-            return
-
-        # print("gen_occ: {}, occ: {}".format(gen_occ, occ))
-
-        filled_slots = {s: [] for s in EQUIP_SLOTS}
-        # Perfect matches are subclass matches, such as a Bow would be for a Shooter
-
-        for _ in reversed(range(tier+1)):
-            _items = [i for i in tiered_items[_] if i.sex in (char.gender, 'unisex')]
-            # print(", ".join([i.id for i in _items]))
-            perfect = defaultdict(list)
-            normal = defaultdict(list)
-            _any = defaultdict(list)
-
-            for i in _items:
-                if occ in i.pref_class:
-                    perfect[i.slot].append(i)
-                elif gen_occ in i.pref_class:
-                    normal[i.slot].append(i)
-                elif "Any" in i.pref_class:
-                    _any[i.slot].append(i)
-
-            for slot in EQUIP_SLOTS:
-                if not filled_slots[slot]:
-                    if slot in perfect:
-                        filled_slots[slot].append(choice(perfect[slot]))
-                    elif slot in normal:
-                        filled_slots[slot].append(choice(normal[slot]))
-                    elif slot in _any:
-                        filled_slots[slot].append(choice(_any[slot]))
-
-        for i in filled_slots.values():
-            if i:
-                char.add_item(i.pop())
-
-        if equip:
-            if "Caster" in char.gen_occs:
-                purpose = "Mage"
-            elif "Combatant" in char.gen_occs:
-                purpose = "Combat"
-            elif "SIW" in char.gen_occs:
-                purpose = "Sex"
-            elif "Server" in char.gen_occs:
-                purpose = "Service"
-            elif "Specialist" in char.gen_occs:
-                purpose = "Manager"
-            char.equip_for(purpose)
 
     def give_tiered_magic_skills(char, amount=None, support_amount=None):
         """Gives spells based on tier and class of the character.

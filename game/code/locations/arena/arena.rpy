@@ -835,7 +835,7 @@ init -9 python:
                                    spells_to_tier="casters_only")
             elif tier_up: # Setting up an existing fighter:
                 tier_up_to(fighter, tier)
-                initial_item_up(fighter, give_bt_items=True)
+                arena_fighter_iiu(fighter) # Initial Items Up
                 if "Caster" in fighter.gen_occs:
                     give_tiered_magic_skills(fighter)
 

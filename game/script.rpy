@@ -112,8 +112,8 @@ label start:
 
     $ tl.end("Loading/Sorting: Items")
 
-    call city_map_predict
-    call items_ptedict
+    call city_map_predict from _call_city_map_predict
+    call items_ptedict from _call_items_ptedict
 
     python: # Dungeons (Building (Old))
         tl.start("Loading: Dungeons")
@@ -333,7 +333,7 @@ label continue_with_start:
     $ hero.clear_img_cache()
 
     if DEBUG:
-        call mobs_debug
+        call mobs_debug from _call_mobs_debug
 
     jump mainscreen
 
@@ -342,6 +342,9 @@ label sort_items_for_gameplay:
         # Items sorting for AutoBuy:
         shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
         all_auto_buy_items = [item for item in shop_items if item.usable and not item.jump_to_label]
+        per_slot_auto_buy_items = defaultdict(list)
+        for item in all_auto_buy_items:
+            per_slot_auto_buy_items[item.slot].append(item)
 
         trait_selections = {"goodtraits": {}, "badtraits": {}}
         auto_buy_items = {k: [] for k in ("body", "restore", "food", "dress", "rest", "warrior", "scroll")}
