@@ -65,7 +65,7 @@ screen city_dark_forest():
                 xysize (120, 40)
                 yalign .5
                 action [Hide("city_dark_forest"), Jump("mc_action_city_dark_forest_rest"), With(dissolve)]
-                sensitive hero.flag("dark_forest_rested_today") != day and hero.AP > 1
+                sensitive hero.flag("dark_forest_rested_today") != day and hero.AP >= 1
                 text "Rest" size 15
             if hero.has_flag("found_old_ruins"):
                 button:
