@@ -297,21 +297,21 @@ label mc_action_city_beach_diving_checks:
     $ hero.AP -= 1
     scene bg ocean_underwater_1 with dissolve
     if has_items("Snorkel Mask", [hero], equipped=True):
-        $ i = int(hero.get_skill("swimming")+1) + 200
+        $ i = int(hero.get_skill("swimming")+1) + 250
     else:
         $ i = int(hero.get_skill("swimming")+1)
 
     if has_items("Underwater Lantern", [hero], equipped=True):
         $ j = 120
     else:
-        $ j = 60
+        $ j = 40
     $ start_vitality = hero.vitality
     show screen diving_progress_bar(i, i)
     while hero.vitality > 10:
         if not renpy.get_screen("diving_progress_bar"):
             hide screen hidden_area
-            "You've run out of air! (health -10)"
-            $ hero.health = max(1, hero.health - 10)
+            "You've run out of air! (health -40)"
+            $ hero.health = max(1, hero.health - 40)
             jump city_beach
 
         $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [False]), (j, j), (random.random(), random.random())] for i in range(4))
@@ -321,8 +321,8 @@ label mc_action_city_beach_diving_checks:
 
         if result == "All out of Air!":
             hide screen hidden_area
-            "You've run out of air! {color=[red]}(health -10)"
-            $ hero.health = max(1, hero.health - 10)
+            "You've run out of air! {color=[red]}(health -40)"
+            $ hero.health = max(1, hero.health - 40)
             jump city_beach
         elif result == "Swim Out":
             hide screen hidden_area
@@ -338,18 +338,19 @@ label mc_action_city_beach_diving_checks:
                                "outlines": [(1, black, 0, 0)]}
             $ gfx_overlay.notify("You caught %s!" % item.id, tkwargs=tkwargs)
             $ gfx_overlay.random_find(item, 'fishy')
+            $ hero.vitality -= 5
         else:
             $ tkwargs = {"color": blue,
                                "outlines": [(1, black, 0, 0)]}
             $ gfx_overlay.notify("There is nothing there...", tkwargs=tkwargs)
+            $ hero.vitality -= 10
 
-        $ hero.vitality -= randint(10, 15)
     $ setattr(config, "mouse", None)
     hide screen hidden_area
     hide screen diving_progress_bar
     "You're too tired to continue!"
     $ hero.vitality = start_vitality
-    $ hero.vitality -= randint(10, 15)
+    $ hero.vitality -= randint(10, 20)
     $ del start_vitality
     if locked_dice(hero.get_skill("swimming")) and hero.flag("vitality_bonus_from_diving_at_beach") < 100:
         $ hero.stats.lvl_max["vitality"] += 1
