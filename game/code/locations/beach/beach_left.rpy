@@ -248,7 +248,7 @@ label fishing_logic_mor_dialogue:
             m "Besides, my dad sometimes drinks in the tavern with his friends, you can ask them for some tips."
             jump Mor_dialogue_usual
         "Ask about bait":
-            m "You don't have to use bait. Fishing poles already have a basic lure attached. But the real thing can help a lot."
+            m "You don't have to use bait to catch fish. Fishing poles already have a basic lure attached. But the real thing can help a lot."
             m "They allow more attempts than usual, plus the chance to catch something amazing is higher."
             m "But the better the bait, the more skill it requires. You won't be able to use them if your skill is too low."
             m "The General Shop sells them sometimes. But really good bait is not so easy to find."
@@ -321,6 +321,7 @@ label fishing_logic:
             jump city_beach_left
 
 label mc_action_beach_start_fishing:
+    $ fish_only = False
     if not has_items("Fishing Pole", [hero], equipped=True):
         "You don't have a fishing rode at the moment. Try to get one from local shops."
         jump city_beach_left
@@ -348,6 +349,7 @@ label mc_action_beach_start_fishing:
             menu:
                 "Don't use any bait":
                     $ fishing_attempts = 3
+                    $ fish_only = True
                 "Use Simple Bait" if c0:
                     $ min_fish_price += 10
                     $ hero.remove_item("Simple Bait")
@@ -387,9 +389,14 @@ label mc_action_beach_start_fishing:
                 num = 0
                 all_fish = []
                 for i in items.values():
-                    if "Fishing" in i.locations and min_fish_price <= i.price <= fishing_skill:
-                        num += i.chance
-                        all_fish.append(i)  
+                    if not fish_only:
+                        if "Fishing" in i.locations and min_fish_price <= i.price <= fishing_skill:
+                            num += i.chance
+                            all_fish.append(i)
+                    else:
+                        if "Fishing" in i.locations and "fish" in i.type:
+                            num += i.chance
+                            all_fish.append(i)
 
                 if num:
                     num = randint(1, num)
@@ -429,6 +436,7 @@ label end_fishing:
             except:
                 pass
     $ global_flags.set_flag("keep_playing_music")
+    $ del fish_only 
     jump city_beach_left
 
 image fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.4, alpha=.4)
