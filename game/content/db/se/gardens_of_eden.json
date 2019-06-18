@@ -50,7 +50,7 @@
 		"travel_time": 1.5,
 		"area": "Gardens of Eden",
 		"unlocked": false,
-		"rchars": {},
+		"rchars": {"Succubus_01": [50, 5]},
 		"mobs": ["Devil Rat", "Heaven Guardian", "Lilith", "Horny Succubus"],
 		"unlocks": {},
 		"cash_limit": 2000,
