@@ -274,6 +274,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
         label "Right click or Esc to exit" text_color gold text_size 18 xalign .5 yalign .5
 
 label mc_action_city_beach_diving_checks:
+
     if not hero.has_flag('vitality_bonus_from_diving_at_beach'):
          $ hero.set_flag("vitality_bonus_from_diving_at_beach", value=0)
 
@@ -292,7 +293,7 @@ label mc_action_city_beach_diving_checks:
     elif hero.health < hero.get_max("health")*.5:
         "You are too wounded at the moment."
         jump city_beach
-
+    $ total_items_found = 0
     play world "underwater.mp3"
     $ hero.AP -= 1
     scene bg ocean_underwater_1 with dissolve
@@ -330,6 +331,7 @@ label mc_action_city_beach_diving_checks:
             jump city_beach
 
         if isinstance(result, Item):
+            $ total_items_found += 1
             hide screen hidden_area
             $ item = result
             $ hero.add_item(item)
@@ -352,11 +354,11 @@ label mc_action_city_beach_diving_checks:
     $ hero.vitality = start_vitality
     $ hero.vitality -= randint(10, 20)
     $ del start_vitality
-    if locked_dice(hero.get_skill("swimming")) and hero.flag("vitality_bonus_from_diving_at_beach") < 100:
+    if locked_dice(hero.get_skill("swimming")) and hero.flag("vitality_bonus_from_diving_at_beach") < 100 and total_items_found >= 10:
         $ hero.stats.lvl_max["vitality"] += 1
         $ hero.stats.max["vitality"] += 1
         $ hero.mod_stat("vitality", 1)
         $ hero.set_flag("vitality_bonus_from_diving_at_beach", value=hero.flag("vitality_bonus_from_diving_at_beach")+1)
         $ narrator ("You feel more endurant than before {color=[green]}(max vitality +1){/color}.")
-
+    $ del total_items_found
     jump city_beach
