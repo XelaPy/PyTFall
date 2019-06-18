@@ -2707,7 +2707,7 @@ init -9 python:
 
         def next_day(self):
             # Local vars
-            img = 'profile'
+            img_tags = ['profile']
             txt = []
             flag_red = False
             flag_green = False
@@ -2797,7 +2797,7 @@ init -9 python:
             # This whole routine is basically fucked and done twice or more. Gotta do a whole check of all related parts tomorrow.
             # Settle wages:
             if self not in pytfall.ra:
-                img = self.fin.settle_wage(txt, img)
+                self.fin.settle_wage(txt, img_tags)
 
                 tips = self.flag("ndd_accumulated_tips")
                 if tips:
@@ -2835,7 +2835,7 @@ init -9 python:
                 self.check_resting()
 
                 # Unhappiness and related:
-                img = self.nd_joy_disposition_checks(txt, img)
+                self.nd_joy_disposition_checks(txt, img_tags)
 
                 # Effects:
                 if 'Poisoned' in self.effects:
@@ -2867,6 +2867,9 @@ init -9 python:
 
             self.up_counter("day_since_shopping")
 
+            tags, exclude = pick_chars_profile_tags(self)
+            tags = img_tags
+            img = self.show(*tags, exclude=exclude, resize=ND_IMAGE_SIZE)
             self.nd_log_report(txt, img, flag_red, type='girlndreport')
 
             self.txt = list()
@@ -2894,12 +2897,12 @@ init -9 python:
                                    "But she could not find what she was looking for...\n\n"])
                     txt.append(temp)
 
-        def nd_joy_disposition_checks(self, txt, img):
-            size = ND_IMAGE_SIZE
+        def nd_joy_disposition_checks(self, txt, img_tags):
+            local_tags = ["profile"] # settled at the end of the method
 
             if self.joy <= 25:
                 txt.append("\n\nThis girl is unhappy!")
-                img = self.show("profile", "sad", resize=size)
+                local_tags.append("sad")
                 self.days_unhappy += 1
             else:
                 if self.days_unhappy - 1 >= 0:
@@ -2917,7 +2920,7 @@ init -9 python:
                 if self.status != "slave":
                     txt.append("{color=[red]}She has left your employment because she no longer trusts or respects you!{/color}")
                     flag_red = True
-                    img = self.show("profile", "sad", resize=size)
+                    local_tags.append("sad")
                     hero.remove_char(self)
                     self.home = locations["City Apartments"]
                     self.action = None
@@ -2926,26 +2929,30 @@ init -9 python:
                 elif self.days_unhappy > 7:
                     if dice(50):
                         txt.append("\n{color=[red]}Took her own life because she could no longer live as your slave!{/color}")
-                        img = self.show("profile", "sad", resize=size)
+                        local_tags.append("sad")
                         flag_red = True
                         self.health = 0
                     else:
                         txt.append("\n{color=[red]}Tried to take her own life because she could no longer live as your slave!{/color}")
-                        img = self.show("profile", "sad", resize=size)
+                        local_tags.append("sad")
                         flag_red = True
                         self.health = 1
 
-            # This is temporary code, better and more reasonable system is needed,
-            # especially if we want different characters to befriend each other.
+            if len(img_tags) > 1:
+                pass # We've got a more relevant emotion
+            else:
+                # We don't care, just update regardless:
+                # img_tags.clear() # python 3+ (rp is presently 2.7.10)
+                while img_tags:
+                    img_tags.pop()
+                img_tags.extend(local_tags)
 
             # until we'll have means to deal with chars
             # with very low disposition (aka slave training), negative disposition will slowly increase
             if self.disposition < -200:
-                self.disposition += randint(2, 5)
+                self.disposition += randint(1, 2)
 
             friends_disp_check(self, txt)
-
-            return img
 
 
     class rChar(Char):
