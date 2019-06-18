@@ -315,7 +315,7 @@ label mc_action_city_beach_diving_checks:
             $ hero.health = max(1, hero.health - 40)
             jump city_beach
 
-        $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [False]), (j, j), (random.random(), random.random())] for i in range(4))
+        $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance) and hero.tier>=i.tier) or [False]), (j, j), (random.random(), random.random())] for i in range(4))
         show screen hidden_area(underwater_loot)
 
         $ result = ui.interact()
