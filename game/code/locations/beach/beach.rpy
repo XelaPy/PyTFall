@@ -274,6 +274,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
         label "Right click or Esc to exit" text_color gold text_size 18 xalign .5 yalign .5
 
 label mc_action_city_beach_diving_checks:
+
     if not hero.has_flag('vitality_bonus_from_diving_at_beach'):
          $ hero.set_flag("vitality_bonus_from_diving_at_beach", value=0)
 
@@ -292,37 +293,37 @@ label mc_action_city_beach_diving_checks:
     elif hero.health < hero.get_max("health")*.5:
         "You are too wounded at the moment."
         jump city_beach
-
+    $ total_items_found = 0
     play world "underwater.mp3"
     $ hero.AP -= 1
     scene bg ocean_underwater_1 with dissolve
     if has_items("Snorkel Mask", [hero], equipped=True):
-        $ i = int(hero.get_skill("swimming")+1) + 200
+        $ i = int(hero.get_skill("swimming")+1) + 250
     else:
         $ i = int(hero.get_skill("swimming")+1)
 
     if has_items("Underwater Lantern", [hero], equipped=True):
         $ j = 120
     else:
-        $ j = 60
+        $ j = 40
     $ start_vitality = hero.vitality
     show screen diving_progress_bar(i, i)
     while hero.vitality > 10:
         if not renpy.get_screen("diving_progress_bar"):
             hide screen hidden_area
-            "You've run out of air! (health -10)"
-            $ hero.health = max(1, hero.health - 10)
+            "You've run out of air! (health -40)"
+            $ hero.health = max(1, hero.health - 40)
             jump city_beach
 
-        $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [False]), (j, j), (random.random(), random.random())] for i in range(4))
+        $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance) and hero.tier>=i.tier) or [False]), (j, j), (random.random(), random.random())] for i in range(4))
         show screen hidden_area(underwater_loot)
 
         $ result = ui.interact()
 
         if result == "All out of Air!":
             hide screen hidden_area
-            "You've run out of air! {color=[red]}(health -10)"
-            $ hero.health = max(1, hero.health - 10)
+            "You've run out of air! {color=[red]}(health -40)"
+            $ hero.health = max(1, hero.health - 40)
             jump city_beach
         elif result == "Swim Out":
             hide screen hidden_area
@@ -330,6 +331,7 @@ label mc_action_city_beach_diving_checks:
             jump city_beach
 
         if isinstance(result, Item):
+            $ total_items_found += 1
             hide screen hidden_area
             $ item = result
             $ hero.add_item(item)
@@ -338,24 +340,25 @@ label mc_action_city_beach_diving_checks:
                                "outlines": [(1, black, 0, 0)]}
             $ gfx_overlay.notify("You caught %s!" % item.id, tkwargs=tkwargs)
             $ gfx_overlay.random_find(item, 'fishy')
+            $ hero.vitality -= 5
         else:
             $ tkwargs = {"color": blue,
                                "outlines": [(1, black, 0, 0)]}
             $ gfx_overlay.notify("There is nothing there...", tkwargs=tkwargs)
+            $ hero.vitality -= 10
 
-        $ hero.vitality -= randint(10, 15)
     $ setattr(config, "mouse", None)
     hide screen hidden_area
     hide screen diving_progress_bar
     "You're too tired to continue!"
     $ hero.vitality = start_vitality
-    $ hero.vitality -= randint(10, 15)
+    $ hero.vitality -= randint(10, 20)
     $ del start_vitality
-    if locked_dice(hero.get_skill("swimming")) and hero.flag("vitality_bonus_from_diving_at_beach") < 100:
+    if locked_dice(hero.get_skill("swimming")) and hero.flag("vitality_bonus_from_diving_at_beach") < 100 and total_items_found >= 10:
         $ hero.stats.lvl_max["vitality"] += 1
         $ hero.stats.max["vitality"] += 1
         $ hero.mod_stat("vitality", 1)
         $ hero.set_flag("vitality_bonus_from_diving_at_beach", value=hero.flag("vitality_bonus_from_diving_at_beach")+1)
         $ narrator ("You feel more endurant than before {color=[green]}(max vitality +1){/color}.")
-
+    $ del total_items_found
     jump city_beach

@@ -361,7 +361,7 @@ init -5 python:
                                            "He let %s to caress him with her breasts. \n" % worker.nickname,
                                            "He showed his cock between %s's tits. \n" % worker.nickname]))
                     log.img = worker.show("bc titsjob", **kwargs)
-                elif act == tags[4]:
+                elif act == tags[5]:
                     if "Lesbian" in worker.traits:
                         effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
@@ -371,7 +371,7 @@ init -5 python:
                     log.append(choice(["Customer wanted nothing else then to jerk himself in from of her and ejaculate on her face. \n",
                                        "He wanked himself hard in effort to cover her with his cum. \n"]))
                     log.img = worker.show("after sex", **kwargs)
-                elif act == tags[5]:
+                elif act == tags[4]:
                     log.append(choice(['Client was in mood for some oral sex. \n',
                                        'Client was in the mood for a blowjob. \n',
                                        'He asked her to lick his dick. \n']))
@@ -422,7 +422,7 @@ init -5 python:
                 # We'll be adding "les" here as Many lesbian pics do not fall in any of the categories and will never be called...
                 if act == tags[0]:
                     log.append(choice(["Clearly in the mood for some cunt, she licked %ss pussy clean.\n" % worker.nickname,
-                                       "Hungry for a cunt, she told %s to be still and started licking her soft pussy with her hot tong. \n" % worker.nickname]))
+                                       "Hungry for a cunt, she told %s to be still and started licking her soft pussy with her hot tongue. \n" % worker.nickname]))
                     if "Lesbian" in worker.traits: # bisexuals will have normal value during lesbian action, lesbians will get +15 effectiveness, and straight ones -25
                         effectiveness += 15
                         sexmod = 1 if dice(25) else 0
@@ -440,7 +440,7 @@ init -5 python:
                     log.img = worker.show("gay", "2c lickpussy", **kwargs)
                 elif act == tags[1]:
                     log.append(choice(["All hot and bothered, she ordered %s to lick her cunt. \n" % worker.nickname,
-                                       "As if she had an itch, she quickly told %s to tong her pussy. \n" % worker.nickname]))
+                                       "As if she had an itch, she quickly told %s to tongue her pussy. \n" % worker.nickname]))
                     if "Lesbian" in worker.traits:
                         effectiveness += 15
                         sexmod = 1 if dice(10) else 0
@@ -459,7 +459,7 @@ init -5 python:
                     log.img = worker.show("gay", "bc lickpussy", **kwargs)
                 elif act == tags[2]:
                     log.append(choice(["She licked %ss anus clean.\n" % worker.nickname,
-                                       "She told %s to be still and started licking her asshole with her hot tong. \n" % worker.nickname]))
+                                       "She told %s to be still and started licking her asshole with her hot tongue. \n" % worker.nickname]))
                     if "Lesbian" in worker.traits:
                         effectiveness += 15
                         sexmod = 1 if dice(25) else 0
@@ -477,7 +477,7 @@ init -5 python:
                     log.img = worker.show("gay", "2c lickanus", **kwargs)
                 elif act == tags[3]:
                     log.append(choice(["All hot and bothered, she ordered %s to lick her asshole. \n" % worker.nickname,
-                                       "As if she had an itch, she quickly told %s to tong her anus. \n" % worker.nickname]))
+                                       "As if she had an itch, she quickly told %s to tongue her anus. \n" % worker.nickname]))
                     if "Lesbian" in worker.traits:
                         effectiveness += 15
                         sexmod = 1 if dice(10) else 0
