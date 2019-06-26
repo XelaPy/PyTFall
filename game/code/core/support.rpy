@@ -113,7 +113,7 @@ init -9 python:
             rc_free = []
             rc_slaves = []
             for c in chars.values():
-                if c.__class__ != rChar:
+                if not isinstance(c, rChar):
                     continue
                 if c.arena_active: # Check if this is correct...
                     continue
