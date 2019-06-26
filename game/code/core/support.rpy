@@ -187,7 +187,7 @@ init -9 python:
 
                     if status == "slave" and bt_group in ["Combatant", "Specialist", "Healer"]:
                         if DEBUG:
-                            devlog.warning("Tried to populate with weird slave {}!".format())
+                            devlog.warning("Tried to populate with weird slave {}!".format(bt_group))
                         status = "free"
 
                     give_bt_items = status == "free"

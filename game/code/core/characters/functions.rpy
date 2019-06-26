@@ -363,12 +363,40 @@ init -11 python:
 
         rg = rChar()
 
-        if not id:
-            id = choice(rchars.keys())
-        elif id not in rchars:
-            raise Exception(str("Unknown id %s when creating a random character!" % (id)))
-        data = rchars[id]
-        rg.id = id
+        # BASE TRAITS (part 1):
+        selection = None
+        if bt_direct:
+            selection = bt_direct
+        elif bt_go_patterns:
+            selection = create_traits_base(bt_go_patterns)
+        elif bt_group:
+            selection = choice(base_trait_presets[choice(base_traits_groups[bt_group])])
+        elif bt_preset:
+            selection = choice(base_trait_presets[bt_preset])
+        else:
+            selection = base_trait_presets["Combatant"] + base_trait_presets["SIW"] + base_trait_presets["Maid"]
+            selection = choice(selection)
+
+        # We need to make sure that girl supports basetraits we picked in selection:
+        if id is None:
+            ids = rchars.keys()
+            shuffle(ids)
+            ids = iter(ids)
+        else:
+            if id not in rchars:
+                raise Exception(str("Unknown id %s when creating a random character!" % (id)))
+            rg.id = id
+            data = rchars[id]
+
+        while getattr(rg, "id", None) is None:
+            id = ids.next()
+            data = rchars[id]
+
+            blocked = data.get("block_bt", [])
+            if set(blocked).intersection(selection):
+                id = None
+            else:
+                rg.id = id
 
         # Blocking traits:
         for key in ("blocked_traits", "ab_traits"):
@@ -431,20 +459,7 @@ init -11 python:
                 rg.home = locations["City Apartments"]
                 set_location(rg, locations["City"])
 
-        # BASE TRAITS:
-        selection = None
-        if bt_direct:
-            selection = bt_direct
-        elif bt_go_patterns:
-            selection = create_traits_base(bt_go_patterns)
-        elif bt_group:
-            selection = choice(base_trait_presets[choice(base_traits_groups[bt_group])])
-        elif bt_preset:
-            selection = choice(base_trait_presets[bt_preset])
-        else:
-            selection = base_trait_presets["Combatant"] + base_trait_presets["SIW"] + base_trait_presets["Maid"]
-            selection = choice(selection)
-
+        # BASE TRAITS (part 2):
         if len(selection) > 2:
             selection = random.sample(selection, 2)
 
