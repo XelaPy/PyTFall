@@ -47,11 +47,10 @@ init -10 python:
 
                 if me >= 150 and dice(85):
                     if plural:
-                        temp += " Client were so pleased for the attention and ended up paying full price."
+                        temp += " Clients were so pleased with the attention, they've ended up paying the full price."
                     else:
-                        temp += " Client was so pleased for the attention and ended up paying full price."
+                        temp += " Client was very pleased with the attention. You'll get the full price for the service!"
                     log.append(temp)
-                    earned *= .75
                 elif dice(75):
                     if plural:
                         temp += " Clients agree to pay three quarters of the price."
