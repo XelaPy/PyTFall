@@ -2100,7 +2100,7 @@
         "skills": {},
         "traits": ["Monster", "Poison Immunity", "Fire Weakness"],
         "attack_skills": ["Claw Slash 2X", "Claw Slash 4X", "Rapid Strikes", "Sharpest Claws"
-            
+
         ],
         "magic_skills": ["Deadly Poison"
         ]
@@ -2700,7 +2700,7 @@
         "skills": {},
         "traits": ["Elf", "Earth", "Minor Physical Resistance", "Fire Weakness"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Stone", "Stonera", "Stonega", "Stoneja"
         ]
@@ -3417,7 +3417,7 @@
             "intelligence": 77
         },
         "skills": {},
-        "traits": ["Divine Creature", "Light", "Light Absorption", "Darkness Immunity", "Minor Physical Resistance", "Darkness Weakness"],
+        "traits": ["Divine Creature", "Light", "Light Absorption", "Minor Physical Resistance", "Darkness Weakness"],
         "attack_skills": [
             "Light Slash"
         ],
