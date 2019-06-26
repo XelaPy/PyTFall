@@ -392,7 +392,7 @@ init -11 python:
             id = ids.next()
             data = rchars[id]
 
-            blocked = data.get("block_bt", [])
+            blocked = data.get("blocked_bt", [])
             if set(blocked).intersection(selection):
                 id = None
             else:
