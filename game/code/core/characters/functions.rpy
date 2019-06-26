@@ -1215,7 +1215,7 @@ init -11 python:
         img = char.show(*tags, exclude=exclude, resize=(590, 600), label_cache=True)
 
         if "Slime" in char.traits:
-            img = char.show('profile', )
+            img = char.show('profile', resize=(590, 600))
         elif check_lovers(char, hero) or "Exhibitionist" in char.traits:
             if dice(30):
                 img = char.show('profile', "nude", "revealing", resize=(590, 600), label_cache=True)
