@@ -1,11 +1,10 @@
 init python:
     # Note: We may get this from grouping traits, but that still feels a bit clumsy atm.
     base_trait_presets = {
-    "Combatant": (["Warrior", "Mage"], ["Warrior", "Knight"],
-                  ["Warrior", "Shooter"], ["Warrior", "Assassin"]),
     "Warrior": (["Warrior"], ["Knight"], ["Warrior", "Knight"]),
-    "Caster": (["Mage"], ["Mage", "Warrior"]),
-    "Assassin": (["Assassin"], ["Assassin", "Shooter"]),
+    "Caster": (["Mage"], ["Mage"], ["Mage", "Shooter"]),
+    "Assassin": (["Assassin"], ["Assassin"], ["Assassin", "Warrior"]),
+    "Shooter": (["Shooter"], ["Shooter"], ["Shooter", "Mage"]),
     "Healer": (["Healer"], ["Healer", "Mage"], ["Healer", "Maid"]),
     "SIW": (["Prostitute", "Stripper"], ),
     "Prostitute": (["Prostitute"], ),
@@ -15,8 +14,11 @@ init python:
                    ["Manager", "Mage"]),
     "Manager": (["Manager"], )
     }
+    btp = base_trait_presets
+    btp["Combatant"] = btp["Warrior"] + btp["Caster"] + btp["Assassin"] + btp["Shooter"]
+    del(btp)
 
-    base_traits_groups = {"Combatant": ["Combatant", "Warrior", "Caster", "Assassin"],
+    base_traits_groups = {"Combatant": ["Combatant", "Warrior", "Caster", "Assassin", "Shooter"],
                           "SIW": ["SIW", "Prostitute", "Stripper"],
                           "Healer": ["Healer"],
                           "Server": ["Maid"],
@@ -31,5 +33,5 @@ init python:
 
     def hyperlink_hovered(link):
         return link
-         
+
     style.default.hyperlink_functions = (hyperlink_styler, hyperlink_clicked, hyperlink_hovered)
