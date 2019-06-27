@@ -10,6 +10,7 @@
         "evasion_bonus": [-5, -5, 1],
         "mod_stats": {"attack": [4, 1], "defence": [1, 1]
         },
+        "delivery_multiplier": {"melee": 0.5, "ranged": 0.5, "magic": 0.25, "status": 0.25},
         "init_lvlmax": {
             "attack": 100,
             "defence": 40,
@@ -61,7 +62,7 @@
         "desc": "Juggernauts may be slow, but very difficult to kill.",
         "basetrait": true,
         "mob_only": true,
-        "defence_multiplier": {"melee":0.15, "ranged":0.15, "magic":0.1},
+        "defence_multiplier": {"melee": 1.0, "ranged": 1.0, "magic": 0.5},
         "mod_stats": {"attack": [1, 1], "defence": [4, 1]
         },
         "init_lvlmax": {
@@ -125,7 +126,8 @@
         "desc": "This creature has magic in its blood, flesh, and soul.",
         "basetrait": true,
         "mob_only": true,
-        "defence_multiplier": {"magic":0.3},
+        "defence_multiplier": {"magic": 1.0},
+        "delivery_multiplier": {"magic": 1.0},
         "mod_stats": {"defence": [1, 1], "magic": [2, 1], "attack": [-1, 3]
         },
         "init_lvlmax": {
@@ -182,6 +184,7 @@
         "desc": "This creature is not too strong, but extremely agile and fast.",
         "basetrait": true,
         "defence_multiplier": {"status":0.5},
+        "delivery_multiplier": {"status": 1.0},
         "mob_only": true,
         "mod_stats": {"defence": [1, 1], "agility": [3, 1], "attack": [1, 1]
         },
@@ -244,7 +247,8 @@
         "desc": "This creature does not have any weaknesses.",
         "basetrait": true,
         "mob_only": true,
-        "defence_multiplier": {"magic":0.25, "status":0.25, "melee":0.25, "ranged":0.25},
+        "defence_multiplier": {"magic":0.5, "status":0.5, "melee":0.5, "ranged":0.5},
+        "delivery_multiplier": {"melee": 0.5, "ranged": 0.5, "magic": 0.5, "status": 0.5},
         "mod_stats": {"defence": [2, 1], "agility": [2, 1], "attack": [2, 1], "magic": [2, 1]
         },
         "init_lvlmax": {
