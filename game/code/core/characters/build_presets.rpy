@@ -1,7 +1,7 @@
 init python:
     # Note: We may get this from grouping traits, but that still feels a bit clumsy atm.
     base_trait_presets = {
-    "Warrior": (["Warrior"], ["Knight"], ["Warrior", "Knight"]),
+    "Warrior": (["Warrior"], ["Knight"]),
     "Caster": (["Mage"], ["Mage"], ["Mage", "Shooter"], ["Knight", "Mage"]),
     "Assassin": (["Assassin"], ["Assassin"], ["Assassin", "Warrior"]),
     "Shooter": (["Shooter"], ["Shooter"], ["Shooter", "Mage"]),

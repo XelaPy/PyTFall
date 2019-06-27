@@ -394,10 +394,9 @@ init -11 python:
             if gender == "JSON":
                 base = [traits[t] for t in json_data[id]]
             elif "assassins" in path:
-                base = [traits["Assassin"]]
+                base = choice(base_trait_presets["Assassin"])
             elif "healers" in path:
-                base = [traits["Healer"]]
-                base.append(traits["Mage"])
+                base = choice(base_trait_presets["Healer"])
                 elements = [traits["Light"]]
                 if dice(50):
                     elements.append(traits["Water"])
@@ -406,36 +405,32 @@ init -11 python:
             elif "knights" in path:
                 base = [traits["Knight"]]
                 if dice(25):
-                    base.append(traits["Assassin"])
-                if dice(25):
                     base.append(traits["Mage"])
-                    elements = [traits[random.choice(el)]]
+                    elements = [traits[choice(el)]]
             elif "mages" in path:
-                base = [traits["Mage"]]
-                elements = [traits[random.choice(el)]]
+                base = choice(base_trait_presets["Caster"])
+                elements = [traits[choice(el)]]
             elif "maids" in path:
-                base = [traits["Warrior"]]
-                base.append(traits["Maid"])
+                base = [traits["Warrior"], traits["Maid"]]
             elif "shooters" in path:
-                base = [traits["Shooter"]]
-                if dice(25):
-                    base.append(traits["Assassin"])
-                if dice(25):
-                    base.append(traits["Mage"])
-                    elements = [traits[random.choice(el)]]
+                base = choice(base_trait_presets["Shooter"])
             elif "warriors" in path:
-                base = [traits["Warrior"]]
+                base = choice(base_trait_presets["Warrior"])
             else:
-                if dice(40):
-                    base = [traits["Warrior"]]
-                elif dice(40):
-                    base = [traits["Knight"]]
-                else:
-                    base = [traits["Mage"]]
+                base = choice(base_trait_presets["Combatant"])
 
-
-            if not elements:
+            if "Mage" in base:
+                elements = [traits[random.choice(el)]]
+            elif not elements:
                 elements = [traits["Neutral"]]
+
+            temp = []
+            for t in base:
+                if isinstance(t, Trait):
+                    temp.append(t)
+                else:
+                    temp.append(traits[t])
+            base = temp[:]
 
             fighter = NPC()
             fighter._path_to_imgfolder = path
