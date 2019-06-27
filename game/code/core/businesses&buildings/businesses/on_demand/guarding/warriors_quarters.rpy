@@ -52,9 +52,9 @@ init -5 python:
 
                 if threat >= 900:
                     if True: # Add a condition similar to auto-cleaning? Or should this be forced?
-                        temp = "{}: Police arrived at {}!".format(self.env.now, building.name)
+                        temp = "{}: Lawmen arrived at {}!".format(self.env.now, building.name)
                         price = 500*building.get_max_client_capacity()*(building.tier or 1)
-                        if hero.take_money(price, "Police"):
+                        if hero.take_money(price, "Lawmen"):
                             temp += " You paid {} in penalty fees for allowing things to get this out of hand.".format(price)
                         else:
                             price = int(price*1.25)
@@ -74,7 +74,8 @@ init -5 python:
                             workers = self.all_on_deck(workers, job,
                                                 power_flag_name, use_slaves=False)
 
-                    if not make_nd_report_at:
+                    # Do not start with the new routine if we're about to close
+                    if not make_nd_report_at and self.env.now < 95:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if wlen:

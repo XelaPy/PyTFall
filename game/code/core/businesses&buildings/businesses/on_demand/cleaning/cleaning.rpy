@@ -56,7 +56,7 @@ init -5 python:
                                                 building.name)
                             self.log(temp)
 
-                if dirt >= 200:
+                if dirt >= 200 and self.env.now <= 80:
                     wlen_color = "green"
                     if dirt >= 500:
                         if dirt >= 900:
@@ -66,7 +66,8 @@ init -5 python:
                             using_all_workers = True
                             workers = self.all_on_deck(workers, job, power_flag_name)
 
-                    if not make_nd_report_at:
+                    # Do not start with the new routine if we're about to close
+                    if not make_nd_report_at and self.env.now < 95:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if wlen:
