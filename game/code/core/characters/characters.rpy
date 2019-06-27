@@ -1467,7 +1467,8 @@ init -9 python:
                 for slot, picks in weighted.iteritems():
                     for weights, item in picks:
                         temp = "AutoBuy evaluation: {} item for {}. Total weight: {}\n".format(self.name, item.id, sum(weights.values()))
-                        temp += str(dict(weights))
+                        weights = {k: round_int(v) for k, v in weights.iteritems()}
+                        temp += str(weights)
                         aeq_debug(temp)
 
             rv = [] # List of item name strings we return in case we need to report

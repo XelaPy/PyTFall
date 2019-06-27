@@ -1506,7 +1506,7 @@ init -10 python:
 
                 # Handle purposes:
                 if base_purpose.intersection(item.pref_class):
-                    weights["base_purpose"] = 300
+                    weights["base_purpose"] = 200
                 elif sub_purpose.intersection(item.pref_class):
                     weights["sub_purpose"] = 100
                     weights["tiers (direct)"] = 0 # only for BP match
