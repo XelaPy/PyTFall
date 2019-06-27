@@ -1180,6 +1180,7 @@ init -9 python:
                     weights["tiers (OP)"] = tier_bonus*50
 
             # Direct tier bonus of any item:
+            # This is ignored if base purpose didn't match
             weights["tiers (direct)"] = item.tier*25
 
             weights["eqchance"] = item.eqchance

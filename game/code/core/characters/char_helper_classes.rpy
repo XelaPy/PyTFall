@@ -1506,15 +1506,17 @@ init -10 python:
 
                 # Handle purposes:
                 if base_purpose.intersection(item.pref_class):
-                    weights["base_purpose"] = 200
+                    weights["base_purpose"] = 300
                 elif sub_purpose.intersection(item.pref_class):
                     weights["sub_purpose"] = 100
+                    weights["tiers (direct)"] = 0 # only for BP match
                 else: # 'Any'
                     # If no purpose is valid for the item, we want nothing to do with it.
                     if slot not in ("misc", "consumable"):
                         aeq_debug("Ignoring item %s on purpose.", item.id)
                         continue
                     weights["any_purpose"] = 55
+                    weights["tiers (direct)"] = 0 # only for BP match
 
                 # Stats:
                 for stat, value in item.mod.iteritems():
