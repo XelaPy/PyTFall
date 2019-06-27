@@ -1535,11 +1535,11 @@ init -10 python:
                         if curr_stat == new_stat:
                             # the item could help, but not now
                             if value > 0:
-                                weights["target_stats (no added value): {}".format(stat)] = 5
+                                weights["target_stats (no added value): {}".format(stat)] = 1
                         elif curr_stat < new_stat:
                             # add the fraction increase/decrease
                             # temp = 100*(new_stat - curr_stat)/new_max
-                            weights["target_stats: {}".format(stat)] = 10 + (new_stat - curr_stat)
+                            weights["target_stats: {}".format(stat)] = (new_stat - curr_stat)
                         else: # Item lowers the stat for the character
                             if stat not in exclude_on_stats:
                                 change = curr_stat - new_stat
@@ -1565,7 +1565,7 @@ init -10 python:
                         if new_max == curr_max:
                             continue
                         elif new_max > curr_max:
-                            weights["target_stats (max): {}".format(stat)] = max(5, new_max-curr_max) # 50 + min(new_max-curr_max, 50)
+                            weights["target_stats (max): {}".format(stat)] = max(1, new_max-curr_max) # 50 + min(new_max-curr_max, 50)
                         else: # Item lowers max of this stat for the character:
                             if True: # if stat not in exclude_on_stats:
                                 change = curr_max-new_max
