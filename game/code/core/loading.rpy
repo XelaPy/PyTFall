@@ -432,6 +432,8 @@ init -11 python:
                     base = [traits["Knight"]]
                 else:
                     base = [traits["Mage"]]
+
+
             if not elements:
                 elements = [traits["Neutral"]]
 
