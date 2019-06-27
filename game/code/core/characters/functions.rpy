@@ -338,8 +338,8 @@ init -11 python:
             Use create_traits_base function to build basetraits.
             Input could be ["Combatant", "Specialist"] for example, we will pick from all
             Combatant and Specialist bts in the game randomly.
-        bt_group: Groups of custom selections of basetraits.
-        bt_preset: Random choice from custom presets of basetraits.
+        bt_group: Random choice from base_traits_groups.
+        bt_preset: Random choice from base_trait_presets.
 
         teir: Tier of the character... floats are allowed.
         add_to_gameworld: Adds to characters dictionary, should always

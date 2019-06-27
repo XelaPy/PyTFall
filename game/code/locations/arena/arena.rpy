@@ -830,7 +830,7 @@ init -9 python:
                                 set_rep=False, rchar_id=None):
             if fighter is None:
                 fighter = build_rc(id=rchar_id,
-                                   bt_go_patterns=["Combatant"], tier=tier,
+                                   bt_group="Combatant", tier=tier,
                                    set_status="free", give_bt_items=True,
                                    spells_to_tier="casters_only")
             elif tier_up: # Setting up an existing fighter:
