@@ -493,6 +493,26 @@
     "pref_class":["Mage"]
     },
     {
+    "id": "Fallen Star Charm",
+    "desc": "A saying is engraved on the back of amulet: “With every fallen star the sky becomes a bit darker.”",
+    "icon": "content/items/amulet/dark.png",
+    "price": 750,
+    "sex": "unisex",
+    "chance": 15,
+    "badness": 15,
+    "eqchance": 70,
+    "hidden": false,
+    "infinite": false,
+    "slot": "amulet",
+    "type": "amulet",
+    "max": {"magic": 25},
+    "mod": {"magic": 25},
+    "locations": ["Exploration", "Arena"],
+    "tier": 3,
+    "addtraits": ["Darkness Focus"],
+    "pref_class":["Mage"]
+    },
+    {
     "id": "Fiery Charm",
     "desc": "Monstrous fire is burning inside. The charm is quite hot, but not enough to get burned.",
     "icon": "content/items/amulet/fire.png",
