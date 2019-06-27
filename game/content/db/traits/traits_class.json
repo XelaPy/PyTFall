@@ -813,7 +813,9 @@
             "agility": 20
         },
         "defence_multiplier": {
-            "status": 1.0
+            "status": 1.0,
+            "melee": 0.1,
+            "ranged": 0.1
         },
         "delivery_multiplier": {"status": 1.0},
 
@@ -826,10 +828,6 @@
                 0.2,
                 0.2
             ]
-        },
-        "defence_multiplier": {
-            "melee": 0.05,
-            "status": 0.2
         },
         "init_lvlmax": {
             "attack": 30,
