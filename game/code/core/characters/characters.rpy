@@ -1172,12 +1172,15 @@ init -9 python:
                         appetite -= food_poisoning * 8
                     weights["appetite"] = appetite
 
+            # Tier bonus OverPower (if tier of the item is higher than tier of the character).
             if item.tier:
-                # only award tier bonus if it's reasonable.
                 item_tier = item.tier*2
                 tier_bonus = item_tier - self.tier
                 if tier_bonus > 0:
-                    weights["tiers"] = tier_bonus*50
+                    weights["tiers (OP)"] = tier_bonus*50
+
+            # Direct tier bonus of any item:
+            weights["tiers (direct)"] = item.tier*25
 
             weights["eqchance"] = item.eqchance
             if item.badness:
