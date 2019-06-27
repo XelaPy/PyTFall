@@ -2,10 +2,10 @@ init python:
     # Note: We may get this from grouping traits, but that still feels a bit clumsy atm.
     base_trait_presets = {
     "Warrior": (["Warrior"], ["Knight"], ["Warrior", "Knight"]),
-    "Caster": (["Mage"], ["Mage"], ["Mage", "Shooter"]),
+    "Caster": (["Mage"], ["Mage"], ["Mage", "Shooter"], ["Knight", "Mage"]),
     "Assassin": (["Assassin"], ["Assassin"], ["Assassin", "Warrior"]),
     "Shooter": (["Shooter"], ["Shooter"], ["Shooter", "Mage"]),
-    "Healer": (["Healer"], ["Healer", "Mage"], ["Healer", "Maid"]),
+    "Healer": (["Healer"], ["Healer", "Mage"], ["Healer", "Maid"], ["Knight", "Healer"]),
     "SIW": (["Prostitute", "Stripper"], ),
     "Prostitute": (["Prostitute"], ),
     "Stripper": (["Stripper"], ["Stripper", "Maid"]),
@@ -18,7 +18,7 @@ init python:
     btp["Combatant"] = btp["Warrior"] + btp["Caster"] + btp["Assassin"] + btp["Shooter"]
     del(btp)
 
-    base_traits_groups = {"Combatant": ["Combatant", "Warrior", "Caster", "Assassin", "Shooter"],
+    base_traits_groups = {"Combatant": ["Warrior", "Caster", "Assassin", "Shooter"],
                           "SIW": ["SIW", "Prostitute", "Stripper"],
                           "Healer": ["Healer"],
                           "Server": ["Maid"],
