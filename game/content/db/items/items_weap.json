@@ -545,7 +545,7 @@
     "mod": {"attack": 40, "magic": 15, "character": 10},
     "locations": ["Exploration", "Arena"],
     "tier": 1,
-    "pref_class":["Warrior", "Mage"]
+    "pref_class":["Warrior"]
     },
     {
     "id": "Exotic Head Chopper",
@@ -610,7 +610,7 @@
     "ch_multiplier": 0.04,
     "locations": ["Witches Hut", "Exploration", "Arena"],
     "tier": 3,
-    "pref_class":["Warrior", "Mage"]
+    "pref_class":["Warrior"]
     },
     {
     "id": "Sword of Luck",
@@ -1199,7 +1199,7 @@
     "price": 250,
     "sex": "female",
     "chance": 70,
-    "badness": 50,
+    "badness": 80,
     "eqchance": 60,
     "hidden": false,
     "infinite": false,

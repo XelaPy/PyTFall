@@ -92,7 +92,7 @@ label special_items_slime_bottle:
     jump char_equip
 
 label special_items_empty_extractor:
-    if eqtarget.exp <= 2000:
+    if eqtarget.exp <= 200:
         $ inv_source.add_item("Empty Extractor")
 
         if eqtarget <> hero:
@@ -123,7 +123,7 @@ label special_items_empty_extractor:
                     $ eqtarget.disposition -= randint(20, 30)
                 else:
                     "For a moment you feel weak, but unpleasant pain somewhere inside your head."
-                $ eqtarget.exp -= 2000
+                $ eqtarget.exp -= 200
                 $ hero.add_item("Full Extractor", 1)
                 "The device seems to be full of energy."
             "No":
@@ -151,7 +151,7 @@ label special_items_full_extractor:
     else:
         $ renpy.show_screen('message_screen', "The energy of knowledge slowly flows inside you. You became more experienced.")
 
-    $ eqtarget.exp += 1500
+    $ eqtarget.exp += 150
 
     jump char_equip
 
