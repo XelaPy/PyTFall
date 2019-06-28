@@ -315,6 +315,7 @@ label dark_forest_girl_meet:
     $ choices = list(i for i in choices if not any(trait in badtraits for trait in i.traits))
     if choices:
         $ character = random.choice(choices)
+        $ del(choices)
         $ spr = character.get_vnsprite()
         show expression spr at center with dissolve
         "You found a girl lost in the woods and escorted her to the city."
