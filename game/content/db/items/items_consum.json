@@ -1447,7 +1447,7 @@
     "price": 10,
     "sex": "unisex",
     "chance": 35,
-    "badness": 99,
+    "badness": 100,
     "eqchance": 50,
     "tier": 0,
     "hidden": true,
