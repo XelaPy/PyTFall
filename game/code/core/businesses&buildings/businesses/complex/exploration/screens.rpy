@@ -292,18 +292,22 @@ screen building_management_midframe_exploration_guild_mode:
                             label "Events" text_size 20 text_color ivory align .5, .5
 
                         null height 4
-
-                        for l in area.logs:
-                            button:
-                                xalign .5
-                                ysize 18
-                                action SetScreenVariable("focused_log", l)
-                                text str(l.name) size 12 xalign .02 yoffset 1
-                                # Resolve the suffix:
-                                if l.item:
-                                    text "[l.item.type]" size 12 align 1.0, .5
-                                else: # Suffix:
-                                    text str(l.suffix) size 12 align 1.0, .5
+                        vpgrid:
+                            xysize 215, 342
+                            # add Solid("F00")
+                            mousewheel True
+                            rows len(area.logs)
+                            for l in area.logs:
+                                button:
+                                    xalign .5
+                                    ysize 18
+                                    action SetScreenVariable("focused_log", l)
+                                    text str(l.name) size 12 xalign .02 yoffset 1
+                                    # Resolve the suffix:
+                                    if l.item:
+                                        text "[l.item.type]" size 12 align 1.0, .5
+                                    else: # Suffix:
+                                        text str(l.suffix) size 12 align 1.0, .5
 
                     # Information (Story)
                     frame:
