@@ -1168,9 +1168,11 @@ init -9 python:
                         weights["when_drunk"] = 30 + when_drunk
                 elif item.type == "food":
                     food_poisoning = self.get_flag("food_poison_counter", 0)
-                    if food_poisoning:
-                        appetite -= food_poisoning * 8
-                    weights["appetite"] = appetite
+                    if food_poisoning >= 6:
+                        return None
+                    elif food_poisoning:
+                        appetite -= food_poisoning * 10
+                        weights["appetite"] = appetite
 
             # Tier bonus OverPower (if tier of the item is higher than tier of the character).
             if item.tier:
