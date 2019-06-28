@@ -53,7 +53,7 @@ init -9 python: # FG Area
             self.camp_build_points_required = 1000
 
             # Generated Content:
-            self.logs = collections.deque(maxlen=19)
+            self.logs = collections.deque(maxlen=300)
 
             # Trackers exploring the area at any given time, this can be used for easy access!
             self.trackers = set()
