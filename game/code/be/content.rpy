@@ -330,6 +330,7 @@ init python:
             renpy.redraw(self, .1)
             return render
 
+
     class MultiAttack(BE_Action):
         """
         Base class for multi attack skills, which basically show the same displayable and play sounds (conditioned),

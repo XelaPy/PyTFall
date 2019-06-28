@@ -232,7 +232,7 @@ screen char_profile():
                 else:
                     raise Exception("Character without prof basetraits detected in girlsprofile screen")
 
-                trait = char.personality
+                trait = getattr(char, "personality", traits["Impersonal"])
                 img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 120, 120)
 
             fixed:

@@ -566,7 +566,7 @@ label after_load:
                     s.attacker_effects["duration"] = 0.75
                     s.attacker_effects["cast"] = { "ontop": False, "point": "bc", "yo": -50}
 
-        # Handle on tier 0 items?
+        # Handle on tier 0 items? # TODO Prolly outdated code
         tierless_items = store.tiered_items.get(None)
         if tierless_items:
             for item in tierless_items:
