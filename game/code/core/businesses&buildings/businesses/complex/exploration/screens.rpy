@@ -63,6 +63,13 @@ screen building_management_leftframe_exploration_guild_mode:
                     xalign .5
                     style_prefix "dropdown_gm2"
                     for area in areas:
+                        if area.unlocked is True:
+                            $ tmp = area.name
+                        else:
+                            if the_eye_upgrade_active:
+                                $ tmp = get_obfuscated_str(area.name)
+                            else:
+                                $ tmp = "????????????"
                         button:
                             xysize 220, 18
                             if area.unlocked is True:
@@ -71,13 +78,8 @@ screen building_management_leftframe_exploration_guild_mode:
                                     selected True
                                 else:
                                     action SetScreenVariable("focused_log", None), SetVariable("selected_log_area", area)
-                                $ tmp = area.name
                                 tooltip area.desc
                             else:
-                                if the_eye_upgrade_active:
-                                    $ tmp = get_obfuscated_str(area.name)
-                                else:
-                                    $ tmp = "????????????"
                                 action NullAction()
                             selected selected_log_area == area
                             text str(area.stage):
