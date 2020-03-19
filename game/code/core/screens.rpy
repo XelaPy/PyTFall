@@ -472,7 +472,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                 keysym "K_F9"
 
             key 'alt_shift_K_a' action ToggleVariable("CHEATING")
-            if CHEATING or DEBUG:
+            if CHEATING or DEBUG or True:
                 imagebutton:
                     idle Image("content/gfx/interface/buttons/Journal.png")
                     hover im.MatrixColor("content/gfx/interface/buttons/Journal.png", im.matrix.brightness(.15))
