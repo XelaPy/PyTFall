@@ -743,8 +743,8 @@ screen notify:
 
 # Settings:
 screen s_menu(s_menu="Settings", main_menu=False):
-    default tt = Tooltip("Hover cursor over options buttons to see the description.")
     zorder 10**5 + 1
+    default tt = Tooltip("Hover cursor over options buttons to see the description.")
     modal True
 
     key "mousedown_3" action Hide("s_menu"), With(dissolve)

@@ -739,11 +739,11 @@ init: # Main Screens:
                 null height 5
                 hbox:
                     frame:
+                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 10, 10)
                         $ els = [traits[el] for el in data["traits"] if traits[el] in tgs.elemental]
                         $ els_transforms = [Transform(e.icon, size=(100, 100)) for e in els]
                         $ other_traits = data["traits"]
                         style_group "content"
-                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 10, 10)
                         xysize 110, 110
                         xalign .5
 
@@ -898,7 +898,7 @@ init: # Main Screens:
                                         xalign .5
                                         xysize (130, 22)
                                         yfill True
-                                            text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
+                                        text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
                     frame:
                         xalign .5
                         yfill True

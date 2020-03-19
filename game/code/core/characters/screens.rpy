@@ -425,9 +425,9 @@ screen race_and_elements(align=(.5, .99), char=None):
         # Race:
         frame:
             xysize (100, 100)
-            $ trait = char.race
             background Frame(Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
             $ img = ProportionalScale(trait.icon, 95, 95)
+            $ trait = char.race
             button:
                 align (.5, .5)
                 xysize (95, 95)
