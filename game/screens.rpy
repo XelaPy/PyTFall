@@ -376,7 +376,7 @@ screen credits():
             antialias True
             style_prefix "proper_stats"
 
-        side "c r":
+        side "c":
             area (100, 100, 800, 550)
             viewport id "vp":
                 draggable True
